@@ -29,9 +29,9 @@ An app that lets you list ideas you've had in mind, e.g. shopping list, travel p
   * Clothings
   * Electronics
   * Mobiles
-* Locations
+* Locations (NOTE: [TripAdvisor](https://developer-tripadvisor.com/content-api/documentation/))
   * Hikes
   * Points of Interest
 * Food
-  * Restaurants
+  * Restaurants (NOTE: [Yelp](https://www.yelp.com/developers/documentation/v2/overview))
   * Recipes
