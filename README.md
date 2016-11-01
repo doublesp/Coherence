@@ -21,7 +21,7 @@ An app that lets you list ideas you've had in mind, e.g. shopping list, travel p
 * Entertainment
   * Movie (NOTE: data source can be [themoviedb](https://www.themoviedb.org/documentation/api))
   * Drama
-  * Music
+  * Music (NOTE: [spotify](https://developer.spotify.com/web-api/get-related-artists/) provies search api, related artists and top songs from the artist.)
   * Concerts
   * Books
 * Shopping (NOTE: [Walmart API](https://developer.walmartlabs.com/docs/read/Product_Recommendation_API) takes an item and return recommended items, might be a good start.)
