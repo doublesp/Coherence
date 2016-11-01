@@ -16,15 +16,15 @@ An app that lets you list ideas you've had in mind, e.g. shopping list, travel p
     3. Last 10 row: Idea suggestions based on user input.
   * Landscape (Browsing mode), a detail view that provides detail informations on the ideas you've put down.
   
-# Categories
+# Categories and data source
 
 * Entertainment
-  * Movie
+  * Movie - [themoviedb](https://www.themoviedb.org/documentation/api)
   * Drama
   * Music
   * Concerts
   * Books
-* Shopping
+* Shopping - [Walmart API](https://developer.walmartlabs.com/docs/read/Product_Recommendation_API)
   * Groceries
   * Clothings
   * Electronics
