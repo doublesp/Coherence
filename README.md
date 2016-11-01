@@ -1,4 +1,4 @@
-# listgen
+# Coherence
 
 An app that lets you list ideas you've had in mind, e.g. shopping list, travel plan, foods/movies/books to recommend ... e.t.c. With the help of contexual idea recommendation, creating the list should be as simple as tap, tap, tap rather than type, type, type.
 
