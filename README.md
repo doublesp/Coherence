@@ -13,8 +13,10 @@ An app that helps you connect ideas you've had in mind as a list, e.g. shopping 
   * Portrait (Edit mode), is simply a ListView(RecyclerView) of items:
     1. Row 1: location based suggestsion per category (e.g. Nearby restaurants, Point of Interests, ... e.t.c)
     2. Row 2: EditText that allows user put down ideas. Tapping on enter will insert a new row under this row. Swipe on existing ideas to cross it out (i.e. mark as complete or undesirable), swipe again to un-cross it. Long press to remove it.
-    3. Last 10 row: Idea suggestions based on user input.
+    3. Last 10 row: Idea suggestions based on user input. Tap on suggestions will atomatically insert the idea to the list, and become the new context of suggestions. 
   * Landscape (Browsing mode), a detail view that provides detail informations on the ideas you've put down.
+    * For normal lists, show detail view with fullscreen image background, show descriptions in the overlay to the right, and list all ideas on the left for quick selection.
+    * For travel list, replace the idea lists with mapview.
   
 # Categories
 
