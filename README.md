@@ -4,7 +4,9 @@ An app that helps you connect ideas you've had in mind as a list, e.g. shopping 
 
 # Wireframe
 
-![Wireframe](wireframe_by_hand.png)
+<div>
+    <img src='https://raw.githubusercontent.com/doublesp/Coherence/master/art/wireframe_by_hand.jpg' style='border: #f1f1f1 solid 1px'/>
+</div>
 
 # Flow
 
