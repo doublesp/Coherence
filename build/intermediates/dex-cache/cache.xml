@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_a4235f97f288afd6405cf2b8f86785666473b6ef/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/internal_impl-24.2.1_ce5c5c0e4fda6aa1da71ed246f6f9c834669d076/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="eccaaa9ffa6bb4bfbd2e870f01aaf69655d353be">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.android.gms-play-services-basement-9.6.1_a81e249dbf63953e4684e110c352e46b1d6c5c4a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-nop/1.7.12/8052427115f80679a17bd2af659c760df39829bd/slf4j-nop-1.7.12.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8052427115f80679a17bd2af659c760df39829bd">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/slf4j-nop-1.7.12_7fe3f2d2490f3b5e219c590b2f27f1b8c45fe906/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0efd1b44f47c134fb245914a1d54a55adbfc2f8d">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.firebase-firebase-analytics-impl-9.6.1_2965bbcdffacf8ce6334883725a06cc1ab194ff0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="1e14ebe1cda8491f152083e752ca5bf73cd37bff">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.firebase-firebase-iid-9.6.1_5ab582fdf1a869ef14a94a427a5060edad070a9b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/picasso-2.5.2_f7c794cedabdb03aa90a893c2bcfdc637d9ad175/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/incremental-classes/providerdemo/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ef1d735e2ca8391d960ad9c535926cd877c43329">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/instant-run-bootstrap_1e4ba874e76cc2dcb1fb322a18deba414527614c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_87277e49afe136e4c3814364be78f3184e1f9dd6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_974198d573ff816d510fed13cead42622401e08e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0cae6511c5705869cacf199f8abb0ea84cd10157">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.android.gms-play-services-vision-9.6.1_8e214729d26b9d21f00fe6dfd9fcf87c4c933a54/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="1ef72e72bc0d05602c366582afa9439f58bb31d6">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.firebase-firebase-common-9.6.1_70bbd68e24ce7cff4f1b7929c62d4e726eacc7ea/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-v4-24.2.1_5200f995738f29302d6d42a047e7c30400d14fa3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_2dd32bf4d909ff376238c859bb831813157edff9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_43b327d86eeef14e76e08b688a1886a043880795/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.firebase/firebase-messaging/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="80dd8bea08bc5fe10b10a3243b8279c856ccc690">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.firebase-firebase-messaging-9.6.1_607c41bc960845062bf51cdff80f3a911d2f2465/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="af7582c6b327449c6d32518e6a10307860b7b5d6">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.android.gms-play-services-base-9.6.1_86157dc35a80988b5f51a50e91ea998d08524758/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.layer.sdk/layer-sdk/0.23.2/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="010d4ad689c4f8a89883e10aceaedea3b1780699">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.layer.sdk-layer-sdk-0.23.2_bd68795c0ba71ce3d3142f347b7cbf92bd6e501a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/internal_impl-24.2.1_504167c690656093506d946282cdb53037773f78/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/internal_impl-24.2.1_3353eef16c8bbd7756590b51380ab29f5ba62d9d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_c880349143bc22b918982985bb8fa816af149935/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/internal_impl-24.2.1_4c2a35b4268801838b31debb622952ad01a08247/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/incremental-runtime-classes/providerdemo/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="18199222462ca74f9ee58aeba74d4617d75d9beb">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/instant-run_8fcefc509c537a25c026cc652ae8cf7b2b155d64/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/support-annotations-24.2.1_8500e2784980439fb70a2be6d13163b608dbc0b4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_00de58de1833341e39bcc566f20bf22252416cb3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4a36600281a648769411ef642c331851732bf29e">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.android.gms-play-services-tasks-9.6.1_b7352c21d6eedf17980c6440814b760ab2fb3ec8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="a1c351dc10b92d638da57f3a6513f87cfbdc9f83">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.firebase-firebase-analytics-9.6.1_2a227ab9b0c8ce6009aca14a0091beba7f3112de/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-recyclerview-v7-24.2.1_a0b30dbe99fb004bec624f9bb46c22bb419292c5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/design/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-design-24.2.1_d7f1d04d7f8d5df5ca7507ce3f52992736220272/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.12/8e20852d05222dc286bf1c71d78d0531e177c317/slf4j-api-1.7.12.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8e20852d05222dc286bf1c71d78d0531e177c317">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/slf4j-api-1.7.12_11625f745bc8d21b736a32c5477ab851b622d607/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/9.6.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="79f521967ad7f49b34748db89df02852c2b2f87b">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.google.android.gms-play-services-location-9.6.1_62bddd3fb4618adfe12545f65c6df6e1a5998d62/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.davemorrissey.labs/subsampling-scale-image-view/3.4.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="36cea48a105ddeef047b645ab0f86f72993e8676">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.davemorrissey.labs-subsampling-scale-image-view-3.4.1_d12aee89d0e50e32396c0c228fc3f85a29ae4c13/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/com.android.support-support-compat-24.2.1_8c8455e88a78512349faeefdeadc9d7e1a85df48/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/Users/pinyaoting/Projects/android_coherence/app/build/intermediates/transforms/dex/providerdemo/debug/folders/1000/10/internal_impl-24.2.1_18fc49566200473c5252c025d0f28ee2fb371722/classes.dex" />
+    </item>
+
+</items>

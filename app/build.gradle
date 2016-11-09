@@ -1,16 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
     defaultConfig {
         applicationId "com.doublesp.coherence"
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 43
+        versionName "$versionCode"
     }
+
+    productFlavors {
+        providerrails {
+            applicationId = defaultConfig.applicationId + ".providerrails"
+        }
+
+        providerdemo {
+            applicationId = defaultConfig.applicationId + ".providerdemo"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,10 +31,13 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    testCompile 'junit:junit:4.12'
+    // All flavors
+    compile project(':layer-atlas')
+
+    compile "com.google.firebase:firebase-messaging:9.6.1"
+
+    // Flavor-specific dependencies
+    providerdemoCompile 'com.google.android.gms:play-services-vision:9.6.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
