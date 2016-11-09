@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "com.doublesp.coherence"
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 43
+        versionName "$versionCode"
+    }
+
+    productFlavors {
+        providerrails {
+            applicationId = defaultConfig.applicationId + ".providerrails"
+        }
+
+        providerdemo {
+            applicationId = defaultConfig.applicationId + ".providerdemo"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    // All flavors
+    compile project(':layer-atlas')
+
+    compile "com.google.firebase:firebase-messaging:9.6.1"
+
+    // Flavor-specific dependencies
+    providerdemoCompile 'com.google.android.gms:play-services-vision:9.6.1'
+}
+
+apply plugin: 'com.google.gms.google-services'
