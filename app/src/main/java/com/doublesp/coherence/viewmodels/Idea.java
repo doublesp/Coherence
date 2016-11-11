@@ -13,6 +13,7 @@ public class Idea {
     int category;
     String content;
     boolean crossedOut;
+    IdeaMeta meta;
 
     public Idea() {
     }
@@ -22,6 +23,14 @@ public class Idea {
         this.category = category;
         this.content = content;
         this.crossedOut = crossedOut;
+    }
+
+    public Idea(Long id, int category, String content, boolean crossedOut, IdeaMeta meta) {
+        this.id = id;
+        this.category = category;
+        this.content = content;
+        this.crossedOut = crossedOut;
+        this.meta = meta;
     }
 
     public Long getId() {
@@ -38,6 +47,10 @@ public class Idea {
 
     public boolean isCrossedOut() {
         return crossedOut;
+    }
+
+    public IdeaMeta getMeta() {
+        return meta;
     }
 
     @Override
