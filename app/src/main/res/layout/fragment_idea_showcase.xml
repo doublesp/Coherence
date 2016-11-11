@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.percent.PercentFrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.doublesp.coherence.fragments.IdeaShowcaseFragment">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ivBackgroundImage"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="40%"
+            android:layout_gravity="bottom"
+            android:gravity="top"
+            android:background="@color/colorOverlay">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="The Girl on the Train"
+                android:textColor="@color/colorTextWithOverlay"
+                android:id="@+id/tvTitle"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                tools:text="Rachel Watson, an alcoholic who divorced her husband Tom after she caught him cheating on her, takes the train to work daily. She fantasizes about the relationship of her neighbours, Scott and Megan Hipwell, during her commute. That all changes when she witnesses something from the train window and Megan is missing, presumed dead."
+                android:textColor="@color/colorTextWithOverlay"
+                android:id="@+id/tvOverview"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+        </LinearLayout>
+    </android.support.percent.PercentFrameLayout>
+</layout>
