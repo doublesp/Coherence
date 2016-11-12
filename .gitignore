@@ -59,6 +59,8 @@ gen-external-apklibs
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
+.idea/findbugs-idea.xml
+.idea/vcs.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources/
