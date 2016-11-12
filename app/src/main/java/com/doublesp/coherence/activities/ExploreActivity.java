@@ -1,5 +1,9 @@
 package com.doublesp.coherence.activities;
 
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.application.CoherenceApplication;
@@ -10,9 +14,6 @@ import com.doublesp.coherence.fragments.ExploreFragment;
 import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import io.fabric.sdk.android.Fabric;
 

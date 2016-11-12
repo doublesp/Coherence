@@ -1,5 +1,8 @@
 package com.doublesp.coherence.actions;
 
+import android.util.Log;
+
+import com.doublesp.coherence.R;
 import com.doublesp.coherence.activities.ExploreActivity;
 import com.doublesp.coherence.interfaces.presentation.ExploreFragmentActionHandlerInterface;
 
