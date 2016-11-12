@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.doublesp.coherence">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.CoherenceApplication"
         android:allowBackup="true"
@@ -16,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="58083912c035206135aea30a9df62233cd1f2cf5" />
     </application>
-
 </manifest>
