@@ -6,7 +6,7 @@ import com.doublesp.coherence.fragments.ExploreFragment;
  * Created by pinyaoting on 11/11/16.
  */
 
-public interface ExploreFragmentInjector {
+public interface ExploreFragmentInjectorInterface {
 
     void inject(ExploreFragment fragment);
 

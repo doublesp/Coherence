@@ -1,5 +1,6 @@
 package com.doublesp.coherence.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +12,11 @@ import com.doublesp.coherence.databinding.ActivityExploreBinding;
 import com.doublesp.coherence.dependencies.components.presentation.ExploreActivitySubComponent;
 import com.doublesp.coherence.dependencies.modules.presentation.ExploreActivityModule;
 import com.doublesp.coherence.fragments.ExploreFragment;
-import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjector;
+import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
 
 import io.fabric.sdk.android.Fabric;
 
-public class ExploreActivity extends AppCompatActivity implements ExploreFragmentInjector {
+public class ExploreActivity extends AppCompatActivity implements ExploreFragmentInjectorInterface {
 
     static final String EXPLORE_FRAGMENT = "EXPLORE_FRAGMENT";
     ActivityExploreBinding binding;
@@ -28,7 +29,7 @@ public class ExploreActivity extends AppCompatActivity implements ExploreFragmen
         binding = DataBindingUtil.setContentView(this, R.layout.activity_explore);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContainer, ExploreFragment.newInstance(), EXPLORE_FRAGMENT)
+                .replace(R.id.flExploreContainer, ExploreFragment.newInstance(), EXPLORE_FRAGMENT)
                 .commit();
     }
 
@@ -37,6 +38,12 @@ public class ExploreActivity extends AppCompatActivity implements ExploreFragmen
             mActivityComponent = ((CoherenceApplication) getApplication()).getPresentationLayerComponent().newExploreActivitySubComponent(new ExploreActivityModule(this));
         }
         return mActivityComponent;
+    }
+
+    public void startListCompositionActivity(int category) {
+        Intent i = new Intent(ExploreActivity.this, ListCompositionActivity.class);
+        i.putExtra(getString(R.string.category), category);
+        startActivity(i);
     }
 
     @Override
