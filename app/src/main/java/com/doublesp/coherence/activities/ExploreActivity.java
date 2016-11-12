@@ -34,7 +34,10 @@ public class ExploreActivity extends AppCompatActivity implements ExploreFragmen
 
     private ExploreActivitySubComponent getActivityComponent() {
         if (mActivityComponent == null) {
-            mActivityComponent = ((CoherenceApplication) getApplication()).getPresentationLayerComponent().newExploreActivitySubComponent(new ExploreActivityModule(this));
+            mActivityComponent =
+                    ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
+                            .newExploreActivitySubComponent(
+                            new ExploreActivityModule(this));
         }
         return mActivityComponent;
     }

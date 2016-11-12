@@ -71,7 +71,8 @@ public class NetModule {
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .addCallAdapterFactory(
+                        RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .client(okHttpClient)
                 .build();
         return retrofit;

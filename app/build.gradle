@@ -80,4 +80,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+    compile 'com.parse:parse-android:1.13.1'
+    compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
+    compile 'com.parse.bolts:bolts-android:1.+'
 }

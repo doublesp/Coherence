@@ -14,12 +14,14 @@ public class URLFactory {
     static final String BACKDROP_PATH = "t/p/w1280%s";
 
     public static String getPosterRequestURL(String posterPath) {
-        HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme(API_PROTOCOL).host(IMAGE_API_HOST).addPathSegments(String.format(POSTER_PATH, posterPath));
+        HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme(API_PROTOCOL).host(
+                IMAGE_API_HOST).addPathSegments(String.format(POSTER_PATH, posterPath));
         return urlBuilder.build().toString();
     }
 
     public static String getBackdropRequestURL(String backdropPath) {
-        HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme(API_PROTOCOL).host(IMAGE_API_HOST).addPathSegments(String.format(BACKDROP_PATH, backdropPath));
+        HttpUrl.Builder urlBuilder = new HttpUrl.Builder().scheme(API_PROTOCOL).host(
+                IMAGE_API_HOST).addPathSegments(String.format(BACKDROP_PATH, backdropPath));
         return urlBuilder.build().toString();
     }
 }

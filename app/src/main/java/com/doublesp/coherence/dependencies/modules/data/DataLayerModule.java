@@ -47,7 +47,8 @@ public class DataLayerModule {
 
     @Provides
     @DataLayerScope
-    public MovieRepositoryInterface providesMovieRepositoryInterface(Application application, MovieDBClient client) {
+    public MovieRepositoryInterface providesMovieRepositoryInterface(Application application,
+            MovieDBClient client) {
         return new MoviesRepository(application, client);
     }
 

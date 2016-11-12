@@ -30,7 +30,8 @@ public class DomainLayerModule {
     @DomainLayerScope
     @IntoMap
     @IntKey(R.id.idea_category_movies)
-    public IdeaInteractorInterface providesMovieIdeaInteractor(IdeaDataStoreInterface ideaDataStore, MovieRepositoryInterface movieRepository) {
+    public IdeaInteractorInterface providesMovieIdeaInteractor(IdeaDataStoreInterface ideaDataStore,
+            MovieRepositoryInterface movieRepository) {
         return new MovieInteractor(ideaDataStore, movieRepository);
     }
 
