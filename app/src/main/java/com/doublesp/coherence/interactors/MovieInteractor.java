@@ -3,7 +3,7 @@ package com.doublesp.coherence.interactors;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.MovieRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractor;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.models.Movie;
 import com.doublesp.coherence.viewmodels.Idea;
 
@@ -16,7 +16,7 @@ import rx.Observer;
  * Created by pinyaoting on 11/10/16.
  */
 
-public class MovieInteractor extends IdeaInteractorBase implements IdeaInteractor {
+public class MovieInteractor extends IdeaInteractorBase implements IdeaInteractorInterface {
 
     IdeaDataStoreInterface mIdeaDataStore;
     MovieRepositoryInterface mMovieRepository;
@@ -32,7 +32,7 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
                 List<Idea> ideas = new ArrayList<>();
                 for (Movie movie : mMovies) {
                     ideas.add(new Idea(movie.getId(),
-                            R.id.idea_category_movie,
+                            R.id.idea_category_movies,
                             movie.getOriginalTitle(),
                             false));
                 }

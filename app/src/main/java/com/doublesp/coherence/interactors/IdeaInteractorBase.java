@@ -1,7 +1,7 @@
 package com.doublesp.coherence.interactors;
 
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractor;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
 import rx.Observer;
@@ -10,7 +10,7 @@ import rx.Observer;
  * Created by pinyaoting on 11/10/16.
  */
 
-abstract public class IdeaInteractorBase implements IdeaInteractor {
+abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     IdeaDataStoreInterface mIdeaDataStore;
 

@@ -8,7 +8,7 @@ import rx.Observer;
  * Created by pinyaoting on 11/10/16.
  */
 
-public interface IdeaInteractor {
+public interface IdeaInteractorInterface {
 
     void createIdea(Idea idea);
     void crossoutIdea(Idea idea);
