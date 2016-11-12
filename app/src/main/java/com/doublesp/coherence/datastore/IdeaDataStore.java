@@ -37,13 +37,15 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public void crossoutIdea(Idea idea) {
-        mIdeas.set(mIdeas.indexOf(idea), new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true));
+        mIdeas.set(mIdeas.indexOf(idea),
+                new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true));
         mPublisher.onCompleted();
     }
 
     @Override
     public void uncrossoutIdea(Idea idea) {
-        mIdeas.set(mIdeas.indexOf(idea), new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false));
+        mIdeas.set(mIdeas.indexOf(idea),
+                new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false));
         mPublisher.onCompleted();
     }
 

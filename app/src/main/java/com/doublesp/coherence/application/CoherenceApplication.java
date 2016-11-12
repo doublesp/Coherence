@@ -15,6 +15,9 @@ import com.doublesp.coherence.dependencies.modules.core.NetModule;
 import com.doublesp.coherence.dependencies.modules.data.DataLayerModule;
 import com.doublesp.coherence.dependencies.modules.domain.DomainLayerModule;
 import com.facebook.stetho.Stetho;
+import com.parse.Parse;
+import com.parse.interceptors.ParseLogInterceptor;
+import com.parse.interceptors.ParseStethoInterceptor;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowLog;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -58,6 +61,13 @@ public class CoherenceApplication extends MultiDexApplication {
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                         .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                         .build());
+
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("myAppId")
+                .clientKey(null)
+                .addNetworkInterceptor(new ParseLogInterceptor())
+                .addNetworkInterceptor(new ParseStethoInterceptor())
+                .server("https://doublesp.herokuapp.com/parse/").build());
 
         FlowManager.init(new FlowConfig.Builder(this).build());
         FlowLog.setMinimumLoggingLevel(FlowLog.Level.V);

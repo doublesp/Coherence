@@ -17,13 +17,15 @@ public class BindingAdapterUtils {
 
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String url) {
-        Glide.with(view.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(view);
+        Glide.with(view.getContext()).load(url).fitCenter().diskCacheStrategy(
+                DiskCacheStrategy.ALL).into(view);
     }
 
     @BindingAdapter({"bind:roundedImageUrl"})
     public static void loadRoundedImage(ImageView view, String url) {
         Context context = view.getContext();
-        Glide.with(context).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).transform(new CircleTransform(context)).into(view);
+        Glide.with(context).load(url).fitCenter().diskCacheStrategy(
+                DiskCacheStrategy.ALL).transform(new CircleTransform(context)).into(view);
     }
 
     @BindingAdapter({"bind:text"})

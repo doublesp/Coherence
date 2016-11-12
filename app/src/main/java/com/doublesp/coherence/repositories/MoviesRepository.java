@@ -50,7 +50,8 @@ public class MoviesRepository extends MovieRepositoryBase implements MovieReposi
                                     public void processModel(MovieList movieList) {
                                         for (Movie movie : movieList.movies) {
                                             movie.save();
-                                        };
+                                        }
+                                        ;
                                     }
                                 }).add(movieList).build())
                         .error(new Transaction.Error() {

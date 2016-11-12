@@ -12,10 +12,15 @@ import rx.Observer;
 
 public interface IdeaDataStoreInterface {
     void addIdea(Idea idea);
+
     void addIdeas(List<Idea> idea);
+
     void crossoutIdea(Idea idea);
+
     void uncrossoutIdea(Idea idea);
+
     void removeIdea(Idea idea);
+
     Idea getIdeaAtPos(int pos);
 
     void subscribeToIdeaListChanges(Observer<List<Idea>> observer);

@@ -1,10 +1,5 @@
 package com.doublesp.coherence.activities;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.application.CoherenceApplication;
@@ -13,6 +8,11 @@ import com.doublesp.coherence.dependencies.components.presentation.ExploreActivi
 import com.doublesp.coherence.dependencies.modules.presentation.ExploreActivityModule;
 import com.doublesp.coherence.fragments.ExploreFragment;
 import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
+
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -35,7 +35,10 @@ public class ExploreActivity extends AppCompatActivity implements ExploreFragmen
 
     private ExploreActivitySubComponent getActivityComponent() {
         if (mActivityComponent == null) {
-            mActivityComponent = ((CoherenceApplication) getApplication()).getPresentationLayerComponent().newExploreActivitySubComponent(new ExploreActivityModule(this));
+            mActivityComponent =
+                    ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
+                            .newExploreActivitySubComponent(
+                            new ExploreActivityModule(this));
         }
         return mActivityComponent;
     }
