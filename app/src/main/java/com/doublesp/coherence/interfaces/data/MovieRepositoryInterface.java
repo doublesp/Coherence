@@ -13,6 +13,8 @@ import rx.Observer;
 public interface MovieRepositoryInterface {
 
     void subscribe(Observer<List<Movie>> observer);
+
     void getNowPlayingMovies();
+
     void getMovieTrailer(Long id);
 }

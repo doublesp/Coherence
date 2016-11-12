@@ -43,7 +43,7 @@ public class ExploreFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_explore, container, false);
         binding.setHandler(mHandler);
         return binding.getRoot();

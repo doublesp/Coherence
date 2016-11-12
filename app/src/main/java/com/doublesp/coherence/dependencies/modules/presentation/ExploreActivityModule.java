@@ -16,6 +16,7 @@ import dagger.Provides;
 public class ExploreActivityModule {
 
     private final ExploreActivity mActivity;
+
     public ExploreActivityModule(ExploreActivity activity) {
         this.mActivity = activity;
     }

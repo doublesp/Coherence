@@ -41,11 +41,25 @@ public class Movie extends BaseModel {
     @Column
     double popularity;
 
-    public Long getId() { return id; }
+    public static Movie byId(long id) {
+        return new Select().from(Movie.class).where(Movie_Table.id.eq(id)).querySingle();
+    }
 
-    public String getPosterPath() { return URLFactory.getPosterRequestURL(posterPath); }
+    public static List<Movie> recentItems() {
+        return new Select().from(Movie.class).orderBy(Movie_Table.id, false).limit(50).queryList();
+    }
 
-    public String getBackdropPath() { return URLFactory.getBackdropRequestURL(backdropPath); }
+    public Long getId() {
+        return id;
+    }
+
+    public String getPosterPath() {
+        return URLFactory.getPosterRequestURL(posterPath);
+    }
+
+    public String getBackdropPath() {
+        return URLFactory.getBackdropRequestURL(backdropPath);
+    }
 
     public String getOriginalTitle() {
         return originalTitle;
@@ -55,17 +69,15 @@ public class Movie extends BaseModel {
         return overview;
     }
 
-    public double getRating() { return rating; }
-
-    public double getPopularity() { return popularity; }
-
-    public boolean isHighRated() { return rating > 5; }
-
-    public static Movie byId(long id) {
-        return new Select().from(Movie.class).where(Movie_Table.id.eq(id)).querySingle();
+    public double getRating() {
+        return rating;
     }
 
-    public static List<Movie> recentItems() {
-        return new Select().from(Movie.class).orderBy(Movie_Table.id, false).limit(50).queryList();
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public boolean isHighRated() {
+        return rating > 5;
     }
 }

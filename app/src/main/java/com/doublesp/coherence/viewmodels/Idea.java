@@ -56,7 +56,7 @@ public class Idea {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Idea) {
-            Idea target = (Idea)obj;
+            Idea target = (Idea) obj;
             return this.id == target.id;
         }
         return false;

@@ -42,10 +42,12 @@ public class MovieDBClient {
     }
 
     private void asyncCall(ConnectableObservable connectedObservable) {
-        // TODO: remove this delay once we are confident we aren't making unneccesary api calls to this endpoint
+        // TODO: remove this delay once we are confident we aren't making unneccesary api calls
+        // to this endpoint
         connectedObservable.delay(DELAY_BETWEEN_API_CALLS, TimeUnit.MILLISECONDS);
         for (Observer<MovieList> subscriber : mSubscribers) {
-            connectedObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(subscriber);
+            connectedObservable.subscribeOn(Schedulers.io()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe(subscriber);
         }
         connectedObservable.connect();
     }

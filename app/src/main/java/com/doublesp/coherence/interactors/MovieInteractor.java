@@ -21,12 +21,14 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
     IdeaDataStoreInterface mIdeaDataStore;
     MovieRepositoryInterface mMovieRepository;
 
-    public MovieInteractor(IdeaDataStoreInterface ideaDataStore, MovieRepositoryInterface movieRepository) {
+    public MovieInteractor(IdeaDataStoreInterface ideaDataStore,
+            MovieRepositoryInterface movieRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mMovieRepository = movieRepository;
         mMovieRepository.subscribe(new Observer<List<Movie>>() {
             List<Movie> mMovies;
+
             @Override
             public void onCompleted() {
                 List<Idea> ideas = new ArrayList<>();
