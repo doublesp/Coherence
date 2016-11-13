@@ -22,6 +22,8 @@ public interface IdeaDataStoreInterface {
 
     void setSuggestions(List<Idea> ideas);
 
+    List<Idea> getSuggestions();
+
     Idea getIdeaAtPos(int pos);
 
     int getIdeaCount();
