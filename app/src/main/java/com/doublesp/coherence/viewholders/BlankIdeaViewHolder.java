@@ -35,7 +35,6 @@ public class BlankIdeaViewHolder extends RecyclerView.ViewHolder implements Idea
 
     @Override
     public void setHandler(final IdeaActionHandlerInterface handler) {
-        final int pos = binding.getPos();
         binding.etIdea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -49,7 +48,7 @@ public class BlankIdeaViewHolder extends RecyclerView.ViewHolder implements Idea
 
             @Override
             public void afterTextChanged(Editable s) {
-                handler.afterTextChanged(s, pos);
+                handler.afterTextChanged(s);
             }
         });
     }

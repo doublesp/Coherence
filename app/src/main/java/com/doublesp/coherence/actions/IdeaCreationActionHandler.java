@@ -17,16 +17,20 @@ public class IdeaCreationActionHandler implements IdeaActionHandlerInterface {
         mIdeaInteractor = ideaInteractor;
     }
 
-    public void afterTextChanged(Editable s, int pos) {
+    @Override
+    public void afterTextChanged(Editable s) {
         final int i = s.length();
         if (i == 0) {
             return;
         }
         if (s.subSequence(i-1, i).toString().equals("\n")) {
-            final String r = new StringBuilder(s.subSequence(0, i)).toString();
-            mIdeaInteractor.addIdea(r.trim());
+            mIdeaInteractor.addIdea(s.toString().trim());
             s.clear();
         }
     }
 
+    @Override
+    public void onSuggestionClick(int pos) {
+        mIdeaInteractor.acceptSuggestedIdeaAtPos(pos);
+    }
 }

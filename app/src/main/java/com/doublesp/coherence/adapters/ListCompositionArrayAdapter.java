@@ -36,7 +36,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             @Override
             public void onCompleted() {
                 switch (mState) {
-                    default:
+                    case R.id.idea_state_loaded:
                         notifyDataSetChanged();
                 }
             }

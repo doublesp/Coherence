@@ -8,6 +8,7 @@ import android.text.Editable;
 
 public interface IdeaActionHandlerInterface {
 
-    void afterTextChanged(Editable s, int pos);
+    void afterTextChanged(Editable s);
+    void onSuggestionClick(int pos);
 
 }

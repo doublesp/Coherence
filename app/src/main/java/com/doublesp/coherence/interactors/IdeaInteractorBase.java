@@ -23,9 +23,18 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     public void addIdea(String content) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_creation_pending);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
         mIdeaDataStore.addIdea(new Idea(0L, getCategory(), content, false, R.id.idea_type_user_generated, null));
-        mIdeaDataStore.setIdeaState(R.id.idea_state_creation_settled);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+    }
+
+    @Override
+    public void acceptSuggestedIdeaAtPos(int pos) {
+        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
+        mIdeaDataStore.removeIdea(pos);
+        mIdeaDataStore.addIdea(new Idea(idea.getId(), idea.getCategory(), idea.getContent(), idea.isCrossedOut(), R.id.idea_type_user_generated, idea.getMeta()));
+        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
     }
 
     @Override
@@ -71,4 +80,5 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     public Idea getIdeaAtPos(int pos) {
         return mIdeaDataStore.getIdeaAtPos(pos);
     }
+
 }

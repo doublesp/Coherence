@@ -4,6 +4,8 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,10 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public void removeIdea(int pos) {
-        mIdeas.remove(pos);
+        Pair<Integer, List<Idea>> adjustedPair = getAdjustedPositionAndCorrespondingList(pos);
+        int adjustedPos = adjustedPair.first;
+        List<Idea> targetList = adjustedPair.second;
+        targetList.remove(adjustedPos);
     }
 
     @Override
@@ -77,16 +82,23 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public Idea getIdeaAtPos(int pos) {
+        Pair<Integer, List<Idea>> adjustedPair = getAdjustedPositionAndCorrespondingList(pos);
+        int adjustedPos = adjustedPair.first;
+        List<Idea> targetList = adjustedPair.second;
+        return targetList.get(adjustedPos);
+    }
+
+    private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {
         if (pos < mIdeas.size()) {
-            return mIdeas.get(pos);
+            return new Pair<>(pos, mIdeas);
         }
         pos -= mIdeas.size();
         if (pos < mBlankIdeas.size()) {
-            return mBlankIdeas.get(pos);
+            return new Pair<>(pos, mBlankIdeas);
         }
         pos -= mBlankIdeas.size();
         if (pos < mIdeaSuggestions.size()) {
-            return mIdeaSuggestions.get(pos);
+            return new Pair<>(pos, mIdeaSuggestions);
         }
         return null;
     }

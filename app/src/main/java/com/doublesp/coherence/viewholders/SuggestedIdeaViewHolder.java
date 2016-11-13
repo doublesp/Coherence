@@ -23,7 +23,7 @@ public class SuggestedIdeaViewHolder extends RecyclerView.ViewHolder implements 
 
     @Override
     public void setPosition(int position) {
-//        binding.setPos(position);
+        binding.setPos(position);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SuggestedIdeaViewHolder extends RecyclerView.ViewHolder implements 
 
     @Override
     public void setHandler(IdeaActionHandlerInterface handler) {
-//        binding.setHandler(handler);
+        binding.setHandler(handler);
     }
 
     @Override

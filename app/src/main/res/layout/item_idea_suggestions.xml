@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <variable name="pos" type="int"/>
+        <variable name="handler"
+                  type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface" />
         <variable name="viewModel"
                   type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
@@ -13,6 +16,7 @@
                   android:gravity="center"
                   android:maxLines="1"
                   android:text='@{viewModel.content}'
+                  android:onClick="@{() -> handler.onSuggestionClick(pos)}"
                 />
     </LinearLayout>
 </layout>
