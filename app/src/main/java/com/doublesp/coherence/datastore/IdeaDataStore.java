@@ -1,5 +1,6 @@
 package com.doublesp.coherence.datastore;
 
+import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 /**
@@ -18,47 +21,42 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     List<Idea> mIdeas;
     List<Idea> mBlankIdeas;
     List<Idea> mIdeaSuggestions;
-    PublishSubject<List<Idea>> mPublisher;
+    PublishSubject<Integer> mPublisher;
+    int mIdeaState;
 
     public IdeaDataStore() {
         mIdeas = new ArrayList<>();
-        mIdeas.add(Idea.newInstanceOfUserGeneratedIdea());
         mBlankIdeas = new ArrayList<>();
         mBlankIdeas.add(Idea.newInstanceOfBlankIdea());
         mIdeaSuggestions = new ArrayList<>();
         mPublisher = PublishSubject.create();
+        mIdeaState = R.id.idea_state_idle;
+    }
+
+    @Override
+    public void setIdeaState(int state) {
+        mIdeaState = state;
+        mPublisher.onNext(state);
+        mPublisher.onCompleted();
     }
 
     @Override
     public void addIdea(Idea idea) {
         mIdeas.add(idea);
-        mPublisher.onCompleted();
     }
 
     @Override
-    public void addIdeas(List<Idea> idea) {
-        mIdeas.addAll(idea);
-        mPublisher.onCompleted();
+    public void updateIdea(int pos, Idea idea) {
+        if (pos == mIdeas.size()) {
+            mIdeas.add(idea);
+        } else {
+            mIdeas.set(pos, idea);
+        }
     }
 
     @Override
-    public void crossoutIdea(Idea idea) {
-        mIdeas.set(mIdeas.indexOf(idea),
-                new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true, idea.getType(), idea.getMeta()));
-        mPublisher.onCompleted();
-    }
-
-    @Override
-    public void uncrossoutIdea(Idea idea) {
-        mIdeas.set(mIdeas.indexOf(idea),
-                new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false, idea.getType(), idea.getMeta()));
-        mPublisher.onCompleted();
-    }
-
-    @Override
-    public void removeIdea(Idea idea) {
-        mIdeas.remove(idea);
-        mPublisher.onCompleted();
+    public void removeIdea(int pos) {
+        mIdeas.remove(pos);
     }
 
     @Override
@@ -69,12 +67,13 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public int getIdeaCount() {
-        return mIdeas.size() + 1 + mIdeaSuggestions.size();
+        return mIdeas.size() + mBlankIdeas.size() + mIdeaSuggestions.size();
     }
 
     @Override
-    public void subscribeToIdeaListChanges(Observer<List<Idea>> observer) {
-        mPublisher.subscribe(observer);
+    public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
+        mPublisher.subscribeOn(Schedulers.immediate()).observeOn(
+                AndroidSchedulers.mainThread()).subscribe(observer);
     }
 
     @Override

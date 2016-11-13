@@ -10,6 +10,8 @@
         <TextView android:id="@+id/tvIdeaSuggestion"
                   android:layout_width="match_parent"
                   android:layout_height="@dimen/activity_list_composition_idea_height"
+                  android:gravity="center"
+                  android:maxLines="1"
                   android:text='@{viewModel.content}'
                 />
     </LinearLayout>

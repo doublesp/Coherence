@@ -7,4 +7,10 @@
     <item name="idea_type_user_generated" type="id" />
     <item name="idea_type_blank" type="id" />
     <item name="idea_type_suggestion" type="id" />
+    <item name="idea_state_idle" type="id" />
+    <item name="idea_state_related_pending" type="id" />
+    <item name="idea_state_related_loaded" type="id" />
+    <item name="idea_state_creation_pending" type="id" />
+    <item name="idea_state_creation_settled" type="id" />
+
 </resources>

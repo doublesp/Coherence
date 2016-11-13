@@ -11,15 +11,14 @@ import rx.Observer;
  */
 
 public interface IdeaDataStoreInterface {
+
+    void setIdeaState(int state);
+
     void addIdea(Idea idea);
 
-    void addIdeas(List<Idea> idea);
+    void updateIdea(int pos, Idea idea);
 
-    void crossoutIdea(Idea idea);
-
-    void uncrossoutIdea(Idea idea);
-
-    void removeIdea(Idea idea);
+    void removeIdea(int pos);
 
     void setSuggestions(List<Idea> ideas);
 
@@ -27,5 +26,5 @@ public interface IdeaDataStoreInterface {
 
     int getIdeaCount();
 
-    void subscribeToIdeaListChanges(Observer<List<Idea>> observer);
+    void subscribeToIdeaStateChanges(Observer<Integer> observer);
 }

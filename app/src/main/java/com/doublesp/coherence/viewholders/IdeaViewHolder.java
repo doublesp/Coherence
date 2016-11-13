@@ -1,6 +1,7 @@
 package com.doublesp.coherence.viewholders;
 
 import com.doublesp.coherence.databinding.ItemIdeaBinding;
+import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
@@ -21,8 +22,18 @@ public class IdeaViewHolder extends RecyclerView.ViewHolder implements IdeaViewH
     }
 
     @Override
+    public void setPosition(int position) {
+        binding.setPos(position);
+    }
+
+    @Override
     public void setViewModel(Idea viewModel) {
         binding.setViewModel(viewModel);
+    }
+
+    @Override
+    public void setHandler(final IdeaActionHandlerInterface handler) {
+
     }
 
     @Override

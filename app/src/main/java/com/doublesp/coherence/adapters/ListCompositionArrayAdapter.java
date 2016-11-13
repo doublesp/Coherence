@@ -2,6 +2,7 @@ package com.doublesp.coherence.adapters;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.viewholders.BlankIdeaViewHolder;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
@@ -24,13 +25,20 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
     IdeaInteractorInterface mIdeaInteractor;
+    IdeaActionHandlerInterface mIdeaActionHandler;
+    final Observer<Integer> mObserver;
 
-    public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor) {
+    public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
-        mIdeaInteractor.subscribe(new Observer<Idea>() {
+        mIdeaActionHandler = ideaActionHandler;
+        mObserver = new Observer<Integer>() {
+            int mState;
             @Override
             public void onCompleted() {
-                notifyDataSetChanged();
+                switch (mState) {
+                    default:
+                        notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -39,10 +47,11 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             }
 
             @Override
-            public void onNext(Idea idea) {
-
+            public void onNext(Integer state) {
+                mState = state;
             }
-        });
+        };
+        mIdeaInteractor.subscribe(mObserver);
         mIdeaInteractor.getRelatedIdeas(null);
     }
 
@@ -75,7 +84,9 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         Idea idea = mIdeaInteractor.getIdeaAtPos(position);
         if (holder instanceof IdeaViewHolderInterface) {
             IdeaViewHolderInterface ideaViewHolder = (IdeaViewHolderInterface) holder;
+            ideaViewHolder.setPosition(position);
             ideaViewHolder.setViewModel(idea);
+            ideaViewHolder.setHandler(mIdeaActionHandler);
             ideaViewHolder.executePendingBindings();
         }
     }

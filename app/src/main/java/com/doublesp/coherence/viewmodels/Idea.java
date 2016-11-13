@@ -30,13 +30,6 @@ public class Idea {
         this.meta = meta;
     }
 
-    public static Idea newInstanceOfUserGeneratedIdea() {
-        Idea newIdea = new Idea();
-        newIdea.content = "";
-        newIdea.type = R.id.idea_type_user_generated;
-        return newIdea;
-    }
-
     public static Idea newInstanceOfBlankIdea() {
         Idea blankIdea =  new Idea();
         blankIdea.type = R.id.idea_type_blank;

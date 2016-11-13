@@ -1,5 +1,6 @@
 package com.doublesp.coherence.interactors;
 
+import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
@@ -18,32 +19,47 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         mIdeaDataStore = ideaDataStore;
     }
 
+    abstract int getCategory();
+
     @Override
-    public void createIdea(Idea idea) {
-        mIdeaDataStore.addIdea(idea);
+    public void addIdea(String content) {
+        mIdeaDataStore.setIdeaState(R.id.idea_state_creation_pending);
+        mIdeaDataStore.addIdea(new Idea(0L, getCategory(), content, false, R.id.idea_type_user_generated, null));
+        mIdeaDataStore.setIdeaState(R.id.idea_state_creation_settled);
     }
 
     @Override
-    public void crossoutIdea(Idea idea) {
-        mIdeaDataStore.crossoutIdea(idea);
+    public void updateIdea(int pos, String content) {
+        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
+        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), content, idea.isCrossedOut(), R.id.idea_type_user_generated, idea.getMeta());
+        mIdeaDataStore.updateIdea(pos, newIdea);
     }
 
     @Override
-    public void uncrossoutIdea(Idea idea) {
-        mIdeaDataStore.uncrossoutIdea(idea);
+    public void crossoutIdea(int pos) {
+        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
+        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true, idea.getType(), idea.getMeta());
+        mIdeaDataStore.updateIdea(pos, newIdea);
     }
 
     @Override
-    public void removeIdea(Idea idea) {
-        mIdeaDataStore.removeIdea(idea);
+    public void uncrossoutIdea(int pos) {
+        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
+        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false, idea.getType(), idea.getMeta());
+        mIdeaDataStore.updateIdea(pos, newIdea);
+    }
+
+    @Override
+    public void removeIdea(int pos) {
+        mIdeaDataStore.removeIdea(pos);
     }
 
     @Override
     abstract public void getRelatedIdeas(Idea idea);
 
     @Override
-    public void subscribe(Observer observer) {
-        mIdeaDataStore.subscribeToIdeaListChanges(observer);
+    public void subscribe(Observer<Integer> observer) {
+        mIdeaDataStore.subscribeToIdeaStateChanges(observer);
     }
 
     @Override
