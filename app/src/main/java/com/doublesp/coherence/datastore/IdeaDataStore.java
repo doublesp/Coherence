@@ -7,10 +7,11 @@ import com.doublesp.coherence.viewmodels.Idea;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
-import rx.subjects.PublishSubject;
 
 /**
  * Created by pinyaoting on 11/10/16.
@@ -21,7 +22,7 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     List<Idea> mIdeas;
     List<Idea> mBlankIdeas;
     List<Idea> mIdeaSuggestions;
-    PublishSubject<Integer> mPublisher;
+    List<Observer<Integer>> mStateObservers;
     int mIdeaState;
 
     public IdeaDataStore() {
@@ -29,15 +30,14 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         mBlankIdeas = new ArrayList<>();
         mBlankIdeas.add(Idea.newInstanceOfBlankIdea());
         mIdeaSuggestions = new ArrayList<>();
-        mPublisher = PublishSubject.create();
+        mStateObservers = new ArrayList<>();
         mIdeaState = R.id.idea_state_idle;
     }
 
     @Override
     public void setIdeaState(int state) {
         mIdeaState = state;
-        mPublisher.onNext(state);
-        mPublisher.onCompleted();
+        notifyStateChange();
     }
 
     @Override
@@ -72,8 +72,7 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
-        mPublisher.subscribeOn(Schedulers.immediate()).observeOn(
-                AndroidSchedulers.mainThread()).subscribe(observer);
+        mStateObservers.add(observer);
     }
 
     @Override
@@ -90,5 +89,15 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
             return mIdeaSuggestions.get(pos);
         }
         return null;
+    }
+
+    private void notifyStateChange() {
+        ConnectableObservable<Integer> connectedObservable = Observable.just(mIdeaState).publish();
+        for (Observer<Integer> observer : mStateObservers) {
+            connectedObservable.subscribeOn(Schedulers.immediate())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(observer);
+        }
+        connectedObservable.connect();
     }
 }
