@@ -20,6 +20,10 @@ public interface IdeaInteractorInterface {
 
     void getRelatedIdeas(Idea idea);
 
-    void subscribe(Observer observer);
+    void subscribe(Observer<Idea> observer);
+
+    int getIdeaCount();
+
+    Idea getIdeaAtPos(int pos);
 
 }

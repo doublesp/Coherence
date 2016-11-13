@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
-    <TextView android:id="@+id/etIdeaSuggestion"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-            />
-
-</LinearLayout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewModel"
+                  type="com.doublesp.coherence.viewmodels.Idea" />
+    </data>
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <TextView android:id="@+id/tvIdeaSuggestion"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/activity_list_composition_idea_height"
+                  android:text='@{viewModel.content}'
+                />
+    </LinearLayout>
+</layout>

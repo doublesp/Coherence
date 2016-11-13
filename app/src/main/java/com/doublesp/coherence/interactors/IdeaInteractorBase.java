@@ -46,4 +46,13 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         mIdeaDataStore.subscribeToIdeaListChanges(observer);
     }
 
+    @Override
+    public int getIdeaCount() {
+        return mIdeaDataStore.getIdeaCount();
+    }
+
+    @Override
+    public Idea getIdeaAtPos(int pos) {
+        return mIdeaDataStore.getIdeaAtPos(pos);
+    }
 }

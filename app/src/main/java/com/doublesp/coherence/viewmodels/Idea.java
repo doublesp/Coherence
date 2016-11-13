@@ -1,5 +1,7 @@
 package com.doublesp.coherence.viewmodels;
 
+import com.doublesp.coherence.R;
+
 import org.parceler.Parcel;
 
 /**
@@ -13,24 +15,32 @@ public class Idea {
     int category;
     String content;
     boolean crossedOut;
+    int type; // R.id.idea_type_user_generated or R.id.idea_type_suggestion
     IdeaMeta meta;
 
     public Idea() {
     }
 
-    public Idea(Long id, int category, String content, boolean crossedOut) {
+    public Idea(Long id, int category, String content, boolean crossedOut, int type, IdeaMeta meta) {
         this.id = id;
         this.category = category;
         this.content = content;
         this.crossedOut = crossedOut;
+        this.type = type;
+        this.meta = meta;
     }
 
-    public Idea(Long id, int category, String content, boolean crossedOut, IdeaMeta meta) {
-        this.id = id;
-        this.category = category;
-        this.content = content;
-        this.crossedOut = crossedOut;
-        this.meta = meta;
+    public static Idea newInstanceOfUserGeneratedIdea() {
+        Idea newIdea = new Idea();
+        newIdea.content = "";
+        newIdea.type = R.id.idea_type_user_generated;
+        return newIdea;
+    }
+
+    public static Idea newInstanceOfBlankIdea() {
+        Idea blankIdea =  new Idea();
+        blankIdea.type = R.id.idea_type_blank;
+        return blankIdea;
     }
 
     public Long getId() {
@@ -47,6 +57,10 @@ public class Idea {
 
     public boolean isCrossedOut() {
         return crossedOut;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public IdeaMeta getMeta() {

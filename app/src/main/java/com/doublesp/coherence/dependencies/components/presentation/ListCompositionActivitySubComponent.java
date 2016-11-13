@@ -1,6 +1,7 @@
 package com.doublesp.coherence.dependencies.components.presentation;
 
 import com.doublesp.coherence.dependencies.modules.presentation.ListCompositionActivityModule;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
 import dagger.Subcomponent;
@@ -12,5 +13,5 @@ import dagger.Subcomponent;
 @PresentationLayerScope
 @Subcomponent(modules = ListCompositionActivityModule.class)
 public interface ListCompositionActivitySubComponent {
-
+    void inject(ListCompositionFragment fragment);
 }

@@ -21,7 +21,11 @@ public interface IdeaDataStoreInterface {
 
     void removeIdea(Idea idea);
 
+    void setSuggestions(List<Idea> ideas);
+
     Idea getIdeaAtPos(int pos);
+
+    int getIdeaCount();
 
     void subscribeToIdeaListChanges(Observer<List<Idea>> observer);
 }
