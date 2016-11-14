@@ -4,25 +4,37 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentIdeaPreviewBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
+import com.doublesp.coherence.layoutmanagers.CurveLayoutManager;
 import com.doublesp.coherence.viewmodels.Idea;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class IdeaPreviewFragment extends DialogFragment {
 
     FragmentIdeaPreviewBinding binding;
+    SnapHelper mSnapHelper;
+    RecyclerView.LayoutManager mLayoutManager;
     @Inject
     IdeaInteractorInterface mIdeaInteractor;
+    @Inject
+    @Named("Preview")
+    RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
 
     public IdeaPreviewFragment() {
         // Required empty public constructor
@@ -52,6 +64,21 @@ public class IdeaPreviewFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_idea_preview, container, false);
+        int orientation = getOrientation() == Configuration.ORIENTATION_LANDSCAPE ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
+        mLayoutManager = new CurveLayoutManager(getActivity(), orientation);
+        mSnapHelper = new LinearSnapHelper();
+        binding.rvIdeaSelector.setLayoutManager(mLayoutManager);
+        mSnapHelper.attachToRecyclerView(binding.rvIdeaSelector);
+        binding.rvIdeaSelector.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View targetView = mSnapHelper.findSnapView(mLayoutManager);
+                int position = mLayoutManager.getPosition(targetView);
+                selectIdeaAtPos(position);
+            }
+        });
+        binding.rvIdeaSelector.setAdapter(mAdapter);
         return binding.getRoot();
     }
 
@@ -90,5 +117,9 @@ public class IdeaPreviewFragment extends DialogFragment {
     private void selectIdeaAtPos(int pos) {
         Idea idea = mIdeaInteractor.getIdeaAtPos(pos);
         binding.setViewModel(idea);
+    }
+
+    private int getOrientation() {
+        return getActivity().getResources().getConfiguration().orientation;
     }
 }

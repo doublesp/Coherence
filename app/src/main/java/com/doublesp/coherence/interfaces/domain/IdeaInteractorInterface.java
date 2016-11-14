@@ -28,6 +28,8 @@ public interface IdeaInteractorInterface {
 
     int getIdeaCount();
 
+    int getUserIdeaCount();
+
     Idea getIdeaAtPos(int pos);
 
 }

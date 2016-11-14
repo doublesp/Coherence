@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class ListCompositionFragment extends Fragment {
 
     FragmentListCompositionBinding binding;
     @Inject
+    @Named("Composition")
     RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
     @Inject
     ListFragmentActionHandlerInterface mActionHandler;

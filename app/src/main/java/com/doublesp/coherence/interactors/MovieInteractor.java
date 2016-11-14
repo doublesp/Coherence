@@ -39,7 +39,7 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
                             movie.getOriginalTitle(),
                             false,
                             R.id.idea_type_suggestion,
-                            new IdeaMeta(movie.getPosterPath(), movie.getOverview())
+                            new IdeaMeta(movie.getPosterPath(), movie.getOriginalTitle(), movie.getOverview())
                     ));
                 }
                 mIdeaDataStore.setSuggestions(ideas);

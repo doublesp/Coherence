@@ -81,6 +81,11 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
+    public int getUserIdeaCount() {
+        return mIdeas.size();
+    }
+
+    @Override
     public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
         mStateObservers.add(observer);
     }

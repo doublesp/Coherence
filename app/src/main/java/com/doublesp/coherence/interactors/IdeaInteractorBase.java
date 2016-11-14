@@ -87,6 +87,11 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
+    public int getUserIdeaCount() {
+        return mIdeaDataStore.getUserIdeaCount();
+    }
+
+    @Override
     public Idea getIdeaAtPos(int pos) {
         return mIdeaDataStore.getIdeaAtPos(pos);
     }

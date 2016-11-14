@@ -28,5 +28,7 @@ public interface IdeaDataStoreInterface {
 
     int getIdeaCount();
 
+    int getUserIdeaCount();
+
     void subscribeToIdeaStateChanges(Observer<Integer> observer);
 }
