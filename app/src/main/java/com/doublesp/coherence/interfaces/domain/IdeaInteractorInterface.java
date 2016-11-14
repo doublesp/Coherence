@@ -10,16 +10,24 @@ import rx.Observer;
 
 public interface IdeaInteractorInterface {
 
-    void createIdea(Idea idea);
+    void addIdea(String content);
 
-    void crossoutIdea(Idea idea);
+    void acceptSuggestedIdeaAtPos(int pos);
 
-    void uncrossoutIdea(Idea idea);
+    void updateIdea(int pos, String content);
 
-    void removeIdea(Idea idea);
+    void crossoutIdea(int pos);
+
+    void uncrossoutIdea(int pos);
+
+    void removeIdea(int pos);
 
     void getRelatedIdeas(Idea idea);
 
-    void subscribe(Observer observer);
+    void subscribe(Observer<Integer> observer);
+
+    int getIdeaCount();
+
+    Idea getIdeaAtPos(int pos);
 
 }

@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Coherence</string>
 
+    <string name="category" translatable="false">Category</string>
     <string name="category_title_travel">Travel</string>
     <string name="category_title_movie">Movies</string>
     <string name="category_title_groceries">Groceries</string>
 
     <string name="google_maps_api_key">AIzaSyCBjupD4UBQ4puue5J2uqjKpjpvpTJeB50</string>
+    <string name="api_endpoint_movie" translatable="false">https://api.themoviedb.org/3/movie/</string>
 </resources>

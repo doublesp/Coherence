@@ -1,9 +1,11 @@
 package com.doublesp.coherence.dependencies.components.application;
 
-import android.app.Application;
-
 import com.doublesp.coherence.dependencies.modules.core.AppModule;
 import com.doublesp.coherence.dependencies.modules.core.NetModule;
+
+import android.app.Application;
+
+import java.util.Map;
 
 import javax.inject.Singleton;
 
@@ -18,8 +20,7 @@ import retrofit2.Retrofit;
 @Component(modules = {AppModule.class, NetModule.class})
 public interface ApplicationComponent {
 
-    Retrofit retrofit();
-
     Application application();
+    Map<Integer, Retrofit> retrofitMap();
 
 }
