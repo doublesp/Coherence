@@ -3,6 +3,7 @@ package com.doublesp.coherence.fragments;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentIdeaPreviewBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
 import com.doublesp.coherence.layoutmanagers.CurveLayoutManager;
 import com.doublesp.coherence.viewmodels.Idea;
@@ -35,6 +36,8 @@ public class IdeaPreviewFragment extends DialogFragment {
     @Inject
     @Named("Preview")
     RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+    @Inject
+    IdeaPreviewActionHandlerInterface mActionHandler;
 
     public IdeaPreviewFragment() {
         // Required empty public constructor
@@ -79,6 +82,7 @@ public class IdeaPreviewFragment extends DialogFragment {
             }
         });
         binding.rvIdeaSelector.setAdapter(mAdapter);
+        binding.setHandler(mActionHandler);
         return binding.getRoot();
     }
 

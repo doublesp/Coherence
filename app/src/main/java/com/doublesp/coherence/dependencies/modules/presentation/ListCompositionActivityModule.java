@@ -2,12 +2,14 @@ package com.doublesp.coherence.dependencies.modules.presentation;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
+import com.doublesp.coherence.actions.IdeaPreviewActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.activities.ListCompositionActivity;
 import com.doublesp.coherence.adapters.IdeaSelectorArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
@@ -66,5 +68,11 @@ public class ListCompositionActivityModule {
     @Named("Preview")
     public RecyclerView.Adapter<RecyclerView.ViewHolder> providesIdeaPreviewArrayAdapter(IdeaInteractorInterface ideaInteractor) {
         return new IdeaSelectorArrayAdapter(ideaInteractor);
+    }
+
+    @Provides
+    @PresentationLayerScope
+    public IdeaPreviewActionHandlerInterface providesIdeaPreviewActionHandler(IdeaInteractorInterface ideaInteractor) {
+        return new IdeaPreviewActionHandler(mActivity, ideaInteractor);
     }
 }

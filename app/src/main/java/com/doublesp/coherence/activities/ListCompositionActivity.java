@@ -9,6 +9,7 @@ import com.doublesp.coherence.fragments.IdeaPreviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -47,6 +48,10 @@ public class ListCompositionActivity extends AppCompatActivity implements ListCo
         IdeaPreviewFragment previewDialog = IdeaPreviewFragment.newInstance();
         previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+    }
+
+    public void share(Intent i) {
+        startActivity(i);
     }
 
     @Override

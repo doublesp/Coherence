@@ -1,9 +1,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="pos" type="int"/>
         <variable name="viewModel"
                   type="com.doublesp.coherence.viewmodels.Idea" />
+        <variable name="handler"
+                  type="com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface" />
     </data>
     <RelativeLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,6 +23,7 @@
                 />
 
         <LinearLayout
+                android:id="@+id/llIdeaDescriptionBox"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,6 +54,20 @@
                     android:text='@{viewModel.meta.description}'
                     android:textColor="@color/colorButton"
                     android:id="@+id/tvOverview" />
+
+            <android.support.design.widget.FloatingActionButton
+                    android:src="@drawable/ic_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right|end"
+                    android:layout_margin="16dp"
+                    android:onClick="@{() -> handler.onFloatingAcitonButtonClick()}"
+                    android:backgroundTint="@color/colorAccent"
+                    android:tint="@color/colorPrimaryDark"
+                    app:fabSize="normal"
+                    app:layout_anchor="@id/tvTitle"
+                    app:layout_anchorGravity="top|right|end" />
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -64,4 +80,5 @@
                 android:background="@color/colorOverlay" />
 
     </RelativeLayout>
+
 </layout>

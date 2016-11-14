@@ -22,6 +22,7 @@
                 android:layout_gravity="center_vertical|right|end"
                 android:layout_margin="16dp"
                 android:onClick="@{() -> handler.onFloatingAcitonButtonClick()}"
+                android:backgroundTint="@color/colorAccent"
                 android:tint="@color/colorPrimaryDark"
                 app:fabSize="normal"
                 app:layout_anchor="@id/rvIdeas"
