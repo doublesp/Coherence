@@ -22,7 +22,7 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
     MovieRepositoryInterface mMovieRepository;
 
     public MovieInteractor(IdeaDataStoreInterface ideaDataStore,
-            MovieRepositoryInterface movieRepository) {
+                           MovieRepositoryInterface movieRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mMovieRepository = movieRepository;
@@ -36,9 +36,12 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
                     ideas.add(new Idea(movie.getId(),
                             R.id.idea_category_movies,
                             movie.getOriginalTitle(),
-                            false));
+                            false,
+                            R.id.idea_type_suggestion,
+                            null
+                    ));
                 }
-                mIdeaDataStore.addIdeas(ideas);
+                mIdeaDataStore.setSuggestions(ideas);
             }
 
             @Override
@@ -57,5 +60,10 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
     public void getRelatedIdeas(Idea idea) {
         // TODO: instead of just return recent movies, use search api to search for related movies
         mMovieRepository.getNowPlayingMovies();
+    }
+
+    @Override
+    int getCategory() {
+        return R.id.idea_category_movies;
     }
 }

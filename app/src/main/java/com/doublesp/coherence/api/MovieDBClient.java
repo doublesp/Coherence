@@ -3,6 +3,7 @@ package com.doublesp.coherence.api;
 import com.doublesp.coherence.interfaces.api.MoviesDBApiEndpointInterface;
 import com.doublesp.coherence.models.MovieList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,7 @@ public class MovieDBClient {
 
     public MovieDBClient(MoviesDBApiEndpointInterface apiService) {
         this.apiService = apiService;
+        mSubscribers = new ArrayList<>();
     }
 
     public void getNowPlayingMovies() {
