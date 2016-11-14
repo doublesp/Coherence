@@ -39,6 +39,14 @@ public class ExploreFragment extends Fragment {
         if (getArguments() != null) {
             // TODO: retrieve view model
         }
+        mHandler = new ExploreFragmentActionHandlerInterface() {
+            @Override
+            public void onCategorySelected(int category) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer, MapFragment.newInstance(), "MapFragment")
+                        .commit();
+            }
+        };
     }
 
     @Override
