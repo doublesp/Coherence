@@ -6,6 +6,7 @@ import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.models.Movie;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.IdeaMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
                             movie.getOriginalTitle(),
                             false,
                             R.id.idea_type_suggestion,
-                            null
+                            new IdeaMeta(movie.getPosterPath(), movie.getOverview())
                     ));
                 }
                 mIdeaDataStore.setSuggestions(ideas);

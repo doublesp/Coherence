@@ -2,10 +2,12 @@ package com.doublesp.coherence.dependencies.modules.presentation;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
+import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.activities.ListCompositionActivity;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
 import android.support.v7.widget.RecyclerView;
@@ -31,16 +33,28 @@ public class ListCompositionActivityModule {
 
     @Provides
     @PresentationLayerScope
-    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesListCompositionArrayAdapter(Map<Integer, IdeaInteractorInterface> ideaInteractors, IdeaActionHandlerInterface ideaActionHandler) {
-//        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(mCategory);
-        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(R.id.idea_category_movies); // TODO: implement interactors for different categories
+    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
         return new ListCompositionArrayAdapter(ideaInteractor, ideaActionHandler);
     }
 
     @Provides
     @PresentationLayerScope
-    public IdeaActionHandlerInterface providesIdeaActionHandler(Map<Integer, IdeaInteractorInterface> ideaInteractors) {
-        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(R.id.idea_category_movies);
+    public IdeaActionHandlerInterface providesIdeaActionHandler(IdeaInteractorInterface ideaInteractor) {
         return new IdeaCreationActionHandler(ideaInteractor);
     }
+
+    @Provides
+    @PresentationLayerScope
+    public ListFragmentActionHandlerInterface providesListFragmentActionHandler() {
+        return new ListFragmentActionHandler(mActivity);
+    }
+
+    @Provides
+    @PresentationLayerScope
+    public IdeaInteractorInterface providesIdeaInteractor(Map<Integer, IdeaInteractorInterface> ideaInteractors) {
+        //        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(mCategory);
+        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(R.id.idea_category_movies); // TODO: implement interactors for different categories
+        return ideaInteractor;
+    }
+
 }

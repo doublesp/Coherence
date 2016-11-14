@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_title_travel"
-                android:textColor="@color/colorTextWithOverlay"
+                android:textColor="@color/colorLightPrimary"
                 android:textSize="@dimen/activity_explore_title_size"
                 android:layout_gravity="center"
                 />
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_title_groceries"
-                android:textColor="@color/colorTextWithOverlay"
+                android:textColor="@color/colorLightPrimary"
                 android:textSize="@dimen/activity_explore_title_size"
                 android:layout_gravity="center"
                 />
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/category_title_movie"
-                android:textColor="@color/colorTextWithOverlay"
+                android:textColor="@color/colorLightPrimary"
                 android:textSize="@dimen/activity_explore_title_size"
                 android:layout_gravity="center"
                 />

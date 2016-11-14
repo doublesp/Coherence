@@ -2,7 +2,8 @@ package com.doublesp.coherence.fragments;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.presentation.ListCompositionFragmentInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -21,6 +22,8 @@ public class ListCompositionFragment extends Fragment {
     FragmentListCompositionBinding binding;
     @Inject
     RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+    @Inject
+    ListFragmentActionHandlerInterface mActionHandler;
 
     public ListCompositionFragment() {
         // Required empty public constructor
@@ -47,14 +50,15 @@ public class ListCompositionFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_composition, container, false);
         binding.rvIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeas.setAdapter(mAdapter);
+        binding.setHandler(mActionHandler);
         return binding.getRoot();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ListCompositionFragmentInjectorInterface) {
-            ListCompositionFragmentInjectorInterface injector = (ListCompositionFragmentInjectorInterface) context;
+        if (context instanceof ListCompositionInjectorInterface) {
+            ListCompositionInjectorInterface injector = (ListCompositionInjectorInterface) context;
             injector.inject(this);
         }
     }
