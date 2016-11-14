@@ -45,7 +45,7 @@ public class ExploreFragment extends Fragment {
                 switch (category) {
                     case R.id.idea_category_travel:
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.flContainer, MapFragment.newInstance(), "MapFragment")
+                                .replace(R.id.flExploreContainer, MapFragment.newInstance(), "MapFragment")
                                 .addToBackStack("MapFragment")
                                 .commit();
                         break;
