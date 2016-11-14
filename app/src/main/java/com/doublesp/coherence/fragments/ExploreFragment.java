@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentExploreBinding;
 import com.doublesp.coherence.interfaces.presentation.ExploreFragmentActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjector;
+import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
 
 import javax.inject.Inject;
 
@@ -75,8 +75,8 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ExploreFragmentInjector) {
-            ExploreFragmentInjector injector = (ExploreFragmentInjector) context;
+        if (context instanceof ExploreFragmentInjectorInterface) {
+            ExploreFragmentInjectorInterface injector = (ExploreFragmentInjectorInterface) context;
             injector.inject(this);
         }
     }

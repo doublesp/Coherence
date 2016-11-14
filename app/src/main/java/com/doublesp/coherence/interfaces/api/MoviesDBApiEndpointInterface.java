@@ -17,11 +17,11 @@ public interface MoviesDBApiEndpointInterface {
     String REQUEST_HEADER_WITH_CACHE = "Cache-Control: max-age=640000";
 
     @Headers({REQUEST_HEADER_WITH_CACHE})
-    @GET("https://api.themoviedb.org/3/movie/now_playing")
+    @GET("now_playing")
     Observable<MovieList> getNowPlayingMovies(@Query("api_key") String apiKey);
 
     @Headers({REQUEST_HEADER_WITH_CACHE})
-    @GET("https://api.themoviedb.org/3/movie/{id}/trailers")
+    @GET("{id}/trailers")
     Observable<MovieList> getMovieTrailer(@Path("id") Long id, @Query("api_key") String apiKey);
 
 }
