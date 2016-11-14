@@ -42,9 +42,24 @@ public class ExploreFragment extends Fragment {
         mHandler = new ExploreFragmentActionHandlerInterface() {
             @Override
             public void onCategorySelected(int category) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.flContainer, MapFragment.newInstance(), "MapFragment")
-                        .commit();
+                switch (category) {
+                    case R.id.idea_category_travel:
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.flContainer, MapFragment.newInstance(), "MapFragment")
+                                .addToBackStack("MapFragment")
+                                .commit();
+                        break;
+                    case R.id.idea_category_groceries:
+
+                        break;
+                    case R.id.idea_category_movies:
+
+                        break;
+                    default:
+
+                        break;
+                }
+
             }
         };
     }
