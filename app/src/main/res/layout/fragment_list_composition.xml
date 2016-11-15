@@ -15,6 +15,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent" />
 
+
         <android.support.design.widget.FloatingActionButton
                 android:src="@drawable/ic_visibility"
                 android:layout_width="wrap_content"

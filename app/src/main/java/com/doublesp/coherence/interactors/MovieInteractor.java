@@ -67,4 +67,5 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
     int getCategory() {
         return R.id.idea_category_movies;
     }
+
 }

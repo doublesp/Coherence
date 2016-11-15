@@ -21,6 +21,7 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.http.HEAD;
 
 /**
  * Created by pinyaoting on 11/11/16.
