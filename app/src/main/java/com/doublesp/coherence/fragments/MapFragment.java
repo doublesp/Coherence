@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doublesp.coherence.LocationCluster;
+import com.doublesp.coherence.utils.LocationCluster;
 import com.doublesp.coherence.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

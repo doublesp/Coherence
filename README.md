@@ -43,3 +43,11 @@ An app that helps you connect ideas you've had in mind as a list, e.g. shopping 
 * Food
   * Restaurants (NOTE: [Yelp](https://www.yelp.com/developers/documentation/v2/overview))
   * Recipes
+
+# Video Walkthrough
+
+Here's a walkthrough of implemented user stories:
+
+![Video Walkthrough](coherence.gif)
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).

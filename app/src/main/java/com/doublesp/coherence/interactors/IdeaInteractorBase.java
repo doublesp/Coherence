@@ -5,6 +5,8 @@ import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
+import android.os.Parcelable;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -87,8 +89,18 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
+    public int getUserIdeaCount() {
+        return mIdeaDataStore.getUserIdeaCount();
+    }
+
+    @Override
     public Idea getIdeaAtPos(int pos) {
         return mIdeaDataStore.getIdeaAtPos(pos);
+    }
+
+    @Override
+    public Parcelable getSnapshot() {
+        return mIdeaDataStore.getSnapshot();
     }
 
     private void randomize(List list) {

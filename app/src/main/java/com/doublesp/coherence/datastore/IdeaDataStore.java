@@ -4,6 +4,9 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
+import org.parceler.Parcels;
+
+import android.os.Parcelable;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -21,17 +24,12 @@ import rx.schedulers.Schedulers;
 
 public class IdeaDataStore implements IdeaDataStoreInterface {
 
-    List<Idea> mIdeas;
-    List<Idea> mBlankIdeas;
-    List<Idea> mIdeaSuggestions;
+    IdeaSnapshotStore mIdeaSnapshotStore;
     List<Observer<Integer>> mStateObservers;
     int mIdeaState;
 
     public IdeaDataStore() {
-        mIdeas = new ArrayList<>();
-        mBlankIdeas = new ArrayList<>();
-        mBlankIdeas.add(Idea.newInstanceOfBlankIdea());
-        mIdeaSuggestions = new ArrayList<>();
+        mIdeaSnapshotStore = new IdeaSnapshotStore();
         mStateObservers = new ArrayList<>();
         mIdeaState = R.id.idea_state_idle;
     }
@@ -44,15 +42,15 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public void addIdea(Idea idea) {
-        mIdeas.add(idea);
+        getUserIdeas().add(idea);
     }
 
     @Override
     public void updateIdea(int pos, Idea idea) {
-        if (pos == mIdeas.size()) {
-            mIdeas.add(idea);
+        if (pos == getUserIdeas().size()) {
+            getUserIdeas().add(idea);
         } else {
-            mIdeas.set(pos, idea);
+            getUserIdeas().set(pos, idea);
         }
     }
 
@@ -66,18 +64,23 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public void setSuggestions(List<Idea> ideas) {
-        mIdeaSuggestions.clear();
-        mIdeaSuggestions.addAll(ideas);
+        getSuggestedIdeas().clear();
+        getSuggestedIdeas().addAll(ideas);
     }
 
     @Override
     public List<Idea> getSuggestions() {
-        return mIdeaSuggestions;
+        return getSuggestedIdeas();
     }
 
     @Override
     public int getIdeaCount() {
-        return mIdeas.size() + mBlankIdeas.size() + mIdeaSuggestions.size();
+        return getUserIdeas().size() + getBlankIdeas().size() + getSuggestedIdeas().size();
+    }
+
+    @Override
+    public int getUserIdeaCount() {
+        return getUserIdeas().size();
     }
 
     @Override
@@ -93,17 +96,22 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         return targetList.get(adjustedPos);
     }
 
+    @Override
+    public Parcelable getSnapshot() {
+        return Parcels.wrap(mIdeaSnapshotStore);
+    }
+
     private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {
-        if (pos < mIdeas.size()) {
-            return new Pair<>(pos, mIdeas);
+        if (pos < getUserIdeas().size()) {
+            return new Pair<>(pos, getUserIdeas());
         }
-        pos -= mIdeas.size();
-        if (pos < mBlankIdeas.size()) {
-            return new Pair<>(pos, mBlankIdeas);
+        pos -= getUserIdeas().size();
+        if (pos < getBlankIdeas().size()) {
+            return new Pair<>(pos, getBlankIdeas());
         }
-        pos -= mBlankIdeas.size();
-        if (pos < mIdeaSuggestions.size()) {
-            return new Pair<>(pos, mIdeaSuggestions);
+        pos -= getBlankIdeas().size();
+        if (pos < getSuggestedIdeas().size()) {
+            return new Pair<>(pos, getSuggestedIdeas());
         }
         return null;
     }
@@ -116,5 +124,17 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
                     .subscribe(observer);
         }
         connectedObservable.connect();
+    }
+
+    private List<Idea> getUserIdeas() {
+        return mIdeaSnapshotStore.mIdeas;
+    }
+
+    private List<Idea> getBlankIdeas() {
+        return mIdeaSnapshotStore.mBlankIdeas;
+    }
+
+    private List<Idea> getSuggestedIdeas() {
+        return mIdeaSnapshotStore.mIdeaSuggestions;
     }
 }

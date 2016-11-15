@@ -1,9 +1,5 @@
 package com.doublesp.coherence.activities;
 
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.application.CoherenceApplication;
@@ -11,9 +7,13 @@ import com.doublesp.coherence.databinding.ActivityExploreBinding;
 import com.doublesp.coherence.dependencies.components.presentation.ExploreActivitySubComponent;
 import com.doublesp.coherence.dependencies.modules.presentation.ExploreActivityModule;
 import com.doublesp.coherence.fragments.ExploreFragment;
+import com.doublesp.coherence.fragments.MapFragment;
 import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -45,6 +45,14 @@ public class ExploreActivity extends AppCompatActivity implements ExploreFragmen
     }
 
     public void startListCompositionActivity(int category) {
+        if (category == R.id.idea_category_travel) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.flExploreContainer, MapFragment.newInstance(), "MapFragment")
+                    .addToBackStack("MapFragment")
+                    .commit();
+            return;
+        }
+
         Intent i = new Intent(ExploreActivity.this, ListCompositionActivity.class);
         i.putExtra(getString(R.string.category), category);
         startActivity(i);

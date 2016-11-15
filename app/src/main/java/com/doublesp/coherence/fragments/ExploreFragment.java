@@ -1,5 +1,10 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentExploreBinding;
+import com.doublesp.coherence.interfaces.presentation.ExploreFragmentActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -7,11 +12,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentExploreBinding;
-import com.doublesp.coherence.interfaces.presentation.ExploreFragmentActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.ExploreFragmentInjectorInterface;
 
 import javax.inject.Inject;
 
@@ -39,29 +39,6 @@ public class ExploreFragment extends Fragment {
         if (getArguments() != null) {
             // TODO: retrieve view model
         }
-        mHandler = new ExploreFragmentActionHandlerInterface() {
-            @Override
-            public void onCategorySelected(int category) {
-                switch (category) {
-                    case R.id.idea_category_travel:
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.flExploreContainer, MapFragment.newInstance(), "MapFragment")
-                                .addToBackStack("MapFragment")
-                                .commit();
-                        break;
-                    case R.id.idea_category_groceries:
-
-                        break;
-                    case R.id.idea_category_movies:
-
-                        break;
-                    default:
-
-                        break;
-                }
-
-            }
-        };
     }
 
     @Override

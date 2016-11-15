@@ -2,6 +2,8 @@ package com.doublesp.coherence.interfaces.domain;
 
 import com.doublesp.coherence.viewmodels.Idea;
 
+import android.os.Parcelable;
+
 import rx.Observer;
 
 /**
@@ -28,6 +30,10 @@ public interface IdeaInteractorInterface {
 
     int getIdeaCount();
 
+    int getUserIdeaCount();
+
     Idea getIdeaAtPos(int pos);
+
+    Parcelable getSnapshot();
 
 }

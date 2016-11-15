@@ -2,6 +2,8 @@ package com.doublesp.coherence.interfaces.domain;
 
 import com.doublesp.coherence.viewmodels.Idea;
 
+import android.os.Parcelable;
+
 import java.util.List;
 
 import rx.Observer;
@@ -28,5 +30,9 @@ public interface IdeaDataStoreInterface {
 
     int getIdeaCount();
 
+    int getUserIdeaCount();
+
     void subscribeToIdeaStateChanges(Observer<Integer> observer);
+
+    Parcelable getSnapshot();
 }

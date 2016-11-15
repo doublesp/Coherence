@@ -47,11 +47,15 @@ apply plugin: 'me.tatarka.retrolambda'
 def dbflow_version = "3.1.1"
 
 dependencies {
-    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
+    // for logging API calls to LogCat
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
     compile 'com.google.android.gms:play-services-maps:9.8.0'
     compile 'com.google.maps.android:android-maps-utils:0.4.2'
@@ -76,14 +80,11 @@ dependencies {
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.1'
     compile 'se.akerfeldt:okhttp-signpost:1.1.0'
     compile 'oauth.signpost:signpost-core:1.2.1.2'
+    compile 'com.parse:parse-android:1.13.1'
+    compile 'com.parse:parseinterceptors:0.0.2'
+    compile 'com.parse.bolts:bolts-android:1.+'
+    testCompile 'junit:junit:4.12'
     apt 'org.parceler:parceler:1.1.1'
     apt 'com.google.dagger:dagger-compiler:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
-    testCompile 'junit:junit:4.12'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
-    compile 'com.parse:parse-android:1.13.1'
-    compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
-    compile 'com.parse.bolts:bolts-android:1.+'
 }
