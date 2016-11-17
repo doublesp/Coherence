@@ -1,6 +1,7 @@
 package com.doublesp.coherence.interfaces.domain;
 
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
 
 import android.os.Parcelable;
 
@@ -35,4 +36,6 @@ public interface IdeaDataStoreInterface {
     void subscribeToIdeaStateChanges(Observer<Integer> observer);
 
     Parcelable getSnapshot();
+
+    Plan getPlan();
 }

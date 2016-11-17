@@ -13,26 +13,26 @@
         android:weightSum="3">
 
         <FrameLayout
-            android:background="@android:color/holo_blue_bright"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-            <ImageButton
+                android:background="@android:color/holo_red_dark"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/travel"
-                android:onClick="@{() -> handler.onCategorySelected(@id/idea_category_travel)}"
-                />
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+            <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/movies"
+                    android:onClick="@{() -> handler.onCategorySelected(@id/idea_category_movies)}"
+                    />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category_title_travel"
-                android:textColor="@color/colorLightPrimary"
-                android:textSize="@dimen/activity_explore_title_size"
-                android:layout_gravity="center"
-                />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_title_movie"
+                    android:textColor="@color/colorLightPrimary"
+                    android:textSize="@dimen/activity_explore_title_size"
+                    android:layout_gravity="center"
+                    />
         </FrameLayout>
 
         <FrameLayout
@@ -59,26 +59,26 @@
         </FrameLayout>
 
         <FrameLayout
-            android:background="@android:color/holo_red_dark"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-            <ImageButton
+                android:background="@android:color/holo_blue_bright"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/movies"
-                android:onClick="@{() -> handler.onCategorySelected(@id/idea_category_movies)}"
-                />
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+            <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="0dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/travel"
+                    android:onClick="@{() -> handler.onCategorySelected(@id/idea_category_travel)}"
+                    />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category_title_movie"
-                android:textColor="@color/colorLightPrimary"
-                android:textSize="@dimen/activity_explore_title_size"
-                android:layout_gravity="center"
-                />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_title_travel"
+                    android:textColor="@color/colorLightPrimary"
+                    android:textSize="@dimen/activity_explore_title_size"
+                    android:layout_gravity="center"
+                    />
         </FrameLayout>
 
     </LinearLayout>

@@ -36,4 +36,6 @@ public interface IdeaInteractorInterface {
 
     Parcelable getSnapshot();
 
+    Parcelable getPlan();
+
 }

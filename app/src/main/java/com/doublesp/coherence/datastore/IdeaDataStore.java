@@ -3,6 +3,7 @@ package com.doublesp.coherence.datastore;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
 
@@ -99,6 +100,13 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     @Override
     public Parcelable getSnapshot() {
         return Parcels.wrap(mIdeaSnapshotStore);
+    }
+
+    @Override
+    public Plan getPlan() {
+        List<Idea> ideas = getUserIdeas();
+        // TODO: prompt user to input a name
+        return new Plan(ideas, "Movie Recommendations");
     }
 
     private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {
