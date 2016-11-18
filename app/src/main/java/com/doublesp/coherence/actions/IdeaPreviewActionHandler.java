@@ -24,7 +24,7 @@ public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterfa
     public void onFloatingAcitonButtonClick() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, mIdeaInteractor.getSnapshot());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, mIdeaInteractor.getPlan());
         shareIntent.setType("*/*");
         mActivity.share(shareIntent);
     }

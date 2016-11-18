@@ -5,6 +5,8 @@ import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
+import org.parceler.Parcels;
+
 import android.os.Parcelable;
 
 import java.util.Collections;
@@ -101,6 +103,11 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public Parcelable getSnapshot() {
         return mIdeaDataStore.getSnapshot();
+    }
+
+    @Override
+    public Parcelable getPlan() {
+        return Parcels.wrap(mIdeaDataStore.getPlan());
     }
 
     private void randomize(List list) {
