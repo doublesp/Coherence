@@ -52,7 +52,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             }
         };
         mIdeaInteractor.subscribe(mObserver);
-        mIdeaInteractor.getRelatedIdeas(null);
+        mIdeaInteractor.getSuggestions(null);
     }
 
     @Override

@@ -10,6 +10,7 @@
     <string name="fabric_api_key">58083912c035206135aea30a9df62233cd1f2cf5</string>
 
     <string name="api_endpoint_movie" translatable="false">https://api.themoviedb.org/3/movie/</string>
+    <string name="api_endpoint_recipe" translatable="false">https://api.edamam.com/</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

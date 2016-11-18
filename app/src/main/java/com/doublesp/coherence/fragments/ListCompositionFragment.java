@@ -2,7 +2,7 @@ package com.doublesp.coherence.fragments;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 
 import android.content.Context;
@@ -59,8 +59,8 @@ public class ListCompositionFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ListCompositionInjectorInterface) {
-            ListCompositionInjectorInterface injector = (ListCompositionInjectorInterface) context;
+        if (context instanceof HomeInjectorInterface) {
+            HomeInjectorInterface injector = (HomeInjectorInterface) context;
             injector.inject(this);
         }
     }

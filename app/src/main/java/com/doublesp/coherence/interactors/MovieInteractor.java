@@ -34,7 +34,7 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
             public void onCompleted() {
                 List<Idea> ideas = new ArrayList<>();
                 for (Movie movie : mMovies) {
-                    ideas.add(new Idea(movie.getId(),
+                    ideas.add(new Idea(movie.getId().toString(),
                             R.id.idea_category_movies,
                             movie.getOriginalTitle(),
                             false,
@@ -58,7 +58,7 @@ public class MovieInteractor extends IdeaInteractorBase implements IdeaInteracto
     }
 
     @Override
-    public void getRelatedIdeas(Idea idea) {
+    public void getSuggestions(Idea idea) {
         // TODO: instead of just return recent movies, use search api to search for related movies
         mMovieRepository.getNowPlayingMovies();
     }

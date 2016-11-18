@@ -1,12 +1,14 @@
 package com.doublesp.coherence.dependencies.modules.data;
 
 import com.doublesp.coherence.R;
+import com.doublesp.coherence.api.EdamamClient;
 import com.doublesp.coherence.api.MovieDBClient;
-import com.doublesp.coherence.interfaces.api.GoogleMapApiEndpointInterface;
 import com.doublesp.coherence.interfaces.api.MoviesDBApiEndpointInterface;
-import com.doublesp.coherence.interfaces.api.YelpApiEndpointInterface;
+import com.doublesp.coherence.interfaces.api.EdamamApiEndpointInterface;
 import com.doublesp.coherence.interfaces.data.MovieRepositoryInterface;
+import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.scopes.DataLayerScope;
+import com.doublesp.coherence.repositories.EdamamRepository;
 import com.doublesp.coherence.repositories.MoviesRepository;
 
 import android.app.Application;
@@ -33,20 +35,6 @@ public class DataLayerModule {
 
     @Provides
     @DataLayerScope
-    public GoogleMapApiEndpointInterface providesGoogleMapApiEndpointInterface(Map<Integer, Retrofit> retrofitMap) {
-        Retrofit retrofit = retrofitMap.get(R.id.idea_category_movies);  // TODO: change this to other endpoint
-        return retrofit.create(GoogleMapApiEndpointInterface.class);
-    }
-
-    @Provides
-    @DataLayerScope
-    public YelpApiEndpointInterface providesYelpApiEndpointInterface(Map<Integer, Retrofit> retrofitMap) {
-        Retrofit retrofit = retrofitMap.get(R.id.idea_category_movies);  // TODO: change this to other endpoint
-        return retrofit.create(YelpApiEndpointInterface.class);
-    }
-
-    @Provides
-    @DataLayerScope
     public MovieDBClient providesMovieDBClient(MoviesDBApiEndpointInterface apiEndpointInterface) {
         return new MovieDBClient(apiEndpointInterface);
     }
@@ -58,4 +46,23 @@ public class DataLayerModule {
         return new MoviesRepository(application, client);
     }
 
+    @Provides
+    @DataLayerScope
+    public EdamamApiEndpointInterface providesRecipeApiEndpointInterface(Map<Integer, Retrofit> retrofitMap) {
+        Retrofit retrofit = retrofitMap.get(R.id.idea_category_recipe);
+        return retrofit.create(EdamamApiEndpointInterface.class);
+    }
+
+    @Provides
+    @DataLayerScope
+    public EdamamClient providesEdamamClient(EdamamApiEndpointInterface apiEndpointInterface) {
+        return new EdamamClient(apiEndpointInterface);
+    }
+
+    @Provides
+    @DataLayerScope
+    public RecipeRepositoryInterface providesRecipeRepository(Application application,
+                                                              EdamamClient client) {
+        return new EdamamRepository(application, client);
+    }
 }

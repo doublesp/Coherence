@@ -1,6 +1,6 @@
 package com.doublesp.coherence.actions;
 
-import com.doublesp.coherence.activities.ListCompositionActivity;
+import com.doublesp.coherence.activities.HomeActivity;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
 
@@ -12,10 +12,10 @@ import android.content.Intent;
 
 public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterface {
 
-    ListCompositionActivity mActivity;
+    HomeActivity mActivity;
     IdeaInteractorInterface mIdeaInteractor;
 
-    public IdeaPreviewActionHandler(ListCompositionActivity activity, IdeaInteractorInterface ideaInteractor) {
+    public IdeaPreviewActionHandler(HomeActivity activity, IdeaInteractorInterface ideaInteractor) {
         mActivity = activity;
         mIdeaInteractor = ideaInteractor;
     }

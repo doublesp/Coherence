@@ -4,7 +4,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentIdeaPreviewBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
 import com.doublesp.coherence.layoutmanagers.CurveLayoutManager;
 import com.doublesp.coherence.viewmodels.Idea;
 
@@ -95,8 +95,8 @@ public class IdeaPreviewFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ListCompositionInjectorInterface) {
-            ListCompositionInjectorInterface injector = (ListCompositionInjectorInterface) context;
+        if (context instanceof HomeInjectorInterface) {
+            HomeInjectorInterface injector = (HomeInjectorInterface) context;
             injector.inject(this);
         }
     }

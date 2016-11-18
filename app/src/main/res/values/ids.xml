@@ -3,7 +3,7 @@
     <item name="item_click_support" type="id" />
     <item name="idea_category_movies" type="id" />
     <item name="idea_category_travel" type="id" />
-    <item name="idea_category_groceries" type="id" />
+    <item name="idea_category_recipe" type="id" />
     <item name="idea_type_user_generated" type="id" />
     <item name="idea_type_blank" type="id" />
     <item name="idea_type_suggestion" type="id" />

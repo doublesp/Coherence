@@ -29,9 +29,9 @@ public class MockPlanInteractor {
 
     List<Idea> mockIdeas() {
         List<Idea> ideas = new ArrayList<>();
-        ideas.add(new Idea(0L, R.id.idea_category_movies, "Doctor Strange", false, R.id.idea_type_user_generated, null));
-        ideas.add(new Idea(1L, R.id.idea_category_movies, "Star Wars: Rogue One", false, R.id.idea_type_user_generated, null));
-        ideas.add(new Idea(2L, R.id.idea_category_movies, "Inferno", false, R.id.idea_type_user_generated, null));
+        ideas.add(new Idea("0", R.id.idea_category_movies, "Doctor Strange", false, R.id.idea_type_user_generated, null));
+        ideas.add(new Idea("1", R.id.idea_category_movies, "Star Wars: Rogue One", false, R.id.idea_type_user_generated, null));
+        ideas.add(new Idea("2", R.id.idea_category_movies, "Inferno", false, R.id.idea_type_user_generated, null));
         return ideas;
     }
 
