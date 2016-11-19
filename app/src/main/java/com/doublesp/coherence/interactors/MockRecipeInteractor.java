@@ -6,6 +6,7 @@ import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
+import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
 
@@ -22,6 +23,10 @@ public class MockRecipeInteractor extends RecipeInteractor {
                             RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore, recipeRepository);
         ideaDataStore.setSnapshot(Parcels.wrap(new IdeaSnapshotStore(mockIdeas())));
+    }
+
+    Plan mockPlan() {
+        return new Plan(mockIdeas(), "Dinner 11/18");
     }
 
     List<Idea> mockIdeas() {
