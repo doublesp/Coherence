@@ -24,8 +24,10 @@ public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterfa
     public void onFloatingAcitonButtonClick() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, mIdeaInteractor.getPlan());
-        shareIntent.setType("*/*");
+        shareIntent.setType("text/plain");
+        String sharableContent = mIdeaInteractor.getSharableContent();
+        sharableContent = sharableContent + "https://github.com/doublesp/Coherence"; // TODO: Shawn replace this link with app link
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContent);
         mActivity.share(shareIntent);
     }
 }

@@ -1,7 +1,6 @@
 package com.doublesp.coherence.api;
 
 import com.doublesp.coherence.interfaces.api.EdamamApiEndpointInterface;
-import com.doublesp.coherence.models.MovieList;
 import com.doublesp.coherence.models.RecipeResponse;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class EdamamClient {
     static final String APP_ID = "57d8d640";
     static final String API_KEY = "7428255c3ebf56e64ec0caab08c9b174";
     EdamamApiEndpointInterface apiService;
-    List<Observer<MovieList>> mSubscribers;
+    List<Observer<RecipeResponse>> mSubscribers;
 
     public EdamamClient(EdamamApiEndpointInterface apiService) {
         this.apiService = apiService;
@@ -44,7 +43,7 @@ public class EdamamClient {
         // TODO: remove this delay once we are confident we aren't making unneccesary api calls
         // to this endpoint
         connectedObservable.delay(DELAY_BETWEEN_API_CALLS, TimeUnit.MILLISECONDS);
-        for (Observer<MovieList> subscriber : mSubscribers) {
+        for (Observer<RecipeResponse> subscriber : mSubscribers) {
             connectedObservable.subscribeOn(Schedulers.io()).observeOn(
                     AndroidSchedulers.mainThread()).subscribe(subscriber);
         }

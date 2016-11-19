@@ -70,6 +70,11 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
+    public List<Idea> getIdeas() {
+        return getUserIdeas();
+    }
+
+    @Override
     public List<Idea> getSuggestions() {
         return getSuggestedIdeas();
     }

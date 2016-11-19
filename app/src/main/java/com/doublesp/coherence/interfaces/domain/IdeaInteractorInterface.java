@@ -34,6 +34,8 @@ public interface IdeaInteractorInterface {
 
     Idea getIdeaAtPos(int pos);
 
+    String getSharableContent();
+
     Parcelable getSnapshot();
 
     Parcelable getPlan();

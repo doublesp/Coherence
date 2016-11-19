@@ -69,7 +69,19 @@ public class RecipeInteractor extends IdeaInteractorBase {
 
     @Override
     public void getSuggestions(Idea idea) {
+        // TODO: discover trending items instead of hard code keywords
         String keyword = idea == null ? "chicken" : idea.getContent();
         mRecipeRepository.searchRecipe(keyword);
+    }
+
+    @Override
+    public String getSharableContent() {
+        List<Idea> ideaList = mIdeaDataStore.getIdeas();
+        StringBuilder sharableContentBuilder = new StringBuilder();
+        for (Idea idea : ideaList) {
+            sharableContentBuilder.append(idea.getContent());
+            sharableContentBuilder.append("\n");
+        }
+        return sharableContentBuilder.toString();
     }
 }

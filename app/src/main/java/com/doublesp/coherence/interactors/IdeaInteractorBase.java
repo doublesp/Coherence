@@ -100,4 +100,6 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         return Parcels.wrap(mIdeaDataStore.getPlan());
     }
 
+    @Override
+    abstract public String getSharableContent();
 }
