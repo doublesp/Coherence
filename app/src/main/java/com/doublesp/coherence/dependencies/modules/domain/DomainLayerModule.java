@@ -2,8 +2,8 @@ package com.doublesp.coherence.dependencies.modules.domain;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.datastore.IdeaDataStore;
+import com.doublesp.coherence.interactors.MockRecipeInteractor;
 import com.doublesp.coherence.interactors.MovieInteractor;
-import com.doublesp.coherence.interactors.RecipeInteractor;
 import com.doublesp.coherence.interfaces.data.MovieRepositoryInterface;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
@@ -43,7 +43,7 @@ public class DomainLayerModule {
     @IntKey(R.id.idea_category_recipe)
     public IdeaInteractorInterface providesRecipeIdeaInteractor(IdeaDataStoreInterface ideaDataStore,
                                                                RecipeRepositoryInterface recipeRepository) {
-        return new RecipeInteractor(ideaDataStore, recipeRepository);
+        return new MockRecipeInteractor(ideaDataStore, recipeRepository);
     }
 
 }

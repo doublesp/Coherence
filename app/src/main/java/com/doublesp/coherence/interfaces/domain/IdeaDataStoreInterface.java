@@ -38,4 +38,6 @@ public interface IdeaDataStoreInterface {
     Parcelable getSnapshot();
 
     Plan getPlan();
+
+    void setSnapshot(Parcelable ideaSnapshot);
 }

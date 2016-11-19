@@ -25,4 +25,11 @@ public class IdeaSnapshotStore {
         mIdeaSuggestions = new ArrayList<>();
     }
 
+    public IdeaSnapshotStore(List<Idea> ideas) {
+        mIdeas = ideas;
+        mBlankIdeas = new ArrayList<>();
+        mBlankIdeas.add(Idea.newInstanceOfBlankIdea());
+        mIdeaSuggestions = new ArrayList<>();
+    }
+
 }
