@@ -25,9 +25,10 @@ public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterfa
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        String sharableContent = mIdeaInteractor.getSharableContent();
-        sharableContent = sharableContent + "https://github.com/doublesp/Coherence"; // TODO: Shawn replace this link with app link
-        shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContent);
+        StringBuilder sharableContentBuilder = new StringBuilder("Honey on your way home would you get these for me, please? \n");
+        sharableContentBuilder.append(mIdeaInteractor.getSharableContent());
+        sharableContentBuilder.append("https://github.com/doublesp/Coherence"); // TODO: Shawn please replace this link with app link
+        shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mActivity.share(shareIntent);
     }
 }
