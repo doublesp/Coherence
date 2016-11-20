@@ -3,6 +3,7 @@ package com.doublesp.coherence.repositories;
 import com.doublesp.coherence.api.EdamamClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
+import com.doublesp.coherence.models.Ingredient;
 import com.doublesp.coherence.models.Recipe;
 import com.doublesp.coherence.models.RecipeResponse;
 import com.doublesp.coherence.models.RecipeResponseHit;
@@ -62,6 +63,10 @@ public class EdamamRepository implements RecipeRepositoryInterface {
                                     @Override
                                     public void processModel(Recipe recipe) {
                                         recipe.save();
+                                        for (Ingredient ingredient : recipe.getIngredients()) {
+                                            ingredient.setUri(recipe.getUri());
+                                            ingredient.save();
+                                        }
                                     }
                                 }).addAll(mRecipes).build())
                         .error(new Transaction.Error() {

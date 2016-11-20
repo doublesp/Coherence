@@ -13,7 +13,10 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 @Table(database = RecipeDatabase.class)
 public class Ingredient extends BaseModel {
 
-    @PrimaryKey
+    @PrimaryKey(autoincrement = true)
+    @Column
+    public Integer id;
+
     @Column
     private String uri;
 
@@ -31,6 +34,10 @@ public class Ingredient extends BaseModel {
         return uri;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getFood() {
         return food;
     }
@@ -41,6 +48,10 @@ public class Ingredient extends BaseModel {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setFood(String food) {

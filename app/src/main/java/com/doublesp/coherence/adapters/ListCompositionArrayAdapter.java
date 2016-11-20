@@ -107,8 +107,6 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         }
     }
 
-
-
     @Override
     public int getItemCount() {
         return mIdeaInteractor.getIdeaCount();

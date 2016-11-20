@@ -71,6 +71,19 @@ public class RecipeInteractor extends IdeaInteractorBase {
     }
 
     @Override
+    public void acceptSuggestedIdeaAtPos(int pos) {
+        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
+        mIdeaDataStore.removeIdea(pos);
+        Recipe recipe = Recipe.byUri(idea.getId());
+        List<Ingredient> ingredients = recipe.getIngredients();
+        for (Ingredient ingredient : ingredients) {
+            mIdeaDataStore.addIdea(new Idea(ingredient.getUri(), idea.getCategory(), ingredient.getFood(), false, R.id.idea_type_user_generated, new IdeaMeta(recipe.getImageUrl(), ingredient.getFood(), ingredient.getText())));
+        }
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+    }
+
+    @Override
     int getCategory() {
         return R.id.idea_category_recipe;
     }
@@ -103,7 +116,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
                     .subscribe(new Action1<String>() {
                         @Override
                         public void call(String s) {
-                            mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_refreshing);
+                            mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
                             mRecipeRepository.searchRecipe(s);
                         }
                     });

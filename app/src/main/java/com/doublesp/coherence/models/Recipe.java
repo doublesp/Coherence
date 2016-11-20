@@ -4,8 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
@@ -29,7 +31,9 @@ public class Recipe extends BaseModel {
     @Column
     private String imageUrl;
 
-    private List<Ingredient> ingredients;
+    private List<String> ingredientLines;
+
+    public List<Ingredient> ingredients;
 
     public Recipe() {
         super();
@@ -55,7 +59,18 @@ public class Recipe extends BaseModel {
         return imageUrl;
     }
 
+    public List<String> getIngredientLines() {
+        return ingredientLines;
+    }
+
+    @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "ingredients")
     public List<Ingredient> getIngredients() {
+        if (ingredients == null || ingredients.isEmpty()) {
+            ingredients = SQLite.select()
+                    .from(Ingredient.class)
+                    .where(Ingredient_Table.uri.eq(uri))
+                    .queryList();
+        }
         return ingredients;
     }
 
@@ -69,6 +84,10 @@ public class Recipe extends BaseModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void setIngredientLines(List<String> ingredientLines) {
+        this.ingredientLines = ingredientLines;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
