@@ -7,5 +7,6 @@ package com.doublesp.coherence.interfaces.presentation;
 public interface ListFragmentActionHandlerInterface {
 
     void onFloatingAcitonButtonClick();
+    void onPreviewButtonClick(int pos);
 
 }

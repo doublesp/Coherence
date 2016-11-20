@@ -50,8 +50,8 @@ public class HomeActivityModule {
 
     @Provides
     @PresentationLayerScope
-    public ListFragmentActionHandlerInterface providesListFragmentActionHandler() {
-        return new ListFragmentActionHandler(mActivity);
+    public ListFragmentActionHandlerInterface providesListFragmentActionHandler(IdeaInteractorInterface ideaInteractor) {
+        return new ListFragmentActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides
