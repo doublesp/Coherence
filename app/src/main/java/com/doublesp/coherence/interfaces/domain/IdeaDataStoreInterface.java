@@ -19,6 +19,8 @@ public interface IdeaDataStoreInterface {
 
     void addIdea(Idea idea);
 
+    void setCurrentIdea(Idea idea);
+
     void updateIdea(int pos, Idea idea);
 
     void removeIdea(int pos);

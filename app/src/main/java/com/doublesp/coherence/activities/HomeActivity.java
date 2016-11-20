@@ -41,8 +41,8 @@ public class HomeActivity extends AppCompatActivity implements HomeInjectorInter
             mActivityComponent =
                     ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
                             .newListCompositionActivitySubComponent(
-//                                    new HomeActivityModule(this, R.id.idea_category_recipe));
-                                    new HomeActivityModule(this, R.id.idea_category_debug));  // NOTE: use idea_category_debug for mock data
+                                    new HomeActivityModule(this, R.id.idea_category_recipe));
+//                                    new HomeActivityModule(this, R.id.idea_category_debug));  // NOTE: use idea_category_debug for mock data
         }
         return mActivityComponent;
     }

@@ -64,6 +64,11 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
+    public void setCurrentIdea(Idea idea) {
+        getBlankIdeas().set(0, idea);
+    }
+
+    @Override
     public void setSuggestions(List<Idea> ideas) {
         getSuggestedIdeas().clear();
         getSuggestedIdeas().addAll(ideas);

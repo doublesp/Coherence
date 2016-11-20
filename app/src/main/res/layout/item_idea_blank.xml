@@ -16,6 +16,7 @@
                   android:gravity="center"
                   android:maxLines="1"
                   android:text='@{viewModel.content}'
+                  android:hint="@string/idea_hint_recipe"
                 />
     </LinearLayout>
 </layout>

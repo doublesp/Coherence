@@ -24,8 +24,12 @@ public class IdeaCreationActionHandler implements IdeaActionHandlerInterface {
             return;
         }
         if (s.subSequence(i-1, i).toString().equals("\n")) {
-            mIdeaInteractor.addIdea(s.toString().trim());
+//            mIdeaInteractor.addIdea(s.toString().trim());
+            // TODO: support arbitrary user input, e.g. As an user, I want to be able to add other ingredients
+            // to the shopping list that is not listed on the recipe.
             s.clear();
+        } else {
+            mIdeaInteractor.getSuggestions(s.toString().trim());
         }
     }
 

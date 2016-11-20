@@ -16,8 +16,11 @@ import android.app.Application;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Observer;
-import rx.subjects.PublishSubject;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.observables.ConnectableObservable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by pinyaoting on 11/17/16.
@@ -27,29 +30,31 @@ public class EdamamRepository implements RecipeRepositoryInterface {
 
     private Application mApplication;
     private EdamamClient mClient;
+    List<Observer<List<Recipe>>> mSubscribers;
+
 
     public EdamamRepository(Application application, EdamamClient client) {
         mApplication = application;
         mClient = client;
-        mPublisher = PublishSubject.create();
+        mSubscribers = new ArrayList<>();
         getClient().subscribe(new Observer<RecipeResponse>() {
+            List<Recipe> mRecipes = new ArrayList<Recipe>();
             @Override
             public void onCompleted() {
-                mPublisher.onCompleted();
+                notifyAllObservers(mRecipes);
             }
 
             @Override
             public void onError(Throwable e) {
-                mPublisher.onError(e);
+                notifyAllObservers(null);
             }
 
             @Override
             public void onNext(RecipeResponse recipeResponse) {
-                List<Recipe> recipes = new ArrayList<Recipe>();
+                mRecipes.clear();
                 for (RecipeResponseHit hit : recipeResponse.getResponses()) {
-                    recipes.add(hit.getRecipe());
+                    mRecipes.add(hit.getRecipe());
                 }
-                mPublisher.onNext(recipes);
                 // persists into database in background thread
                 FlowManager.getDatabase(RecipeDatabase.class)
                         .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
@@ -58,7 +63,7 @@ public class EdamamRepository implements RecipeRepositoryInterface {
                                     public void processModel(Recipe recipe) {
                                         recipe.save();
                                     }
-                                }).addAll(recipes).build())
+                                }).addAll(mRecipes).build())
                         .error(new Transaction.Error() {
                             @Override
                             public void onError(Transaction transaction, Throwable error) {
@@ -83,11 +88,9 @@ public class EdamamRepository implements RecipeRepositoryInterface {
         return mApplication;
     }
 
-    PublishSubject<List<Recipe>> mPublisher;
-
     @Override
     public void subscribe(Observer<List<Recipe>> observer) {
-        mPublisher.subscribe(observer);
+        mSubscribers.add(observer);
     }
 
     @Override
@@ -100,6 +103,16 @@ public class EdamamRepository implements RecipeRepositoryInterface {
     }
 
     void fallback() {
-        mPublisher.onNext(Recipe.recentItems());
+        notifyAllObservers(Recipe.recentItems());
     }
+
+    void notifyAllObservers(List<Recipe> recipes) {
+        ConnectableObservable<List<Recipe>> connectableObservable = Observable.just(recipes).publish();
+        for (Observer<List<Recipe>> subscriber : mSubscribers) {
+            connectableObservable.subscribeOn(Schedulers.immediate()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe(subscriber);
+        }
+        connectableObservable.connect();
+    }
+
 }

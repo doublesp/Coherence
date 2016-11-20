@@ -27,18 +27,18 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     public void addIdea(String content) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_refreshing);
         mIdeaDataStore.addIdea(new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
-        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 
     @Override
     public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         mIdeaDataStore.removeIdea(pos);
         mIdeaDataStore.addIdea(new Idea(idea.getId(), idea.getCategory(), idea.getContent(), idea.isCrossedOut(), R.id.idea_type_user_generated, idea.getMeta()));
-        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 
     @Override
@@ -68,7 +68,15 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    abstract public void getSuggestions(Idea idea);
+    public void setCurrentIdea(String content) {
+        if (content == null || content.isEmpty()) {
+            mIdeaDataStore.setCurrentIdea(Idea.newInstanceOfBlankIdea());
+        }
+        mIdeaDataStore.setCurrentIdea(new Idea(null, getCategory(), content, false, R.id.idea_type_blank, null));
+    }
+
+    @Override
+    abstract public void getSuggestions(String keyword);
 
     @Override
     public void subscribe(Observer<Integer> observer) {

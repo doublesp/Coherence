@@ -24,7 +24,9 @@ public interface IdeaInteractorInterface {
 
     void removeIdea(int pos);
 
-    void getSuggestions(Idea idea);
+    void setCurrentIdea(String content);
+
+    void getSuggestions(String keyword);
 
     void subscribe(Observer<Integer> observer);
 

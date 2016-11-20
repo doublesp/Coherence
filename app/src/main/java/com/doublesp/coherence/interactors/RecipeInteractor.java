@@ -10,8 +10,11 @@ import com.doublesp.coherence.viewmodels.IdeaMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
+import rx.functions.Action1;
+import rx.subjects.PublishSubject;
 
 /**
  * Created by pinyaoting on 11/17/16.
@@ -19,8 +22,11 @@ import rx.Observer;
 
 public class RecipeInteractor extends IdeaInteractorBase {
 
+    public static final long RECIPE_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES = 500;
+
     IdeaDataStoreInterface mIdeaDataStore;
     RecipeRepositoryInterface mRecipeRepository;
+    PublishSubject<String> mSearchDebouner;
 
     public RecipeInteractor(IdeaDataStoreInterface ideaDataStore,
                            RecipeRepositoryInterface recipeRepository) {
@@ -43,11 +49,13 @@ public class RecipeInteractor extends IdeaInteractorBase {
                             recipe.getLabel(),
                             false,
                             R.id.idea_type_suggestion,
-                            new IdeaMeta(recipe.getImageUrl(), recipe.getLabel(), summaryBuilder.toString())
+                            new IdeaMeta(recipe.getImageUrl(),
+                                    recipe.getLabel(),
+                                    summaryBuilder.toString())
                     ));
                 }
                 mIdeaDataStore.setSuggestions(ideas);
-                mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+                mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
             }
 
             @Override
@@ -68,10 +76,11 @@ public class RecipeInteractor extends IdeaInteractorBase {
     }
 
     @Override
-    public void getSuggestions(Idea idea) {
-        // TODO: discover trending items instead of hard code keywords
-        String keyword = idea == null ? "chicken" : idea.getContent();
-        mRecipeRepository.searchRecipe(keyword);
+    public void getSuggestions(String keyword) {
+        if (keyword == null) {
+            keyword = "chicken"; // TODO: discover trending items instead of hard code keywords
+        }
+        searchRecipeWithDebounce(keyword);
     }
 
     @Override
@@ -83,5 +92,22 @@ public class RecipeInteractor extends IdeaInteractorBase {
             sharableContentBuilder.append("\n");
         }
         return sharableContentBuilder.toString();
+    }
+
+    // NOTE: debounce is to prevent unnecessary network requests -- we only search for recipes after
+    // user stopped typing
+    private void searchRecipeWithDebounce(String keyword) {
+        if (mSearchDebouner == null) {
+            mSearchDebouner = PublishSubject.create();
+            mSearchDebouner.debounce(RECIPE_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES, TimeUnit.MILLISECONDS)
+                    .subscribe(new Action1<String>() {
+                        @Override
+                        public void call(String s) {
+                            mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_refreshing);
+                            mRecipeRepository.searchRecipe(s);
+                        }
+                    });
+        }
+        mSearchDebouner.onNext(keyword);
     }
 }
