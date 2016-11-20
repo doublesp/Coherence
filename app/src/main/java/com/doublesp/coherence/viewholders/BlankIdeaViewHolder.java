@@ -31,7 +31,6 @@ public class BlankIdeaViewHolder extends RecyclerView.ViewHolder implements Idea
     @Override
     public void setViewModel(Idea viewModel) {
         binding.setViewModel(viewModel);
-        binding.etIdea.requestFocus();
     }
 
     @Override
@@ -57,6 +56,11 @@ public class BlankIdeaViewHolder extends RecyclerView.ViewHolder implements Idea
     @Override
     public void executePendingBindings() {
         binding.executePendingBindings();
+    }
+
+    public void requestFocus() {
+        binding.etIdea.requestFocus();
+        binding.etIdea.setSelection(binding.etIdea.getText().length());
     }
 
 }

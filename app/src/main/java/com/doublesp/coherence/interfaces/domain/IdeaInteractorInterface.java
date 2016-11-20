@@ -24,7 +24,9 @@ public interface IdeaInteractorInterface {
 
     void removeIdea(int pos);
 
-    void getRelatedIdeas(Idea idea);
+    void setCurrentIdea(String content);
+
+    void getSuggestions(String keyword);
 
     void subscribe(Observer<Integer> observer);
 
@@ -33,6 +35,8 @@ public interface IdeaInteractorInterface {
     int getUserIdeaCount();
 
     Idea getIdeaAtPos(int pos);
+
+    String getSharableContent();
 
     Parcelable getSnapshot();
 

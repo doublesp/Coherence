@@ -41,8 +41,6 @@ public class CoherenceTabUtils {
 
         layout.getTabAt(0).setIcon(R.drawable.ic_create);
         layout.getTabAt(1).setIcon(R.drawable.ic_library_books);
-        layout.getTabAt(2).setIcon(R.drawable.ic_supervisor_account);
-        layout.getTabAt(3).setIcon(R.drawable.ic_public);
     }
 
 }

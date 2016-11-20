@@ -1,10 +1,9 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
-import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
 import com.doublesp.coherence.actions.IdeaPreviewActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
-import com.doublesp.coherence.activities.ListCompositionActivity;
+import com.doublesp.coherence.activities.HomeActivity;
 import com.doublesp.coherence.adapters.IdeaSelectorArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -21,18 +20,17 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.http.HEAD;
 
 /**
  * Created by pinyaoting on 11/11/16.
  */
 
 @Module
-public class ListCompositionActivityModule {
+public class HomeActivityModule {
 
-    private final ListCompositionActivity mActivity;
+    private final HomeActivity mActivity;
     private final int mCategory;
-    public ListCompositionActivityModule(ListCompositionActivity activity, int category) {
+    public HomeActivityModule(HomeActivity activity, int category) {
         mActivity = activity;
         mCategory = category;
     }
@@ -59,8 +57,7 @@ public class ListCompositionActivityModule {
     @Provides
     @PresentationLayerScope
     public IdeaInteractorInterface providesIdeaInteractor(Map<Integer, IdeaInteractorInterface> ideaInteractors) {
-        //        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(mCategory);
-        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(R.id.idea_category_movies); // TODO: implement interactors for different categories
+        IdeaInteractorInterface ideaInteractor = ideaInteractors.get(mCategory);
         return ideaInteractor;
     }
 

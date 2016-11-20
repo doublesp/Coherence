@@ -1,9 +1,8 @@
 package com.doublesp.coherence.adapters;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.interactors.MockPlanInteractor;
+import com.doublesp.coherence.interactors.MockRecipeInteractor;
 import com.doublesp.coherence.viewholders.PlanViewHolder;
-import com.doublesp.coherence.viewmodels.Plan;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,11 +17,11 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class PlanArrayAdapter extends RecyclerView.Adapter {
 
-    MockPlanInteractor mPlanInteractor;
+    MockRecipeInteractor mPlanInteractor;
 
     public PlanArrayAdapter() {
         // TODO: implement actual interactor
-        mPlanInteractor = new MockPlanInteractor();
+        mPlanInteractor = new MockRecipeInteractor(null, null);
     }
 
     @Override
@@ -35,15 +34,16 @@ public class PlanArrayAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof PlanViewHolder) {
-            Plan viewModel = mPlanInteractor.getItemAtPos(position);
-            PlanViewHolder viewHolder = (PlanViewHolder) holder;
-            viewHolder.setViewModel(viewModel);
-            viewHolder.executePendingBindings();
+//            Plan viewModel = mPlanInteractor.getItemAtPos(position);
+//            PlanViewHolder viewHolder = (PlanViewHolder) holder;
+//            viewHolder.setViewModel(viewModel);
+//            viewHolder.executePendingBindings();
         }
     }
 
     @Override
     public int getItemCount() {
-        return mPlanInteractor.getItemCount();
+//        return mPlanInteractor.getItemCount();
+        return 0;
     }
 }

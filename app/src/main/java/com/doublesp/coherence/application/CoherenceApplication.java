@@ -1,7 +1,5 @@
 package com.doublesp.coherence.application;
 
-import android.support.multidex.MultiDexApplication;
-
 import com.doublesp.coherence.dependencies.components.application.ApplicationComponent;
 import com.doublesp.coherence.dependencies.components.application.DaggerApplicationComponent;
 import com.doublesp.coherence.dependencies.components.data.DaggerDataLayerComponent;
@@ -22,6 +20,8 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowLog;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import android.support.multidex.MultiDexApplication;
+
 /**
  * Created by pinyaoting on 11/11/16.
  */
@@ -36,7 +36,7 @@ public class CoherenceApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        FlowManager.init(new FlowConfig.Builder(this).build());
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule())

@@ -64,9 +64,19 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
+    public void setCurrentIdea(Idea idea) {
+        getBlankIdeas().set(0, idea);
+    }
+
+    @Override
     public void setSuggestions(List<Idea> ideas) {
         getSuggestedIdeas().clear();
         getSuggestedIdeas().addAll(ideas);
+    }
+
+    @Override
+    public List<Idea> getIdeas() {
+        return getUserIdeas();
     }
 
     @Override
@@ -105,8 +115,12 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     @Override
     public Plan getPlan() {
         List<Idea> ideas = getUserIdeas();
-        // TODO: prompt user to input a name
-        return new Plan(ideas, "Movie Recommendations");
+        return new Plan(ideas, "");
+    }
+
+    @Override
+    public void setSnapshot(Parcelable ideaSnapshot) {
+        mIdeaSnapshotStore = Parcels.unwrap(ideaSnapshot);
     }
 
     private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {

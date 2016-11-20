@@ -1,6 +1,6 @@
 package com.doublesp.coherence.actions;
 
-import com.doublesp.coherence.activities.ListCompositionActivity;
+import com.doublesp.coherence.activities.HomeActivity;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 
 /**
@@ -9,9 +9,9 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 
 public class ListFragmentActionHandler implements ListFragmentActionHandlerInterface {
 
-    ListCompositionActivity mActivity;
+    HomeActivity mActivity;
 
-    public ListFragmentActionHandler(ListCompositionActivity activity) {
+    public ListFragmentActionHandler(HomeActivity activity) {
         mActivity = activity;
     }
 

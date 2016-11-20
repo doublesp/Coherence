@@ -19,11 +19,15 @@ public interface IdeaDataStoreInterface {
 
     void addIdea(Idea idea);
 
+    void setCurrentIdea(Idea idea);
+
     void updateIdea(int pos, Idea idea);
 
     void removeIdea(int pos);
 
     void setSuggestions(List<Idea> ideas);
+
+    List<Idea> getIdeas();
 
     List<Idea> getSuggestions();
 
@@ -38,4 +42,6 @@ public interface IdeaDataStoreInterface {
     Parcelable getSnapshot();
 
     Plan getPlan();
+
+    void setSnapshot(Parcelable ideaSnapshot);
 }

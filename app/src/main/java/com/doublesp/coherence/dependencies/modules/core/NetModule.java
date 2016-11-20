@@ -1,6 +1,5 @@
 package com.doublesp.coherence.dependencies.modules.core;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -56,7 +55,7 @@ public class NetModule {
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+//        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         return gsonBuilder.create();
     }
 
@@ -73,9 +72,9 @@ public class NetModule {
     @Provides
     @Singleton
     @IntoMap
-    @IntKey(R.id.idea_category_movies)
-    Retrofit provideMovieRetrofit(Gson gson, OkHttpClient okHttpClient, Application application) {
-        String endpoint = application.getString(R.string.api_endpoint_movie);
+    @IntKey(R.id.idea_category_recipe)
+    Retrofit provideEdamamRetrofit(Gson gson, OkHttpClient okHttpClient, Application application) {
+        String endpoint = application.getString(R.string.api_endpoint_recipe);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -85,4 +84,5 @@ public class NetModule {
                 .build();
         return retrofit;
     }
+
 }

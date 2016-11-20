@@ -27,6 +27,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     IdeaInteractorInterface mIdeaInteractor;
     IdeaActionHandlerInterface mIdeaActionHandler;
     final Observer<Integer> mObserver;
+    BlankIdeaViewHolder mBlankIdeaViewHolder;
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
@@ -36,8 +37,16 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             @Override
             public void onCompleted() {
                 switch (mState) {
-                    case R.id.idea_state_loaded:
+                    case R.id.idea_state_idea_loaded:
                         notifyDataSetChanged();
+                        break;
+                    case R.id.idea_state_suggestion_loaded:
+                        int start = mIdeaInteractor.getUserIdeaCount() + 1;
+                        int end = mIdeaInteractor.getIdeaCount() - 1;
+                        if (end > start) {
+                            notifyItemRangeChanged(start, end);
+                        }
+                        break;
                 }
             }
 
@@ -52,7 +61,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             }
         };
         mIdeaInteractor.subscribe(mObserver);
-        mIdeaInteractor.getRelatedIdeas(null);
+        mIdeaInteractor.getSuggestions(null);
     }
 
     @Override
@@ -65,18 +74,26 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view;
+        RecyclerView.ViewHolder holder = null;
         switch (viewType) {
             case R.id.idea_type_user_generated:
                 view = inflater.inflate(R.layout.item_idea, parent, false);
-                return new IdeaViewHolder(view);
+                holder = new IdeaViewHolder(view);
+                break;
             case R.id.idea_type_suggestion:
                 view = inflater.inflate(R.layout.item_idea_suggestions, parent, false);
-                return new SuggestedIdeaViewHolder(view);
+                holder = new SuggestedIdeaViewHolder(view);
+                break;
             case R.id.idea_type_blank:
                 view = inflater.inflate(R.layout.item_idea_blank, parent, false);
-                return new BlankIdeaViewHolder(view);
+                holder = new BlankIdeaViewHolder(view);
+                break;
         }
-        return null;
+        if (holder instanceof IdeaViewHolderInterface) {
+            IdeaViewHolderInterface ideaViewHolder = (IdeaViewHolderInterface) holder;
+            ideaViewHolder.setHandler(mIdeaActionHandler);
+        }
+        return holder;
     }
 
     @Override
@@ -86,7 +103,6 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             IdeaViewHolderInterface ideaViewHolder = (IdeaViewHolderInterface) holder;
             ideaViewHolder.setPosition(position);
             ideaViewHolder.setViewModel(idea);
-            ideaViewHolder.setHandler(mIdeaActionHandler);
             ideaViewHolder.executePendingBindings();
         }
     }

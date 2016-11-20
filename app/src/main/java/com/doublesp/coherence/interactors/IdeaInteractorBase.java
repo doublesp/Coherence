@@ -9,10 +9,6 @@ import org.parceler.Parcels;
 
 import android.os.Parcelable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
 import rx.Observer;
 
 /**
@@ -32,11 +28,8 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public void addIdea(String content) {
         mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
-        mIdeaDataStore.addIdea(new Idea(0L, getCategory(), content, false, R.id.idea_type_user_generated, null));
-        // TODO: The reason of doing randomize on suggestions is to give you the feeling that suggestions are updated
-        // each time you created an idea. We need to fetch suggestions from backend instead.
-        randomize(mIdeaDataStore.getSuggestions());
-        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+        mIdeaDataStore.addIdea(new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 
     @Override
@@ -45,10 +38,7 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         mIdeaDataStore.removeIdea(pos);
         mIdeaDataStore.addIdea(new Idea(idea.getId(), idea.getCategory(), idea.getContent(), idea.isCrossedOut(), R.id.idea_type_user_generated, idea.getMeta()));
-        // TODO: The reason of doing randomize on suggestions is to give you the feeling that suggestions are updated
-        // each time you accepat a suggestion. We need to fetch suggestions from backend instead.
-        randomize(mIdeaDataStore.getSuggestions());
-        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 
     @Override
@@ -78,7 +68,15 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    abstract public void getRelatedIdeas(Idea idea);
+    public void setCurrentIdea(String content) {
+        if (content == null || content.isEmpty()) {
+            mIdeaDataStore.setCurrentIdea(Idea.newInstanceOfBlankIdea());
+        }
+        mIdeaDataStore.setCurrentIdea(new Idea(null, getCategory(), content, false, R.id.idea_type_blank, null));
+    }
+
+    @Override
+    abstract public void getSuggestions(String keyword);
 
     @Override
     public void subscribe(Observer<Integer> observer) {
@@ -110,8 +108,6 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         return Parcels.wrap(mIdeaDataStore.getPlan());
     }
 
-    private void randomize(List list) {
-        long seed = System.nanoTime();
-        Collections.shuffle(list, new Random(seed));
-    }
+    @Override
+    abstract public String getSharableContent();
 }

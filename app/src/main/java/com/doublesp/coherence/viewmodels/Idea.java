@@ -11,7 +11,7 @@ import org.parceler.Parcel;
 @Parcel
 public class Idea {
 
-    Long id;
+    String id;
     int category;
     String content;
     boolean crossedOut;
@@ -21,7 +21,7 @@ public class Idea {
     public Idea() {
     }
 
-    public Idea(Long id, int category, String content, boolean crossedOut, int type, IdeaMeta meta) {
+    public Idea(String id, int category, String content, boolean crossedOut, int type, IdeaMeta meta) {
         this.id = id;
         this.category = category;
         this.content = content;
@@ -36,7 +36,7 @@ public class Idea {
         return blankIdea;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -64,7 +64,7 @@ public class Idea {
     public boolean equals(Object obj) {
         if (obj instanceof Idea) {
             Idea target = (Idea) obj;
-            return this.id == target.id;
+            return this.id.equals(target.id);
         }
         return false;
     }

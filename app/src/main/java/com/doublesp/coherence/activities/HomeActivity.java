@@ -1,13 +1,16 @@
 package com.doublesp.coherence.activities;
 
+import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
 import com.doublesp.coherence.application.CoherenceApplication;
-import com.doublesp.coherence.databinding.ActivityListCompositionBinding;
-import com.doublesp.coherence.dependencies.components.presentation.ListCompositionActivitySubComponent;
-import com.doublesp.coherence.dependencies.modules.presentation.ListCompositionActivityModule;
+import com.doublesp.coherence.databinding.ActivityHomeBinding;
+import com.doublesp.coherence.dependencies.components.presentation.HomeActivitySubComponent;
+import com.doublesp.coherence.dependencies.modules.presentation.HomeActivityModule;
 import com.doublesp.coherence.fragments.IdeaPreviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.interfaces.presentation.ListCompositionInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.utils.CoherenceTabUtils;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -15,31 +18,31 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 
-public class ListCompositionActivity extends AppCompatActivity implements ListCompositionInjectorInterface {
+import io.fabric.sdk.android.Fabric;
 
-    static final String LIST_COMPOSITION_FRAGMENT = "LIST_COMPOSITION_FRAGMENT";
+public class HomeActivity extends AppCompatActivity implements HomeInjectorInterface {
+
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
-    int mCategory;
-    ActivityListCompositionBinding binding;
-    ListCompositionActivitySubComponent mActivityComponent;
+    ActivityHomeBinding binding;
+    HomeActivitySubComponent mActivityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_list_composition);
-        mCategory = getIntent().getIntExtra(getString(R.string.category), 0);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flListCompositionContainer, ListCompositionFragment.newInstance(), LIST_COMPOSITION_FRAGMENT)
-                .commit();
+        Fabric.with(this, new Crashlytics());
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        binding.viewpager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), HomeActivity.this));
+        binding.tabs.setupWithViewPager(binding.viewpager);
+        CoherenceTabUtils.bindIcons(HomeActivity.this, binding.viewpager, binding.tabs);
     }
 
-    public ListCompositionActivitySubComponent getActivityComponent() {
+    public HomeActivitySubComponent getActivityComponent() {
         if (mActivityComponent == null) {
             mActivityComponent =
                     ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
                             .newListCompositionActivitySubComponent(
-                            new ListCompositionActivityModule(this, mCategory));
+                                    new HomeActivityModule(this, R.id.idea_category_recipe));
+//                                    new HomeActivityModule(this, R.id.idea_category_debug));  // NOTE: use idea_category_debug for mock data
         }
         return mActivityComponent;
     }

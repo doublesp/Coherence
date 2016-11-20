@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="item_click_support" type="id" />
-    <item name="idea_category_movies" type="id" />
-    <item name="idea_category_travel" type="id" />
-    <item name="idea_category_groceries" type="id" />
+    <item name="idea_category_recipe" type="id" />
+    <item name="idea_category_debug" type="id" />
     <item name="idea_type_user_generated" type="id" />
     <item name="idea_type_blank" type="id" />
     <item name="idea_type_suggestion" type="id" />
     <item name="idea_state_idle" type="id" />
     <item name="idea_state_refreshing" type="id" />
-    <item name="idea_state_loaded" type="id" />
+    <item name="idea_state_idea_loaded" type="id" />
+    <item name="idea_state_suggestion_loaded" type="id" />
 
 </resources>
