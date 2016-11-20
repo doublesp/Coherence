@@ -9,6 +9,15 @@
                  android:layout_height="match_parent"
                  tools:context="com.doublesp.coherence.fragments.ListCompositionFragment">
 
+        <ImageView
+                android:id="@+id/ivIdeaCompositionBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/background_0"
+                android:alpha="0.2"
+                />
+
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvIdeas"
                 android:layout_width="match_parent"
