@@ -16,6 +16,6 @@ An app for dinner makers to search for recipe, create a shopping list, and send 
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](coherence.gif)
+![Video Walkthrough](garcon.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
