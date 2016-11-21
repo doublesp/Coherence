@@ -36,7 +36,7 @@ public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterfa
         // mIdeaInteractor.getPlan() to Parse server
         sharableContentBuilder
                 .append("http://doublesp.com/shared/")
-                .append(LIST_ID); // TODO: Shawn please replace this link
+                .append(LIST_ID);
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mActivity.share(shareIntent);
