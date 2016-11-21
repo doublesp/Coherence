@@ -24,7 +24,8 @@ public class Idea {
     public Idea() {
     }
 
-    public Idea(String id, int category, String content, boolean crossedOut, int type, IdeaMeta meta, List<Idea> relatedIdeas) {
+    public Idea(String id, int category, String content, boolean crossedOut, int type,
+            IdeaMeta meta, List<Idea> relatedIdeas) {
         this.id = id;
         this.category = category;
         this.content = content;
@@ -35,7 +36,7 @@ public class Idea {
     }
 
     public static Idea newInstanceOfBlankIdea() {
-        Idea blankIdea =  new Idea();
+        Idea blankIdea = new Idea();
         blankIdea.type = R.id.idea_type_blank;
         return blankIdea;
     }

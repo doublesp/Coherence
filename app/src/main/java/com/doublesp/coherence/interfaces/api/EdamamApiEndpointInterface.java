@@ -17,6 +17,7 @@ public interface EdamamApiEndpointInterface {
 
     @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("search")
-    Observable<RecipeResponse> searchRecipe(@Query("q") String keyword, @Query("app_id") String appId, @Query("app_key") String appKey);
+    Observable<RecipeResponse> searchRecipe(@Query("q") String keyword,
+            @Query("app_id") String appId, @Query("app_key") String appKey);
 
 }

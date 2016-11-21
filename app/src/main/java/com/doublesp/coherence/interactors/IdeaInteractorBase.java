@@ -1,13 +1,13 @@
 package com.doublesp.coherence.interactors;
 
+import android.os.Parcelable;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
 import org.parceler.Parcels;
-
-import android.os.Parcelable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +31,9 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public void addIdea(String content) {
         mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
-        mIdeaDataStore.addIdea(new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null, null));
+        mIdeaDataStore.addIdea(
+                new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null,
+                        null));
         mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 
@@ -54,21 +56,24 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public void updateIdea(int pos, String content) {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), content, idea.isCrossedOut(), R.id.idea_type_user_generated, idea.getMeta(), idea.getRelatedIdeas());
+        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), content, idea.isCrossedOut(),
+                R.id.idea_type_user_generated, idea.getMeta(), idea.getRelatedIdeas());
         mIdeaDataStore.updateIdea(pos, newIdea);
     }
 
     @Override
     public void crossoutIdea(int pos) {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true, idea.getType(), idea.getMeta(), idea.getRelatedIdeas());
+        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true,
+                idea.getType(), idea.getMeta(), idea.getRelatedIdeas());
         mIdeaDataStore.updateIdea(pos, newIdea);
     }
 
     @Override
     public void uncrossoutIdea(int pos) {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false, idea.getType(), idea.getMeta(), idea.getRelatedIdeas());
+        Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false,
+                idea.getType(), idea.getMeta(), idea.getRelatedIdeas());
         mIdeaDataStore.updateIdea(pos, newIdea);
     }
 

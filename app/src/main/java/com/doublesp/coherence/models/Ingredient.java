@@ -34,28 +34,28 @@ public class Ingredient extends BaseModel {
         return uri;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getFood() {
-        return food;
-    }
-
-    public String getText() {
-        return text;
-    }
-
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
+    public String getFood() {
+        return food;
+    }
+
     public void setFood(String food) {
         this.food = food;
+    }
+
+    public String getText() {
+        return text;
     }
 
     public void setText(String text) {

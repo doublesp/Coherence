@@ -1,12 +1,12 @@
 package com.doublesp.coherence.viewholders;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import com.doublesp.coherence.databinding.ItemIdeaBinding;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.viewmodels.Idea;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 /**
  * Created by pinyaoting on 11/12/16.

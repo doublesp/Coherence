@@ -1,8 +1,7 @@
 package com.doublesp.coherence.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import com.doublesp.coherence.database.RecipeDatabase;
+import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -20,20 +19,16 @@ import java.util.List;
 @Table(database = RecipeDatabase.class)
 public class Recipe extends BaseModel {
 
+    public List<Ingredient> ingredients;
     @PrimaryKey
     @Column
     private String uri;
-
     @Column
     private String label;
-
     @SerializedName("image")
     @Column
     private String imageUrl;
-
     private List<String> ingredientLines;
-
-    public List<Ingredient> ingredients;
 
     public Recipe() {
         super();
@@ -51,16 +46,32 @@ public class Recipe extends BaseModel {
         return uri;
     }
 
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
     public String getLabel() {
         return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public List<String> getIngredientLines() {
         return ingredientLines;
+    }
+
+    public void setIngredientLines(List<String> ingredientLines) {
+        this.ingredientLines = ingredientLines;
     }
 
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "ingredients")
@@ -72,22 +83,6 @@ public class Recipe extends BaseModel {
                     .queryList();
         }
         return ingredients;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setIngredientLines(List<String> ingredientLines) {
-        this.ingredientLines = ingredientLines;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {

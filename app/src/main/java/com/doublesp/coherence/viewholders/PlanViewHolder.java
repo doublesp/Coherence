@@ -1,10 +1,10 @@
 package com.doublesp.coherence.viewholders;
 
-import com.doublesp.coherence.databinding.ItemPlanBinding;
-import com.doublesp.coherence.viewmodels.Plan;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.doublesp.coherence.databinding.ItemPlanBinding;
+import com.doublesp.coherence.viewmodels.Plan;
 
 /**
  * Created by pinyaoting on 11/16/16.

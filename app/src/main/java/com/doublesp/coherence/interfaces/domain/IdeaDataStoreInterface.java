@@ -1,9 +1,9 @@
 package com.doublesp.coherence.interfaces.domain;
 
+import android.os.Parcelable;
+
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.os.Parcelable;
 
 import java.util.List;
 
@@ -25,11 +25,11 @@ public interface IdeaDataStoreInterface {
 
     void removeIdea(int pos);
 
-    void setSuggestions(List<Idea> ideas);
-
     List<Idea> getIdeas();
 
     List<Idea> getSuggestions();
+
+    void setSuggestions(List<Idea> ideas);
 
     Idea getIdeaAtPos(int pos);
 
@@ -41,7 +41,7 @@ public interface IdeaDataStoreInterface {
 
     Parcelable getSnapshot();
 
-    Plan getPlan();
-
     void setSnapshot(Parcelable ideaSnapshot);
+
+    Plan getPlan();
 }

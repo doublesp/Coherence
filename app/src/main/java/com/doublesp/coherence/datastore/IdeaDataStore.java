@@ -1,14 +1,14 @@
 package com.doublesp.coherence.datastore;
 
+import android.os.Parcelable;
+import android.util.Pair;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
-
-import android.os.Parcelable;
-import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,12 +69,6 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
-    public void setSuggestions(List<Idea> ideas) {
-        getSuggestedIdeas().clear();
-        getSuggestedIdeas().addAll(ideas);
-    }
-
-    @Override
     public List<Idea> getIdeas() {
         return getUserIdeas();
     }
@@ -82,6 +76,12 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     @Override
     public List<Idea> getSuggestions() {
         return getSuggestedIdeas();
+    }
+
+    @Override
+    public void setSuggestions(List<Idea> ideas) {
+        getSuggestedIdeas().clear();
+        getSuggestedIdeas().addAll(ideas);
     }
 
     @Override
@@ -113,14 +113,14 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
-    public Plan getPlan() {
-        List<Idea> ideas = getUserIdeas();
-        return new Plan(ideas, "");
+    public void setSnapshot(Parcelable ideaSnapshot) {
+        mIdeaSnapshotStore = Parcels.unwrap(ideaSnapshot);
     }
 
     @Override
-    public void setSnapshot(Parcelable ideaSnapshot) {
-        mIdeaSnapshotStore = Parcels.unwrap(ideaSnapshot);
+    public Plan getPlan() {
+        List<Idea> ideas = getUserIdeas();
+        return new Plan(ideas, "");
     }
 
     private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {

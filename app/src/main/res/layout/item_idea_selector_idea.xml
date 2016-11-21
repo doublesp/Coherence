@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="viewModel"
-                  type="com.doublesp.coherence.viewmodels.Idea" />
+
+        <variable
+            name="viewModel"
+            type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
-    <FrameLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+
+    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageView
-                android:layout_width="@dimen/fragment_idea_preview_idea_selector_width"
-                android:layout_height="@dimen/fragment_idea_preview_idea_selector_height"
-                android:id="@+id/ivIdeaSelectorImage"
-                android:scaleType="centerCrop"
-                app:roundedImageUrl='@{viewModel.meta.imageUrl}'
-                />
+            android:id="@+id/ivIdeaSelectorImage"
+            android:layout_width="@dimen/fragment_idea_preview_idea_selector_width"
+            android:layout_height="@dimen/fragment_idea_preview_idea_selector_height"
+            android:scaleType="centerCrop"
+            app:roundedImageUrl='@{viewModel.meta.imageUrl}' />
 
     </FrameLayout>
 </layout>

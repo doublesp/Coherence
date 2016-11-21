@@ -1,11 +1,11 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.fragments.ListCompositionFragment;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.doublesp.coherence.fragments.ListCompositionFragment;
 
 /**
  * Created by pinyaoting on 11/16/16.
@@ -13,7 +13,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private String tabTitles[] = new String[] { "Recipe", "New" };
+    private String tabTitles[] = new String[]{"Recipe", "New"};
     private Context mContext;
 
     public HomeFragmentPagerAdapter(FragmentManager fm, Context context) {

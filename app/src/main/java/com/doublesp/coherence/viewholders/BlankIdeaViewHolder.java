@@ -1,20 +1,21 @@
 package com.doublesp.coherence.viewholders;
 
-import com.doublesp.coherence.databinding.ItemIdeaBlankBinding;
-import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
-import com.doublesp.coherence.viewmodels.Idea;
-
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.doublesp.coherence.databinding.ItemIdeaBlankBinding;
+import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
+import com.doublesp.coherence.viewmodels.Idea;
+
 /**
  * Created by pinyaoting on 11/12/16.
  */
 
-public class BlankIdeaViewHolder extends RecyclerView.ViewHolder implements IdeaViewHolderInterface {
+public class BlankIdeaViewHolder extends RecyclerView.ViewHolder implements
+        IdeaViewHolderInterface {
 
     ItemIdeaBlankBinding binding;
 

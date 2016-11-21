@@ -1,9 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.adapters.PlanArrayAdapter;
-import com.doublesp.coherence.databinding.FragmentPlanBinding;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,6 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.PlanArrayAdapter;
+import com.doublesp.coherence.databinding.FragmentPlanBinding;
 
 public class PlanFragment extends Fragment {
 
@@ -43,7 +43,7 @@ public class PlanFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_plan, container, false);
         binding.rvPlans.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvPlans.setAdapter(new PlanArrayAdapter());

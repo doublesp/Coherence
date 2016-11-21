@@ -1,5 +1,7 @@
 package com.doublesp.coherence.repositories;
 
+import android.app.Application;
+
 import com.doublesp.coherence.api.EdamamClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
@@ -11,8 +13,6 @@ import com.doublesp.coherence.utils.NetworkUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
-
-import android.app.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ import rx.schedulers.Schedulers;
 
 public class EdamamRepository implements RecipeRepositoryInterface {
 
+    List<Observer<List<Recipe>>> mSubscribers;
     private Application mApplication;
     private EdamamClient mClient;
-    List<Observer<List<Recipe>>> mSubscribers;
 
 
     public EdamamRepository(Application application, EdamamClient client) {
@@ -40,6 +40,7 @@ public class EdamamRepository implements RecipeRepositoryInterface {
         mSubscribers = new ArrayList<>();
         getClient().subscribe(new Observer<RecipeResponse>() {
             List<Recipe> mRecipes = new ArrayList<Recipe>();
+
             @Override
             public void onCompleted() {
                 notifyAllObservers(mRecipes);
@@ -112,7 +113,8 @@ public class EdamamRepository implements RecipeRepositoryInterface {
     }
 
     void notifyAllObservers(List<Recipe> recipes) {
-        ConnectableObservable<List<Recipe>> connectableObservable = Observable.just(recipes).publish();
+        ConnectableObservable<List<Recipe>> connectableObservable = Observable.just(
+                recipes).publish();
         for (Observer<List<Recipe>> subscriber : mSubscribers) {
             connectableObservable.subscribeOn(Schedulers.immediate()).observeOn(
                     AndroidSchedulers.mainThread()).subscribe(subscriber);

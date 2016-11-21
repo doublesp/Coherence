@@ -1,13 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentMultipleIdeaPreviewBinding;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
-import com.doublesp.coherence.layoutmanagers.CurveLayoutManager;
-import com.doublesp.coherence.viewmodels.Idea;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -22,6 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentMultipleIdeaPreviewBinding;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
+import com.doublesp.coherence.layoutmanagers.CurveLayoutManager;
+import com.doublesp.coherence.viewmodels.Idea;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -65,9 +65,11 @@ public class MultipleIdeaPreviewFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_multiple_idea_preview, container, false);
-        int orientation = getOrientation() == Configuration.ORIENTATION_LANDSCAPE ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
+            Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_multiple_idea_preview,
+                container, false);
+        int orientation = getOrientation() == Configuration.ORIENTATION_LANDSCAPE
+                ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
         mLayoutManager = new CurveLayoutManager(getActivity(), orientation);
         mSnapHelper = new LinearSnapHelper();
         binding.rvIdeaSelector.setLayoutManager(mLayoutManager);

@@ -1,13 +1,13 @@
 package com.doublesp.coherence.dependencies.modules.data;
 
+import android.app.Application;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.api.EdamamClient;
 import com.doublesp.coherence.interfaces.api.EdamamApiEndpointInterface;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.scopes.DataLayerScope;
 import com.doublesp.coherence.repositories.EdamamRepository;
-
-import android.app.Application;
 
 import java.util.Map;
 
@@ -24,7 +24,8 @@ public class DataLayerModule {
 
     @Provides
     @DataLayerScope
-    public EdamamApiEndpointInterface providesRecipeApiEndpointInterface(Map<Integer, Retrofit> retrofitMap) {
+    public EdamamApiEndpointInterface providesRecipeApiEndpointInterface(
+            Map<Integer, Retrofit> retrofitMap) {
         Retrofit retrofit = retrofitMap.get(R.id.idea_category_recipe);
         return retrofit.create(EdamamApiEndpointInterface.class);
     }
@@ -38,7 +39,7 @@ public class DataLayerModule {
     @Provides
     @DataLayerScope
     public RecipeRepositoryInterface providesRecipeRepository(Application application,
-                                                              EdamamClient client) {
+            EdamamClient client) {
         return new EdamamRepository(application, client);
     }
 }

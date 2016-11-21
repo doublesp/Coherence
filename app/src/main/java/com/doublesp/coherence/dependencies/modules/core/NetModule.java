@@ -1,14 +1,13 @@
 package com.doublesp.coherence.dependencies.modules.core;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import com.doublesp.coherence.R;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
-
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.doublesp.coherence.R;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
 
