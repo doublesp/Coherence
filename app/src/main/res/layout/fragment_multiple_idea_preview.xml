@@ -1,22 +1,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea" />
+            type="com.doublesp.coherence.viewmodels.Idea"/>
 
         <variable
             name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface" />
+            type="com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface"/>
     </data>
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        tools:context="com.doublesp.coherence.fragments.MultipleIdeaPreviewFragment">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    tools:context="com.doublesp.coherence.fragments.MultipleIdeaPreviewFragment">
 
         <ImageView
             android:id="@+id/ivIdeaBackgroundImage"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
-            app:imageUrl='@{viewModel.meta.imageUrl}' />
+            app:imageUrl='@{viewModel.meta.imageUrl}'/>
 
         <LinearLayout
             android:id="@+id/llIdeaDescriptionBox"
@@ -47,7 +47,7 @@
                 android:text='@{viewModel.meta.title}'
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorButton"
-                tools:text="The Girl on the Train" />
+                tools:text="The Girl on the Train"/>
 
             <TextView
                 android:id="@+id/tvOverview"
@@ -58,7 +58,7 @@
                 android:maxLines="3"
                 android:text='@{viewModel.meta.description}'
                 android:textColor="@color/colorButton"
-                tools:text="Rachel Watson, an alcoholic who divorced her husband Tom after she caught him cheating on her, takes the train to work daily. She fantasizes about the relationship of her neighbours, Scott and Megan Hipwell, during her commute. That all changes when she witnesses something from the train window and Megan is missing, presumed dead." />
+                tools:text="Rachel Watson, an alcoholic who divorced her husband Tom after she caught him cheating on her, takes the train to work daily. She fantasizes about the relationship of her neighbours, Scott and Megan Hipwell, during her commute. That all changes when she witnesses something from the train window and Megan is missing, presumed dead."/>
 
         </LinearLayout>
 
@@ -69,7 +69,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@color/colorOverlay" />
+            android:background="@color/colorOverlay"/>
 
     </RelativeLayout>
 

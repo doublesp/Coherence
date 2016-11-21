@@ -65,7 +65,7 @@ public class MultipleIdeaPreviewFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_multiple_idea_preview,
                 container, false);
         int orientation = getOrientation() == Configuration.ORIENTATION_LANDSCAPE

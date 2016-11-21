@@ -5,15 +5,15 @@
 
         <variable
             name="pos"
-            type="int" />
+            type="int"/>
 
         <variable
             name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface" />
+            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface"/>
 
         <variable
             name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea" />
+            type="com.doublesp.coherence.viewmodels.Idea"/>
     </data>
 
     <FrameLayout
@@ -28,7 +28,7 @@
             android:maxLines="1"
             android:onClick="@{() -> handler.onSuggestionClick(pos)}"
             android:text='@{viewModel.content}'
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/colorSecondary"/>
 
         <ImageButton
             android:id="@+id/ibIdeaPreview"
@@ -40,6 +40,6 @@
             android:background="@android:color/transparent"
             android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
             android:src="@drawable/ic_visibility"
-            android:tint="@color/colorPrimaryDark" />
+            android:tint="@color/colorPrimaryDark"/>
     </FrameLayout>
 </layout>
