@@ -45,7 +45,7 @@ public class HomeActivityModule {
     @Provides
     @PresentationLayerScope
     public IdeaActionHandlerInterface providesIdeaActionHandler(IdeaInteractorInterface ideaInteractor) {
-        return new IdeaCreationActionHandler(ideaInteractor);
+        return new IdeaCreationActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides

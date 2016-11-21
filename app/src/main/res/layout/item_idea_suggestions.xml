@@ -7,9 +7,9 @@
         <variable name="viewModel"
                   type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <TextView android:id="@+id/tvIdeaSuggestion"
                   android:layout_width="match_parent"
                   android:layout_height="@dimen/activity_list_composition_idea_height"
@@ -18,5 +18,16 @@
                   android:text='@{viewModel.content}'
                   android:onClick="@{() -> handler.onSuggestionClick(pos)}"
                 />
-    </LinearLayout>
+        <ImageButton android:id="@+id/ibIdeaPreview"
+                     android:layout_width="@dimen/activity_list_composition_idea_preview_icon_width"
+                     android:layout_height="@dimen/activity_list_composition_idea_preview_icon_height"
+                     android:layout_marginEnd="@dimen/activity_list_composition_idea_preview_icon_margin_right"
+                     android:layout_marginRight="@dimen/activity_list_composition_idea_preview_icon_margin_right"
+                     android:src="@drawable/ic_visibility"
+                     android:tint="@color/colorAccent"
+                     android:background="@android:color/transparent"
+                     android:layout_gravity="center_vertical|right|end"
+                     android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
+                />
+    </FrameLayout>
 </layout>
