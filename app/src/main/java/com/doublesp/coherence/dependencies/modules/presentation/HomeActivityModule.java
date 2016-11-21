@@ -45,13 +45,13 @@ public class HomeActivityModule {
     @Provides
     @PresentationLayerScope
     public IdeaActionHandlerInterface providesIdeaActionHandler(IdeaInteractorInterface ideaInteractor) {
-        return new IdeaCreationActionHandler(ideaInteractor);
+        return new IdeaCreationActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides
     @PresentationLayerScope
-    public ListFragmentActionHandlerInterface providesListFragmentActionHandler() {
-        return new ListFragmentActionHandler(mActivity);
+    public ListFragmentActionHandlerInterface providesListFragmentActionHandler(IdeaInteractorInterface ideaInteractor) {
+        return new ListFragmentActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides

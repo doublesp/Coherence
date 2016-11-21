@@ -3,7 +3,7 @@
     <data>
         <variable name="pos" type="int"/>
         <variable name="viewModel"
-                type="com.doublesp.coherence.viewmodels.Idea" />
+                  type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
@@ -14,6 +14,7 @@
                   android:gravity="center"
                   android:maxLines="1"
                   android:text='@{viewModel.content}'
+                  android:textColor="@color/colorPrimary"
                 />
     </LinearLayout>
 </layout>

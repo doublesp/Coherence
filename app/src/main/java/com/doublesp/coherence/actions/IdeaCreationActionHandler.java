@@ -2,6 +2,7 @@ package com.doublesp.coherence.actions;
 
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
+import com.doublesp.coherence.viewmodels.Idea;
 
 import android.text.Editable;
 
@@ -11,9 +12,11 @@ import android.text.Editable;
 
 public class IdeaCreationActionHandler implements IdeaActionHandlerInterface {
 
+    IdeaPreviewHandlerInterface mPreviewHandler;
     IdeaInteractorInterface mIdeaInteractor;
 
-    public IdeaCreationActionHandler (IdeaInteractorInterface ideaInteractor) {
+    public IdeaCreationActionHandler (IdeaPreviewHandlerInterface previewHandler, IdeaInteractorInterface ideaInteractor) {
+        mPreviewHandler = previewHandler;
         mIdeaInteractor = ideaInteractor;
     }
 
@@ -36,5 +39,15 @@ public class IdeaCreationActionHandler implements IdeaActionHandlerInterface {
     @Override
     public void onSuggestionClick(int pos) {
         mIdeaInteractor.acceptSuggestedIdeaAtPos(pos);
+    }
+
+    @Override
+    public void onPreviewButtonClick(int pos) {
+        Idea idea = mIdeaInteractor.getIdeaAtPos(pos);
+        mPreviewHandler.showPreviewDialog(idea);
+    }
+
+    public interface IdeaPreviewHandlerInterface {
+        void showPreviewDialog(Idea idea);
     }
 }

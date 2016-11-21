@@ -1,5 +1,7 @@
 package com.doublesp.coherence.interactors;
 
+import com.google.common.base.Joiner;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
@@ -29,7 +31,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
     PublishSubject<String> mSearchDebouner;
 
     public RecipeInteractor(IdeaDataStoreInterface ideaDataStore,
-                           RecipeRepositoryInterface recipeRepository) {
+                            RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mRecipeRepository = recipeRepository;
@@ -39,11 +41,11 @@ public class RecipeInteractor extends IdeaInteractorBase {
             public void onCompleted() {
                 List<Idea> ideas = new ArrayList<>();
                 for (Recipe recipe : mRecipes) {
-                    StringBuilder summaryBuilder = new StringBuilder();
+                    List<Idea> relatedIdeas = new ArrayList<Idea>();
                     for (Ingredient ingredient : recipe.getIngredients()) {
-                        summaryBuilder.append(ingredient.getText());
-                        summaryBuilder.append("\n");
+                        relatedIdeas.add(new Idea(recipe.getUri(), R.id.idea_category_recipe, ingredient.getFood(), false, R.id.idea_type_user_generated, null, null));
                     }
+                    String description = Joiner.on("\n").skipNulls().join(recipe.getIngredientLines());
                     ideas.add(new Idea(recipe.getUri(),
                             R.id.idea_category_recipe,
                             recipe.getLabel(),
@@ -51,7 +53,8 @@ public class RecipeInteractor extends IdeaInteractorBase {
                             R.id.idea_type_suggestion,
                             new IdeaMeta(recipe.getImageUrl(),
                                     recipe.getLabel(),
-                                    summaryBuilder.toString())
+                                    description),
+                            relatedIdeas
                     ));
                 }
                 mIdeaDataStore.setSuggestions(ideas);
@@ -68,19 +71,6 @@ public class RecipeInteractor extends IdeaInteractorBase {
                 mRecipes = recipes;
             }
         });
-    }
-
-    @Override
-    public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
-        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        mIdeaDataStore.removeIdea(pos);
-        Recipe recipe = Recipe.byUri(idea.getId());
-        List<Ingredient> ingredients = recipe.getIngredients();
-        for (Ingredient ingredient : ingredients) {
-            mIdeaDataStore.addIdea(new Idea(ingredient.getUri(), idea.getCategory(), ingredient.getFood(), false, R.id.idea_type_user_generated, new IdeaMeta(recipe.getImageUrl(), ingredient.getFood(), ingredient.getText())));
-        }
-        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 
     @Override

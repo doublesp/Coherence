@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Coherence</string>
+    <string name="app_name">Garçon</string>
 
     <string name="google_maps_api_key">AIzaSyCBjupD4UBQ4puue5J2uqjKpjpvpTJeB50</string>
     <string name="fabric_api_key">58083912c035206135aea30a9df62233cd1f2cf5</string>
@@ -8,6 +8,9 @@
     <string name="idea_hint_recipe">search for a recipe</string>
     <string name="idea_share_cue">Honey on your way home would you get these for me, please?
 </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

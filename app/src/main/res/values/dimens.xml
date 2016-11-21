@@ -4,6 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_explore_title_size">36sp</dimen>
     <dimen name="activity_list_composition_idea_height">44dp</dimen>
+    <dimen name="activity_list_composition_idea_preview_icon_width">44dp</dimen>
+    <dimen name="activity_list_composition_idea_preview_icon_height">44dp</dimen>
+    <dimen name="activity_list_composition_idea_preview_icon_margin_right">10dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_height">100dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_width">100dp</dimen>
 </resources>
