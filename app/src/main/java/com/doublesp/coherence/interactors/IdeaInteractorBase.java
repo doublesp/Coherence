@@ -6,6 +6,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
 
@@ -111,7 +112,12 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public Parcelable getPlan() {
+    public Plan getPlan() {
+        return mIdeaDataStore.getPlan();
+    }
+
+    @Override
+    public Parcelable getParcelablePlan() {
         return Parcels.wrap(mIdeaDataStore.getPlan());
     }
 

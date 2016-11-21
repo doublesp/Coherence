@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExternalLinkActivity"
+            android:name=".activities.ExternalLinkActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"

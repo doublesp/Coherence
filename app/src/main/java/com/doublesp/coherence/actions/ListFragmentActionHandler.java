@@ -6,6 +6,9 @@ import android.content.Intent;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.viewmodels.Plan;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -17,13 +20,16 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     IdeaShareHandlerInterface mShareHandler;
     IdeaInteractorInterface mIdeaInteractor;
 
-    private final static String LIST_ID = "233333333";
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mListDatabaseReference;
 
     public ListFragmentActionHandler(Context context, IdeaInteractorInterface ideaInteractor) {
         mContext = context;
         if (context instanceof IdeaShareHandlerInterface) {
             mShareHandler = (IdeaShareHandlerInterface) context;
         }
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mListDatabaseReference = mFirebaseDatabase.getReference().child("lists");
         mIdeaInteractor = ideaInteractor;
     }
 
@@ -35,12 +41,15 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         StringBuilder sharableContentBuilder = new StringBuilder(
                 mContext.getString(R.string.idea_share_cue));
         sharableContentBuilder.append("\n");
-        sharableContentBuilder.append(
-                mIdeaInteractor.getSharableContent());    // TODO: Santhosh please save
-        // mIdeaInteractor.getPlan() to Parse server
+        sharableContentBuilder.append(mIdeaInteractor.getSharableContent());
+
+        Plan plan = mIdeaInteractor.getPlan();
+        DatabaseReference keyReference = mListDatabaseReference.push();
+        keyReference.setValue(plan);
         sharableContentBuilder
                 .append("http://doublesp.com/shared/")
-                .append(LIST_ID);
+                .append(keyReference.getKey());
+
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mShareHandler.share(shareIntent);

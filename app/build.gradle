@@ -87,4 +87,7 @@ dependencies {
     apt 'org.parceler:parceler:1.1.1'
     apt 'com.google.dagger:dagger-compiler:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.google.firebase:firebase-database:9.8.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

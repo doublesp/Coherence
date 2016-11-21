@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "763265727503",
+    "firebase_url": "https://coherence-149406.firebaseio.com",
+    "project_id": "coherence-149406",
+    "storage_bucket": "coherence-149406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763265727503:android:b1b978b28b15fdeb",
+        "android_client_info": {
+          "package_name": "com.doublesp.coherence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763265727503-j693dj1d1n1u6sfl6j3i3m1pschpidit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaCtJhOVTMGVetBGhynFwNKnXL8RtvnOc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
