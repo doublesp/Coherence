@@ -16,6 +16,8 @@ public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterfa
     HomeActivity mActivity;
     IdeaInteractorInterface mIdeaInteractor;
 
+    private final static String LIST_ID = "233333333";
+
     public IdeaPreviewActionHandler(HomeActivity activity, IdeaInteractorInterface ideaInteractor) {
         mActivity = activity;
         mIdeaInteractor = ideaInteractor;
@@ -32,8 +34,9 @@ public class IdeaPreviewActionHandler implements IdeaPreviewActionHandlerInterfa
         sharableContentBuilder.append(
                 mIdeaInteractor.getSharableContent());    // TODO: Santhosh please save
         // mIdeaInteractor.getPlan() to Parse server
-        sharableContentBuilder.append(
-                "https://github.com/doublesp/Coherence"); // TODO: Shawn please replace this link
+        sharableContentBuilder
+                .append("http://doublesp.com/shared/")
+                .append(LIST_ID); // TODO: Shawn please replace this link
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mActivity.share(shareIntent);

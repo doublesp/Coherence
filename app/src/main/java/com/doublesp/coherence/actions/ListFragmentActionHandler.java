@@ -17,6 +17,8 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     IdeaShareHandlerInterface mShareHandler;
     IdeaInteractorInterface mIdeaInteractor;
 
+    private final static String LIST_ID = "233333333";
+
     public ListFragmentActionHandler(Context context, IdeaInteractorInterface ideaInteractor) {
         mContext = context;
         if (context instanceof IdeaShareHandlerInterface) {
@@ -36,8 +38,9 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         sharableContentBuilder.append(
                 mIdeaInteractor.getSharableContent());    // TODO: Santhosh please save
         // mIdeaInteractor.getPlan() to Parse server
-        sharableContentBuilder.append(
-                "https://goo.gl/TKoC6b");                 // TODO: Shawn please replace this link
+        sharableContentBuilder
+                .append("http://doublesp.com/shared/")
+                .append(LIST_ID);
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mShareHandler.share(shareIntent);
