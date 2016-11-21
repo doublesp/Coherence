@@ -1,10 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -20,6 +15,11 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,9 +57,10 @@ public class ListCompositionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_composition, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_composition, container,
+                false);
         binding.rvIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeas.setAdapter(mAdapter);
         binding.setHandler(mActionHandler);
@@ -92,7 +93,8 @@ public class ListCompositionFragment extends Fragment {
     }
 
     void rotateImage() {
-        binding.ivIdeaCompositionBackground.setImageResource(mBackgroundImageIds[mBackgroundImageIndex]);
+        binding.ivIdeaCompositionBackground.setImageResource(
+                mBackgroundImageIds[mBackgroundImageIndex]);
         binding.ivIdeaCompositionBackground.startAnimation(fadeInOutAnimation());
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -1,9 +1,9 @@
 package com.doublesp.coherence.dependencies.components.application;
 
+import android.app.Application;
+
 import com.doublesp.coherence.dependencies.modules.core.AppModule;
 import com.doublesp.coherence.dependencies.modules.core.NetModule;
-
-import android.app.Application;
 
 import java.util.Map;
 
@@ -21,6 +21,7 @@ import retrofit2.Retrofit;
 public interface ApplicationComponent {
 
     Application application();
+
     Map<Integer, Retrofit> retrofitMap();
 
 }

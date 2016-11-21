@@ -1,5 +1,11 @@
 package com.doublesp.coherence.activities;
 
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
@@ -16,15 +22,11 @@ import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
 import com.doublesp.coherence.utils.CoherenceTabUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
-
 import io.fabric.sdk.android.Fabric;
 
-public class HomeActivity extends AppCompatActivity implements HomeInjectorInterface, IdeaCreationActionHandler.IdeaPreviewHandlerInterface, ListFragmentActionHandler.IdeaShareHandlerInterface {
+public class HomeActivity extends AppCompatActivity implements HomeInjectorInterface,
+        IdeaCreationActionHandler.IdeaPreviewHandlerInterface,
+        ListFragmentActionHandler.IdeaShareHandlerInterface {
 
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
     ActivityHomeBinding binding;
@@ -35,7 +37,8 @@ public class HomeActivity extends AppCompatActivity implements HomeInjectorInter
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        binding.viewpager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), HomeActivity.this));
+        binding.viewpager.setAdapter(
+                new HomeFragmentPagerAdapter(getSupportFragmentManager(), HomeActivity.this));
         binding.tabs.setupWithViewPager(binding.viewpager);
         CoherenceTabUtils.bindIcons(HomeActivity.this, binding.viewpager, binding.tabs);
     }
@@ -46,7 +49,8 @@ public class HomeActivity extends AppCompatActivity implements HomeInjectorInter
                     ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
                             .newListCompositionActivitySubComponent(
                                     new HomeActivityModule(this, R.id.idea_category_recipe));
-//                                    new HomeActivityModule(this, R.id.idea_category_debug));  // NOTE: use idea_category_debug for mock data
+//                                    new HomeActivityModule(this, R.id.idea_category_debug));
+// NOTE: use idea_category_debug for mock data
         }
         return mActivityComponent;
     }

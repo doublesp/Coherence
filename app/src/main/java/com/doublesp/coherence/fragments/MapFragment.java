@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doublesp.coherence.utils.LocationCluster;
 import com.doublesp.coherence.R;
+import com.doublesp.coherence.utils.LocationCluster;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -34,16 +34,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ClusterManager<LocationCluster> mClusterManager;
 
 
-    public static MapFragment newInstance() {
-        return new MapFragment();
-    }
-
     public MapFragment() {
         Log.d(TAG, "Constructor");
     }
 
+    public static MapFragment newInstance() {
+        return new MapFragment();
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup containter,
+            Bundle savedInstanceState) {
         super.onCreateView(inflater, containter, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_map, containter, false);
@@ -89,8 +90,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = map;
         uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;

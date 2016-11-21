@@ -9,7 +9,9 @@ import android.text.Editable;
 public interface IdeaActionHandlerInterface {
 
     void afterTextChanged(Editable s);
+
     void onSuggestionClick(int pos);
+
     void onPreviewButtonClick(int pos);
 
 }

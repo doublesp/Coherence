@@ -28,7 +28,8 @@ public class CurveLayoutManager extends LinearLayoutManager {
     }
 
     @Override
-    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
+    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler,
+            RecyclerView.State state) {
         if (getOrientation() == HORIZONTAL) {
             return 0;
         }
@@ -39,7 +40,8 @@ public class CurveLayoutManager extends LinearLayoutManager {
     }
 
     @Override
-    public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
+    public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler,
+            RecyclerView.State state) {
         if (getOrientation() == VERTICAL) {
             return 0;
         }
@@ -66,11 +68,14 @@ public class CurveLayoutManager extends LinearLayoutManager {
         switch (getOrientation()) {
             case HORIZONTAL:
                 sizeOfRecyclerView = getWidth();
-                accumulatedOffset = (mChildMeasured && mChildWidth != 0) ? - mContentOffset.x % mChildWidth : 0;
+                accumulatedOffset =
+                        (mChildMeasured && mChildWidth != 0) ? -mContentOffset.x % mChildWidth : 0;
                 break;
             case VERTICAL:
                 sizeOfRecyclerView = getHeight();
-                accumulatedOffset = (mChildMeasured && mChildHeight != 0) ? - mContentOffset.y % mChildHeight : 0;
+                accumulatedOffset =
+                        (mChildMeasured && mChildHeight != 0) ? -mContentOffset.y % mChildHeight
+                                : 0;
                 break;
         }
 
@@ -88,14 +93,18 @@ public class CurveLayoutManager extends LinearLayoutManager {
             switch (getOrientation()) {
                 case HORIZONTAL:
                     xOffset = Math.abs((getDecoratedLeft(view) + mChildWidth / 2) - radius);
-                    yOffset = radius - (int) Math.round(Math.sqrt(radius * radius - xOffset * xOffset));
-                    layoutDecorated(view, accumulatedOffset, yOffset, accumulatedOffset + mChildWidth, yOffset + mChildHeight);
+                    yOffset = radius - (int) Math.round(
+                            Math.sqrt(radius * radius - xOffset * xOffset));
+                    layoutDecorated(view, accumulatedOffset, yOffset,
+                            accumulatedOffset + mChildWidth, yOffset + mChildHeight);
                     accumulatedOffset += mChildWidth;
                     break;
                 case VERTICAL:
                     yOffset = Math.abs((getDecoratedTop(view) + mChildHeight / 2) - radius);
-                    xOffset = (int) Math.round(Math.sqrt(radius * radius - yOffset * yOffset)) - radius;
-                    layoutDecorated(view, xOffset, accumulatedOffset, xOffset + mChildWidth, accumulatedOffset + mChildHeight);
+                    xOffset = (int) Math.round(Math.sqrt(radius * radius - yOffset * yOffset))
+                            - radius;
+                    layoutDecorated(view, xOffset, accumulatedOffset, xOffset + mChildWidth,
+                            accumulatedOffset + mChildHeight);
                     accumulatedOffset += mChildHeight;
                     break;
             }

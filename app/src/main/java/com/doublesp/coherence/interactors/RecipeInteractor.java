@@ -1,7 +1,5 @@
 package com.doublesp.coherence.interactors;
 
-import com.google.common.base.Joiner;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
@@ -9,6 +7,7 @@ import com.doublesp.coherence.models.Ingredient;
 import com.doublesp.coherence.models.Recipe;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
+import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,21 +30,25 @@ public class RecipeInteractor extends IdeaInteractorBase {
     PublishSubject<String> mSearchDebouner;
 
     public RecipeInteractor(IdeaDataStoreInterface ideaDataStore,
-                            RecipeRepositoryInterface recipeRepository) {
+            RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mRecipeRepository = recipeRepository;
         mRecipeRepository.subscribe(new Observer<List<Recipe>>() {
             List<Recipe> mRecipes;
+
             @Override
             public void onCompleted() {
                 List<Idea> ideas = new ArrayList<>();
                 for (Recipe recipe : mRecipes) {
                     List<Idea> relatedIdeas = new ArrayList<Idea>();
                     for (Ingredient ingredient : recipe.getIngredients()) {
-                        relatedIdeas.add(new Idea(recipe.getUri(), R.id.idea_category_recipe, ingredient.getFood(), false, R.id.idea_type_user_generated, null, null));
+                        relatedIdeas.add(new Idea(recipe.getUri(), R.id.idea_category_recipe,
+                                ingredient.getFood(), false, R.id.idea_type_user_generated, null,
+                                null));
                     }
-                    String description = Joiner.on("\n").skipNulls().join(recipe.getIngredientLines());
+                    String description = Joiner.on("\n").skipNulls().join(
+                            recipe.getIngredientLines());
                     ideas.add(new Idea(recipe.getUri(),
                             R.id.idea_category_recipe,
                             recipe.getLabel(),
@@ -102,7 +105,8 @@ public class RecipeInteractor extends IdeaInteractorBase {
     private void searchRecipeWithDebounce(String keyword) {
         if (mSearchDebouner == null) {
             mSearchDebouner = PublishSubject.create();
-            mSearchDebouner.debounce(RECIPE_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES, TimeUnit.MILLISECONDS)
+            mSearchDebouner.debounce(RECIPE_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES,
+                    TimeUnit.MILLISECONDS)
                     .subscribe(new Action1<String>() {
                         @Override
                         public void call(String s) {

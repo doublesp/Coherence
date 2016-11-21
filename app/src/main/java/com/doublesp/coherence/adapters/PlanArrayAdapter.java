@@ -1,15 +1,15 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.interactors.MockRecipeInteractor;
-import com.doublesp.coherence.viewholders.PlanViewHolder;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.interactors.MockRecipeInteractor;
+import com.doublesp.coherence.viewholders.PlanViewHolder;
 
 /**
  * Created by pinyaoting on 11/16/16.

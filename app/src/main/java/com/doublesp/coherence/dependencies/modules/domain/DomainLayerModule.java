@@ -31,8 +31,9 @@ public class DomainLayerModule {
     @DomainLayerScope
     @IntoMap
     @IntKey(R.id.idea_category_recipe)
-    public IdeaInteractorInterface providesRecipeIdeaInteractor(IdeaDataStoreInterface ideaDataStore,
-                                                               RecipeRepositoryInterface recipeRepository) {
+    public IdeaInteractorInterface providesRecipeIdeaInteractor(
+            IdeaDataStoreInterface ideaDataStore,
+            RecipeRepositoryInterface recipeRepository) {
         return new RecipeInteractor(ideaDataStore, recipeRepository);
     }
 
@@ -40,7 +41,8 @@ public class DomainLayerModule {
     @DomainLayerScope
     @IntoMap
     @IntKey(R.id.idea_category_debug)
-    public IdeaInteractorInterface providesMockRecipeIdeaInteractor(RecipeRepositoryInterface recipeRepository) {
+    public IdeaInteractorInterface providesMockRecipeIdeaInteractor(
+            RecipeRepositoryInterface recipeRepository) {
         IdeaDataStore ideaDataStore = new IdeaDataStore();
         return new MockRecipeInteractor(ideaDataStore, recipeRepository);
     }

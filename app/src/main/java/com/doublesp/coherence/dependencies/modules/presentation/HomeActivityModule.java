@@ -1,5 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
 import com.doublesp.coherence.actions.IdeaPreviewActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
@@ -11,8 +13,6 @@ import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
-
-import android.support.v7.widget.RecyclerView;
 
 import java.util.Map;
 
@@ -30,6 +30,7 @@ public class HomeActivityModule {
 
     private final HomeActivity mActivity;
     private final int mCategory;
+
     public HomeActivityModule(HomeActivity activity, int category) {
         mActivity = activity;
         mCategory = category;
@@ -38,25 +39,29 @@ public class HomeActivityModule {
     @Provides
     @PresentationLayerScope
     @Named("Composition")
-    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
+    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesListCompositionArrayAdapter(
+            IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
         return new ListCompositionArrayAdapter(ideaInteractor, ideaActionHandler);
     }
 
     @Provides
     @PresentationLayerScope
-    public IdeaActionHandlerInterface providesIdeaActionHandler(IdeaInteractorInterface ideaInteractor) {
+    public IdeaActionHandlerInterface providesIdeaActionHandler(
+            IdeaInteractorInterface ideaInteractor) {
         return new IdeaCreationActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides
     @PresentationLayerScope
-    public ListFragmentActionHandlerInterface providesListFragmentActionHandler(IdeaInteractorInterface ideaInteractor) {
+    public ListFragmentActionHandlerInterface providesListFragmentActionHandler(
+            IdeaInteractorInterface ideaInteractor) {
         return new ListFragmentActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides
     @PresentationLayerScope
-    public IdeaInteractorInterface providesIdeaInteractor(Map<Integer, IdeaInteractorInterface> ideaInteractors) {
+    public IdeaInteractorInterface providesIdeaInteractor(
+            Map<Integer, IdeaInteractorInterface> ideaInteractors) {
         IdeaInteractorInterface ideaInteractor = ideaInteractors.get(mCategory);
         return ideaInteractor;
     }
@@ -64,13 +69,15 @@ public class HomeActivityModule {
     @Provides
     @PresentationLayerScope
     @Named("Preview")
-    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesIdeaPreviewArrayAdapter(IdeaInteractorInterface ideaInteractor) {
+    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesIdeaPreviewArrayAdapter(
+            IdeaInteractorInterface ideaInteractor) {
         return new IdeaSelectorArrayAdapter(ideaInteractor);
     }
 
     @Provides
     @PresentationLayerScope
-    public IdeaPreviewActionHandlerInterface providesIdeaPreviewActionHandler(IdeaInteractorInterface ideaInteractor) {
+    public IdeaPreviewActionHandlerInterface providesIdeaPreviewActionHandler(
+            IdeaInteractorInterface ideaInteractor) {
         return new IdeaPreviewActionHandler(mActivity, ideaInteractor);
     }
 }

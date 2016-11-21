@@ -1,8 +1,8 @@
 package com.doublesp.coherence.interfaces.domain;
 
-import com.doublesp.coherence.viewmodels.Idea;
-
 import android.os.Parcelable;
+
+import com.doublesp.coherence.viewmodels.Idea;
 
 import rx.Observer;
 

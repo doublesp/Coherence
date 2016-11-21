@@ -1,5 +1,12 @@
 package com.doublesp.coherence.adapters;
 
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
@@ -9,14 +16,7 @@ import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import rx.Observer;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/12/16.
@@ -24,16 +24,18 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
+    final Observer<Integer> mObserver;
     IdeaInteractorInterface mIdeaInteractor;
     IdeaActionHandlerInterface mIdeaActionHandler;
-    final Observer<Integer> mObserver;
     BlankIdeaViewHolder mBlankIdeaViewHolder;
 
-    public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
+    public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
+            IdeaActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mObserver = new Observer<Integer>() {
             int mState;
+
             @Override
             public void onCompleted() {
                 switch (mState) {
