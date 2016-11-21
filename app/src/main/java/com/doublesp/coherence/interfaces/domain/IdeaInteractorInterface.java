@@ -3,6 +3,7 @@ package com.doublesp.coherence.interfaces.domain;
 import android.os.Parcelable;
 
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
 
 import rx.Observer;
 
@@ -38,6 +39,8 @@ public interface IdeaInteractorInterface {
 
     Parcelable getSnapshot();
 
-    Parcelable getPlan();
+    Parcelable getParcelablePlan();
+
+    Plan getPlan();
 
 }

@@ -20,7 +20,7 @@ import java.util.List;
 public class MockRecipeInteractor extends RecipeInteractor {
 
     public MockRecipeInteractor(IdeaDataStoreInterface ideaDataStore,
-                                RecipeRepositoryInterface recipeRepository) {
+            RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore, recipeRepository);
         ideaDataStore.setSnapshot(Parcels.wrap(new IdeaSnapshotStore(mockIdeas())));
     }

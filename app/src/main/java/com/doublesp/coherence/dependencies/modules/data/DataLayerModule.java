@@ -39,7 +39,7 @@ public class DataLayerModule {
     @Provides
     @DataLayerScope
     public RecipeRepositoryInterface providesRecipeRepository(Application application,
-                                                              EdamamClient client) {
+            EdamamClient client) {
         return new EdamamRepository(application, client);
     }
 }

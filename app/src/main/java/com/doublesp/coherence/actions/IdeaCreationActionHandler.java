@@ -16,7 +16,7 @@ public class IdeaCreationActionHandler implements IdeaActionHandlerInterface {
     IdeaInteractorInterface mIdeaInteractor;
 
     public IdeaCreationActionHandler(IdeaPreviewHandlerInterface previewHandler,
-                                     IdeaInteractorInterface ideaInteractor) {
+            IdeaInteractorInterface ideaInteractor) {
         mPreviewHandler = previewHandler;
         mIdeaInteractor = ideaInteractor;
     }
