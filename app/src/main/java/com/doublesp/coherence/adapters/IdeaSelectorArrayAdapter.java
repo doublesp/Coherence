@@ -1,7 +1,5 @@
 package com.doublesp.coherence.adapters;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +9,8 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewholders.IdeaSelectorIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/14/16.
