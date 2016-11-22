@@ -1,5 +1,11 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.utils.AnimationUtils;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,16 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -95,7 +91,7 @@ public class ListCompositionFragment extends Fragment {
     void rotateImage() {
         binding.ivIdeaCompositionBackground.setImageResource(
                 mBackgroundImageIds[mBackgroundImageIndex]);
-        binding.ivIdeaCompositionBackground.startAnimation(fadeInOutAnimation());
+        binding.ivIdeaCompositionBackground.startAnimation(AnimationUtils.fadeInOutAnimation(LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -103,23 +99,6 @@ public class ListCompositionFragment extends Fragment {
                 rotateImage();
             }
         }, LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL);
-    }
-
-    Animation fadeInOutAnimation() {
-        int duration = LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL / 2;
-        Animation fadeIn = new AlphaAnimation(0, 1);
-        fadeIn.setInterpolator(new DecelerateInterpolator());
-        fadeIn.setDuration(duration);
-
-        Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setStartOffset(duration);
-        fadeOut.setDuration(duration);
-
-        AnimationSet animation = new AnimationSet(true);
-        animation.addAnimation(fadeIn);
-        animation.addAnimation(fadeOut);
-        return animation;
     }
 
 }

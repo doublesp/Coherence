@@ -1,14 +1,14 @@
 package com.doublesp.coherence.datastore;
 
-import android.os.Parcelable;
-import android.util.Pair;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
+
+import android.os.Parcelable;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +120,7 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     @Override
     public Plan getPlan() {
         List<Idea> ideas = getUserIdeas();
+        // TODO: allow user to name the plan
         return new Plan(ideas, "");
     }
 
