@@ -6,7 +6,5 @@
 
     <string name="api_endpoint_recipe" translatable="false">https://api.edamam.com/</string>
     <string name="idea_hint_recipe">search for a recipe</string>
-    <string name="idea_share_cue">Honey on your way home would you get these for me, please?
-</string>
 
 </resources>
