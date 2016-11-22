@@ -1,18 +1,16 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
-import com.doublesp.coherence.actions.IdeaPreviewActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.activities.HomeActivity;
 import com.doublesp.coherence.adapters.IdeaSelectorArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaPreviewActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
+
+import android.support.v7.widget.RecyclerView;
 
 import java.util.Map;
 
@@ -74,10 +72,4 @@ public class HomeActivityModule {
         return new IdeaSelectorArrayAdapter(ideaInteractor);
     }
 
-    @Provides
-    @PresentationLayerScope
-    public IdeaPreviewActionHandlerInterface providesIdeaPreviewActionHandler(
-            IdeaInteractorInterface ideaInteractor) {
-        return new IdeaPreviewActionHandler(mActivity, ideaInteractor);
-    }
 }

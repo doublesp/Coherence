@@ -6,6 +6,7 @@
     <dimen name="activity_list_composition_idea_preview_icon_width">44dp</dimen>
     <dimen name="activity_list_composition_idea_preview_icon_height">44dp</dimen>
     <dimen name="activity_list_composition_idea_preview_icon_margin_right">10dp</dimen>
+    <dimen name="fragment_idea_review_list_height">200dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_height">100dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_width">100dp</dimen>
 </resources>

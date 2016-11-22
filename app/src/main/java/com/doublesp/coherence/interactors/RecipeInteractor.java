@@ -1,5 +1,7 @@
 package com.doublesp.coherence.interactors;
 
+import com.google.common.base.Joiner;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
@@ -7,10 +9,11 @@ import com.doublesp.coherence.models.Ingredient;
 import com.doublesp.coherence.models.Recipe;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
-import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
@@ -89,13 +92,37 @@ public class RecipeInteractor extends IdeaInteractorBase {
         searchRecipeWithDebounce(keyword);
     }
 
+//    @Override
+//    public void acceptSuggestedIdeaAtPos(int pos) {
+//        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+//        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
+//        mIdeaDataStore.removeIdea(pos);
+//        Set<String> dedupSet = new HashSet<>();
+//        for (Idea relatedIdea : idea.getRelatedIdeas()) {
+//            if (dedupSet.contains(relatedIdea.getContent())) {
+//                continue;
+//            }
+//            mIdeaDataStore.addIdea(relatedIdea);
+//            dedupSet.add(relatedIdea.getContent());
+//        }
+//        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+//    }
+
     @Override
     public String getSharableContent() {
         List<Idea> ideaList = mIdeaDataStore.getIdeas();
         StringBuilder sharableContentBuilder = new StringBuilder();
+        Set<String> ideaDedupSet = new HashSet<>();
         for (Idea idea : ideaList) {
-            sharableContentBuilder.append(idea.getContent());
-            sharableContentBuilder.append("\n");
+            for (Idea relatedIdea : idea.getRelatedIdeas()) {
+                String content = relatedIdea.getContent();
+                if (ideaDedupSet.contains(content)) {
+                    continue;
+                }
+                sharableContentBuilder.append(content);
+                sharableContentBuilder.append("\n");
+                ideaDedupSet.add(content);
+            }
         }
         return sharableContentBuilder.toString();
     }

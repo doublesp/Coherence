@@ -1,7 +1,5 @@
 package com.doublesp.coherence.interactors;
 
-import android.os.Parcelable;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -10,8 +8,7 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
 
-import java.util.HashSet;
-import java.util.Set;
+import android.os.Parcelable;
 
 import rx.Observer;
 
@@ -43,14 +40,7 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         mIdeaDataStore.removeIdea(pos);
-        Set<String> dedupSet = new HashSet<>();
-        for (Idea relatedIdea : idea.getRelatedIdeas()) {
-            if (dedupSet.contains(relatedIdea.getContent())) {
-                continue;
-            }
-            mIdeaDataStore.addIdea(relatedIdea);
-            dedupSet.add(relatedIdea.getContent());
-        }
+        mIdeaDataStore.addIdea(idea);
         mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
     }
 

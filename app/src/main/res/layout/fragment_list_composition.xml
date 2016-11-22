@@ -2,7 +2,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="handler"
             type="com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface"/>
@@ -35,7 +34,6 @@
             android:onClick="@{() -> handler.onFloatingAcitonButtonClick()}"
             android:src="@drawable/ic_share"
             android:tint="@color/colorButton"
-            app:backgroundTint="@color/colorPrimaryDark"
             app:fabSize="normal"
             app:layout_anchor="@id/rvIdeas"
             app:layout_anchorGravity="bottom|right|end"/>
