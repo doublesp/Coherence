@@ -1,6 +1,6 @@
 package com.doublesp.coherence.interfaces.data;
 
-import com.doublesp.coherence.models.Recipe;
+import com.doublesp.coherence.models.v1.Recipe;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.doublesp.coherence.api;
 
 import com.doublesp.coherence.interfaces.api.EdamamApiEndpointInterface;
-import com.doublesp.coherence.models.RecipeResponse;
+import com.doublesp.coherence.models.v1.RecipeResponse;
 
 import java.util.ArrayList;
 import java.util.List;

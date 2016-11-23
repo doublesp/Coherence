@@ -2,6 +2,7 @@
 <resources>
     <item name="item_click_support" type="id"/>
     <item name="idea_category_recipe" type="id"/>
+    <item name="idea_category_recipe_v2" type="id"/>
     <item name="idea_category_debug" type="id"/>
     <item name="idea_type_user_generated" type="id"/>
     <item name="idea_type_blank" type="id"/>

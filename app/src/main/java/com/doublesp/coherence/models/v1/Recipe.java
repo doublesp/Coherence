@@ -1,7 +1,8 @@
-package com.doublesp.coherence.models;
+package com.doublesp.coherence.models.v1;
+
+import com.google.gson.annotations.SerializedName;
 
 import com.doublesp.coherence.database.RecipeDatabase;
-import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;

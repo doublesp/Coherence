@@ -1,4 +1,4 @@
-package com.doublesp.coherence.models;
+package com.doublesp.coherence.models.v1;
 
 /**
  * Created by pinyaoting on 11/18/16.

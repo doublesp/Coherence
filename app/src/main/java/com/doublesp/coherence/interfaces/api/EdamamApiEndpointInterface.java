@@ -1,6 +1,6 @@
 package com.doublesp.coherence.interfaces.api;
 
-import com.doublesp.coherence.models.RecipeResponse;
+import com.doublesp.coherence.models.v1.RecipeResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
