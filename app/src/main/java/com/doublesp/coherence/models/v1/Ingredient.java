@@ -1,4 +1,4 @@
-package com.doublesp.coherence.models;
+package com.doublesp.coherence.models.v1;
 
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;

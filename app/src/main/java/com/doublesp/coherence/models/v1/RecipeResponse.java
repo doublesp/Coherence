@@ -1,4 +1,4 @@
-package com.doublesp.coherence.models;
+package com.doublesp.coherence.models.v1;
 
 import com.google.gson.annotations.SerializedName;
 
