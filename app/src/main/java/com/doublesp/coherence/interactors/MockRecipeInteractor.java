@@ -4,6 +4,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.datastore.IdeaSnapshotStore;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -26,7 +27,7 @@ public class MockRecipeInteractor extends RecipeInteractor {
     }
 
     Plan mockPlan() {
-        return new Plan(mockIdeas(), "Dinner 11/18");
+        return new Plan(mockIdeas(), "Dinner 11/18", ConstantsAndUtils.ANONYMOUS);
     }
 
     List<Idea> mockIdeas() {

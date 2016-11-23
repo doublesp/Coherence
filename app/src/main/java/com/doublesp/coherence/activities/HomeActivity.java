@@ -1,5 +1,11 @@
 package com.doublesp.coherence.activities;
 
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
@@ -15,12 +21,6 @@ import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
 import com.doublesp.coherence.utils.CoherenceTabUtils;
 import com.doublesp.coherence.viewmodels.Idea;
-
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 
 import io.fabric.sdk.android.Fabric;
 

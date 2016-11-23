@@ -1,14 +1,16 @@
 package com.doublesp.coherence.datastore;
 
+import android.content.Context;
+import android.os.Parcelable;
+import android.util.Pair;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
-
-import android.os.Parcelable;
-import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,13 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     IdeaSnapshotStore mIdeaSnapshotStore;
     List<Observer<Integer>> mStateObservers;
     int mIdeaState;
+    private Context mContext;
 
-    public IdeaDataStore() {
+    public IdeaDataStore(Context context) {
         mIdeaSnapshotStore = new IdeaSnapshotStore();
         mStateObservers = new ArrayList<>();
         mIdeaState = R.id.idea_state_idle;
+        mContext = context;
     }
 
     @Override
@@ -121,7 +125,7 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     public Plan getPlan() {
         List<Idea> ideas = getUserIdeas();
         // TODO: allow user to name the plan
-        return new Plan(ideas, "");
+        return new Plan(ideas, "", ConstantsAndUtils.getOwner(mContext));
     }
 
     private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {

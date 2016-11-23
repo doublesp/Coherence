@@ -1,11 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
-import com.doublesp.coherence.utils.AnimationUtils;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,6 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.utils.AnimationUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -91,7 +91,8 @@ public class ListCompositionFragment extends Fragment {
     void rotateImage() {
         binding.ivIdeaCompositionBackground.setImageResource(
                 mBackgroundImageIds[mBackgroundImageIndex]);
-        binding.ivIdeaCompositionBackground.startAnimation(AnimationUtils.fadeInOutAnimation(LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL));
+        binding.ivIdeaCompositionBackground.startAnimation(AnimationUtils.fadeInOutAnimation(
+                LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
