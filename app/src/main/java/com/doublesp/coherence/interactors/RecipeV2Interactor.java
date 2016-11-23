@@ -31,7 +31,7 @@ public class RecipeV2Interactor extends IdeaInteractorBase {
     PublishSubject<String> mSearchDebouncer;
 
     public RecipeV2Interactor(IdeaDataStoreInterface ideaDataStore,
-                              RecipeV2RepositoryInterface recipeRepository) {
+            RecipeV2RepositoryInterface recipeRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mRecipeRepository = recipeRepository;
@@ -46,7 +46,9 @@ public class RecipeV2Interactor extends IdeaInteractorBase {
                     if (recipe.getExtendedIngredients() != null) {
                         for (IngredientV2 ingredient : recipe.getExtendedIngredients()) {
                             relatedIdeas.add(new Idea(ingredient.getId(), R.id.idea_category_recipe,
-                                    ingredient.getName(), false, R.id.idea_type_user_generated, new IdeaMeta(ingredient.getImage(), ingredient.getName(), ingredient.getOriginalString()),
+                                    ingredient.getName(), false, R.id.idea_type_user_generated,
+                                    new IdeaMeta(ingredient.getImage(), ingredient.getName(),
+                                            ingredient.getOriginalString()),
                                     null));
                         }
                     }
@@ -85,7 +87,9 @@ public class RecipeV2Interactor extends IdeaInteractorBase {
                 if (mRecipe.getExtendedIngredients() != null) {
                     for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
                         relatedIdeas.add(new Idea(ingredient.getId(), R.id.idea_category_recipe,
-                                ingredient.getName(), false, R.id.idea_type_user_generated, new IdeaMeta(ingredient.getImage(), ingredient.getName(), ingredient.getOriginalString()),
+                                ingredient.getName(), false, R.id.idea_type_user_generated,
+                                new IdeaMeta(ingredient.getImage(), ingredient.getName(),
+                                        ingredient.getOriginalString()),
                                 null));
                     }
                 }

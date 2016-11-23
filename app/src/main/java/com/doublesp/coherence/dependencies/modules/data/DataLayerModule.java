@@ -1,5 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.data;
 
+import android.app.Application;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.api.EdamamClient;
 import com.doublesp.coherence.api.SpoonacularClient;
@@ -10,8 +12,6 @@ import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.scopes.DataLayerScope;
 import com.doublesp.coherence.repositories.EdamamRepository;
 import com.doublesp.coherence.repositories.SpoonacularRepository;
-
-import android.app.Application;
 
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class DataLayerModule {
     @Provides
     @DataLayerScope
     public RecipeRepositoryInterface providesRecipeRepository(Application application,
-                                                              EdamamClient client) {
+            EdamamClient client) {
         return new EdamamRepository(application, client);
     }
 
@@ -57,14 +57,15 @@ public class DataLayerModule {
 
     @Provides
     @DataLayerScope
-    public SpoonacularClient providesSpoonacularClient(SpoonacularApiEndpointInterface apiEndpointInterface) {
+    public SpoonacularClient providesSpoonacularClient(
+            SpoonacularApiEndpointInterface apiEndpointInterface) {
         return new SpoonacularClient(apiEndpointInterface);
     }
 
     @Provides
     @DataLayerScope
     public RecipeV2RepositoryInterface providesRecipeV2Repository(Application application,
-                                                                  SpoonacularClient client) {
+            SpoonacularClient client) {
         return new SpoonacularRepository(application, client);
     }
 }

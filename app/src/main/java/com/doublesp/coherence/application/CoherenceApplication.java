@@ -49,7 +49,7 @@ public class CoherenceApplication extends MultiDexApplication {
 
         mDomainLayerComponent = DaggerDomainLayerComponent.builder()
                 .dataLayerComponent(mDataLayerComponent)
-                .domainLayerModule(new DomainLayerModule())
+                .domainLayerModule(new DomainLayerModule(getBaseContext()))
                 .build();
 
         mPresentationLayerComponent = DaggerPresentationLayerComponent.builder()

@@ -8,4 +8,8 @@
     <color name="colorButton">#FFFFFF</color>
     <color name="colorOverlay">#80000000</color>
     <color name="colorWhiteOverlay">#80FFFFFF</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="black_semi_transparent">#B2000000</color>
 </resources>

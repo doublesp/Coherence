@@ -17,23 +17,18 @@ import java.util.List;
 @Table(database = RecipeV2Database.class)
 public class RecipeV2 extends BaseModel {
 
+    public List<IngredientV2> extendedIngredients;
     @PrimaryKey
     @Column
     String id;
-
     @Column
     String title;
-
     @Column
     Long readyInMinutes;
-
     @Column
     String image;
-
     @Column
     String instructions;
-
-    public List<IngredientV2> extendedIngredients;
 
     public RecipeV2() {
         super();

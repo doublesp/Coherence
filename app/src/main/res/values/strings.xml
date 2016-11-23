@@ -5,7 +5,19 @@
     <string name="fabric_api_key">58083912c035206135aea30a9df62233cd1f2cf5</string>
 
     <string name="api_endpoint_recipe" translatable="false">https://api.edamam.com/</string>
-    <string name="api_endpoint_recipe_v2" translatable="false">https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/</string>
+    <string name="api_endpoint_recipe_v2" translatable="false">
+        https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/
+    </string>
     <string name="idea_hint_recipe">search for a recipe</string>
-
+    <string name="sign_out">Sign out</string>
+    <string name="welcome">Welcome, %1s</string>
+    <string name="facebook_application_id" translatable="false">1822316278006079</string>
+    <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1822316278006079</string>
+    <string name="custom_list">Custom list</string>
+    <string name="recipe_list">Recipe list</string>
+    <string name="owner">Owner: %1s</string>
+    <string name="add_friends">Add New Friend</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="share_list">Share List</string>
 </resources>

@@ -1,15 +1,7 @@
 package com.doublesp.coherence.fragments;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.adapters.IdeaReviewArrayAdapter;
-import com.doublesp.coherence.databinding.FragmentIdeaReviewBinding;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.Plan;
-
-import org.parceler.Parcels;
+import static com.doublesp.coherence.fragments.ListCompositionFragment
+        .LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -23,10 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.IdeaReviewArrayAdapter;
+import com.doublesp.coherence.databinding.FragmentIdeaReviewBinding;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
+
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
 public class IdeaReviewFragment extends DialogFragment {
 
@@ -37,6 +38,7 @@ public class IdeaReviewFragment extends DialogFragment {
     Plan mPlan;
     List<String> mBackgroundImageUrls;
     int mBackgroundImageIndex;
+
     public IdeaReviewFragment() {
         // Required empty public constructor
     }

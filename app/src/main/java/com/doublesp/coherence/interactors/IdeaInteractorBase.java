@@ -1,5 +1,7 @@
 package com.doublesp.coherence.interactors;
 
+import android.os.Parcelable;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -7,8 +9,6 @@ import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
-
-import android.os.Parcelable;
 
 import rx.Observer;
 
