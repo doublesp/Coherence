@@ -30,14 +30,15 @@ import rx.schedulers.Schedulers;
 public class SpoonacularRepository implements RecipeV2RepositoryInterface {
 
     List<Observer<List<RecipeV2>>> mSubscribers;
+    List<Observer<RecipeV2>> mDetailSubscribers;
     private Application mApplication;
     private SpoonacularClient mClient;
-
 
     public SpoonacularRepository(Application application, SpoonacularClient client) {
         mApplication = application;
         mClient = client;
         mSubscribers = new ArrayList<>();
+        mDetailSubscribers = new ArrayList<>();
         getClient().subscribe(new Observer<RecipeResponseV2>() {
             List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
 
@@ -54,7 +55,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             @Override
             public void onNext(RecipeResponseV2 recipeResponse) {
                 mRecipes.clear();
-                mRecipes.addAll(recipeResponse.getResults());
+                mRecipes.addAll(recipeResponse.getProducts());
                 asyncPersistRecipes(mRecipes);
             }
         });
@@ -77,6 +78,26 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
                 asyncPersistRecipes(mRecipes);
             }
         });
+        getClient().subscribeRecipeDetail(new Observer<RecipeV2>() {
+            RecipeV2 mRecipe = null;
+            @Override
+            public void onCompleted() {
+                notifyAllDetailObservers(mRecipe);
+                List<RecipeV2> recipes = new ArrayList<RecipeV2>();
+                recipes.add(mRecipe);
+                asyncPersistRecipes(recipes);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(RecipeV2 recipeV2) {
+                mRecipe = recipeV2;
+            }
+        });
     }
 
     protected SpoonacularClient getClient() {
@@ -93,12 +114,22 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
     }
 
     @Override
+    public void subscribeDetail(Observer<RecipeV2> observer) {
+        mDetailSubscribers.add(observer);
+    }
+
+    @Override
     public void searchRecipe(String keyword, int count, int offset) {
         if (!NetworkUtils.isNetworkAvailable(getApplication())) {
             fallback();
             return;
         }
         getClient().searchRecipe(keyword, count, offset);
+    }
+
+    @Override
+    public void searchRecipeDetail(String id) {
+        getClient().searchRecipeDetail(id);
     }
 
     @Override
@@ -124,6 +155,16 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         connectableObservable.connect();
     }
 
+    void notifyAllDetailObservers(RecipeV2 recipe) {
+        ConnectableObservable<RecipeV2> connectableObservable = Observable.just(
+                recipe).publish();
+        for (Observer<RecipeV2> subscriber : mDetailSubscribers) {
+            connectableObservable.subscribeOn(Schedulers.immediate()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe(subscriber);
+        }
+        connectableObservable.connect();
+    }
+
     void asyncPersistRecipes(List<RecipeV2> recipes) {
         // persists into database in background thread
         FlowManager.getDatabase(RecipeDatabase.class)
@@ -132,9 +173,11 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
                             @Override
                             public void processModel(RecipeV2 recipe) {
                                 recipe.save();
-                                for (IngredientV2 ingredient : recipe.getExtendedIngredients()) {
-                                    // TODO: save object relation
-                                    ingredient.save();
+                                if (recipe.getExtendedIngredients() != null) {
+                                    for (IngredientV2 ingredient : recipe.getExtendedIngredients()) {
+                                        // TODO: save object relation
+                                        ingredient.save();
+                                    }
                                 }
                             }
                         }).addAll(recipes).build())
