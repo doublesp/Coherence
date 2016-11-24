@@ -13,6 +13,8 @@ import rx.Observer;
 public interface RecipeV2RepositoryInterface {
 
     void subscribe(Observer<List<RecipeV2>> observer);
+    void subscribeDetail(Observer<RecipeV2> observer);
     void searchRecipe(String keyword, int count, int offset);
+    void searchRecipeDetail(String id);
     void randomRecipe(int count);
 }

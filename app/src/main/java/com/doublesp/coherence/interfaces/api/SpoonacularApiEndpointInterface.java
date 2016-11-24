@@ -9,6 +9,7 @@ import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -24,6 +25,10 @@ public interface SpoonacularApiEndpointInterface {
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("food/products/search")
     Observable<RecipeResponseV2> searchRecipe(@Query("query") String keyword, @Query("number") int number, @Query("offset") int offset);
+
+    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @GET("recipes/{id}/information")
+    Observable<RecipeV2> searchRecipeDetail(@Path("id") String id);
 
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("recipes/random")

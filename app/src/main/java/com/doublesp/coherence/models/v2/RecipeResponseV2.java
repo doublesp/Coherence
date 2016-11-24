@@ -8,18 +8,13 @@ import java.util.List;
 
 public class RecipeResponseV2 {
 
-    List<RecipeV2> results;
-    String baseUri;
+    List<RecipeV2> products;
     int number;
     int offset;
-    int totalResults;
+    int totalProducts;
 
-    public List<RecipeV2> getResults() {
-        return results;
-    }
-
-    public String getBaseUri() {
-        return baseUri;
+    public List<RecipeV2> getProducts() {
+        return products;
     }
 
     public int getNumber() {
@@ -30,7 +25,7 @@ public class RecipeResponseV2 {
         return offset;
     }
 
-    public int getTotalResults() {
-        return totalResults;
+    public int getTotalProducts() {
+        return totalProducts;
     }
 }
