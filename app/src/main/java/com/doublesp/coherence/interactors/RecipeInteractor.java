@@ -1,7 +1,5 @@
 package com.doublesp.coherence.interactors;
 
-import com.google.common.base.Joiner;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
@@ -9,6 +7,7 @@ import com.doublesp.coherence.models.v1.Ingredient;
 import com.doublesp.coherence.models.v1.Recipe;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
+import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
 import java.util.HashSet;

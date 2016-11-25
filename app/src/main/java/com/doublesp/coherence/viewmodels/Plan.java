@@ -15,14 +15,16 @@ public class Plan {
     String id;
     List<Idea> ideas;
     String title;
+    String owner;
 
     public Plan() {
     }
 
-    public Plan(List<Idea> ideas, String title) {
+    public Plan(List<Idea> ideas, String title, String owner) {
         this.id = UUID.randomUUID().toString();
         this.ideas = ideas;
         this.title = title;
+        this.owner = owner;
     }
 
     public String getId() {
@@ -35,5 +37,9 @@ public class Plan {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 }

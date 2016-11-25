@@ -3,35 +3,23 @@
 
     <data>
 
-        <variable
-            name="pos"
-            type="int"/>
+        <variable name="pos" type="int" />
 
-        <variable
-            name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface"/>
+        <variable name="handler"
+            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface" />
 
-        <variable
-            name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea"/>
+        <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvIdeaSuggestion"
-            android:layout_width="match_parent"
+        <TextView android:id="@+id/tvIdeaSuggestion" android:layout_width="match_parent"
             android:layout_height="@dimen/activity_list_composition_idea_height"
-            android:gravity="center"
-            android:maxLines="1"
+            android:gravity="center" android:maxLines="1"
             android:onClick="@{() -> handler.onSuggestionClick(pos)}"
-            android:text='@{viewModel.content}'
-            android:textColor="@color/colorSecondary"/>
+            android:text='@{viewModel.content}' android:textColor="@color/colorSecondary" />
 
-        <ImageButton
-            android:id="@+id/ibIdeaPreview"
+        <ImageButton android:id="@+id/ibIdeaPreview"
             android:layout_width="@dimen/activity_list_composition_idea_preview_icon_width"
             android:layout_height="@dimen/activity_list_composition_idea_preview_icon_height"
             android:layout_gravity="center_vertical|right|end"
@@ -39,7 +27,6 @@
             android:layout_marginRight="@dimen/activity_list_composition_idea_preview_icon_margin_right"
             android:background="@android:color/transparent"
             android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
-            android:src="@drawable/ic_visibility"
-            android:tint="@color/colorPrimaryDark"/>
+            android:src="@drawable/ic_visibility" android:tint="@color/colorPrimaryDark" />
     </FrameLayout>
 </layout>

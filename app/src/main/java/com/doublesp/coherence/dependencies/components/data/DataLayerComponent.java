@@ -17,6 +17,7 @@ import dagger.Component;
 public interface DataLayerComponent {
 
     RecipeRepositoryInterface recipeRepository();
+
     RecipeV2RepositoryInterface recipeV2Repository();
 
 }

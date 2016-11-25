@@ -3,32 +3,20 @@
 
     <data>
 
-        <variable
-            name="pos"
-            type="int"/>
+        <variable name="pos" type="int" />
 
-        <variable
-            name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface"/>
+        <variable name="handler"
+            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface" />
 
-        <variable
-            name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea"/>
+        <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etIdea"
-            android:layout_width="match_parent"
+        <EditText android:id="@+id/etIdea" android:layout_width="match_parent"
             android:layout_height="@dimen/activity_list_composition_idea_height"
-            android:gravity="center"
-            android:hint="@string/idea_hint_recipe"
-            android:maxLines="1"
-            android:text='@{viewModel.content}'
-            android:textColor="@color/colorPrimary"/>
+            android:gravity="center" android:hint="@string/idea_hint_recipe" android:maxLines="1"
+            android:text='@{viewModel.content}' android:textColor="@color/colorPrimary" />
     </LinearLayout>
 </layout>

@@ -1,5 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.domain;
 
+import android.content.Context;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.datastore.IdeaDataStore;
 import com.doublesp.coherence.interactors.MockRecipeInteractor;
@@ -23,10 +25,16 @@ import dagger.multibindings.IntoMap;
 @Module
 public class DomainLayerModule {
 
+    private static Context mContext;
+
+    public DomainLayerModule(Context context) {
+        mContext = context;
+    }
+
     @Provides
     @DomainLayerScope
     public IdeaDataStoreInterface providesIdeaDataStore() {
-        return new IdeaDataStore();
+        return new IdeaDataStore(mContext);
     }
 
     @Provides
@@ -55,7 +63,7 @@ public class DomainLayerModule {
     @IntKey(R.id.idea_category_debug)
     public IdeaInteractorInterface providesMockRecipeIdeaInteractor(
             RecipeRepositoryInterface recipeRepository) {
-        IdeaDataStore ideaDataStore = new IdeaDataStore();
+        IdeaDataStore ideaDataStore = new IdeaDataStore(mContext);
         return new MockRecipeInteractor(ideaDataStore, recipeRepository);
     }
 

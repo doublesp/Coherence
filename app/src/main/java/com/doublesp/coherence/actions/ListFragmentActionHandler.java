@@ -1,14 +1,18 @@
 package com.doublesp.coherence.actions;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.content.Context;
+import android.content.Intent;
 
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Plan;
+import com.doublesp.coherence.viewmodels.UserList;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
-import android.content.Context;
-import android.content.Intent;
+import java.util.HashMap;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -22,6 +26,7 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mListDatabaseReference;
+    private DatabaseReference mShoppingListDatabaseReference;
 
     public ListFragmentActionHandler(Context context, IdeaInteractorInterface ideaInteractor) {
         mContext = context;
@@ -29,7 +34,12 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
             mShareHandler = (IdeaShareHandlerInterface) context;
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mListDatabaseReference = mFirebaseDatabase.getReference().child("lists");
+        //mListDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.LISTS);
+        mListDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.USER_LISTS)
+                .child(ConstantsAndUtils.getOwner(context));
+        mShoppingListDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS);
         mIdeaInteractor = ideaInteractor;
     }
 
@@ -40,8 +50,15 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         shareIntent.setType("text/plain");
         StringBuilder sharableContentBuilder = new StringBuilder();
         Plan plan = mIdeaInteractor.getPlan();
+
         DatabaseReference keyReference = mListDatabaseReference.push();
-        keyReference.setValue(plan);
+
+        HashMap<String, Object> timestampCreated = new HashMap<>();
+        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
+        UserList userList = new UserList(plan.getTitle(), plan.getOwner(), timestampCreated);
+        keyReference.setValue(userList);
+
+        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
         sharableContentBuilder
                 .append("http://doublesp.com/shared/")
                 .append(keyReference.getKey());
