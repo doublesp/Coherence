@@ -164,6 +164,11 @@ public class MainActivity extends AppCompatActivity {
         if (mAuthStateListener != null) {
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         mFirebaseRecyclerAdapter.cleanup();
     }
 
