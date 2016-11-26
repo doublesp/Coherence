@@ -1,9 +1,5 @@
 package com.doublesp.coherence.datastore;
 
-import android.content.Context;
-import android.os.Parcelable;
-import android.util.Pair;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
@@ -11,6 +7,10 @@ import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
+
+import android.content.Context;
+import android.os.Parcelable;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +68,6 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
-    public void setCurrentIdea(Idea idea) {
-        getBlankIdeas().set(0, idea);
-    }
-
-    @Override
     public List<Idea> getIdeas() {
         return getUserIdeas();
     }
@@ -90,7 +85,7 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public int getIdeaCount() {
-        return getUserIdeas().size() + getBlankIdeas().size() + getSuggestedIdeas().size();
+        return getUserIdeas().size() + getSuggestedIdeas().size();
     }
 
     @Override
@@ -133,10 +128,6 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
             return new Pair<>(pos, getUserIdeas());
         }
         pos -= getUserIdeas().size();
-        if (pos < getBlankIdeas().size()) {
-            return new Pair<>(pos, getBlankIdeas());
-        }
-        pos -= getBlankIdeas().size();
         if (pos < getSuggestedIdeas().size()) {
             return new Pair<>(pos, getSuggestedIdeas());
         }
@@ -155,10 +146,6 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     private List<Idea> getUserIdeas() {
         return mIdeaSnapshotStore.mIdeas;
-    }
-
-    private List<Idea> getBlankIdeas() {
-        return mIdeaSnapshotStore.mBlankIdeas;
     }
 
     private List<Idea> getSuggestedIdeas() {

@@ -1,11 +1,12 @@
 package com.doublesp.coherence.adapters;
 
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.fragments.MapFragment;
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.doublesp.coherence.fragments.ListCompositionFragment;
 
 /**
  * Created by pinyaoting on 11/16/16.
@@ -27,7 +28,7 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return ListCompositionFragment.newInstance();
             default:
-                return ListCompositionFragment.newInstance();
+                return MapFragment.newInstance();
         }
     }
 

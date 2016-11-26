@@ -1,5 +1,11 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.utils.AnimationUtils;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -7,15 +13,11 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
-import com.doublesp.coherence.utils.AnimationUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,6 +62,22 @@ public class ListCompositionFragment extends Fragment {
         binding.rvIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeas.setAdapter(mAdapter);
         binding.setHandler(mActionHandler);
+        binding.etIdea.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                mActionHandler.afterTextChanged(editable);
+            }
+        });
         rotateImage();
         return binding.getRoot();
     }

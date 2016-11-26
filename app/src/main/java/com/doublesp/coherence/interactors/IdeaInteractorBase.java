@@ -1,7 +1,5 @@
 package com.doublesp.coherence.interactors;
 
-import android.os.Parcelable;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -9,6 +7,8 @@ import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
+
+import android.os.Parcelable;
 
 import rx.Observer;
 
@@ -30,9 +30,8 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     public void addIdea(String content) {
         mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
         mIdeaDataStore.addIdea(
-                new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null,
-                        null));
-        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+                new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
+        mIdeaDataStore.setIdeaState(R.id.idea_state_idea_loaded);
     }
 
     @Override
@@ -48,7 +47,7 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     public void updateIdea(int pos, String content) {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         Idea newIdea = new Idea(idea.getId(), idea.getCategory(), content, idea.isCrossedOut(),
-                R.id.idea_type_user_generated, idea.getMeta(), idea.getRelatedIdeas());
+                R.id.idea_type_user_generated, idea.getMeta());
         mIdeaDataStore.updateIdea(pos, newIdea);
     }
 
@@ -56,7 +55,7 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     public void crossoutIdea(int pos) {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true,
-                idea.getType(), idea.getMeta(), idea.getRelatedIdeas());
+                idea.getType(), idea.getMeta());
         mIdeaDataStore.updateIdea(pos, newIdea);
     }
 
@@ -64,7 +63,7 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     public void uncrossoutIdea(int pos) {
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false,
-                idea.getType(), idea.getMeta(), idea.getRelatedIdeas());
+                idea.getType(), idea.getMeta());
         mIdeaDataStore.updateIdea(pos, newIdea);
     }
 

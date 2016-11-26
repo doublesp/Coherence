@@ -1,5 +1,18 @@
 package com.doublesp.coherence.activities;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.ShoppingItemsAdapter;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
+import com.doublesp.coherence.viewmodels.ShoppingListItem;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,17 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.adapters.ShoppingItemsAdapter;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.ShoppingListItem;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,10 +96,10 @@ public class CurrentListDetails extends AppCompatActivity {
         mChildEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Idea idea = dataSnapshot.getValue(Idea.class);
-                for (Idea relatedIdea : idea.getRelatedIdeas()) {
-                    String item = relatedIdea.getContent();
-                    String imageUrl = relatedIdea.getMeta().getImageUrl();
+                Plan plan = dataSnapshot.getValue(Plan.class);
+                for (Idea idea : plan.getIdeas()) {
+                    String item = idea.getContent();
+                    String imageUrl = idea.getMeta().getImageUrl();
 
                     ShoppingListItem shoppingListItem = new ShoppingListItem(item, imageUrl);
 

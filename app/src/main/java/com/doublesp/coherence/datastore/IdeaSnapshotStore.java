@@ -15,20 +15,15 @@ import java.util.List;
 public class IdeaSnapshotStore {
 
     List<Idea> mIdeas;
-    List<Idea> mBlankIdeas;
     List<Idea> mIdeaSuggestions;
 
     public IdeaSnapshotStore() {
         mIdeas = new ArrayList<>();
-        mBlankIdeas = new ArrayList<>();
-        mBlankIdeas.add(Idea.newInstanceOfBlankIdea());
         mIdeaSuggestions = new ArrayList<>();
     }
 
     public IdeaSnapshotStore(List<Idea> ideas) {
         mIdeas = ideas;
-        mBlankIdeas = new ArrayList<>();
-        mBlankIdeas.add(Idea.newInstanceOfBlankIdea());
         mIdeaSuggestions = new ArrayList<>();
     }
 
