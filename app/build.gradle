@@ -47,8 +47,6 @@ apply plugin: 'me.tatarka.retrolambda'
 def dbflow_version = "3.1.1"
 
 dependencies {
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
@@ -57,6 +55,7 @@ dependencies {
         transitive = true;
     }
     // for logging API calls to LogCat
+    compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
     compile 'com.google.android.gms:play-services-maps:9.8.0'
@@ -85,13 +84,14 @@ dependencies {
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parseinterceptors:0.0.2'
     compile 'com.parse.bolts:bolts-android:1.+'
-    testCompile 'junit:junit:4.12'
-    apt 'org.parceler:parceler:1.1.1'
-    apt 'com.google.dagger:dagger-compiler:2.7'
-    provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.google.firebase:firebase-database:9.8.0'
     compile 'com.firebaseui:firebase-ui:1.0.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    apt 'org.parceler:parceler:1.1.1'
+    apt 'com.google.dagger:dagger-compiler:2.7'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
