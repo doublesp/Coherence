@@ -34,7 +34,7 @@
                     fab:fab_colorNormal="@color/white"
                     fab:fab_colorPressed="@color/white_pressed"
                     fab:fab_title="@string/custom_list"
-                    android:onClick="onCustomListClick"/>
+                    android:onClick="onIdeaCompositionClick"/>
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </FrameLayout>

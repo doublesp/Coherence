@@ -1,12 +1,14 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
+import com.doublesp.coherence.actions.IdeaSearchActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.adapters.IdeaSearchResultArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaSearchActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaSearchInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
@@ -71,6 +73,12 @@ public class MainActivityModule {
     public RecyclerView.Adapter<RecyclerView.ViewHolder> providesIdeaSearchResultArrayAdapter(
             IdeaSearchInteractorInterface searchInteractor) {
         return new IdeaSearchResultArrayAdapter(searchInteractor);
+    }
+
+    @Provides
+    @PresentationLayerScope
+    public IdeaSearchActionHandlerInterface providesIdeaSearchActionHandler(IdeaSearchInteractorInterface searchInteractor) {
+        return new IdeaSearchActionHandler(mActivity, searchInteractor);
     }
 
 }

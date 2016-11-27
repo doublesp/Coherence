@@ -80,8 +80,7 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
             mIdeaInteractor.addIdea(s.toString().trim());
             s.clear();
         } else {
-            // TODO: auto-complete
-//            mIdeaInteractor.getSuggestions(s.toString().trim());
+            mIdeaInteractor.getSuggestions(s.toString().trim());
         }
     }
 

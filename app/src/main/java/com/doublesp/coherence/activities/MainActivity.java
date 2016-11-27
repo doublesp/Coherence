@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public static final int RC_SIGN_IN = 1;
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
     static final String LIST_COMPOSITION_FRAGMENT = "LIST_COMPOSITION_FRAGMENT";
+    static final String IDEA_SEARCH_RESULT_FRAGMENT = "IDEA_SEARCH_RESULT_FRAGMENT";
     ActivityMainBinding binding;
     MainActivitySubComponent mActivityComponent;
     private FirebaseDatabase mFirebaseDatabase;
@@ -147,12 +148,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         getActivityComponent().inject(fragment);
     }
 
-    public void onCustomListClick(View view) {
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
-    }
-
     private void onSignedInInitialize(FirebaseUser user) {
         mUsername = user.getDisplayName();
         // Add user to db
@@ -212,5 +207,17 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     private void onSignedOutCleanup() {
         mUsername = ConstantsAndUtils.ANONYMOUS;
+    }
+
+    public void onIdeaCompositionClick(View view) {
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
+        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    }
+
+    public void onIdeaSearchClick(View view) {
+        IdeaSearchResultFragment searchResultFragment = IdeaSearchResultFragment.newInstance();
+        searchResultFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        searchResultFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
     }
 }

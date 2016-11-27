@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content">
 
             <ImageButton
-                    android:id="@+id/ivGoalImage"
+                    android:id="@+id/ivIdeaSearchResultImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -40,7 +40,7 @@
                     />
 
             <ImageButton
-                    android:id="@+id/ibGoalSelect"
+                    android:id="@+id/ibIdeaSearchResultSelect"
                     android:layout_width="@dimen/activity_list_composition_idea_icon_width"
                     android:layout_height="@dimen/activity_list_composition_idea_icon_height"
                     android:layout_marginEnd="@dimen/activity_list_composition_idea_icon_margin_right"
@@ -54,7 +54,7 @@
                     />
 
             <TextView
-                    android:id="@+id/tvGoal"
+                    android:id="@+id/tvIdeaSearchResult"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/activity_list_composition_idea_height"
                     android:gravity="center"

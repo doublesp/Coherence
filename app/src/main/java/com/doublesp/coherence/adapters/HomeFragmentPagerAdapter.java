@@ -1,6 +1,6 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.fragments.SavedGoalsFragment;
+import com.doublesp.coherence.fragments.SavedPlansFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 import android.content.Context;
@@ -28,7 +28,7 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return SavedIdeasFragment.newInstance();
             default:
-                return SavedGoalsFragment.newInstance();
+                return SavedPlansFragment.newInstance();
         }
     }
 

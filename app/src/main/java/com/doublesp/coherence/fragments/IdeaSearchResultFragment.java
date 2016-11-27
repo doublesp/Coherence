@@ -2,6 +2,7 @@ package com.doublesp.coherence.fragments;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentIdeaSearchResultBinding;
+import com.doublesp.coherence.interfaces.presentation.IdeaSearchActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.utils.AnimationUtils;
 
@@ -12,6 +13,8 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,9 @@ public class IdeaSearchResultFragment extends DialogFragment {
     FragmentIdeaSearchResultBinding binding;
     int[] mBackgroundImageIds;
     int mBackgroundImageIndex;
+
+    @Inject
+    IdeaSearchActionHandlerInterface mActionHandler;
 
     @Inject
     @Named("Search")
@@ -58,6 +64,22 @@ public class IdeaSearchResultFragment extends DialogFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_idea_search_result, container, false);
         binding.rvIdeaSearchResults.setLayoutManager(new StaggeredGridLayoutManager(IDEA_SEARCH_RESULT_SPANS, StaggeredGridLayoutManager.VERTICAL));
         binding.rvIdeaSearchResults.setAdapter(mAdapter);
+        binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                mActionHandler.afterTextChanged(editable);
+            }
+        });
         rotateImage();
         return binding.getRoot();
     }

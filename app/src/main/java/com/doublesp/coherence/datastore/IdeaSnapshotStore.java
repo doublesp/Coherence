@@ -15,16 +15,11 @@ import java.util.List;
 public class IdeaSnapshotStore {
 
     List<Idea> mIdeas;
-    List<Idea> mIdeaSuggestions;
+    List<Idea> mSuggestions;
 
     public IdeaSnapshotStore() {
         mIdeas = new ArrayList<>();
-        mIdeaSuggestions = new ArrayList<>();
-    }
-
-    public IdeaSnapshotStore(List<Idea> ideas) {
-        mIdeas = ideas;
-        mIdeaSuggestions = new ArrayList<>();
+        mSuggestions = new ArrayList<>();
     }
 
 }

@@ -7,7 +7,6 @@ import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import android.content.Context;
-import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,46 +54,43 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public void addIdea(Idea idea) {
-        getUserIdeas().add(idea);
+        getIdeas().add(idea);
     }
 
     @Override
     public void updateIdea(int pos, Idea idea) {
-        if (pos == getUserIdeas().size()) {
-            getUserIdeas().add(idea);
+        if (pos == getIdeas().size()) {
+            getIdeas().add(idea);
         } else {
-            getUserIdeas().set(pos, idea);
+            getIdeas().set(pos, idea);
         }
     }
 
     @Override
     public void removeIdea(int pos) {
-        Pair<Integer, List<Idea>> adjustedPair = getAdjustedPositionAndCorrespondingList(pos);
-        int adjustedPos = adjustedPair.first;
-        List<Idea> targetList = adjustedPair.second;
-        targetList.remove(adjustedPos);
+        getIdeas().remove(pos);
     }
 
     @Override
     public void setSuggestions(List<Idea> ideas) {
-        getSuggestedIdeas().clear();
-        getSuggestedIdeas().addAll(ideas);
+        getSuggestions().clear();
+        getSuggestions().addAll(ideas);
     }
 
     @Override
     public int getIdeaCount() {
-        return getUserIdeas().size() + getSuggestedIdeas().size();
+        return getIdeas().size() + getSuggestions().size();
     }
 
     @Override
     public int getSuggestionCount() {
-        return getSuggestedIdeas().size();
+        return getSuggestions().size();
     }
 
 
     @Override
     public void clearSuggestions() {
-        getSuggestedIdeas().clear();
+        getSuggestions().clear();
     }
 
     @Override
@@ -109,33 +105,19 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public Idea getIdeaAtPos(int pos) {
-        Pair<Integer, List<Idea>> adjustedPair = getAdjustedPositionAndCorrespondingList(pos);
-        int adjustedPos = adjustedPair.first;
-        List<Idea> targetList = adjustedPair.second;
-        return targetList.get(adjustedPos);
+        return getIdeas().get(pos);
     }
 
     @Override
     public Idea getSuggestionAtPos(int pos) {
-        return null;
+        return getSuggestions().get(pos);
     }
 
     @Override
     public Plan getPlan() {
-        List<Idea> ideas = getUserIdeas();
+        List<Idea> ideas = getIdeas();
         // TODO: allow user to name the plan
         return new Plan(ideas, "", ConstantsAndUtils.getOwner(mContext));
-    }
-
-    private Pair<Integer, List<Idea>> getAdjustedPositionAndCorrespondingList(int pos) {
-        if (pos < getUserIdeas().size()) {
-            return new Pair<>(pos, getUserIdeas());
-        }
-        pos -= getUserIdeas().size();
-        if (pos < getSuggestedIdeas().size()) {
-            return new Pair<>(pos, getSuggestedIdeas());
-        }
-        return null;
     }
 
     private void notifyIdeaStateChange() {
@@ -158,11 +140,11 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         connectedObservable.connect();
     }
 
-    private List<Idea> getUserIdeas() {
+    private List<Idea> getIdeas() {
         return mIdeaSnapshotStore.mIdeas;
     }
 
-    private List<Idea> getSuggestedIdeas() {
-        return mIdeaSnapshotStore.mIdeaSuggestions;
+    private List<Idea> getSuggestions() {
+        return mIdeaSnapshotStore.mSuggestions;
     }
 }

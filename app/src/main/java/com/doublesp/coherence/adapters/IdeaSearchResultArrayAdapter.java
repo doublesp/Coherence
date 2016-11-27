@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import rx.Observer;
+
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
@@ -23,6 +25,29 @@ public class IdeaSearchResultArrayAdapter extends RecyclerView.Adapter {
 
     public IdeaSearchResultArrayAdapter(IdeaSearchInteractorInterface searchInteractor) {
         mSearchInteractor = searchInteractor;
+        mSearchInteractor.subscribeToStateChange(new Observer<Integer>() {
+            int mState;
+
+            @Override
+            public void onCompleted() {
+                switch (mState) {
+                    case R.id.suggestion_state_loaded:
+                        notifyDataSetChanged();
+                        break;
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer state) {
+                mState = state;
+            }
+        });
+        mSearchInteractor.search(null);
     }
 
     @Override

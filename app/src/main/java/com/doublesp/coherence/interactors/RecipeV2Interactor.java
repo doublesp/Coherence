@@ -123,6 +123,11 @@ public class RecipeV2Interactor implements IdeaSearchInteractorInterface {
         searchRecipeWithDebounce(keyword);
     }
 
+    @Override
+    public void subscribeToStateChange(Observer<Integer> observer) {
+        mIdeaDataStore.subscribeToSuggestionStateChanges(observer);
+    }
+
     private PublishSubject getDebouncer() {
         if (mSearchDebouncer == null) {
             mSearchDebouncer = PublishSubject.create();
