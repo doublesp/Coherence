@@ -2,6 +2,7 @@ package com.doublesp.coherence.actions;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
 
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
@@ -34,7 +35,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
             mShareHandler = (IdeaShareHandlerInterface) context;
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        //mListDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.LISTS);
         mListDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.USER_LISTS)
                 .child(ConstantsAndUtils.getOwner(context));
@@ -66,6 +66,21 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mShareHandler.share(shareIntent);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        final int i = s.length();
+        if (i == 0) {
+            return;
+        }
+        if (s.subSequence(i - 1, i).toString().equals("\n")) {
+            mIdeaInteractor.addIdea(s.toString().trim());
+            s.clear();
+        } else {
+            // TODO: auto-complete
+//            mIdeaInteractor.getSuggestions(s.toString().trim());
+        }
     }
 
     public interface IdeaShareHandlerInterface {

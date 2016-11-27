@@ -3,10 +3,8 @@ package com.doublesp.coherence.interactors;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
-import com.doublesp.coherence.models.v2.IngredientV2;
 import com.doublesp.coherence.models.v2.RecipeV2;
 import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.IdeaMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,31 +38,31 @@ public class RecipeV2Interactor extends IdeaInteractorBase {
 
             @Override
             public void onCompleted() {
-                List<Idea> ideas = new ArrayList<>();
-                for (RecipeV2 recipe : mRecipes) {
-                    List<Idea> relatedIdeas = new ArrayList<Idea>();
-                    if (recipe.getExtendedIngredients() != null) {
-                        for (IngredientV2 ingredient : recipe.getExtendedIngredients()) {
-                            relatedIdeas.add(new Idea(ingredient.getId(), R.id.idea_category_recipe,
-                                    ingredient.getName(), false, R.id.idea_type_user_generated,
-                                    new IdeaMeta(ingredient.getImage(), ingredient.getName(),
-                                            ingredient.getOriginalString()),
-                                    null));
-                        }
-                    }
-                    ideas.add(new Idea(recipe.getId(),
-                            R.id.idea_category_recipe,
-                            recipe.getTitle(),
-                            false,
-                            R.id.idea_type_suggestion,
-                            new IdeaMeta(recipe.getImage(),
-                                    recipe.getTitle(),
-                                    recipe.getInstructions()),
-                            relatedIdeas
-                    ));
-                }
-                mIdeaDataStore.setSuggestions(ideas);
-                mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+//                List<Idea> ideas = new ArrayList<>();
+//                for (RecipeV2 recipe : mRecipes) {
+//                    List<Idea> relatedIdeas = new ArrayList<Idea>();
+//                    if (recipe.getExtendedIngredients() != null) {
+//                        for (IngredientV2 ingredient : recipe.getExtendedIngredients()) {
+//                            relatedIdeas.add(new Idea(ingredient.getId(), R.id.idea_category_recipe,
+//                                    ingredient.getName(), false, R.id.idea_type_user_generated,
+//                                    new IdeaMeta(ingredient.getImage(), ingredient.getName(),
+//                                            ingredient.getOriginalString()),
+//                                    null));
+//                        }
+//                    }
+//                    ideas.add(new Idea(recipe.getId(),
+//                            R.id.idea_category_recipe,
+//                            recipe.getTitle(),
+//                            false,
+//                            R.id.idea_type_suggestion,
+//                            new IdeaMeta(recipe.getImage(),
+//                                    recipe.getTitle(),
+//                                    recipe.getInstructions()),
+//                            relatedIdeas
+//                    ));
+//                }
+//                mIdeaDataStore.setSuggestions(ideas);
+//                mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
             }
 
             @Override
@@ -83,28 +81,28 @@ public class RecipeV2Interactor extends IdeaInteractorBase {
 
             @Override
             public void onCompleted() {
-                List<Idea> relatedIdeas = new ArrayList<Idea>();
-                if (mRecipe.getExtendedIngredients() != null) {
-                    for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
-                        relatedIdeas.add(new Idea(ingredient.getId(), R.id.idea_category_recipe,
-                                ingredient.getName(), false, R.id.idea_type_user_generated,
-                                new IdeaMeta(ingredient.getImage(), ingredient.getName(),
-                                        ingredient.getOriginalString()),
-                                null));
-                    }
-                }
-                Idea idea = new Idea(mRecipe.getId(),
-                        R.id.idea_category_recipe,
-                        mRecipe.getTitle(),
-                        false,
-                        R.id.idea_type_suggestion,
-                        new IdeaMeta(mRecipe.getImage(),
-                                mRecipe.getTitle(),
-                                mRecipe.getInstructions()),
-                        relatedIdeas
-                );
-                mIdeaDataStore.addIdea(idea);
-                mIdeaDataStore.setIdeaState(R.id.idea_state_idea_loaded);
+//                List<Idea> relatedIdeas = new ArrayList<Idea>();
+//                if (mRecipe.getExtendedIngredients() != null) {
+//                    for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
+//                        relatedIdeas.add(new Idea(ingredient.getId(), R.id.idea_category_recipe,
+//                                ingredient.getName(), false, R.id.idea_type_user_generated,
+//                                new IdeaMeta(ingredient.getImage(), ingredient.getName(),
+//                                        ingredient.getOriginalString()),
+//                                null));
+//                    }
+//                }
+//                Idea idea = new Idea(mRecipe.getId(),
+//                        R.id.idea_category_recipe,
+//                        mRecipe.getTitle(),
+//                        false,
+//                        R.id.idea_type_suggestion,
+//                        new IdeaMeta(mRecipe.getImage(),
+//                                mRecipe.getTitle(),
+//                                mRecipe.getInstructions()),
+//                        relatedIdeas
+//                );
+//                mIdeaDataStore.addIdea(idea);
+//                mIdeaDataStore.setIdeaState(R.id.idea_state_idea_loaded);
             }
 
             @Override

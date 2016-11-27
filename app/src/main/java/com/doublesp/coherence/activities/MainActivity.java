@@ -1,30 +1,39 @@
 package com.doublesp.coherence.activities;
 
-import static com.doublesp.coherence.R.id.owner;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
+import com.doublesp.coherence.actions.IdeaCreationActionHandler;
+import com.doublesp.coherence.actions.ListFragmentActionHandler;
+import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
+import com.doublesp.coherence.application.CoherenceApplication;
+import com.doublesp.coherence.databinding.ActivityMainBinding;
+import com.doublesp.coherence.dependencies.components.presentation.HomeActivitySubComponent;
+import com.doublesp.coherence.dependencies.modules.presentation.HomeActivityModule;
+import com.doublesp.coherence.fragments.IdeaPreviewFragment;
+import com.doublesp.coherence.fragments.IdeaReviewFragment;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.utils.CoherenceTabUtils;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.User;
-import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,67 +43,37 @@ import com.google.firebase.database.ServerValue;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+import io.fabric.sdk.android.Fabric;
+
+public class MainActivity extends AppCompatActivity implements HomeInjectorInterface,
+        IdeaCreationActionHandler.IdeaPreviewHandlerInterface,
+        ListFragmentActionHandler.IdeaShareHandlerInterface {
+
     public static final int RC_SIGN_IN = 1;
-    private static FirebaseRecyclerAdapter<UserList, ItemViewHolder> mFirebaseRecyclerAdapter;
-    private String mUsername;
+    static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
+    static final String LIST_COMPOSITION_FRAGMENT = "LIST_COMPOSITION_FRAGMENT";
+    ActivityMainBinding binding;
+    HomeActivitySubComponent mActivityComponent;
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mListsDatabaseReference;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private DatabaseReference mUsersDatabaseReference;
-    private RecyclerView mRecyclerView;
-    private FloatingActionButton mCustomList;
-    private FloatingActionButton mRecipeList;
-    private FloatingActionsMenu mFloatingActionsMenu;
+    private String mUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        // TODO: need to define actions for custom list
-        mCustomList = (FloatingActionButton) findViewById(R.id.custom_list);
-        mRecipeList = (FloatingActionButton) findViewById(R.id.recipe_list);
-        mFloatingActionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
-        mRecipeList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
+        Fabric.with(this, new Crashlytics());
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.viewpager.setAdapter(
+                new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+        binding.tabs.setupWithViewPager(binding.viewpager);
+        CoherenceTabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mListsDatabaseReference = mFirebaseDatabase.getReference().child(
-                ConstantsAndUtils.USER_LISTS).child(ConstantsAndUtils.getOwner(this));
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.USERS);
-
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserList, ItemViewHolder>(
-                UserList.class, R.layout.single_plan, ItemViewHolder.class,
-                mListsDatabaseReference) {
-            @Override
-            protected void populateViewHolder(ItemViewHolder holder, UserList userList,
-                    int position) {
-                String title = userList.getlistName().isEmpty() ? ConstantsAndUtils.ANONYMOUS
-                        : userList.getlistName();
-                String owner = userList.getOwner().isEmpty() ? ConstantsAndUtils.ANONYMOUS
-                        : userList.getOwner();
-
-                holder.mSinglePlan.setText(title);
-                holder.mOwner.setText(holder.mOwner.getResources().getString(R.string.owner,
-                        owner.replace(",", ".")));
-            }
-        };
-
-        mRecyclerView.setAdapter(mFirebaseRecyclerAdapter);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -103,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     onSignedInInitialize(user);
-                    Toast.makeText(MainActivity.this, getString(R.string.welcome, mUsername),
+                    Toast.makeText(getContext(), getString(R.string.welcome, mUsername),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     // User is signed out
@@ -126,6 +105,47 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    public HomeActivitySubComponent getActivityComponent() {
+        if (mActivityComponent == null) {
+            mActivityComponent =
+                    ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
+                            .newListCompositionActivitySubComponent(
+                                    new HomeActivityModule(this, R.id.idea_category_recipe_v2));
+//                                    new HomeActivityModule(this, R.id.idea_category_recipe));
+// NOTE: recipe v2 provides more information
+//                                    new HomeActivityModule(this, R.id.idea_category_debug));
+// NOTE: use idea_category_debug for mock data
+        }
+        return mActivityComponent;
+    }
+
+    @Override
+    public void showPreviewDialog(Idea idea) {
+        IdeaPreviewFragment previewDialog = IdeaPreviewFragment.newInstance(idea);
+        previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+    }
+
+    public void share(Intent i) {
+        startActivity(i);
+    }
+
+    @Override
+    public void inject(ListCompositionFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(IdeaReviewFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    public void onCustomListClick(View view) {
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
+        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    }
+
     private void onSignedInInitialize(FirebaseUser user) {
         mUsername = user.getDisplayName();
         // Add user to db
@@ -135,9 +155,10 @@ public class MainActivity extends AppCompatActivity {
         mUsersDatabaseReference.child(user.getEmail().replace(".", ",")).setValue(currentUser);
 
         // add user information to sharedPref
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(ConstantsAndUtils.EMAIL, user.getEmail().replace(".", ","));
+        editor.putString(ConstantsAndUtils.NAME, user.getDisplayName());
         editor.apply();
     }
 
@@ -154,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mFloatingActionsMenu.collapse();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
@@ -164,12 +184,6 @@ public class MainActivity extends AppCompatActivity {
         if (mAuthStateListener != null) {
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mFirebaseRecyclerAdapter.cleanup();
     }
 
     @Override
@@ -192,27 +206,5 @@ public class MainActivity extends AppCompatActivity {
 
     private void onSignedOutCleanup() {
         mUsername = ConstantsAndUtils.ANONYMOUS;
-    }
-
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView mSinglePlan;
-        TextView mOwner;
-
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-
-            mSinglePlan = (TextView) itemView.findViewById(R.id.single_plan);
-            mOwner = (TextView) itemView.findViewById(owner);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), CurrentListDetails.class);
-                    intent.putExtra(ConstantsAndUtils.LIST_ID,
-                            mFirebaseRecyclerAdapter.getRef(getAdapterPosition()).getKey());
-                    view.getContext().startActivity(intent);
-                }
-            });
-        }
     }
 }

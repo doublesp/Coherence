@@ -12,6 +12,7 @@ public class ConstantsAndUtils {
     public static final String ANONYMOUS = "anonymous";
     public static final String TIMESTAMP = "timestamp";
     public static final String EMAIL = "email";
+    public static final String NAME = "name";
     public static final String LIST_ID = "listId";
     public static final String USER_FRIENDS = "userFriends";
 

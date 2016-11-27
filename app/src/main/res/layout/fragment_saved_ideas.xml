@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout xmlns:fab="http://schemas.android.com/apk/res-auto"
+                 android:orientation="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 tools:context="com.doublesp.coherence.fragments.SavedIdeasFragment">
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvSavedIdeas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/multiple_actions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right|end"
+                android:layout_margin="16dp"
+                fab:fabSize="normal"
+                fab:layout_anchor="@id/rvIdeas"
+                fab:layout_anchorGravity="bottom|right|end"
+                fab:fab_addButtonColorNormal="@color/white"
+                fab:fab_addButtonColorPressed="@color/white_pressed"
+                fab:fab_addButtonPlusIconColor="@color/half_black"
+                fab:fab_labelStyle="@style/menu_labels_style">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/custom_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/white"
+                    fab:fab_colorPressed="@color/white_pressed"
+                    fab:fab_title="@string/custom_list"
+                    android:onClick="onCustomListClick"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </FrameLayout>
+</layout>

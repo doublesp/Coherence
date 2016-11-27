@@ -1,6 +1,6 @@
 package com.doublesp.coherence.activities;
 
-import static com.doublesp.coherence.activities.HomeActivity.IDEA_PREVIEW_FRAGMENT;
+import static com.doublesp.coherence.activities.MainActivity.IDEA_PREVIEW_FRAGMENT;
 
 import android.content.Intent;
 import android.net.Uri;

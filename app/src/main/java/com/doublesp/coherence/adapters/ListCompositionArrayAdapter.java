@@ -1,22 +1,21 @@
 package com.doublesp.coherence.adapters;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
+import com.doublesp.coherence.viewholders.IdeaViewHolder;
+import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
+import com.doublesp.coherence.viewmodels.Idea;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
-import com.doublesp.coherence.viewholders.BlankIdeaViewHolder;
-import com.doublesp.coherence.viewholders.IdeaViewHolder;
-import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
-import com.doublesp.coherence.viewmodels.Idea;
-
 import rx.Observer;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/12/16.
@@ -27,7 +26,6 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     final Observer<Integer> mObserver;
     IdeaInteractorInterface mIdeaInteractor;
     IdeaActionHandlerInterface mIdeaActionHandler;
-    BlankIdeaViewHolder mBlankIdeaViewHolder;
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
             IdeaActionHandlerInterface ideaActionHandler) {
@@ -85,10 +83,6 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             case R.id.idea_type_suggestion:
                 view = inflater.inflate(R.layout.item_idea_suggestions, parent, false);
                 holder = new SuggestedIdeaViewHolder(view);
-                break;
-            case R.id.idea_type_blank:
-                view = inflater.inflate(R.layout.item_idea_blank, parent, false);
-                holder = new BlankIdeaViewHolder(view);
                 break;
         }
         if (holder instanceof IdeaViewHolderInterface) {

@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.doublesp.coherence.actions.IdeaCreationActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
-import com.doublesp.coherence.activities.HomeActivity;
+import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.adapters.IdeaSelectorArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -26,10 +26,10 @@ import dagger.Provides;
 @Module
 public class HomeActivityModule {
 
-    private final HomeActivity mActivity;
+    private final MainActivity mActivity;
     private final int mCategory;
 
-    public HomeActivityModule(HomeActivity activity, int category) {
+    public HomeActivityModule(MainActivity activity, int category) {
         mActivity = activity;
         mCategory = category;
     }

@@ -3,16 +3,9 @@ package com.doublesp.coherence.interactors;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
-import com.doublesp.coherence.models.v1.Ingredient;
 import com.doublesp.coherence.models.v1.Recipe;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.IdeaMeta;
-import com.google.common.base.Joiner;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
@@ -41,29 +34,29 @@ public class RecipeInteractor extends IdeaInteractorBase {
 
             @Override
             public void onCompleted() {
-                List<Idea> ideas = new ArrayList<>();
-                for (Recipe recipe : mRecipes) {
-                    List<Idea> relatedIdeas = new ArrayList<Idea>();
-                    for (Ingredient ingredient : recipe.getIngredients()) {
-                        relatedIdeas.add(new Idea(recipe.getUri(), R.id.idea_category_recipe,
-                                ingredient.getFood(), false, R.id.idea_type_user_generated, null,
-                                null));
-                    }
-                    String description = Joiner.on("\n").skipNulls().join(
-                            recipe.getIngredientLines());
-                    ideas.add(new Idea(recipe.getUri(),
-                            R.id.idea_category_recipe,
-                            recipe.getLabel(),
-                            false,
-                            R.id.idea_type_suggestion,
-                            new IdeaMeta(recipe.getImageUrl(),
-                                    recipe.getLabel(),
-                                    description),
-                            relatedIdeas
-                    ));
-                }
-                mIdeaDataStore.setSuggestions(ideas);
-                mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+//                List<Idea> ideas = new ArrayList<>();
+//                for (Recipe recipe : mRecipes) {
+//                    List<Idea> relatedIdeas = new ArrayList<Idea>();
+//                    for (Ingredient ingredient : recipe.getIngredients()) {
+//                        relatedIdeas.add(new Idea(recipe.getUri(), R.id.idea_category_recipe,
+//                                ingredient.getFood(), false, R.id.idea_type_user_generated, null,
+//                                null));
+//                    }
+//                    String description = Joiner.on("\n").skipNulls().join(
+//                            recipe.getIngredientLines());
+//                    ideas.add(new Idea(recipe.getUri(),
+//                            R.id.idea_category_recipe,
+//                            recipe.getLabel(),
+//                            false,
+//                            R.id.idea_type_suggestion,
+//                            new IdeaMeta(recipe.getImageUrl(),
+//                                    recipe.getLabel(),
+//                                    description),
+//                            relatedIdeas
+//                    ));
+//                }
+//                mIdeaDataStore.setSuggestions(ideas);
+//                mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
             }
 
             @Override
@@ -109,21 +102,22 @@ public class RecipeInteractor extends IdeaInteractorBase {
 
     @Override
     public String getSharableContent() {
-        List<Idea> ideaList = mIdeaDataStore.getIdeas();
-        StringBuilder sharableContentBuilder = new StringBuilder();
-        Set<String> ideaDedupSet = new HashSet<>();
-        for (Idea idea : ideaList) {
-            for (Idea relatedIdea : idea.getRelatedIdeas()) {
-                String content = relatedIdea.getContent();
-                if (ideaDedupSet.contains(content)) {
-                    continue;
-                }
-                sharableContentBuilder.append(content);
-                sharableContentBuilder.append("\n");
-                ideaDedupSet.add(content);
-            }
-        }
-        return sharableContentBuilder.toString();
+//        List<Idea> ideaList = mIdeaDataStore.getIdeas();
+//        StringBuilder sharableContentBuilder = new StringBuilder();
+//        Set<String> ideaDedupSet = new HashSet<>();
+//        for (Idea idea : ideaList) {
+//            for (Idea relatedIdea : idea.getRelatedIdeas()) {
+//                String content = relatedIdea.getContent();
+//                if (ideaDedupSet.contains(content)) {
+//                    continue;
+//                }
+//                sharableContentBuilder.append(content);
+//                sharableContentBuilder.append("\n");
+//                ideaDedupSet.add(content);
+//            }
+//        }
+//        return sharableContentBuilder.toString();
+        return null;
     }
 
     // NOTE: debounce is to prevent unnecessary network requests -- we only search for recipes after

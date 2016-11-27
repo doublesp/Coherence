@@ -1,9 +1,9 @@
 package com.doublesp.coherence.interfaces.domain;
 
-import android.os.Parcelable;
-
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
+
+import android.os.Parcelable;
 
 import java.util.List;
 
@@ -18,8 +18,6 @@ public interface IdeaDataStoreInterface {
     void setIdeaState(int state);
 
     void addIdea(Idea idea);
-
-    void setCurrentIdea(Idea idea);
 
     void updateIdea(int pos, Idea idea);
 
