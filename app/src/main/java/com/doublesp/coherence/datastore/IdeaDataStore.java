@@ -81,7 +81,7 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
 
     @Override
     public int getIdeaCount() {
-        return getIdeas().size() + getSuggestions().size();
+        return getIdeas().size();
     }
 
     @Override
