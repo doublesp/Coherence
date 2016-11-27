@@ -6,10 +6,7 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
-import org.parceler.Parcels;
-
 import android.content.Context;
-import android.os.Parcelable;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -28,22 +25,33 @@ import rx.schedulers.Schedulers;
 public class IdeaDataStore implements IdeaDataStoreInterface {
 
     IdeaSnapshotStore mIdeaSnapshotStore;
-    List<Observer<Integer>> mStateObservers;
+    List<Observer<Integer>> mIdeaStateObservers;
+    List<Observer<Integer>> mSuggestionStateObservers;
     int mIdeaState;
+    int mSuggestionState;
     private Context mContext;
 
     public IdeaDataStore(Context context) {
         mIdeaSnapshotStore = new IdeaSnapshotStore();
-        mStateObservers = new ArrayList<>();
+        mIdeaStateObservers = new ArrayList<>();
+        mSuggestionStateObservers = new ArrayList<>();
         mIdeaState = R.id.idea_state_idle;
+        mSuggestionState = R.id.suggestion_state_idle;
         mContext = context;
     }
 
     @Override
     public void setIdeaState(int state) {
         mIdeaState = state;
-        notifyStateChange();
+        notifyIdeaStateChange();
     }
+
+    @Override
+    public void setSuggestionState(int state) {
+        mSuggestionState = state;
+        notifySuggestionStateChange();
+    }
+
 
     @Override
     public void addIdea(Idea idea) {
@@ -68,16 +76,6 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
-    public List<Idea> getIdeas() {
-        return getUserIdeas();
-    }
-
-    @Override
-    public List<Idea> getSuggestions() {
-        return getSuggestedIdeas();
-    }
-
-    @Override
     public void setSuggestions(List<Idea> ideas) {
         getSuggestedIdeas().clear();
         getSuggestedIdeas().addAll(ideas);
@@ -89,13 +87,24 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
-    public int getUserIdeaCount() {
-        return getUserIdeas().size();
+    public int getSuggestionCount() {
+        return getSuggestedIdeas().size();
+    }
+
+
+    @Override
+    public void clearSuggestions() {
+        getSuggestedIdeas().clear();
     }
 
     @Override
     public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
-        mStateObservers.add(observer);
+        mIdeaStateObservers.add(observer);
+    }
+
+    @Override
+    public void subscribeToSuggestionStateChanges(Observer<Integer> observer) {
+        mSuggestionStateObservers.add(observer);
     }
 
     @Override
@@ -107,13 +116,8 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
-    public Parcelable getSnapshot() {
-        return Parcels.wrap(mIdeaSnapshotStore);
-    }
-
-    @Override
-    public void setSnapshot(Parcelable ideaSnapshot) {
-        mIdeaSnapshotStore = Parcels.unwrap(ideaSnapshot);
+    public Idea getSuggestionAtPos(int pos) {
+        return null;
     }
 
     @Override
@@ -134,9 +138,19 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         return null;
     }
 
-    private void notifyStateChange() {
+    private void notifyIdeaStateChange() {
         ConnectableObservable<Integer> connectedObservable = Observable.just(mIdeaState).publish();
-        for (Observer<Integer> observer : mStateObservers) {
+        for (Observer<Integer> observer : mIdeaStateObservers) {
+            connectedObservable.subscribeOn(Schedulers.immediate())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(observer);
+        }
+        connectedObservable.connect();
+    }
+
+    private void notifySuggestionStateChange() {
+        ConnectableObservable<Integer> connectedObservable = Observable.just(mSuggestionState).publish();
+        for (Observer<Integer> observer : mSuggestionStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(observer);

@@ -3,8 +3,6 @@ package com.doublesp.coherence.interfaces.domain;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
-import android.os.Parcelable;
-
 import java.util.List;
 
 import rx.Observer;
@@ -17,29 +15,29 @@ public interface IdeaDataStoreInterface {
 
     void setIdeaState(int state);
 
+    void setSuggestionState(int state);
+
     void addIdea(Idea idea);
 
     void updateIdea(int pos, Idea idea);
 
     void removeIdea(int pos);
 
-    List<Idea> getIdeas();
-
-    List<Idea> getSuggestions();
-
     void setSuggestions(List<Idea> ideas);
+
+    void clearSuggestions();
 
     Idea getIdeaAtPos(int pos);
 
+    Idea getSuggestionAtPos(int pos);
+
     int getIdeaCount();
 
-    int getUserIdeaCount();
+    int getSuggestionCount();
 
     void subscribeToIdeaStateChanges(Observer<Integer> observer);
 
-    Parcelable getSnapshot();
-
-    void setSnapshot(Parcelable ideaSnapshot);
+    void subscribeToSuggestionStateChanges(Observer<Integer> observer);
 
     Plan getPlan();
 }

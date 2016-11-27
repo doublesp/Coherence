@@ -1,7 +1,7 @@
 package com.doublesp.coherence.dependencies.components.presentation;
 
 import com.doublesp.coherence.dependencies.components.domain.DomainLayerComponent;
-import com.doublesp.coherence.dependencies.modules.presentation.HomeActivityModule;
+import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
 import dagger.Component;
@@ -14,7 +14,7 @@ import dagger.Component;
 @Component(dependencies = DomainLayerComponent.class)
 public interface PresentationLayerComponent {
 
-    HomeActivitySubComponent newListCompositionActivitySubComponent(
-            HomeActivityModule activityModule);
+    MainActivitySubComponent newListCompositionActivitySubComponent(
+            MainActivityModule activityModule);
 
 }

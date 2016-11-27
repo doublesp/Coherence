@@ -13,13 +13,14 @@ import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
 import com.doublesp.coherence.application.CoherenceApplication;
 import com.doublesp.coherence.databinding.ActivityMainBinding;
-import com.doublesp.coherence.dependencies.components.presentation.HomeActivitySubComponent;
-import com.doublesp.coherence.dependencies.modules.presentation.HomeActivityModule;
+import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
+import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
 import com.doublesp.coherence.fragments.IdeaPreviewFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
+import com.doublesp.coherence.fragments.IdeaSearchResultFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.utils.CoherenceTabUtils;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.User;
@@ -46,7 +47,7 @@ import io.fabric.sdk.android.Fabric;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
-public class MainActivity extends AppCompatActivity implements HomeInjectorInterface,
+public class MainActivity extends AppCompatActivity implements InjectorInterface,
         IdeaCreationActionHandler.IdeaPreviewHandlerInterface,
         ListFragmentActionHandler.IdeaShareHandlerInterface {
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
     static final String LIST_COMPOSITION_FRAGMENT = "LIST_COMPOSITION_FRAGMENT";
     ActivityMainBinding binding;
-    HomeActivitySubComponent mActivityComponent;
+    MainActivitySubComponent mActivityComponent;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
         binding.tabs.setupWithViewPager(binding.viewpager);
-        CoherenceTabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
+        TabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -106,15 +107,15 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
         };
     }
 
-    public HomeActivitySubComponent getActivityComponent() {
+    public MainActivitySubComponent getActivityComponent() {
         if (mActivityComponent == null) {
             mActivityComponent =
                     ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
                             .newListCompositionActivitySubComponent(
-                                    new HomeActivityModule(this, R.id.idea_category_recipe_v2));
-//                                    new HomeActivityModule(this, R.id.idea_category_recipe));
+                                    new MainActivityModule(this, R.id.idea_category_recipe_v2));
+//                                    new MainActivityModule(this, R.id.idea_category_recipe));
 // NOTE: recipe v2 provides more information
-//                                    new HomeActivityModule(this, R.id.idea_category_debug));
+//                                    new MainActivityModule(this, R.id.idea_category_debug));
 // NOTE: use idea_category_debug for mock data
         }
         return mActivityComponent;
@@ -133,6 +134,11 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
 
     @Override
     public void inject(ListCompositionFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(IdeaSearchResultFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 

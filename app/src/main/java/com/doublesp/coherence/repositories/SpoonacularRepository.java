@@ -1,7 +1,5 @@
 package com.doublesp.coherence.repositories;
 
-import android.app.Application;
-
 import com.doublesp.coherence.api.SpoonacularClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
@@ -13,6 +11,8 @@ import com.doublesp.coherence.utils.NetworkUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
+
+import android.app.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,8 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
 
     List<Observer<List<RecipeV2>>> mSubscribers;
     List<Observer<RecipeV2>> mDetailSubscribers;
+    List<Observer<List<RecipeV2>>> mAutoCompleteRecipeSubscribers;
+    List<Observer<List<IngredientV2>>> mAutoCompleteIngredientSubscribers;
     private Application mApplication;
     private SpoonacularClient mClient;
 
@@ -39,6 +41,8 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         mClient = client;
         mSubscribers = new ArrayList<>();
         mDetailSubscribers = new ArrayList<>();
+        mAutoCompleteRecipeSubscribers = new ArrayList<>();
+        mAutoCompleteIngredientSubscribers = new ArrayList<>();
         getClient().subscribe(new Observer<RecipeResponseV2>() {
             List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
 
@@ -99,6 +103,42 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
                 mRecipe = recipeV2;
             }
         });
+        getClient().subscribeAutoCompleteIngredient(new Observer<List<IngredientV2>>() {
+            List<IngredientV2> mIngredients = new ArrayList<IngredientV2>();
+            @Override
+            public void onCompleted() {
+                notifyAllAutoCompleteIngredientObservers(mIngredients);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<IngredientV2> ingredients) {
+                mIngredients.clear();
+                mIngredients.addAll(ingredients);
+            }
+        });
+        getClient().subscribeAutoCompleteRecipe(new Observer<List<RecipeV2>>() {
+            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+            @Override
+            public void onCompleted() {
+                notifyAllObservers(mRecipes);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<RecipeV2> recipes) {
+                mRecipes.clear();
+                mRecipes.addAll(recipes);
+            }
+        });
     }
 
     protected SpoonacularClient getClient() {
@@ -120,9 +160,18 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
     }
 
     @Override
+    public void subscribeAutoCompleteIngredient(Observer<List<IngredientV2>> observer) {
+        mAutoCompleteIngredientSubscribers.add(observer);
+    }
+
+    @Override
+    public void subscribeAutoCompleteRecipe(Observer<List<RecipeV2>> observer) {
+        mAutoCompleteRecipeSubscribers.add(observer);
+    }
+
+    @Override
     public void searchRecipe(String keyword, int count, int offset) {
         if (!NetworkUtils.isNetworkAvailable(getApplication())) {
-            fallback();
             return;
         }
         getClient().searchRecipe(keyword, count, offset);
@@ -140,6 +189,22 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             return;
         }
         getClient().randomRecipe(count);
+    }
+
+    @Override
+    public void autoCompleteIngredients(String keyword, int count) {
+        if (!NetworkUtils.isNetworkAvailable(getApplication())) {
+            return;
+        }
+        getClient().autoCompleteIngredient(keyword, count);
+    }
+
+    @Override
+    public void autoCompleteRecipes(String keyword, int count) {
+        if (!NetworkUtils.isNetworkAvailable(getApplication())) {
+            return;
+        }
+        getClient().autoCompleteRecipe(keyword, count);
     }
 
     void fallback() {
@@ -160,6 +225,26 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         ConnectableObservable<RecipeV2> connectableObservable = Observable.just(
                 recipe).publish();
         for (Observer<RecipeV2> subscriber : mDetailSubscribers) {
+            connectableObservable.subscribeOn(Schedulers.immediate()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe(subscriber);
+        }
+        connectableObservable.connect();
+    }
+
+    void notifyAllAutoCompleteIngredientObservers(List<IngredientV2> ingredients) {
+        ConnectableObservable<List<IngredientV2>> connectableObservable = Observable.just(
+                ingredients).publish();
+        for (Observer<List<IngredientV2>> subscriber : mAutoCompleteIngredientSubscribers) {
+            connectableObservable.subscribeOn(Schedulers.immediate()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe(subscriber);
+        }
+        connectableObservable.connect();
+    }
+
+    void notifyAllAutoCompleteRecipeObservers(List<RecipeV2> recipes) {
+        ConnectableObservable<List<RecipeV2>> connectableObservable = Observable.just(
+                recipes).publish();
+        for (Observer<List<RecipeV2>> subscriber : mAutoCompleteRecipeSubscribers) {
             connectableObservable.subscribeOn(Schedulers.immediate()).observeOn(
                     AndroidSchedulers.mainThread()).subscribe(subscriber);
         }

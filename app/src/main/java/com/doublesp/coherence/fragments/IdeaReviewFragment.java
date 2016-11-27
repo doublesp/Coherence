@@ -20,7 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.adapters.IdeaReviewArrayAdapter;
 import com.doublesp.coherence.databinding.FragmentIdeaReviewBinding;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
@@ -89,8 +89,8 @@ public class IdeaReviewFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof HomeInjectorInterface) {
-            HomeInjectorInterface injector = (HomeInjectorInterface) context;
+        if (context instanceof InjectorInterface) {
+            InjectorInterface injector = (InjectorInterface) context;
             injector.inject(this);
         }
     }

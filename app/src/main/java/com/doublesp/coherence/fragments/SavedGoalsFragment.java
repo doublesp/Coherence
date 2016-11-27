@@ -1,23 +1,23 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.BookmarkedIdeasArrayAdapter;
+import com.doublesp.coherence.databinding.FragmentSavedGoalsBinding;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.adapters.PlanArrayAdapter;
-import com.doublesp.coherence.databinding.FragmentPlanBinding;
+public class SavedGoalsFragment extends Fragment {
 
-public class PlanFragment extends Fragment {
+    FragmentSavedGoalsBinding binding;
 
-    FragmentPlanBinding binding;
-
-    public PlanFragment() {
+    public SavedGoalsFragment() {
         // Required empty public constructor
     }
 
@@ -25,10 +25,10 @@ public class PlanFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment PlanFragment.
+     * @return A new instance of fragment SavedGoalsFragment.
      */
-    public static PlanFragment newInstance() {
-        PlanFragment fragment = new PlanFragment();
+    public static SavedGoalsFragment newInstance() {
+        SavedGoalsFragment fragment = new SavedGoalsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -44,9 +44,9 @@ public class PlanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_plan, container, false);
-        binding.rvPlans.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvPlans.setAdapter(new PlanArrayAdapter());
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_goals, container, false);
+        binding.rvSavedGoals.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        binding.rvSavedGoals.setAdapter(new BookmarkedIdeasArrayAdapter());
         return binding.getRoot();
     }
 

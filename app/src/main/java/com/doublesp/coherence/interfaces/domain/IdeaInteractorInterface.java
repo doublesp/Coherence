@@ -1,7 +1,5 @@
 package com.doublesp.coherence.interfaces.domain;
 
-import android.os.Parcelable;
-
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
@@ -27,19 +25,15 @@ public interface IdeaInteractorInterface {
 
     void getSuggestions(String keyword);
 
-    void subscribe(Observer<Integer> observer);
+    void subscribeIdeaStateChange(Observer<Integer> observer);
+
+    void subscribeSuggestionStateChange(Observer<Integer> observer);
 
     int getIdeaCount();
 
-    int getUserIdeaCount();
+    int getSuggestionCount();
 
     Idea getIdeaAtPos(int pos);
-
-    String getSharableContent();
-
-    Parcelable getSnapshot();
-
-    Parcelable getParcelablePlan();
 
     Plan getPlan();
 

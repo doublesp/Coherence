@@ -34,29 +34,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
 
             @Override
             public void onCompleted() {
-//                List<Idea> ideas = new ArrayList<>();
-//                for (Recipe recipe : mRecipes) {
-//                    List<Idea> relatedIdeas = new ArrayList<Idea>();
-//                    for (Ingredient ingredient : recipe.getIngredients()) {
-//                        relatedIdeas.add(new Idea(recipe.getUri(), R.id.idea_category_recipe,
-//                                ingredient.getFood(), false, R.id.idea_type_user_generated, null,
-//                                null));
-//                    }
-//                    String description = Joiner.on("\n").skipNulls().join(
-//                            recipe.getIngredientLines());
-//                    ideas.add(new Idea(recipe.getUri(),
-//                            R.id.idea_category_recipe,
-//                            recipe.getLabel(),
-//                            false,
-//                            R.id.idea_type_suggestion,
-//                            new IdeaMeta(recipe.getImageUrl(),
-//                                    recipe.getLabel(),
-//                                    description),
-//                            relatedIdeas
-//                    ));
-//                }
-//                mIdeaDataStore.setSuggestions(ideas);
-//                mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+
             }
 
             @Override
@@ -82,42 +60,6 @@ public class RecipeInteractor extends IdeaInteractorBase {
             keyword = "chicken"; // TODO: discover trending items instead of hard code keywords
         }
         searchRecipeWithDebounce(keyword);
-    }
-
-//    @Override
-//    public void acceptSuggestedIdeaAtPos(int pos) {
-//        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
-//        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-//        mIdeaDataStore.removeIdea(pos);
-//        Set<String> dedupSet = new HashSet<>();
-//        for (Idea relatedIdea : idea.getRelatedIdeas()) {
-//            if (dedupSet.contains(relatedIdea.getContent())) {
-//                continue;
-//            }
-//            mIdeaDataStore.addIdea(relatedIdea);
-//            dedupSet.add(relatedIdea.getContent());
-//        }
-//        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
-//    }
-
-    @Override
-    public String getSharableContent() {
-//        List<Idea> ideaList = mIdeaDataStore.getIdeas();
-//        StringBuilder sharableContentBuilder = new StringBuilder();
-//        Set<String> ideaDedupSet = new HashSet<>();
-//        for (Idea idea : ideaList) {
-//            for (Idea relatedIdea : idea.getRelatedIdeas()) {
-//                String content = relatedIdea.getContent();
-//                if (ideaDedupSet.contains(content)) {
-//                    continue;
-//                }
-//                sharableContentBuilder.append(content);
-//                sharableContentBuilder.append("\n");
-//                ideaDedupSet.add(content);
-//            }
-//        }
-//        return sharableContentBuilder.toString();
-        return null;
     }
 
     // NOTE: debounce is to prevent unnecessary network requests -- we only search for recipes after
