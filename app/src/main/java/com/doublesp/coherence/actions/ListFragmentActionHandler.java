@@ -1,18 +1,17 @@
 package com.doublesp.coherence.actions;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
+import android.content.Context;
+import android.content.Intent;
+import android.text.Editable;
 
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.UserList;
-
-import android.content.Context;
-import android.content.Intent;
-import android.text.Editable;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
 
@@ -36,7 +35,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
             mShareHandler = (IdeaShareHandlerInterface) context;
         }
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        //mListDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.LISTS);
         mListDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.USER_LISTS)
                 .child(ConstantsAndUtils.getOwner(context));

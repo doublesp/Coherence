@@ -21,7 +21,5 @@
     <string name="add_friends">Add New Friend</string>
     <string name="add_friend">Add Friend</string>
     <string name="share_list">Share List</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_idea_prefix">Groceries List</string>
 </resources>

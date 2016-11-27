@@ -8,7 +8,9 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import android.content.Context;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
@@ -117,7 +119,12 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     public Plan getPlan() {
         List<Idea> ideas = getIdeas();
         // TODO: allow user to name the plan
-        return new Plan(ideas, "", ConstantsAndUtils.getOwner(mContext));
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
+        StringBuilder titleBuilder =  new StringBuilder(mContext.getString(R.string.default_idea_prefix));
+        titleBuilder.append(" ");
+        titleBuilder.append(formatter.format(calendar.getTime()));
+        return new Plan(ideas, titleBuilder.toString(), ConstantsAndUtils.getOwner(mContext));
     }
 
     private void notifyIdeaStateChange() {

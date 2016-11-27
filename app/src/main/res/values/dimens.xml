@@ -12,4 +12,5 @@
     <dimen name="fragment_idea_review_list_height">200dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_height">100dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_width">100dp</dimen>
+    <dimen name="border_width">5dp</dimen>
 </resources>

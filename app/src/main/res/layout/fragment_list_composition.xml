@@ -35,7 +35,10 @@
                 android:gravity="center"
                 android:hint="@string/idea_hint_create"
                 android:maxLines="1"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:background="@drawable/border"
+                />
 
         <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
