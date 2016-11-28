@@ -59,6 +59,8 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> handler.onShareButtonClick()}"
                     android:src="@drawable/ic_share"
+                    android:tint="@color/colorButton"
+                    app:fab_colorNormal="@color/colorAccent"
                     app:fab_title="@string/share_list"
                     />
 
@@ -67,8 +69,8 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> handler.onSaveButtonClick()}"
                     android:src="@drawable/ic_bookmark"
-                    app:fab_colorNormal="@color/white"
-                    app:fab_colorPressed="@color/white_pressed"
+                    android:tint="@color/colorButton"
+                    app:fab_colorNormal="@color/colorAccent"
                     app:fab_title="@string/save_list"
                     />
 
