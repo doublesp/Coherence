@@ -69,7 +69,9 @@ public class ListCompositionFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             Goal goal = Parcels.unwrap(getArguments().getParcelable(LIST_COMPOSITION_VIEW_MODELS));
-            mInteractor.loadIdeasFromGoal(goal);
+            if (goal != null) {
+                mInteractor.loadIdeasFromGoal(goal);
+            }
         }
         setupBackgroundImageId();
     }
