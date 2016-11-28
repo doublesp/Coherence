@@ -7,10 +7,7 @@
     <item name="idea_type_user_generated" type="id" />
     <item name="idea_type_blank" type="id" />
     <item name="idea_type_suggestion" type="id" />
-    <item name="idea_state_idle" type="id" />
-    <item name="idea_state_refreshing" type="id" />
-    <item name="idea_state_loaded" type="id" />
-    <item name="suggestion_state_idle" type="id" />
-    <item name="suggestion_state_refreshing" type="id" />
-    <item name="suggestion_state_loaded" type="id" />
+    <item name="state_idle" type="id" />
+    <item name="state_refreshing" type="id" />
+    <item name="state_loaded" type="id" />
 </resources>

@@ -11,7 +11,7 @@
     <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
-                 tools:context="com.doublesp.coherence.fragments.SavedPlansFragment">
+                 tools:context="com.doublesp.coherence.fragments.SavedGoalsFragment">
 
         <ImageView
                 android:id="@+id/ivSecitonedIdeaCompositionBackground"
@@ -22,7 +22,7 @@
                 tools:src="@drawable/background_0"/>
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvSavedPlans"
+                android:id="@+id/rvSavedGoals"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"/>
@@ -36,7 +36,7 @@
                 android:src="@drawable/ic_search"
                 android:tint="@color/colorButton"
                 app:fabSize="normal"
-                app:layout_anchor="@id/rvSavedPlans"
+                app:layout_anchor="@id/rvSavedGoals"
                 app:layout_anchorGravity="bottom|right|end"/>
 
     </FrameLayout>

@@ -1,7 +1,7 @@
 package com.doublesp.coherence.interactors;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -14,9 +14,9 @@ import rx.Observer;
 
 abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
-    IdeaDataStoreInterface mIdeaDataStore;
+    DataStoreInterface mIdeaDataStore;
 
-    public IdeaInteractorBase(IdeaDataStoreInterface ideaDataStore) {
+    public IdeaInteractorBase(DataStoreInterface ideaDataStore) {
         mIdeaDataStore = ideaDataStore;
     }
 
@@ -24,22 +24,22 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     public void addIdea(String content) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         mIdeaDataStore.addIdea(
                 new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
-        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
     @Override
     public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         mIdeaDataStore.addIdea(idea);
-        mIdeaDataStore.setIdeaState(R.id.idea_state_loaded);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
 
-        mIdeaDataStore.setSuggestionState(R.id.suggestion_state_refreshing);
+        mIdeaDataStore.setSuggestionState(R.id.state_refreshing);
         mIdeaDataStore.clearSuggestions();
-        mIdeaDataStore.setSuggestionState(R.id.suggestion_state_loaded);
+        mIdeaDataStore.setSuggestionState(R.id.state_loaded);
     }
 
     @Override

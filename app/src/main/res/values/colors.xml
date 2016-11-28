@@ -7,7 +7,7 @@
     <color name="colorLightPrimary">#F8F8F8</color>
     <color name="colorButton">#FFFFFF</color>
     <color name="colorOverlay">#80000000</color>
-    <color name="colorWhiteOverlay">#80FFFFFF</color>
+    <color name="colorWhiteOverlay">#AAFFFFFF</color>
     <color name="half_black">#808080</color>
     <color name="white">#fafafa</color>
     <color name="white_pressed">#f1f1f1</color>

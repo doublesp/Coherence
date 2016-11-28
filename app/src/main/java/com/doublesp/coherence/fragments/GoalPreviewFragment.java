@@ -1,5 +1,11 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
+import com.doublesp.coherence.viewmodels.Goal;
+
+import org.parceler.Parcels;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,27 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentIdeaPreviewBinding;
-import com.doublesp.coherence.viewmodels.Idea;
-
-import org.parceler.Parcels;
-
-public class IdeaPreviewFragment extends DialogFragment {
+public class GoalPreviewFragment extends DialogFragment {
 
     static final String IDEA_PREVIEW_FRAGMENT_VIEW_MODEL = "IDEA_PREVIEW_FRAGMENT_VIEW_MODEL";
 
-    FragmentIdeaPreviewBinding binding;
-    Idea mIdea;
+    FragmentGoalPreviewBinding binding;
+    Goal mGoal;
 
-    public IdeaPreviewFragment() {
+    public GoalPreviewFragment() {
         // Required empty public constructor
     }
 
-    public static IdeaPreviewFragment newInstance(Idea idea) {
-        IdeaPreviewFragment fragment = new IdeaPreviewFragment();
+    public static GoalPreviewFragment newInstance(Goal goal) {
+        GoalPreviewFragment fragment = new GoalPreviewFragment();
         Bundle args = new Bundle();
-        args.putParcelable(IDEA_PREVIEW_FRAGMENT_VIEW_MODEL, Parcels.wrap(idea));
+        args.putParcelable(IDEA_PREVIEW_FRAGMENT_VIEW_MODEL, Parcels.wrap(goal));
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +38,7 @@ public class IdeaPreviewFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mIdea = Parcels.unwrap(getArguments().getParcelable(IDEA_PREVIEW_FRAGMENT_VIEW_MODEL));
+            mGoal = Parcels.unwrap(getArguments().getParcelable(IDEA_PREVIEW_FRAGMENT_VIEW_MODEL));
         }
     }
 
@@ -46,7 +46,7 @@ public class IdeaPreviewFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_idea_preview, container,
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal_preview, container,
                 false);
         return binding.getRoot();
     }
@@ -54,7 +54,7 @@ public class IdeaPreviewFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.setViewModel(mIdea);
+        binding.setViewModel(mGoal);
     }
 
     @Override

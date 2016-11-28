@@ -2,8 +2,8 @@ package com.doublesp.coherence.adapters;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
@@ -24,10 +24,10 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
     IdeaInteractorInterface mIdeaInteractor;
-    IdeaActionHandlerInterface mIdeaActionHandler;
+    ListFragmentActionHandlerInterface mIdeaActionHandler;
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-                                       IdeaActionHandlerInterface ideaActionHandler) {
+                                       ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mIdeaInteractor.subscribeIdeaStateChange(new Observer<Integer>() {
@@ -36,7 +36,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             @Override
             public void onCompleted() {
                 switch (mState) {
-                    case R.id.idea_state_loaded:
+                    case R.id.state_loaded:
                         notifyDataSetChanged();
                         break;
                 }

@@ -1,8 +1,8 @@
 package com.doublesp.coherence.fragments;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentIdeaSearchResultBinding;
-import com.doublesp.coherence.interfaces.presentation.IdeaSearchActionHandlerInterface;
+import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.utils.AnimationUtils;
 
@@ -25,26 +25,25 @@ import javax.inject.Named;
 
 import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
-public class IdeaSearchResultFragment extends DialogFragment {
+public class GoalSearchFragment extends DialogFragment {
 
-    static final int IDEA_SEARCH_RESULT_SPANS = 2;
-    FragmentIdeaSearchResultBinding binding;
+    static final int GOAL_SEARCH_FRAGMENT_SPANS = 2;
+    FragmentGoalSearchBinding binding;
     int[] mBackgroundImageIds;
     int mBackgroundImageIndex;
-
     @Inject
-    IdeaSearchActionHandlerInterface mActionHandler;
-
+    @Named("GoalAction")
+    GoalActionHandlerInterface mActionHandler;
     @Inject
-    @Named("Search")
+    @Named("Goal")
     RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
 
-    public IdeaSearchResultFragment() {
+    public GoalSearchFragment() {
         // Required empty public constructor
     }
 
-    public static IdeaSearchResultFragment newInstance() {
-        IdeaSearchResultFragment fragment = new IdeaSearchResultFragment();
+    public static GoalSearchFragment newInstance() {
+        GoalSearchFragment fragment = new GoalSearchFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -61,8 +60,8 @@ public class IdeaSearchResultFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_idea_search_result, container, false);
-        binding.rvIdeaSearchResults.setLayoutManager(new StaggeredGridLayoutManager(IDEA_SEARCH_RESULT_SPANS, StaggeredGridLayoutManager.VERTICAL));
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal_search, container, false);
+        binding.rvIdeaSearchResults.setLayoutManager(new StaggeredGridLayoutManager(GOAL_SEARCH_FRAGMENT_SPANS, StaggeredGridLayoutManager.VERTICAL));
         binding.rvIdeaSearchResults.setAdapter(mAdapter);
         binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
             @Override

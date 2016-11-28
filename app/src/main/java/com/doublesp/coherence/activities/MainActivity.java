@@ -1,6 +1,31 @@
 package com.doublesp.coherence.activities;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+
+import com.crashlytics.android.Crashlytics;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.actions.ListFragmentActionHandler;
+import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
+import com.doublesp.coherence.application.CoherenceApplication;
+import com.doublesp.coherence.databinding.ActivityMainBinding;
+import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
+import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
+import com.doublesp.coherence.fragments.GoalPreviewFragment;
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.IdeaReviewFragment;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.fragments.SavedGoalsFragment;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.TabUtils;
+import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.User;
+import com.firebase.ui.auth.AuthUI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,38 +41,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.actions.IdeaCreationActionHandler;
-import com.doublesp.coherence.actions.ListFragmentActionHandler;
-import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
-import com.doublesp.coherence.application.CoherenceApplication;
-import com.doublesp.coherence.databinding.ActivityMainBinding;
-import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
-import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
-import com.doublesp.coherence.fragments.IdeaPreviewFragment;
-import com.doublesp.coherence.fragments.IdeaReviewFragment;
-import com.doublesp.coherence.fragments.IdeaSearchResultFragment;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.utils.TabUtils;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.User;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 
 import io.fabric.sdk.android.Fabric;
 
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
-        IdeaCreationActionHandler.IdeaPreviewHandlerInterface,
+        GoalActionHandlerInterface.PreviewHandlerInterface,
         ListFragmentActionHandler.IdeaShareHandlerInterface {
 
     public static final int RC_SIGN_IN = 1;
@@ -122,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void showPreviewDialog(Idea idea) {
-        IdeaPreviewFragment previewDialog = IdeaPreviewFragment.newInstance(idea);
+    public void showPreviewDialog(Goal goal) {
+        GoalPreviewFragment previewDialog = GoalPreviewFragment.newInstance(goal);
         previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
@@ -138,12 +140,17 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void inject(IdeaSearchResultFragment fragment) {
+    public void inject(IdeaReviewFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 
     @Override
-    public void inject(IdeaReviewFragment fragment) {
+    public void inject(GoalSearchFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(SavedGoalsFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 
@@ -216,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     public void onIdeaSearchClick(View view) {
-        IdeaSearchResultFragment searchResultFragment = IdeaSearchResultFragment.newInstance();
+        GoalSearchFragment searchResultFragment = GoalSearchFragment.newInstance();
         searchResultFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         searchResultFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
     }

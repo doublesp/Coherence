@@ -10,5 +10,6 @@ public interface ListFragmentActionHandlerInterface {
 
     void onFloatingAcitonButtonClick();
     void afterTextChanged(Editable s);
+    void onSuggestionClick(int pos);
 
 }

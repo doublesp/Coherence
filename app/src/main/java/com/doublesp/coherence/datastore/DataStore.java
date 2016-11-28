@@ -1,8 +1,9 @@
 package com.doublesp.coherence.datastore;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
@@ -23,21 +24,29 @@ import rx.schedulers.Schedulers;
  * Created by pinyaoting on 11/10/16.
  */
 
-public class IdeaDataStore implements IdeaDataStoreInterface {
+public class DataStore implements DataStoreInterface {
 
-    IdeaSnapshotStore mIdeaSnapshotStore;
+    DataSnapshotStore mSnapshotStore;
     List<Observer<Integer>> mIdeaStateObservers;
     List<Observer<Integer>> mSuggestionStateObservers;
+    List<Observer<Integer>> mSavedGoalStateObservers;
+    List<Observer<Integer>> mGoalStateObservers;
     int mIdeaState;
     int mSuggestionState;
+    int mSavedGoalState;
+    int mGoalState;
     private Context mContext;
 
-    public IdeaDataStore(Context context) {
-        mIdeaSnapshotStore = new IdeaSnapshotStore();
+    public DataStore(Context context) {
+        mSnapshotStore = new DataSnapshotStore();
         mIdeaStateObservers = new ArrayList<>();
         mSuggestionStateObservers = new ArrayList<>();
-        mIdeaState = R.id.idea_state_idle;
-        mSuggestionState = R.id.suggestion_state_idle;
+        mSavedGoalStateObservers = new ArrayList<>();
+        mGoalStateObservers = new ArrayList<>();
+        mIdeaState = R.id.state_idle;
+        mSuggestionState = R.id.state_idle;
+        mSavedGoalState = R.id.state_idle;
+        mGoalState = R.id.state_idle;
         mContext = context;
     }
 
@@ -53,6 +62,17 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         notifySuggestionStateChange();
     }
 
+    @Override
+    public void setGoalState(int state) {
+        mGoalState = state;
+        notifyGoalStateChange();
+    }
+
+    @Override
+    public void setSavedGoalState(int state) {
+        mSavedGoalState = state;
+        notifySavedGoalStateChange();
+    }
 
     @Override
     public void addIdea(Idea idea) {
@@ -80,6 +100,28 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
+    public void setGoals(List<Goal> goals) {
+        getGoals().clear();
+        getGoals().addAll(goals);
+    }
+
+    @Override
+    public void setSavedGoals(List<Goal> goals) {
+        getSavedGoals().clear();
+        getSavedGoals().addAll(goals);
+    }
+
+    @Override
+    public void updateGoal(int pos, Goal goal) {
+        getGoals().set(pos, goal);
+    }
+
+    @Override
+    public void updateSavedGoal(int pos, Goal goal) {
+        getSavedGoals().set(pos, goal);
+    }
+
+    @Override
     public int getIdeaCount() {
         return getIdeas().size();
     }
@@ -89,6 +131,15 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         return getSuggestions().size();
     }
 
+    @Override
+    public int getGoalCount() {
+        return getGoals().size();
+    }
+
+    @Override
+    public int getSavedGoalCount() {
+        return getSavedGoals().size();
+    }
 
     @Override
     public void clearSuggestions() {
@@ -106,6 +157,16 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     }
 
     @Override
+    public void subscribeToGoalStateChanges(Observer<Integer> observer) {
+        mGoalStateObservers.add(observer);
+    }
+
+    @Override
+    public void subscribeToSavedGoalStateChanges(Observer<Integer> observer) {
+        mSavedGoalStateObservers.add(observer);
+    }
+
+    @Override
     public Idea getIdeaAtPos(int pos) {
         return getIdeas().get(pos);
     }
@@ -113,6 +174,16 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
     @Override
     public Idea getSuggestionAtPos(int pos) {
         return getSuggestions().get(pos);
+    }
+
+    @Override
+    public Goal getGoalAtPos(int pos) {
+        return getGoals().get(pos);
+    }
+
+    @Override
+    public Goal getSavedGoalAtPos(int pos) {
+        return getSavedGoals().get(pos);
     }
 
     @Override
@@ -147,11 +218,39 @@ public class IdeaDataStore implements IdeaDataStoreInterface {
         connectedObservable.connect();
     }
 
+    private void notifySavedGoalStateChange() {
+        ConnectableObservable<Integer> connectedObservable = Observable.just(mSavedGoalState).publish();
+        for (Observer<Integer> observer : mSavedGoalStateObservers) {
+            connectedObservable.subscribeOn(Schedulers.immediate())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(observer);
+        }
+        connectedObservable.connect();
+    }
+
+    private void notifyGoalStateChange() {
+        ConnectableObservable<Integer> connectedObservable = Observable.just(mGoalState).publish();
+        for (Observer<Integer> observer : mGoalStateObservers) {
+            connectedObservable.subscribeOn(Schedulers.immediate())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(observer);
+        }
+        connectedObservable.connect();
+    }
+
     private List<Idea> getIdeas() {
-        return mIdeaSnapshotStore.mIdeas;
+        return mSnapshotStore.mIdeas;
     }
 
     private List<Idea> getSuggestions() {
-        return mIdeaSnapshotStore.mSuggestions;
+        return mSnapshotStore.mSuggestions;
+    }
+
+    private List<Goal> getGoals() {
+        return mSnapshotStore.mGoals;
+    }
+
+    private List<Goal> getSavedGoals() {
+        return mSnapshotStore.mSavedGoals;
     }
 }

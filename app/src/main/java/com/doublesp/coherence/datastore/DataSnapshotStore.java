@@ -1,5 +1,6 @@
 package com.doublesp.coherence.datastore;
 
+import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 
 import org.parceler.Parcel;
@@ -12,14 +13,18 @@ import java.util.List;
  */
 
 @Parcel
-public class IdeaSnapshotStore {
+public class DataSnapshotStore {
 
     List<Idea> mIdeas;
     List<Idea> mSuggestions;
+    List<Goal> mSavedGoals;
+    List<Goal> mGoals;
 
-    public IdeaSnapshotStore() {
+    public DataSnapshotStore() {
         mIdeas = new ArrayList<>();
         mSuggestions = new ArrayList<>();
+        mSavedGoals = new ArrayList<>();
+        mGoals = new ArrayList<>();
     }
 
 }

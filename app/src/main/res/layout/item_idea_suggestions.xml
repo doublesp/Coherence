@@ -6,7 +6,7 @@
         <variable name="pos" type="int" />
 
         <variable name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface" />
+            type="com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface" />
 
         <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
@@ -19,14 +19,5 @@
             android:onClick="@{() -> handler.onSuggestionClick(pos)}"
             android:text='@{viewModel.content}' android:textColor="@color/colorSecondary" />
 
-        <ImageButton android:id="@+id/ibIdeaPreview"
-            android:layout_width="@dimen/activity_list_composition_idea_preview_icon_width"
-            android:layout_height="@dimen/activity_list_composition_idea_preview_icon_height"
-            android:layout_gravity="center_vertical|right|end"
-            android:layout_marginEnd="@dimen/activity_list_composition_idea_preview_icon_margin_right"
-            android:layout_marginRight="@dimen/activity_list_composition_idea_preview_icon_margin_right"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
-            android:src="@drawable/ic_visibility" android:tint="@color/colorPrimaryDark" />
     </FrameLayout>
 </layout>

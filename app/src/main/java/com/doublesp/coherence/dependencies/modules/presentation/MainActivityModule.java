@@ -1,15 +1,15 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
-import com.doublesp.coherence.actions.IdeaCreationActionHandler;
-import com.doublesp.coherence.actions.IdeaSearchActionHandler;
+import com.doublesp.coherence.actions.GoalActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
+import com.doublesp.coherence.actions.SavedGoalActionHandler;
 import com.doublesp.coherence.activities.MainActivity;
-import com.doublesp.coherence.adapters.IdeaSearchResultArrayAdapter;
+import com.doublesp.coherence.adapters.GoalArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
+import com.doublesp.coherence.adapters.SavedGoalArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaSearchActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaSearchInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
@@ -41,15 +41,8 @@ public class MainActivityModule {
     @PresentationLayerScope
     @Named("Composition")
     public RecyclerView.Adapter<RecyclerView.ViewHolder> providesListCompositionArrayAdapter(
-            IdeaInteractorInterface ideaInteractor, IdeaActionHandlerInterface ideaActionHandler) {
+            IdeaInteractorInterface ideaInteractor, ListFragmentActionHandlerInterface ideaActionHandler) {
         return new ListCompositionArrayAdapter(ideaInteractor, ideaActionHandler);
-    }
-
-    @Provides
-    @PresentationLayerScope
-    public IdeaActionHandlerInterface providesIdeaActionHandler(
-            IdeaInteractorInterface ideaInteractor) {
-        return new IdeaCreationActionHandler(mActivity, ideaInteractor);
     }
 
     @Provides
@@ -69,16 +62,32 @@ public class MainActivityModule {
 
     @Provides
     @PresentationLayerScope
-    @Named("Search")
-    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesIdeaSearchResultArrayAdapter(
-            IdeaSearchInteractorInterface searchInteractor) {
-        return new IdeaSearchResultArrayAdapter(searchInteractor);
+    @Named("Goal")
+    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesGoalArrayAdapter(
+            GoalInteractorInterface interactor, @Named("GoalAction") GoalActionHandlerInterface actionHandler) {
+        return new GoalArrayAdapter(interactor, actionHandler);
     }
 
     @Provides
     @PresentationLayerScope
-    public IdeaSearchActionHandlerInterface providesIdeaSearchActionHandler(IdeaSearchInteractorInterface searchInteractor) {
-        return new IdeaSearchActionHandler(mActivity, searchInteractor);
+    @Named("SavedGoal")
+    public RecyclerView.Adapter<RecyclerView.ViewHolder> providesBookmarkGoalArrayAdapter(
+            GoalInteractorInterface interactor, @Named("SavedGoalAction") GoalActionHandlerInterface actionHandler) {
+        return new SavedGoalArrayAdapter(interactor, actionHandler);
+    }
+
+    @Provides
+    @PresentationLayerScope
+    @Named("GoalAction")
+    public GoalActionHandlerInterface providesGoalActionHandler(GoalInteractorInterface interactor) {
+        return new GoalActionHandler(mActivity, interactor);
+    }
+
+    @Provides
+    @PresentationLayerScope
+    @Named("SavedGoalAction")
+    public GoalActionHandlerInterface providesSavedGoalActionHandler(GoalInteractorInterface interactor) {
+        return new SavedGoalActionHandler(mActivity, interactor);
     }
 
 }

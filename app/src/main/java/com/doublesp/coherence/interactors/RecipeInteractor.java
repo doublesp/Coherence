@@ -2,7 +2,7 @@ package com.doublesp.coherence.interactors;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
-import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.models.v1.Recipe;
 
 import java.util.List;
@@ -20,11 +20,11 @@ public class RecipeInteractor extends IdeaInteractorBase {
 
     public static final long RECIPE_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES = 500;
 
-    IdeaDataStoreInterface mIdeaDataStore;
+    DataStoreInterface mIdeaDataStore;
     RecipeRepositoryInterface mRecipeRepository;
     PublishSubject<String> mSearchDebouner;
 
-    public RecipeInteractor(IdeaDataStoreInterface ideaDataStore,
+    public RecipeInteractor(DataStoreInterface ideaDataStore,
             RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
@@ -72,7 +72,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
                     .subscribe(new Action1<String>() {
                         @Override
                         public void call(String s) {
-                            mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+                            mIdeaDataStore.setIdeaState(R.id.state_refreshing);
                             mRecipeRepository.searchRecipe(s);
                         }
                     });
