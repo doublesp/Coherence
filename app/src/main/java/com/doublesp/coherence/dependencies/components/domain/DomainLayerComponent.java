@@ -2,7 +2,7 @@ package com.doublesp.coherence.dependencies.components.domain;
 
 import com.doublesp.coherence.dependencies.components.data.DataLayerComponent;
 import com.doublesp.coherence.dependencies.modules.domain.DomainLayerModule;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.scopes.DomainLayerScope;
 
 import java.util.Map;
@@ -17,6 +17,7 @@ import dagger.Component;
 @Component(dependencies = DataLayerComponent.class, modules = DomainLayerModule.class)
 public interface DomainLayerComponent {
 
-    Map<Integer, IdeaInteractorInterface> ideaInteractors();
+    Map<Integer, com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface> ideaInteractors();
+    GoalInteractorInterface ideaSearchInteractor();
 
 }

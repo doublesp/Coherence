@@ -1,9 +1,9 @@
 package com.doublesp.coherence.fragments;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.AnimationUtils;
 
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,24 +23,27 @@ import android.view.WindowManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class ListCompositionFragment extends DialogFragment {
+import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
-    static final int LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL = 5000;
-    FragmentListCompositionBinding binding;
+public class GoalSearchFragment extends DialogFragment {
+
+    static final int GOAL_SEARCH_FRAGMENT_SPANS = 2;
+    FragmentGoalSearchBinding binding;
     int[] mBackgroundImageIds;
     int mBackgroundImageIndex;
     @Inject
-    @Named("Composition")
-    RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+    @Named("GoalAction")
+    GoalActionHandlerInterface mActionHandler;
     @Inject
-    ListFragmentActionHandlerInterface mActionHandler;
+    @Named("Goal")
+    RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
 
-    public ListCompositionFragment() {
+    public GoalSearchFragment() {
         // Required empty public constructor
     }
 
-    public static ListCompositionFragment newInstance() {
-        ListCompositionFragment fragment = new ListCompositionFragment();
+    public static GoalSearchFragment newInstance() {
+        GoalSearchFragment fragment = new GoalSearchFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -56,14 +59,11 @@ public class ListCompositionFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_composition, container,
-                false);
-        binding.rvIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvIdeas.setAdapter(mAdapter);
-        binding.setHandler(mActionHandler);
-        binding.etIdea.addTextChangedListener(new TextWatcher() {
+                             Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal_search, container, false);
+        binding.rvIdeaSearchResults.setLayoutManager(new StaggeredGridLayoutManager(GOAL_SEARCH_FRAGMENT_SPANS, StaggeredGridLayoutManager.VERTICAL));
+        binding.rvIdeaSearchResults.setAdapter(mAdapter);
+        binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -120,9 +120,9 @@ public class ListCompositionFragment extends DialogFragment {
     }
 
     void rotateImage() {
-        binding.ivIdeaCompositionBackground.setImageResource(
+        binding.ivIdeaSearchBackground.setImageResource(
                 mBackgroundImageIds[mBackgroundImageIndex]);
-        binding.ivIdeaCompositionBackground.startAnimation(AnimationUtils.fadeInOutAnimation(
+        binding.ivIdeaSearchBackground.startAnimation(AnimationUtils.fadeInOutAnimation(
                 LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL));
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -132,5 +132,4 @@ public class ListCompositionFragment extends DialogFragment {
             }
         }, LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL);
     }
-
 }

@@ -2,8 +2,8 @@ package com.doublesp.coherence.adapters;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
@@ -23,29 +23,21 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
-    final Observer<Integer> mObserver;
     IdeaInteractorInterface mIdeaInteractor;
-    IdeaActionHandlerInterface mIdeaActionHandler;
+    ListFragmentActionHandlerInterface mIdeaActionHandler;
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-            IdeaActionHandlerInterface ideaActionHandler) {
+                                       ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
-        mObserver = new Observer<Integer>() {
+        mIdeaInteractor.subscribeIdeaStateChange(new Observer<Integer>() {
             int mState;
 
             @Override
             public void onCompleted() {
                 switch (mState) {
-                    case R.id.idea_state_idea_loaded:
+                    case R.id.state_loaded:
                         notifyDataSetChanged();
-                        break;
-                    case R.id.idea_state_suggestion_loaded:
-                        int start = mIdeaInteractor.getUserIdeaCount() + 1;
-                        int end = mIdeaInteractor.getIdeaCount() - 1;
-                        if (end > start) {
-                            notifyItemRangeChanged(start, end);
-                        }
                         break;
                 }
             }
@@ -59,8 +51,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             public void onNext(Integer state) {
                 mState = state;
             }
-        };
-        mIdeaInteractor.subscribe(mObserver);
+        });
         mIdeaInteractor.getSuggestions(null);
     }
 

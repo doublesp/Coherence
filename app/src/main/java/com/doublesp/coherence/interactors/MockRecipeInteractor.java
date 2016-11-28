@@ -1,15 +1,12 @@
 package com.doublesp.coherence.interactors;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.datastore.IdeaSnapshotStore;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
-import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +17,9 @@ import java.util.List;
 
 public class MockRecipeInteractor extends RecipeInteractor {
 
-    public MockRecipeInteractor(IdeaDataStoreInterface ideaDataStore,
+    public MockRecipeInteractor(DataStoreInterface ideaDataStore,
                                 RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore, recipeRepository);
-        ideaDataStore.setSnapshot(Parcels.wrap(new IdeaSnapshotStore(mockIdeas())));
     }
 
     Plan mockPlan() {

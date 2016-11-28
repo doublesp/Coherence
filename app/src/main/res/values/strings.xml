@@ -8,7 +8,8 @@
     <string name="api_endpoint_recipe_v2" translatable="false">
         https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/
     </string>
-    <string name="idea_hint_ingredient">add an ingredient</string>
+    <string name="idea_hint_create">add an ingredient</string>
+    <string name="idea_hint_search">search for a recipe</string>
     <string name="sign_out">Sign out</string>
     <string name="welcome">Welcome, %1s</string>
     <string name="facebook_application_id" translatable="false">1822316278006079</string>

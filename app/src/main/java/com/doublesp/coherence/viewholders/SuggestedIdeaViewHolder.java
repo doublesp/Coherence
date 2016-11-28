@@ -1,12 +1,12 @@
 package com.doublesp.coherence.viewholders;
 
+import com.doublesp.coherence.databinding.ItemIdeaSuggestionsBinding;
+import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.viewmodels.Idea;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.doublesp.coherence.databinding.ItemIdeaSuggestionsBinding;
-import com.doublesp.coherence.interfaces.presentation.IdeaActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
-import com.doublesp.coherence.viewmodels.Idea;
 
 /**
  * Created by pinyaoting on 11/12/16.
@@ -33,7 +33,7 @@ public class SuggestedIdeaViewHolder extends RecyclerView.ViewHolder implements
     }
 
     @Override
-    public void setHandler(IdeaActionHandlerInterface handler) {
+    public void setHandler(ListFragmentActionHandlerInterface handler) {
         binding.setHandler(handler);
     }
 

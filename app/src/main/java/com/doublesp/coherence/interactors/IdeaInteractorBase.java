@@ -1,14 +1,10 @@
 package com.doublesp.coherence.interactors;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.interfaces.domain.IdeaDataStoreInterface;
+import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import org.parceler.Parcels;
-
-import android.os.Parcelable;
 
 import rx.Observer;
 
@@ -18,9 +14,9 @@ import rx.Observer;
 
 abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
-    IdeaDataStoreInterface mIdeaDataStore;
+    DataStoreInterface mIdeaDataStore;
 
-    public IdeaInteractorBase(IdeaDataStoreInterface ideaDataStore) {
+    public IdeaInteractorBase(DataStoreInterface ideaDataStore) {
         mIdeaDataStore = ideaDataStore;
     }
 
@@ -28,19 +24,22 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     public void addIdea(String content) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         mIdeaDataStore.addIdea(
                 new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
-        mIdeaDataStore.setIdeaState(R.id.idea_state_idea_loaded);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
     @Override
     public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(R.id.idea_state_refreshing);
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        mIdeaDataStore.removeIdea(pos);
         mIdeaDataStore.addIdea(idea);
-        mIdeaDataStore.setIdeaState(R.id.idea_state_suggestion_loaded);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
+
+        mIdeaDataStore.setSuggestionState(R.id.state_refreshing);
+        mIdeaDataStore.clearSuggestions();
+        mIdeaDataStore.setSuggestionState(R.id.state_loaded);
     }
 
     @Override
@@ -76,8 +75,13 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     abstract public void getSuggestions(String keyword);
 
     @Override
-    public void subscribe(Observer<Integer> observer) {
+    public void subscribeIdeaStateChange(Observer<Integer> observer) {
         mIdeaDataStore.subscribeToIdeaStateChanges(observer);
+    }
+
+    @Override
+    public void subscribeSuggestionStateChange(Observer<Integer> observer) {
+        mIdeaDataStore.subscribeToSuggestionStateChanges(observer);
     }
 
     @Override
@@ -86,8 +90,8 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public int getUserIdeaCount() {
-        return mIdeaDataStore.getUserIdeaCount();
+    public int getSuggestionCount() {
+        return mIdeaDataStore.getSuggestionCount();
     }
 
     @Override
@@ -96,20 +100,8 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public Parcelable getSnapshot() {
-        return mIdeaDataStore.getSnapshot();
-    }
-
-    @Override
     public Plan getPlan() {
         return mIdeaDataStore.getPlan();
     }
 
-    @Override
-    public Parcelable getParcelablePlan() {
-        return Parcels.wrap(mIdeaDataStore.getPlan());
-    }
-
-    @Override
-    abstract public String getSharableContent();
 }

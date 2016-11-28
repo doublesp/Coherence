@@ -1,18 +1,18 @@
 package com.doublesp.coherence.utils;
 
+import com.doublesp.coherence.R;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
-import com.doublesp.coherence.R;
-
 /**
  * Created by pinyaoting on 11/16/16.
  */
 
-public class CoherenceTabUtils {
+public class TabUtils {
 
     public static void bindIcons(final Context context, ViewPager viewPager,
             final TabLayout layout) {
@@ -40,7 +40,7 @@ public class CoherenceTabUtils {
                 }
         );
 
-        layout.getTabAt(0).setIcon(R.drawable.ic_create);
+        layout.getTabAt(0).setIcon(R.drawable.ic_shopping_cart);
         layout.getTabAt(1).setIcon(R.drawable.ic_library_books);
     }
 

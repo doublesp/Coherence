@@ -3,16 +3,16 @@
 
     <data>
 
-        <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Idea" />
+        <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Goal" />
     </data>
 
     <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent" android:layout_height="match_parent"
-        tools:context="com.doublesp.coherence.fragments.IdeaPreviewFragment">
+        tools:context="com.doublesp.coherence.fragments.GoalPreviewFragment">
 
         <ImageView android:id="@+id/ivIdeaBackgroundImage" android:layout_width="match_parent"
             android:layout_height="match_parent" android:scaleType="centerCrop"
-            app:imageUrl='@{viewModel.meta.imageUrl}' tools:src="@drawable/background_0" />
+            app:imageUrl='@{viewModel.imageUrl}' tools:src="@drawable/background_0" />
 
         <LinearLayout android:id="@+id/llIdeaDescriptionBox" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_gravity="bottom"
@@ -21,13 +21,13 @@
 
             <TextView android:id="@+id/tvTitle" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_margin="10dp"
-                android:gravity="center_horizontal" android:text='@{viewModel.meta.title}'
+                android:gravity="center_horizontal" android:text='@{viewModel.title}'
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorButton" tools:text="Grilled Deviled Chickens" />
 
             <TextView android:id="@+id/tvOverview" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_margin="10dp"
-                android:ellipsize="end" android:text='@{viewModel.meta.description}'
+                android:ellipsize="end" android:text='@{viewModel.description}'
                 android:textColor="@color/colorButton" tools:text="4 baby chickens (poussins) or cornish hens (about 1 1/4 pounds each), or 4 chicken breast halves
 3 lemons, plus wedges for garnish
 4 cloves garlic, peeled and smashed

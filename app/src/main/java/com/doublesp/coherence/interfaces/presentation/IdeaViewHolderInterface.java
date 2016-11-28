@@ -12,7 +12,7 @@ public interface IdeaViewHolderInterface {
 
     void setViewModel(Idea viewModel);
 
-    void setHandler(IdeaActionHandlerInterface handler);
+    void setHandler(ListFragmentActionHandlerInterface handler);
 
     void executePendingBindings();
 

@@ -1,6 +1,31 @@
 package com.doublesp.coherence.activities;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+
+import com.crashlytics.android.Crashlytics;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.actions.ListFragmentActionHandler;
+import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
+import com.doublesp.coherence.application.CoherenceApplication;
+import com.doublesp.coherence.databinding.ActivityMainBinding;
+import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
+import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
+import com.doublesp.coherence.fragments.GoalPreviewFragment;
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.IdeaReviewFragment;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.fragments.SavedGoalsFragment;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.TabUtils;
+import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.User;
+import com.firebase.ui.auth.AuthUI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,44 +41,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.actions.IdeaCreationActionHandler;
-import com.doublesp.coherence.actions.ListFragmentActionHandler;
-import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
-import com.doublesp.coherence.application.CoherenceApplication;
-import com.doublesp.coherence.databinding.ActivityMainBinding;
-import com.doublesp.coherence.dependencies.components.presentation.HomeActivitySubComponent;
-import com.doublesp.coherence.dependencies.modules.presentation.HomeActivityModule;
-import com.doublesp.coherence.fragments.IdeaPreviewFragment;
-import com.doublesp.coherence.fragments.IdeaReviewFragment;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.interfaces.presentation.HomeInjectorInterface;
-import com.doublesp.coherence.utils.CoherenceTabUtils;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.User;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-
 import java.util.Arrays;
 import java.util.HashMap;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements HomeInjectorInterface,
-        IdeaCreationActionHandler.IdeaPreviewHandlerInterface,
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+public class MainActivity extends AppCompatActivity implements InjectorInterface,
+        GoalActionHandlerInterface.PreviewHandlerInterface,
         ListFragmentActionHandler.IdeaShareHandlerInterface {
 
     public static final int RC_SIGN_IN = 1;
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
     static final String LIST_COMPOSITION_FRAGMENT = "LIST_COMPOSITION_FRAGMENT";
+    static final String IDEA_SEARCH_RESULT_FRAGMENT = "IDEA_SEARCH_RESULT_FRAGMENT";
     ActivityMainBinding binding;
-    HomeActivitySubComponent mActivityComponent;
+    MainActivitySubComponent mActivityComponent;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
         binding.tabs.setupWithViewPager(binding.viewpager);
-        CoherenceTabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
+        TabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -105,23 +109,23 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
         };
     }
 
-    public HomeActivitySubComponent getActivityComponent() {
+    public MainActivitySubComponent getActivityComponent() {
         if (mActivityComponent == null) {
             mActivityComponent =
                     ((CoherenceApplication) getApplication()).getPresentationLayerComponent()
                             .newListCompositionActivitySubComponent(
-                                    new HomeActivityModule(this, R.id.idea_category_recipe_v2));
-//                                    new HomeActivityModule(this, R.id.idea_category_recipe));
+                                    new MainActivityModule(this, R.id.idea_category_recipe_v2));
+//                                    new MainActivityModule(this, R.id.idea_category_recipe));
 // NOTE: recipe v2 provides more information
-//                                    new HomeActivityModule(this, R.id.idea_category_debug));
+//                                    new MainActivityModule(this, R.id.idea_category_debug));
 // NOTE: use idea_category_debug for mock data
         }
         return mActivityComponent;
     }
 
     @Override
-    public void showPreviewDialog(Idea idea) {
-        IdeaPreviewFragment previewDialog = IdeaPreviewFragment.newInstance(idea);
+    public void showPreviewDialog(Goal goal) {
+        GoalPreviewFragment previewDialog = GoalPreviewFragment.newInstance(goal);
         previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
@@ -140,10 +144,14 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
         getActivityComponent().inject(fragment);
     }
 
-    public void onCustomListClick(View view) {
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    @Override
+    public void inject(GoalSearchFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(SavedGoalsFragment fragment) {
+        getActivityComponent().inject(fragment);
     }
 
     private void onSignedInInitialize(FirebaseUser user) {
@@ -206,5 +214,17 @@ public class MainActivity extends AppCompatActivity implements HomeInjectorInter
 
     private void onSignedOutCleanup() {
         mUsername = ConstantsAndUtils.ANONYMOUS;
+    }
+
+    public void onIdeaCompositionClick(View view) {
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
+        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    }
+
+    public void onIdeaSearchClick(View view) {
+        GoalSearchFragment searchResultFragment = GoalSearchFragment.newInstance();
+        searchResultFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        searchResultFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
     }
 }
