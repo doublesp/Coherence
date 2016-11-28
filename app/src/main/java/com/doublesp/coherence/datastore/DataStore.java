@@ -80,6 +80,12 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
+    public void setIdeas(List<Idea> ideas) {
+        getIdeas().clear();
+        getIdeas().addAll(ideas);
+    }
+
+    @Override
     public void updateIdea(int pos, Idea idea) {
         if (pos == getIdeas().size()) {
             getIdeas().add(idea);

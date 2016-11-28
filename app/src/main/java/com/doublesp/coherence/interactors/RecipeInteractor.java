@@ -4,6 +4,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeRepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.models.v1.Recipe;
+import com.doublesp.coherence.viewmodels.Goal;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -78,5 +79,10 @@ public class RecipeInteractor extends IdeaInteractorBase {
                     });
         }
         mSearchDebouner.onNext(keyword);
+    }
+
+    @Override
+    public void loadIdeasFromGoal(Goal goal) {
+        return;
     }
 }

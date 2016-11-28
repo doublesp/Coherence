@@ -2,6 +2,8 @@ package com.doublesp.coherence.fragments;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.viewmodels.Goal;
 
 import org.parceler.Parcels;
@@ -15,12 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import javax.inject.Inject;
+
 public class GoalPreviewFragment extends DialogFragment {
 
     static final String IDEA_PREVIEW_FRAGMENT_VIEW_MODEL = "IDEA_PREVIEW_FRAGMENT_VIEW_MODEL";
 
     FragmentGoalPreviewBinding binding;
     Goal mGoal;
+    @Inject
+    GoalDetailActionHandlerInterface mActionHandler;
 
     public GoalPreviewFragment() {
         // Required empty public constructor
@@ -48,6 +54,7 @@ public class GoalPreviewFragment extends DialogFragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal_preview, container,
                 false);
+        binding.setHandler(mActionHandler);
         return binding.getRoot();
     }
 
@@ -55,11 +62,16 @@ public class GoalPreviewFragment extends DialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setViewModel(mGoal);
+        binding.executePendingBindings();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof InjectorInterface) {
+            InjectorInterface injector = (InjectorInterface) context;
+            injector.inject(this);
+        }
     }
 
     @Override

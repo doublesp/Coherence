@@ -24,6 +24,8 @@ public interface DataStoreInterface {
 
     void addIdea(Idea idea);
 
+    void setIdeas(List<Idea> ideas);
+
     void updateIdea(int pos, Idea idea);
 
     void removeIdea(int pos);

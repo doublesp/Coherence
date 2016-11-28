@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable name="handler" type="com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface" />
         <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Goal" />
     </data>
 
@@ -38,6 +38,16 @@
 Salt, to taste" />
 
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right|end"
+                android:layout_margin="16dp"
+                android:onClick="@{() -> handler.onCreateIdeaListClick(viewModel)}"
+                android:src="@drawable/ic_create"
+                android:tint="@color/colorButton"
+                app:fabSize="normal"/>
 
     </FrameLayout>
 </layout>
