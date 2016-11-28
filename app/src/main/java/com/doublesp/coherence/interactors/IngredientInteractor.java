@@ -10,7 +10,9 @@ import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
@@ -68,9 +70,14 @@ public class IngredientInteractor extends IdeaInteractorBase {
             @Override
             public void onCompleted() {
                 List<Idea> ideas = new ArrayList<Idea>();
+                Set<String> dedupSet = new HashSet<String>();
                 for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
+                    if (dedupSet.contains(ingredient.getName())) {
+                        continue;
+                    }
                     Idea idea = new Idea(ingredient.getId(), R.id.idea_category_recipe_v2, ingredient.getName(), false, R.id.idea_type_user_generated, new IdeaMeta(ingredient.getImage(), ingredient.getName(), ingredient.getOriginalString()));
                     ideas.add(idea);
+                    dedupSet.add(ingredient.getName());
                 }
                 mIdeaDataStore.setIdeas(ideas);
                 mIdeaDataStore.setIdeaState(R.id.state_loaded);
