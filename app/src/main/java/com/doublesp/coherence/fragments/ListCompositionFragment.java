@@ -114,6 +114,7 @@ public class ListCompositionFragment extends DialogFragment {
 
     @Override
     public void onResume() {
+        binding.multipleActions.collapse();
         // Get existing layout params for the window
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
         // Assign window properties to fill the parent

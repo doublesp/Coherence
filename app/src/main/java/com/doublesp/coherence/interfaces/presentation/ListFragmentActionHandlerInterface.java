@@ -8,7 +8,8 @@ import android.text.Editable;
 
 public interface ListFragmentActionHandlerInterface {
 
-    void onFloatingAcitonButtonClick();
+    void onShareButtonClick();
+    void onSaveButtonClick();
     void afterTextChanged(Editable s);
     void onSuggestionClick(int pos);
 
