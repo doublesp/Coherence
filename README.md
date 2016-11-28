@@ -5,7 +5,9 @@ An app for dinner makers to search for recipe, create a shopping list, and send 
 ## User Stories
 
 * [ ] User can create a grocery list.
-  * [x] User can create a grocery locally.
+  * [x] User can add items to a grocery.
+  * [ ] User can crossout/un-crossout an item in grocery list by swiping horizontally.
+  * [ ] User can remove an item from the grocery list by long press.
   * [ ] User can see auto-complete suggestions when creating the grocery list.
   * [x] User can save a grocery list on server.  
 * [ ] User can share the grocery list.
