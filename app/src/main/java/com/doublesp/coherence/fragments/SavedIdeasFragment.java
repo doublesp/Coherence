@@ -86,7 +86,6 @@ public class SavedIdeasFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        binding.multipleActions.collapse();
     }
 
     @Override

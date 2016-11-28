@@ -1,7 +1,10 @@
 package com.doublesp.coherence.interfaces.domain;
 
+import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
+
+import java.util.List;
 
 import rx.Observer;
 
@@ -12,6 +15,8 @@ import rx.Observer;
 public interface IdeaInteractorInterface {
 
     void addIdea(String content);
+
+    void setIdeas(List<Idea> ideas);
 
     void acceptSuggestedIdeaAtPos(int pos);
 
@@ -36,5 +41,7 @@ public interface IdeaInteractorInterface {
     Idea getIdeaAtPos(int pos);
 
     Plan getPlan();
+
+    void loadIdeasFromGoal(Goal goal);
 
 }

@@ -69,32 +69,6 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                 mRecipes.addAll(recipes);
             }
         });
-        mRecipeRepository.subscribeDetail(new Observer<RecipeV2>() {
-            RecipeV2 mRecipe;
-
-            @Override
-            public void onCompleted() {
-                boolean isBookmarked = (SavedRecipe.byId(mRecipe.getId()) == null);
-                Goal goal = new Goal(mRecipe.getId(),
-                        mRecipe.getTitle(),
-                        mRecipe.getInstructions(),
-                        mRecipe.getImage(),
-                        isBookmarked
-                );
-                mDataStore.updateGoal(0, goal);
-                mDataStore.setGoalState(R.id.state_loaded);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(RecipeV2 recipeV2) {
-                mRecipe = recipeV2;
-            }
-        });
     }
 
     @Override

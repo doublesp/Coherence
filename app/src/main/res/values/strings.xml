@@ -21,5 +21,6 @@
     <string name="add_friends">Add New Friend</string>
     <string name="add_friend">Add Friend</string>
     <string name="share_list">Share List</string>
+    <string name="save_list">Save List</string>
     <string name="default_idea_prefix">Groceries List</string>
 </resources>

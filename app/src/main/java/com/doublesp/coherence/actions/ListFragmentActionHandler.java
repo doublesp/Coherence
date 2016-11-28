@@ -45,7 +45,7 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     }
 
     @Override
-    public void onFloatingAcitonButtonClick() {
+    public void onShareButtonClick() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
@@ -67,6 +67,18 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mShareHandler.share(shareIntent);
+    }
+
+    @Override
+    public void onSaveButtonClick() {
+        Plan plan = mIdeaInteractor.getPlan();
+        DatabaseReference keyReference = mListDatabaseReference.push();
+
+        HashMap<String, Object> timestampCreated = new HashMap<>();
+        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
+        UserList userList = new UserList(plan.getTitle(), plan.getOwner(), timestampCreated);
+        keyReference.setValue(userList);
+        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
     }
 
     @Override

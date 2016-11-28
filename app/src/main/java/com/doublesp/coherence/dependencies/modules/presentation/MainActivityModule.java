@@ -1,6 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
 import com.doublesp.coherence.actions.GoalActionHandler;
+import com.doublesp.coherence.actions.GoalDetailActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.actions.SavedGoalActionHandler;
 import com.doublesp.coherence.activities.MainActivity;
@@ -9,6 +10,7 @@ import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.adapters.SavedGoalArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
@@ -88,6 +90,12 @@ public class MainActivityModule {
     @Named("SavedGoalAction")
     public GoalActionHandlerInterface providesSavedGoalActionHandler(GoalInteractorInterface interactor) {
         return new SavedGoalActionHandler(mActivity, interactor);
+    }
+
+    @Provides
+    @PresentationLayerScope
+    public GoalDetailActionHandlerInterface providesGoalDetailActionHandler() {
+        return new GoalDetailActionHandler(mActivity);
     }
 
 }

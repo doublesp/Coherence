@@ -20,6 +20,7 @@ import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedGoalsFragment;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
@@ -50,6 +51,7 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
         GoalActionHandlerInterface.PreviewHandlerInterface,
+        GoalDetailActionHandlerInterface.ListCompositionDialogHandlerInterface,
         ListFragmentActionHandler.IdeaShareHandlerInterface {
 
     public static final int RC_SIGN_IN = 1;
@@ -130,6 +132,13 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
 
+    @Override
+    public void showListCompositionDialog(Goal goal) {
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(goal);
+        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    }
+
     public void share(Intent i) {
         startActivity(i);
     }
@@ -151,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(SavedGoalsFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(GoalPreviewFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 

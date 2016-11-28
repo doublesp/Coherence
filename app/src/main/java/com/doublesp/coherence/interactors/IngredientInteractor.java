@@ -4,11 +4,15 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.models.v2.IngredientV2;
+import com.doublesp.coherence.models.v2.RecipeV2;
+import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
@@ -59,6 +63,36 @@ public class IngredientInteractor extends IdeaInteractorBase {
                 mIngredients.addAll(ingredientV2s);
             }
         });
+
+        mRecipeRepository.subscribeDetail(new Observer<RecipeV2>() {
+            RecipeV2 mRecipe;
+
+            @Override
+            public void onCompleted() {
+                List<Idea> ideas = new ArrayList<Idea>();
+                Set<String> dedupSet = new HashSet<String>();
+                for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
+                    if (dedupSet.contains(ingredient.getName())) {
+                        continue;
+                    }
+                    Idea idea = new Idea(ingredient.getId(), R.id.idea_category_recipe_v2, ingredient.getName(), false, R.id.idea_type_user_generated, new IdeaMeta(ingredient.getImage(), ingredient.getName(), ingredient.getOriginalString()));
+                    ideas.add(idea);
+                    dedupSet.add(ingredient.getName());
+                }
+                mIdeaDataStore.setIdeas(ideas);
+                mIdeaDataStore.setIdeaState(R.id.state_loaded);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(RecipeV2 recipeV2) {
+                mRecipe = recipeV2;
+            }
+        });
     }
 
     @Override
@@ -82,6 +116,12 @@ public class IngredientInteractor extends IdeaInteractorBase {
         }
         mIdeaDataStore.setSuggestionState(R.id.state_refreshing);
         searchIngredientsWithDebounce(keyword);
+    }
+
+    @Override
+    public void loadIdeasFromGoal(Goal goal) {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
+        mRecipeRepository.searchRecipeDetail(goal.getId());
     }
 
     private PublishSubject getDebouncer() {
