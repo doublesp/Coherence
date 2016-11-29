@@ -13,6 +13,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
 import android.support.v7.widget.RecyclerView;
@@ -98,4 +99,9 @@ public class MainActivityModule {
         return new GoalDetailActionHandler(mActivity);
     }
 
+    @Provides
+    @PresentationLayerScope
+    public SavedIdeasActionHandlerInterface providesSavedIdeasActionHandler() {
+        return mActivity;
+    }
 }

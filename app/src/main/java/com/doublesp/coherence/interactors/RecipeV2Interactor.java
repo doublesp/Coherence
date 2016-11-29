@@ -7,6 +7,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.models.v2.RecipeV2;
 import com.doublesp.coherence.models.v2.SavedRecipe;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.Idea;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     public static final int RECIPEV2_INTERACTOR_BATCH_SIZE = 10;
     public static final long RECIPEV2_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES = 500;
     public static final long RECIPEV2_BOOKMARK_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES = 100;
+    public static final int RECIPEV2_INTERACTOR_SEARCH_BY_INGREDIENT_RANKING_MORE_HITS = 1;
+    public static final int RECIPEV2_INTERACTOR_SEARCH_BY_INGREDIENT_RANKING_FEWER_MISSES = 2;
+    public static final boolean RECIPEV2_INTERACTOR_SEARCH_BY_INGREDIENT_SHOW_INGREDIENTS = true;
+    public static final boolean RECIPEV2_INTERACTOR_SEARCH_BY_INGREDIENT_HIDE_INGREDIENTS = false;
     static final int count = 10;
     static final int offset = 0;
 
@@ -94,6 +99,21 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
             return;
         }
         searchRecipeWithDebounce(keyword);
+    }
+
+    @Override
+    public void searchGoalByIdeas(List<Idea> ideas) {
+        StringBuilder ingredientsBuilder = new StringBuilder();
+        for (Idea idea : ideas) {
+            ingredientsBuilder.append(idea.getContent());
+            ingredientsBuilder.append(",");
+        }
+        ingredientsBuilder.deleteCharAt(ingredientsBuilder.lastIndexOf(","));
+        mRecipeRepository.searchRecipeByIngredients(
+                ingredientsBuilder.toString(),
+                RECIPEV2_INTERACTOR_SEARCH_BY_INGREDIENT_HIDE_INGREDIENTS,
+                RECIPEV2_INTERACTOR_BATCH_SIZE,
+                RECIPEV2_INTERACTOR_SEARCH_BY_INGREDIENT_RANKING_FEWER_MISSES);
     }
 
     @Override

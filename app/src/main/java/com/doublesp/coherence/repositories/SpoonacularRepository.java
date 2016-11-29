@@ -43,7 +43,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         mDetailSubscribers = new ArrayList<>();
         mAutoCompleteRecipeSubscribers = new ArrayList<>();
         mAutoCompleteIngredientSubscribers = new ArrayList<>();
-        getClient().subscribe(new Observer<RecipeResponseV2>() {
+        getClient().subscribeRecipe(new Observer<RecipeResponseV2>() {
             List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
 
             @Override
@@ -63,6 +63,26 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
                 asyncPersistRecipes(mRecipes);
             }
         });
+        getClient().subscribeRecipeByIngredients(new Observer<List<RecipeV2>>() {
+            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+
+            @Override
+            public void onCompleted() {
+                notifyAllObservers(mRecipes);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                notifyAllObservers(null);
+            }
+
+            @Override
+            public void onNext(List<RecipeV2> recipes) {
+                mRecipes.clear();
+                mRecipes.addAll(recipes);
+                asyncPersistRecipes(mRecipes);
+            }
+        });
         getClient().subscribeRandomRecipe(new Observer<RandomRecipeResponseV2>() {
             List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
 
@@ -73,7 +93,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
 
             @Override
             public void onError(Throwable e) {
-
+                notifyAllObservers(null);
             }
 
             @Override
@@ -95,7 +115,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
 
             @Override
             public void onError(Throwable e) {
-
+                notifyAllDetailObservers(null);
             }
 
             @Override
@@ -112,7 +132,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
 
             @Override
             public void onError(Throwable e) {
-
+                notifyAllAutoCompleteIngredientObservers(null);
             }
 
             @Override
@@ -125,12 +145,12 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
             @Override
             public void onCompleted() {
-                notifyAllObservers(mRecipes);
+                notifyAllAutoCompleteRecipeObservers(mRecipes);
             }
 
             @Override
             public void onError(Throwable e) {
-
+                notifyAllAutoCompleteRecipeObservers(null);
             }
 
             @Override
@@ -175,6 +195,18 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             return;
         }
         getClient().searchRecipe(keyword, count, offset);
+    }
+
+    @Override
+    public void searchRecipeByIngredients(
+            String ingredients,
+            boolean fillIngredients,
+            int number,
+            int ranking) {
+        if (!NetworkUtils.isNetworkAvailable(getApplication())) {
+            return;
+        }
+        getClient().searchRecipeByIngredients(ingredients, fillIngredients, number, ranking);
     }
 
     @Override

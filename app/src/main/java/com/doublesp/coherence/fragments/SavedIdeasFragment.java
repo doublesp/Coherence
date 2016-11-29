@@ -4,14 +4,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.activities.CurrentListDetails;
 import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import static com.doublesp.coherence.R.id.owner;
 
 public class SavedIdeasFragment extends Fragment {
@@ -30,6 +32,9 @@ public class SavedIdeasFragment extends Fragment {
     private static FirebaseRecyclerAdapter<UserList, ItemViewHolder> mFirebaseRecyclerAdapter;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mListsDatabaseReference;
+    @Inject
+    public SavedIdeasActionHandlerInterface mActionHandler;
+    public static SavedIdeasActionHandlerInterface mActionHandlerRef;
 
     public SavedIdeasFragment() {
         // Required empty public constructor
@@ -91,6 +96,11 @@ public class SavedIdeasFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof InjectorInterface) {
+            InjectorInterface injector = (InjectorInterface) context;
+            injector.inject(this);
+            mActionHandlerRef = mActionHandler;
+        }
     }
 
     @Override
@@ -117,10 +127,12 @@ public class SavedIdeasFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), CurrentListDetails.class);
-                    intent.putExtra(ConstantsAndUtils.LIST_ID,
-                            mFirebaseRecyclerAdapter.getRef(getAdapterPosition()).getKey());
-                    view.getContext().startActivity(intent);
+                    // TODO: inject action handler into FirebaseRecyclerAdapter
+                    // instead of using static reference
+                    SavedIdeasFragment.mActionHandlerRef.showListCompositionDialog(
+                            mFirebaseRecyclerAdapter
+                                    .getRef(getAdapterPosition())
+                                    .getKey());
                 }
             });
         }
