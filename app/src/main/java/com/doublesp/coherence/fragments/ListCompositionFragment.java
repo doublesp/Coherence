@@ -35,8 +35,6 @@ import android.view.WindowManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.Observer;
-
 public class ListCompositionFragment extends DialogFragment {
 
     static final String LIST_COMPOSITION_VIEW_MODELS = "LIST_COMPOSITION_VIEW_MODELS";
@@ -52,9 +50,6 @@ public class ListCompositionFragment extends DialogFragment {
     ListFragmentActionHandlerInterface mActionHandler;
     @Inject
     IdeaInteractorInterface mInteractor;
-
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mListsDatabaseReference;
 
     public ListCompositionFragment() {
         // Required empty public constructor
@@ -97,10 +92,10 @@ public class ListCompositionFragment extends DialogFragment {
             }
             String listId = getArguments().getString(LIST_COMPOSITION_LIST_ID);
             if (listId != null) {
-                mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mListsDatabaseReference = mFirebaseDatabase.getReference().child(
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference listsDatabaseReference = firebaseDatabase.getReference().child(
                         ConstantsAndUtils.SHOPPING_LISTS).child(listId);
-                mListsDatabaseReference.addValueEventListener(new ValueEventListener() {
+                listsDatabaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Plan plan = dataSnapshot.getValue(Plan.class);
@@ -110,28 +105,6 @@ public class ListCompositionFragment extends DialogFragment {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
-                mInteractor.subscribeIdeaStateChange(new Observer<Integer>() {
-                    int mState;
-                    @Override
-                    public void onCompleted() {
-                        switch (mState) {
-                            case R.id.state_loaded:
-                                // TODO: have more refined update, instead of update the whole list
-                                mListsDatabaseReference.setValue(mInteractor.getPlan().getIdeas());
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Integer state) {
-                        mState = state;
                     }
                 });
             }
