@@ -20,6 +20,7 @@ import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedGoalsFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
@@ -49,6 +50,8 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import io.fabric.sdk.android.Fabric;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
@@ -71,10 +74,14 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mUsersDatabaseReference;
     private String mUsername;
 
+    @Inject
+    IdeaInteractorInterface mIdeaInteractor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        getActivityComponent().inject(MainActivity.this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
@@ -262,7 +269,13 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     public void onIdeaCompositionClick(View view) {
+        // TODO: generate list id from FireBase
+        String listId = "test1234";
+        Plan plan = mIdeaInteractor.createPlan(listId);
+        // TODO: save plan in FireBase
+        // TODO: pass listId to ListCompositionFragment, the fragment will then load the list from FireBase
         ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
+//        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId);
         listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
     }
