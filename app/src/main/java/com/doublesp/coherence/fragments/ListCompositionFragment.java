@@ -166,6 +166,7 @@ public class ListCompositionFragment extends DialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mInteractor.clearIdeas();
     }
 
     void setupBackgroundImageId() {

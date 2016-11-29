@@ -30,6 +30,8 @@ public interface DataStoreInterface {
 
     void removeIdea(int pos);
 
+    void clearIdeas();
+
     void setSuggestions(List<Idea> ideas);
 
     void setGoals(List<Goal> goals);

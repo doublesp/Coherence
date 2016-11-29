@@ -100,6 +100,11 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
+    public void clearIdeas() {
+        getIdeas().clear();
+    }
+
+    @Override
     public void setSuggestions(List<Idea> ideas) {
         getSuggestions().clear();
         getSuggestions().addAll(ideas);
