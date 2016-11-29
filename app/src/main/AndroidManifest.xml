@@ -36,7 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CurrentListDetails" />
         <activity android:name=".activities.ShareActivity" />
         <activity android:name=".activities.AddFriendActivity"></activity>
     </application>

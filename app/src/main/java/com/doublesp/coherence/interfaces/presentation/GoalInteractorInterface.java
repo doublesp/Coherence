@@ -1,6 +1,9 @@
 package com.doublesp.coherence.interfaces.presentation;
 
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.Idea;
+
+import java.util.List;
 
 import rx.Observer;
 
@@ -17,6 +20,8 @@ public interface GoalInteractorInterface {
     void bookmarkGoalAtPos(int pos);
 
     void search(String keyword);
+
+    void searchGoalByIdeas(List<Idea> ideas);
 
     void subscribeToGoalStateChange(Observer<Integer> observer);
 

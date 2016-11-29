@@ -6,6 +6,7 @@ import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedGoalsFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
 import dagger.Subcomponent;
@@ -27,4 +28,6 @@ public interface MainActivitySubComponent {
     void inject(GoalSearchFragment fragment);
 
     void inject(GoalPreviewFragment fragment);
+
+    void inject(SavedIdeasFragment fragment);
 }

@@ -26,7 +26,8 @@ public interface SpoonacularApiEndpointInterface {
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("food/products/search")
     Observable<RecipeResponseV2> searchRecipe(@Query("query") String keyword,
-            @Query("number") int number, @Query("offset") int offset);
+                                              @Query("number") int number,
+                                              @Query("offset") int offset);
 
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("recipes/{id}/information")
@@ -39,10 +40,18 @@ public interface SpoonacularApiEndpointInterface {
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("food/ingredients/autocomplete")
     Observable<List<IngredientV2>> autocompleteIngredient(@Query("query") String keyword,
-            @Query("number") int number);
+                                                          @Query("number") int number);
 
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("recipes/autocomplete")
     Observable<List<RecipeV2>> autocompleteRecipe(@Query("query") String keyword,
-            @Query("number") int number);
+                                                  @Query("number") int number);
+
+    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @GET("recipes/findByIngredients")
+    Observable<List<RecipeV2>> searchRecipeByIngredients(
+            @Query("ingredients") String ingredients,
+            @Query("fillIngredients") boolean fillIngredients,
+            @Query("number") int number,
+            @Query("ranking") int ranking);
 }

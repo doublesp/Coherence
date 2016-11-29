@@ -82,6 +82,12 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     }
 
     @Override
+    public void onSearchButtonClick() {
+        Plan plan = mIdeaInteractor.getPlan();
+        mShareHandler.search(plan);
+    }
+
+    @Override
     public void afterTextChanged(Editable s) {
         final int i = s.length();
         if (i == 0) {
@@ -103,6 +109,7 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     public interface IdeaShareHandlerInterface {
         void share(Intent intent);
+        void search(Plan plan);
     }
 
 }

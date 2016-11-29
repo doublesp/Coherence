@@ -74,6 +74,16 @@
                     app:fab_title="@string/save_list"
                     />
 
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> handler.onSearchButtonClick()}"
+                    android:src="@drawable/ic_search"
+                    android:tint="@color/colorButton"
+                    app:fab_colorNormal="@color/colorAccent"
+                    app:fab_title="@string/search_goal"
+                    />
+
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </FrameLayout>

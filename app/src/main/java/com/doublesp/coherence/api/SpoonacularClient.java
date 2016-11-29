@@ -26,6 +26,7 @@ public class SpoonacularClient {
     SpoonacularApiEndpointInterface apiService;
     List<Observer<RecipeResponseV2>> mSubscribers;
     List<Observer<RecipeV2>> mDetailSubscribers;
+    List<Observer<List<RecipeV2>>> mRecipeSubscribers;
     List<Observer<RandomRecipeResponseV2>> mRandomRecipeSubscribers;
     List<Observer<List<RecipeV2>>> mAutoCompleteRecipeSubscribers;
     List<Observer<List<IngredientV2>>> mAutoCompleteIngredientSubscribers;
@@ -33,6 +34,7 @@ public class SpoonacularClient {
     public SpoonacularClient(SpoonacularApiEndpointInterface apiService) {
         this.apiService = apiService;
         mSubscribers = new ArrayList<>();
+        mRecipeSubscribers = new ArrayList<>();
         mRandomRecipeSubscribers = new ArrayList<>();
         mDetailSubscribers = new ArrayList<>();
         mAutoCompleteRecipeSubscribers = new ArrayList<>();
@@ -55,6 +57,25 @@ public class SpoonacularClient {
         ConnectableObservable connectableObservable = call.publish();
         connectableObservable.delay(DELAY_BETWEEN_API_CALLS, TimeUnit.MILLISECONDS);
         for (Observer<RecipeV2> subscriber : mDetailSubscribers) {
+            connectableObservable.subscribeOn(Schedulers.io()).observeOn(
+                    AndroidSchedulers.mainThread()).subscribe(subscriber);
+        }
+        connectableObservable.connect();
+    }
+
+    public void searchRecipeByIngredients(
+            String ingredients,
+            boolean fillIngredients,
+            int number,
+            int ranking) {
+        Observable<List<RecipeV2>> call = apiService.searchRecipeByIngredients(
+                ingredients,
+                fillIngredients,
+                number,
+                ranking);
+        ConnectableObservable connectableObservable = call.publish();
+        connectableObservable.delay(DELAY_BETWEEN_API_CALLS, TimeUnit.MILLISECONDS);
+        for (Observer<List<RecipeV2>> subscriber : mRecipeSubscribers) {
             connectableObservable.subscribeOn(Schedulers.io()).observeOn(
                     AndroidSchedulers.mainThread()).subscribe(subscriber);
         }
@@ -94,7 +115,7 @@ public class SpoonacularClient {
         connectableObservable.connect();
     }
 
-    public void subscribe(Observer<RecipeResponseV2> observer) {
+    public void subscribeRecipe(Observer<RecipeResponseV2> observer) {
         mSubscribers.add(observer);
     }
 
@@ -102,6 +123,9 @@ public class SpoonacularClient {
         mDetailSubscribers.add(observer);
     }
 
+    public void subscribeRecipeByIngredients(Observer<List<RecipeV2>> observer) {
+        mRecipeSubscribers.add(observer);
+    }
 
     public void subscribeRandomRecipe(Observer<RandomRecipeResponseV2> observer) {
         mRandomRecipeSubscribers.add(observer);

@@ -19,12 +19,15 @@ import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedGoalsFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
 import com.firebase.ui.auth.AuthUI;
 
@@ -52,7 +55,8 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
         GoalActionHandlerInterface.PreviewHandlerInterface,
         GoalDetailActionHandlerInterface.ListCompositionDialogHandlerInterface,
-        ListFragmentActionHandler.IdeaShareHandlerInterface {
+        ListFragmentActionHandler.IdeaShareHandlerInterface,
+        SavedIdeasActionHandlerInterface {
 
     public static final int RC_SIGN_IN = 1;
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
@@ -139,8 +143,23 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
     }
 
+    @Override
+    public void showListCompositionDialog(String listId) {
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId);
+        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    }
+
+    @Override
     public void share(Intent i) {
         startActivity(i);
+    }
+
+    @Override
+    public void search(Plan plan) {
+        GoalSearchFragment goalSearchFragment = GoalSearchFragment.newInstance(plan);
+        goalSearchFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        goalSearchFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
     }
 
     @Override
@@ -165,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(GoalPreviewFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(SavedIdeasFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 
