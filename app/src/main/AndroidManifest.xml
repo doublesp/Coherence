@@ -11,18 +11,6 @@
     <application android:name=".application.CoherenceApplication" android:allowBackup="true"
         android:icon="@mipmap/ic_launcher" android:label="@string/app_name"
         android:supportsRtl="true" android:theme="@style/AppTheme">
-        <activity android:name=".activities.ExternalLinkActivity" android:exported="true"
-            android:label="@string/app_name" android:launchMode="singleTop">
-            <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:host="doublesp.com" android:pathPrefix="/shared"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
 
         <meta-data android:name="io.fabric.ApiKey"
             android:value="58083912c035206135aea30a9df62233cd1f2cf5" />
@@ -30,11 +18,18 @@
             android:value="@string/google_maps_api_key" />
 
         <activity android:name=".activities.MainActivity">
-            <intent-filter>
+            <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="doublesp.com" android:pathPrefix="/shared"
+                      android:scheme="http" />
             </intent-filter>
+
         </activity>
         <activity android:name=".activities.ShareActivity" />
         <activity android:name=".activities.AddFriendActivity"></activity>
