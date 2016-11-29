@@ -22,7 +22,7 @@ An app for dinner makers to search for recipe, create a shopping list, and send 
   * [x] User can see detail instruction of a recipe.
   * [x] User can bookmark a recipe.
 * [x] User can create a grocery list from a recipe.
-* [ ] User can reversely search for a recipe that contains as many ingredients on a grocery list, and as little missing ingredients as possible.
+* [x] User can reversely search for a recipe that contains as many ingredients on a grocery list, and as little missing ingredients as possible.
 
  
 ## Video Walkthrough

@@ -34,6 +34,7 @@ import com.firebase.ui.auth.AuthUI;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -225,6 +226,12 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        handleDeeplink();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         if (mAuthStateListener != null) {
@@ -264,5 +271,19 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         GoalSearchFragment searchResultFragment = GoalSearchFragment.newInstance();
         searchResultFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         searchResultFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
+    }
+
+    private void handleDeeplink() {
+        Intent intent = getIntent();
+        final Uri data = intent.getData();
+        if (data == null) {
+            return;
+        }
+        int index = data.toString().indexOf("shared/") + "shared/".length();
+        String listId = data.toString().substring(index);
+        if (listId == null) {
+            return;
+        }
+        showListCompositionDialog(listId);
     }
 }
