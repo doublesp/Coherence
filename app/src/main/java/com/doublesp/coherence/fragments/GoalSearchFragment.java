@@ -71,6 +71,8 @@ public class GoalSearchFragment extends DialogFragment {
                     getArguments().getParcelable(GOAL_SEARCH_FRAGMENT_VIEW_MODEL));
             if (plan != null) {
                 mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
+            } else {
+                mGoalInteractor.search(null);
             }
             setupBackgroundImageId();
         }
@@ -128,6 +130,7 @@ public class GoalSearchFragment extends DialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mGoalInteractor.clearGoal();
     }
 
     void setupBackgroundImageId() {

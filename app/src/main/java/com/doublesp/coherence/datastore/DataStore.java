@@ -153,6 +153,11 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
+    public void clearGoals() {
+        getGoals().clear();
+    }
+
+    @Override
     public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
         mIdeaStateObservers.add(observer);
     }
@@ -192,16 +197,15 @@ public class DataStore implements DataStoreInterface {
         return getSavedGoals().get(pos);
     }
 
+    @Deprecated  // use create plan
     @Override
     public Plan getPlan() {
-        List<Idea> ideas = getIdeas();
-        // TODO: allow user to name the plan
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
-        StringBuilder titleBuilder =  new StringBuilder(mContext.getString(R.string.default_idea_prefix));
-        titleBuilder.append(" ");
-        titleBuilder.append(formatter.format(calendar.getTime()));
-        return new Plan(ideas, titleBuilder.toString(), ConstantsAndUtils.getOwner(mContext));
+        return new Plan(getIdeas(), defaultTitle(), ConstantsAndUtils.getOwner(mContext));
+    }
+
+    @Override
+    public Plan createPlan(String id) {
+        return new Plan(id, getIdeas(), defaultTitle(), ConstantsAndUtils.getOwner(mContext));
     }
 
     private void notifyIdeaStateChange() {
@@ -258,5 +262,15 @@ public class DataStore implements DataStoreInterface {
 
     private List<Goal> getSavedGoals() {
         return mSnapshotStore.mSavedGoals;
+    }
+
+    private String defaultTitle() {
+        // TODO: allow user to name the plan
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
+        StringBuilder titleBuilder =  new StringBuilder(mContext.getString(R.string.default_idea_prefix));
+        titleBuilder.append(" ");
+        titleBuilder.append(formatter.format(calendar.getTime()));
+        return titleBuilder.toString();
     }
 }

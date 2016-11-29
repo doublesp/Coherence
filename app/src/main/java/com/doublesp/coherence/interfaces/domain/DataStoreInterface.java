@@ -42,6 +42,8 @@ public interface DataStoreInterface {
 
     void clearSuggestions();
 
+    void clearGoals();
+
     Idea getIdeaAtPos(int pos);
 
     Idea getSuggestionAtPos(int pos);
@@ -67,4 +69,6 @@ public interface DataStoreInterface {
     void subscribeToSavedGoalStateChanges(Observer<Integer> observer);
 
     Plan getPlan();
+
+    Plan createPlan(String id);
 }

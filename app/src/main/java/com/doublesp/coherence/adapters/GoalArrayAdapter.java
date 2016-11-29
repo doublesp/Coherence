@@ -50,7 +50,6 @@ public class GoalArrayAdapter
                 mState = state;
             }
         });
-        mInteractor.search(null);
     }
 
     @Override
