@@ -2,7 +2,6 @@ package com.doublesp.coherence.adapters;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -13,14 +12,12 @@ import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.doublesp.coherence.viewmodels.UserList;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.HashMap;
 
 import rx.Observer;
 
@@ -121,12 +118,9 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     }
 
     private void saveToFireBase() {
-        DatabaseReference keyReference = mListDatabaseReference.push();
-        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
-        HashMap<String, Object> timestampCreated = new HashMap<>();
-        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(plan.getTitle(), plan.getOwner(), timestampCreated);
-        keyReference.setValue(userList);
-        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+        Plan plan = mIdeaInteractor.getPlan();
+        // TODO: uncomment this once the plan is saved to FireBase in prior to showing ListCompositionFragment
+//        mShoppingListDatabaseReference.child(plan.getId()).setValue(plan);
+        Log.d("INFO", plan.getId());
     }
 }
