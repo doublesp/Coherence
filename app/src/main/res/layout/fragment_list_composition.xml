@@ -35,8 +35,8 @@
                 android:gravity="center"
                 android:hint="@string/idea_hint_create"
                 android:maxLines="1"
-                android:textColor="@color/colorPrimary"
-                android:textColorHint="@color/colorPrimaryDark"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorHint"
                 android:background="@drawable/border"
                 />
 

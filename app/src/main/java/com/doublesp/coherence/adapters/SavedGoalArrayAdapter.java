@@ -50,7 +50,6 @@ public class SavedGoalArrayAdapter extends RecyclerView.Adapter {
                 mState = state;
             }
         });
-        mInteractor.loadBookmarkedGoals();
     }
 
     @Override

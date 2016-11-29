@@ -42,6 +42,8 @@ public interface IdeaInteractorInterface {
 
     Plan getPlan();
 
+    Plan createPlan(String id);
+
     void loadIdeasFromGoal(Goal goal);
 
 }

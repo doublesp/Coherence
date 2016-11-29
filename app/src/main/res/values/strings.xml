@@ -24,4 +24,8 @@
     <string name="save_list">Save List</string>
     <string name="search_goal">Search Recipe</string>
     <string name="default_idea_prefix">Groceries List</string>
+
+    <string name="crossout">Crossout</string>
+    <string name="uncrossout">Un-crossout</string>
+    <string name="remove">Remove</string>
 </resources>
