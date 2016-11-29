@@ -27,6 +27,13 @@ public class Plan {
         this.owner = owner;
     }
 
+    public Plan(String id, List<Idea> ideas, String title, String owner) {
+        this.id = id;
+        this.ideas = ideas;
+        this.title = title;
+        this.owner = owner;
+    }
+
     public String getId() {
         return id;
     }

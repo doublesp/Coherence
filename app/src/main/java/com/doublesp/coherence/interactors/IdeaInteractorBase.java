@@ -54,31 +54,46 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     public void updateIdea(int pos, String content) {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         Idea newIdea = new Idea(idea.getId(), idea.getCategory(), content, idea.isCrossedOut(),
                 R.id.idea_type_user_generated, idea.getMeta());
         mIdeaDataStore.updateIdea(pos, newIdea);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
     @Override
     public void crossoutIdea(int pos) {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), true,
                 idea.getType(), idea.getMeta());
         mIdeaDataStore.updateIdea(pos, newIdea);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
     @Override
     public void uncrossoutIdea(int pos) {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         Idea newIdea = new Idea(idea.getId(), idea.getCategory(), idea.getContent(), false,
                 idea.getType(), idea.getMeta());
         mIdeaDataStore.updateIdea(pos, newIdea);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
     @Override
     public void removeIdea(int pos) {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         mIdeaDataStore.removeIdea(pos);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
+    }
+
+    @Override
+    public void clearIdeas() {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
+        mIdeaDataStore.clearIdeas();
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
     @Override
@@ -109,9 +124,15 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         return mIdeaDataStore.getIdeaAtPos(pos);
     }
 
+    @Deprecated // use create plan
     @Override
     public Plan getPlan() {
         return mIdeaDataStore.getPlan();
+    }
+
+    @Override
+    public Plan createPlan(String id) {
+        return mIdeaDataStore.createPlan(id);
     }
 
     @Override

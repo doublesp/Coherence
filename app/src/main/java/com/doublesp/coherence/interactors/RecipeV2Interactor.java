@@ -87,6 +87,11 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     }
 
     @Override
+    public void clearGoal() {
+        mDataStore.clearGoals();
+    }
+
+    @Override
     public void bookmarkGoalAtPos(int pos) {
         getBookmarkDebouncer().onNext(pos);
     }

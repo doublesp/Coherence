@@ -98,6 +98,11 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
+    public void clearIdeas() {
+        getIdeas().clear();
+    }
+
+    @Override
     public void setSuggestions(List<Idea> ideas) {
         getSuggestions().clear();
         getSuggestions().addAll(ideas);
@@ -151,6 +156,11 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
+    public void clearGoals() {
+        getGoals().clear();
+    }
+
+    @Override
     public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
         mIdeaStateObservers.add(observer);
     }
@@ -190,12 +200,19 @@ public class DataStore implements DataStoreInterface {
         return getSavedGoals().get(pos);
     }
 
+    @Deprecated  // use create plan
     @Override
     public Plan getPlan() {
         List<Idea> ideas = getIdeas();
         // TODO: allow user to name the plan
 
-        return new Plan(ideas, ConstantsAndUtils.getDateAndTime(mContext),
+        return new Plan(ideas, ConstantsAndUtils.getDefaultTitle(mContext),
+                ConstantsAndUtils.getOwner(mContext));
+    }
+
+    @Override
+    public Plan createPlan(String id) {
+        return new Plan(id, getIdeas(), ConstantsAndUtils.getDefaultTitle(mContext),
                 ConstantsAndUtils.getOwner(mContext));
     }
 

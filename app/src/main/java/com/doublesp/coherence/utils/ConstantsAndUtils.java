@@ -28,7 +28,7 @@ public class ConstantsAndUtils {
         return sharedPreferences.getString(EMAIL, ANONYMOUS);
     }
 
-    public static String getDateAndTime(Context context) {
+    public static String getDefaultTitle(Context context) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
         StringBuilder titleBuilder = new StringBuilder(

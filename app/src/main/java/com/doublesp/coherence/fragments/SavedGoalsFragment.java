@@ -74,12 +74,14 @@ public class SavedGoalsFragment extends Fragment {
         if (context instanceof InjectorInterface) {
             InjectorInterface injector = (InjectorInterface) context;
             injector.inject(this);
+            mInteractor.loadBookmarkedGoals();
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mInteractor.loadBookmarkedGoals();
     }
 
 }

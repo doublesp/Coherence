@@ -26,4 +26,7 @@
     <string name="default_idea_prefix">Groceries List</string>
     <string name="initials">Initials of user</string>
     <string name="cannot_remove_self">Cannot remove yourself.</string>
+    <string name="crossout">Crossout</string>
+    <string name="uncrossout">Un-crossout</string>
+    <string name="remove">Remove</string>
 </resources>

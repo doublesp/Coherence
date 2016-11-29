@@ -31,6 +31,7 @@ import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedGoalsFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
@@ -50,6 +51,8 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.Arrays;
 import java.util.HashMap;
+
+import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -73,10 +76,14 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
 
+    @Inject
+    IdeaInteractorInterface mIdeaInteractor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        getActivityComponent().inject(MainActivity.this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
@@ -274,11 +281,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
         HashMap<String, Object> timestampCreated = new HashMap<>();
         timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(ConstantsAndUtils.getDateAndTime(this),
+        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
                 ConstantsAndUtils.getOwner(this), timestampCreated);
         keyReference.setValue(userList);
-        // TODO: this item needs to be fixed.
-        //mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
+        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
 
         showListCompositionDialog(keyReference.getKey());
     }

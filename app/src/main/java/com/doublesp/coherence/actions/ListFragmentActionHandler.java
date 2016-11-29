@@ -8,6 +8,7 @@ import com.doublesp.coherence.activities.ShareActivity;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +47,8 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     @Override
     public void onShareButtonClick() {
-        Plan plan = mIdeaInteractor.getPlan();
         DatabaseReference keyReference = mListDatabaseReference.push();
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
 
         HashMap<String, Object> timestampCreated = new HashMap<>();
         timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
@@ -114,6 +115,20 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         mIdeaInteractor.acceptSuggestedIdeaAtPos(pos);
     }
 
+    @Override
+    public void onCrossoutButtonClick(int pos) {
+        Idea idea = mIdeaInteractor.getIdeaAtPos(pos);
+        if (idea.isCrossedOut()) {
+            mIdeaInteractor.uncrossoutIdea(pos);
+        } else {
+            mIdeaInteractor.crossoutIdea(pos);
+        }
+    }
+
+    @Override
+    public void onRemoveButtonClick(int pos) {
+        mIdeaInteractor.removeIdea(pos);
+    }
 
     public interface IdeaShareHandlerInterface {
         void share(Intent intent);

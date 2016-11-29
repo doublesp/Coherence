@@ -33,7 +33,7 @@ public class IdeaViewHolder extends RecyclerView.ViewHolder implements IdeaViewH
 
     @Override
     public void setHandler(final ListFragmentActionHandlerInterface handler) {
-
+        binding.setHandler(handler);
     }
 
     @Override

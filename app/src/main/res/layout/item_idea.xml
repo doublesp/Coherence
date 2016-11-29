@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,22 +9,52 @@
             type="int" />
 
         <variable
+            name="handler"
+            type="com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface" />
+
+        <variable
             name="viewModel"
             type="com.doublesp.coherence.viewmodels.Idea" />
     </data>
 
-    <LinearLayout
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="2dp"
+        android:background="@drawable/ic_card_background"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
         <TextView
             android:id="@+id/tvIdea"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/activity_list_composition_idea_height"
+            android:layout_weight="3"
             android:gravity="center"
             android:maxLines="1"
             android:text='@{viewModel.content}'
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorText"
+            app:crossout='@{viewModel.crossedOut}'
+            tools:text="egg" />
+
+        <ImageButton
+            android:id="@+id/btnCrossoutIdea"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/activity_list_composition_idea_height"
+            android:layout_weight="1"
+            android:background="@color/colorSecondaryAccent"
+            android:onClick="@{() -> handler.onCrossoutButtonClick(pos)}"
+            android:src="@drawable/ic_format_strikethrough"
+            android:tint="@color/colorButton" />
+
+        <ImageButton
+            android:id="@+id/btnDeleteIdea"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/activity_list_composition_idea_height"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="@{() -> handler.onRemoveButtonClick(pos)}"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/colorButton" />
     </LinearLayout>
 </layout>

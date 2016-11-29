@@ -1,5 +1,6 @@
 package com.doublesp.coherence.dependencies.components.presentation;
 
+import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
 import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
@@ -30,4 +31,6 @@ public interface MainActivitySubComponent {
     void inject(GoalPreviewFragment fragment);
 
     void inject(SavedIdeasFragment fragment);
+
+    void inject(MainActivity activity);
 }

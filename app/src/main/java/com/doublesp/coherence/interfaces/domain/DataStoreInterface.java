@@ -30,6 +30,8 @@ public interface DataStoreInterface {
 
     void removeIdea(int pos);
 
+    void clearIdeas();
+
     void setSuggestions(List<Idea> ideas);
 
     void setGoals(List<Goal> goals);
@@ -41,6 +43,8 @@ public interface DataStoreInterface {
     void updateSavedGoal(int pos, Goal goal);
 
     void clearSuggestions();
+
+    void clearGoals();
 
     Idea getIdeaAtPos(int pos);
 
@@ -67,4 +71,6 @@ public interface DataStoreInterface {
     void subscribeToSavedGoalStateChanges(Observer<Integer> observer);
 
     Plan getPlan();
+
+    Plan createPlan(String id);
 }
