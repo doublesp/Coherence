@@ -1,5 +1,7 @@
 package com.doublesp.coherence.datastore;
 
+import android.content.Context;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
@@ -7,11 +9,7 @@ import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
-import android.content.Context;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
@@ -196,12 +194,9 @@ public class DataStore implements DataStoreInterface {
     public Plan getPlan() {
         List<Idea> ideas = getIdeas();
         // TODO: allow user to name the plan
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
-        StringBuilder titleBuilder =  new StringBuilder(mContext.getString(R.string.default_idea_prefix));
-        titleBuilder.append(" ");
-        titleBuilder.append(formatter.format(calendar.getTime()));
-        return new Plan(ideas, titleBuilder.toString(), ConstantsAndUtils.getOwner(mContext));
+
+        return new Plan(ideas, ConstantsAndUtils.getDateAndTime(mContext),
+                ConstantsAndUtils.getOwner(mContext));
     }
 
     private void notifyIdeaStateChange() {
@@ -215,7 +210,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifySuggestionStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(mSuggestionState).publish();
+        ConnectableObservable<Integer> connectedObservable = Observable.just(
+                mSuggestionState).publish();
         for (Observer<Integer> observer : mSuggestionStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -225,7 +221,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifySavedGoalStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(mSavedGoalState).publish();
+        ConnectableObservable<Integer> connectedObservable = Observable.just(
+                mSavedGoalState).publish();
         for (Observer<Integer> observer : mSavedGoalStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())

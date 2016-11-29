@@ -1,36 +1,37 @@
 package com.doublesp.coherence.activities;
 
-import com.google.firebase.database.ChildEventListener;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.viewmodels.User;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.User;
-import com.doublesp.coherence.viewmodels.UserList;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static com.doublesp.coherence.activities.MainActivity.LIST_COMPOSITION_FRAGMENT;
+import java.util.Map;
 
 public class ShareActivity extends AppCompatActivity {
-    private static DatabaseReference mShoppingListDatabaseReference;
     private static DatabaseReference mUsersListsDatabaseReference;
+    private static DatabaseReference mSharedWithListsDatabaseReference;
     private static String mListId;
     private static FirebaseRecyclerAdapter<User, FriendsViewHolder> mFirebaseRecyclerAdapter;
     private FirebaseDatabase mFirebaseDatabase;
@@ -46,14 +47,16 @@ public class ShareActivity extends AppCompatActivity {
         setTitle(R.string.share_list);
         fm = getSupportFragmentManager();
 
+        mListId = getIntent().getStringExtra(ConstantsAndUtils.LIST_ID);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.friends_list_recycler_view);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mListsDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.USER_FRIENDS).child(ConstantsAndUtils.getOwner(this));
         mUsersListsDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.USER_LISTS);
-
-        mListId = getIntent().getStringExtra(ConstantsAndUtils.LIST_ID);
+        mSharedWithListsDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHARED_WITH).child(mListId);
 
         userFriends = new ArrayList<>();
         userFriends.add(ConstantsAndUtils.getOwner(this));
@@ -62,15 +65,78 @@ public class ShareActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
+                linearLayoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
         mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(
                 User.class, R.layout.single_add_friend, FriendsViewHolder.class,
                 mListsDatabaseReference) {
             @Override
-            protected void populateViewHolder(FriendsViewHolder holder, User user, int position) {
-                String email = user.getEmail();
+            protected void populateViewHolder(final FriendsViewHolder holder, final User user,
+                    int position) {
                 String name = user.getName();
+                String email = user.getEmail();
+                String emailDecoded = email.replace(",", ".");
+
                 userFriends.add(email);
-                holder.mEmail.setText(name);
+
+                ColorGenerator generator = ColorGenerator.MATERIAL;
+                int color = generator.getColor(emailDecoded);
+
+                TextDrawable.IBuilder initialConfig = TextDrawable.builder()
+                        .beginConfig()
+                        .endConfig()
+                        .roundRect(10);
+                TextDrawable initial = initialConfig.build(String.valueOf(name.charAt(0)), color);
+
+                holder.mInitials.setImageDrawable(initial);
+                holder.mEmail.setText(emailDecoded);
+                holder.mName.setText(user.getName());
+
+                mSharedWithListsDatabaseReference.child(email).addValueEventListener(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                final User userShared = dataSnapshot.getValue(
+                                        User.class);
+
+                                if (userShared != null) {
+                                    holder.mAddFriendButton.setImageResource(R.drawable.ic_check);
+                                    holder.mAddFriendButton.setOnClickListener(
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    HashMap<String, Object> updatedUserData =
+                                                            updateFriendInSharedWith(false,
+                                                                    user);
+                                                    mFirebaseDatabase.getReference().updateChildren(
+                                                            updatedUserData);
+                                                }
+                                            });
+                                } else {
+                                    holder.mAddFriendButton.setImageResource(
+                                            R.drawable.ic_add_green);
+                                    holder.mAddFriendButton.setOnClickListener(
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    HashMap<String, Object> updatedUserData =
+                                                            updateFriendInSharedWith(true,
+                                                                    user);
+                                                    mFirebaseDatabase.getReference().updateChildren(
+                                                            updatedUserData);
+
+                                                }
+                                            });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
             }
         };
 
@@ -90,54 +156,36 @@ public class ShareActivity extends AppCompatActivity {
         mFirebaseRecyclerAdapter.cleanup();
     }
 
+    private HashMap<String, Object> updateFriendInSharedWith(Boolean addFriend,
+            User user) {
+        HashMap<String, Object> updatedUserData = new HashMap<>();
+
+        if (addFriend) {
+            final Map<String, Object> userMap = user.toMap();
+
+            updatedUserData.put("/" + ConstantsAndUtils.SHARED_WITH + "/" + mListId + "/"
+                    + user.getEmail(), userMap);
+        } else {
+            updatedUserData.put("/" + ConstantsAndUtils.SHARED_WITH + "/" + mListId + "/"
+                    + user.getEmail(), null);
+        }
+
+        return updatedUserData;
+    }
+
     public static class FriendsViewHolder extends RecyclerView.ViewHolder {
+        ImageView mInitials;
         TextView mEmail;
+        TextView mName;
+        ImageButton mAddFriendButton;
 
         public FriendsViewHolder(View itemView) {
             super(itemView);
 
+            mInitials = (ImageView) itemView.findViewById(R.id.intials_image);
             mEmail = (TextView) itemView.findViewById(R.id.friend_email_address);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final String email = mFirebaseRecyclerAdapter.getItem(
-                            getAdapterPosition()).getEmail();
-                    mUsersListsDatabaseReference.child(
-                            ConstantsAndUtils.getOwner(view.getContext()))
-                            .orderByKey().equalTo(mListId).addChildEventListener(
-                            new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                    UserList list = dataSnapshot.getValue(UserList.class);
-                                    mUsersListsDatabaseReference.child(email).child(mListId).
-                                            setValue(list);
-                                }
-
-                                @Override
-                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                    ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(mListId);
-                    listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-                    listCompositionFragment.show(ShareActivity.fm, LIST_COMPOSITION_FRAGMENT);
-                }
-            });
+            mName = (TextView) itemView.findViewById(R.id.friend_name);
+            mAddFriendButton = (ImageButton) itemView.findViewById(R.id.add_friend_button);
         }
     }
 }

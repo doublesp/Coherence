@@ -1,64 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-                name="pos"
-                type="int"/>
+            name="pos"
+            type="int" />
 
         <variable
-                name="handler"
-                type="com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface"/>
+            name="handler"
+            type="com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface" />
 
         <variable
-                name="viewModel"
-                type="com.doublesp.coherence.viewmodels.Goal"/>
+            name="viewModel"
+            type="com.doublesp.coherence.viewmodels.Goal" />
     </data>
 
     <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageButton
-                android:id="@+id/ivGoalImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:padding="0dp"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/background_3"
-                app:imageUrl='@{viewModel.imageUrl}'
-                android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
-                />
+            android:id="@+id/ivGoalImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
+            android:padding="0dp"
+            android:scaleType="centerCrop"
+            app:imageUrl='@{viewModel.imageUrl}'
+            tools:src="@drawable/background_3" />
 
         <ImageButton
-                android:id="@+id/ibGoalSelect"
-                android:layout_width="@dimen/activity_list_composition_idea_icon_width"
-                android:layout_height="@dimen/activity_list_composition_idea_icon_height"
-                android:layout_marginEnd="@dimen/activity_list_composition_idea_icon_margin_right"
-                android:layout_marginRight="@dimen/activity_list_composition_idea_icon_margin_right"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bookmark"
-                android:tint="@color/colorAccent"
-                android:background="@android:color/transparent"
-                android:layout_gravity="top|right|end"
-                android:onClick="@{() -> handler.onBookmarkClick(pos)}"
-                app:selected='@{viewModel.bookmarked}'
-                />
+            android:id="@+id/ibGoalSelect"
+            android:layout_width="@dimen/activity_list_composition_idea_icon_width"
+            android:layout_height="@dimen/activity_list_composition_idea_icon_height"
+            android:layout_gravity="top|right|end"
+            android:layout_marginEnd="@dimen/activity_list_composition_idea_icon_margin_right"
+            android:layout_marginRight="@dimen/activity_list_composition_idea_icon_margin_right"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> handler.onBookmarkClick(pos)}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bookmark"
+            android:tint="@color/colorAccent"
+            app:selected='@{viewModel.bookmarked}' />
 
         <TextView
-                android:id="@+id/tvGoalTitle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_list_composition_idea_height"
-                android:gravity="center"
-                android:layout_gravity="bottom"
-                android:maxLines="1"
-                android:text='@{viewModel.title}'
-                android:textColor="@color/colorPrimary"
-                android:background="@color/colorWhiteOverlay"
-                tools:text="Perperoni Pizza"
-                />
+            android:id="@+id/tvGoalTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_list_composition_idea_height"
+            android:layout_gravity="bottom"
+            android:background="@color/colorWhiteOverlay"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text='@{viewModel.title}'
+            android:textColor="@color/colorPrimary"
+            tools:text="Perperoni Pizza" />
     </FrameLayout>
 </layout>

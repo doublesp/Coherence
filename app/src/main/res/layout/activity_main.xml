@@ -3,18 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/activity_home" android:layout_width="match_parent"
+        android:id="@+id/activity_home"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.doublesp.coherence.activities.MainActivity">
 
-        <android.support.v4.view.ViewPager android:id="@+id/viewpager"
-            android:layout_width="match_parent" android:layout_height="match_parent"
-            android:layout_above="@+id/tabs" android:background="@android:color/transparent"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tabs"
+            android:background="@android:color/transparent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <android.support.design.widget.TabLayout android:id="@+id/tabs"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" android:background="@color/colorPrimary"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
             app:tabMode="fixed" />
 
     </RelativeLayout>

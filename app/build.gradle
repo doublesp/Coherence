@@ -39,6 +39,7 @@ android {
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven {url 'http://dl.bintray.com/amulyakhare/maven'}
 }
 
 apply plugin: 'com.neenbedankt.android-apt'
@@ -92,6 +93,7 @@ dependencies {
     apt 'org.parceler:parceler:1.1.1'
     apt 'com.google.dagger:dagger-compiler:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
