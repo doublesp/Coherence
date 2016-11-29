@@ -28,6 +28,8 @@ public interface IdeaInteractorInterface {
 
     void removeIdea(int pos);
 
+    void clearIdeas();
+
     void getSuggestions(String keyword);
 
     void subscribeIdeaStateChange(Observer<Integer> observer);

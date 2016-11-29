@@ -90,6 +90,13 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
+    public void clearIdeas() {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
+        mIdeaDataStore.clearIdeas();
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
+    }
+
+    @Override
     abstract public void getSuggestions(String keyword);
 
     @Override
