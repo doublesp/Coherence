@@ -23,7 +23,7 @@ public class MockRecipeInteractor extends RecipeInteractor {
     }
 
     Plan mockPlan() {
-        return new Plan(mockIdeas(), "Dinner 11/18", ConstantsAndUtils.ANONYMOUS);
+        return new Plan("", mockIdeas(), "Dinner 11/18", ConstantsAndUtils.ANONYMOUS);
     }
 
     List<Idea> mockIdeas() {
