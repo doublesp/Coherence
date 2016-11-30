@@ -1,19 +1,19 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
-import com.doublesp.coherence.viewholders.IdeaViewHolder;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.Plan;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
+import com.doublesp.coherence.viewholders.IdeaViewHolder;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import java.util.List;
 
 /**
  * Created by pinyaoting on 11/21/16.

@@ -30,11 +30,11 @@ public class AddFriendActivity extends AppCompatActivity {
 
     private static DatabaseReference mListsDatabaseReference;
     private static FirebaseRecyclerAdapter<User, AddFriendViewHolder> mFirebaseRecyclerAdapter;
+    private static RelativeLayout sRelativeLayout;
+    private static ArrayList<String> userFriends;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUsersDatabaseReference;
     private RecyclerView mRecyclerView;
-    private static RelativeLayout sRelativeLayout;
-    private static ArrayList<String> userFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

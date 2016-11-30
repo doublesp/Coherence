@@ -21,7 +21,7 @@ android {
     dataBinding.enabled = true
     defaultConfig {
         applicationId "com.doublesp.coherence"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -95,6 +95,8 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.batch.android:batch-sdk:1.7+'
+    compile 'com.google.android.gms:play-services:9.8.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -13,8 +13,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
-
 /**
  * Created by pinyaoting on 11/13/16.
  */
@@ -90,9 +88,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         if (s.subSequence(i - 1, i).toString().equals("\n")) {
             mIdeaInteractor.addIdea(s.toString().trim());
             s.clear();
-            List<Idea> ideas = mIdeaInteractor.getPlan().getIdeas();
-            mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
-                    ConstantsAndUtils.IDEAS).setValue(ideas);
         } else {
             mIdeaInteractor.getSuggestions(s.toString().trim());
         }
@@ -111,19 +106,11 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         } else {
             mIdeaInteractor.crossoutIdea(pos);
         }
-
-        Idea updatedIdea = mIdeaInteractor.getIdeaAtPos(pos);
-        mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
-                ConstantsAndUtils.IDEAS).child(String.valueOf(pos)).setValue(updatedIdea);
     }
 
     @Override
     public void onRemoveButtonClick(int pos) {
         mIdeaInteractor.removeIdea(pos);
-        List<Idea> ideas = mIdeaInteractor.getPlan().getIdeas();
-
-        mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
-                ConstantsAndUtils.IDEAS).setValue(ideas);
     }
 
     public interface IdeaShareHandlerInterface {

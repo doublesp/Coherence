@@ -29,4 +29,6 @@
     <string name="crossout">Crossout</string>
     <string name="uncrossout">Un-crossout</string>
     <string name="remove">Remove</string>
+    <string name="notification_title">A new list shared.</string>
+    <string name="notification_text">Curious what to get ? - click here !</string>
 </resources>

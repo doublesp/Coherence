@@ -19,6 +19,8 @@ import com.doublesp.coherence.viewmodels.Plan;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 import rx.Observer;
 
 /**
@@ -117,8 +119,8 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
     private void saveToFireBase() {
         Plan plan = mIdeaInteractor.getPlan();
-        // TODO: uncomment this once the plan is saved to FireBase in prior to showing
-        // ListCompositionFragment
-//        mShoppingListDatabaseReference.child(plan.getId()).setValue(plan);
+        List<Idea> ideaList = plan.getIdeas();
+        mShoppingListDatabaseReference.child(plan.getId()).child(ConstantsAndUtils.IDEAS).setValue(
+                ideaList);
     }
 }

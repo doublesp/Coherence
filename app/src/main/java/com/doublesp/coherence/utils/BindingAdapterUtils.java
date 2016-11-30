@@ -1,8 +1,5 @@
 package com.doublesp.coherence.utils;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Paint;
@@ -10,6 +7,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 /**
  * Created by pinyaoting on 10/20/16.

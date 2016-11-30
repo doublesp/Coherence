@@ -29,14 +29,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShareActivity extends AppCompatActivity {
+    public static FragmentManager fm;
     private static DatabaseReference mUsersListsDatabaseReference;
     private static DatabaseReference mSharedWithListsDatabaseReference;
+    private static DatabaseReference mNotifySharedDatabaseReference;
     private static String mListId;
     private static FirebaseRecyclerAdapter<User, FriendsViewHolder> mFirebaseRecyclerAdapter;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mListsDatabaseReference;
     private RecyclerView mRecyclerView;
-    public static FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class ShareActivity extends AppCompatActivity {
                 ConstantsAndUtils.USER_LISTS);
         mSharedWithListsDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.SHARED_WITH).child(mListId);
+        mNotifySharedDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.NOTIFY);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -108,6 +111,8 @@ public class ShareActivity extends AppCompatActivity {
                                                     mUsersListsDatabaseReference.child(
                                                             user.getEmail()).child(
                                                             mListId).removeValue();
+                                                    mNotifySharedDatabaseReference.child(
+                                                            user.getEmail()).removeValue();
                                                 }
                                             });
                                 } else {
@@ -144,6 +149,11 @@ public class ShareActivity extends AppCompatActivity {
                                                                                             mListId)
                                                                                     .setValue(
                                                                                             userList);
+                                                                            mNotifySharedDatabaseReference.child(
+                                                                                    user.getEmail
+                                                                                            ())
+                                                                                    .setValue(
+                                                                                            mListId);
                                                                         }
 
                                                                         @Override
