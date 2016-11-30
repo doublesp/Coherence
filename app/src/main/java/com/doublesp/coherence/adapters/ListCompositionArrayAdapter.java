@@ -14,7 +14,6 @@ import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +120,5 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         Plan plan = mIdeaInteractor.getPlan();
         // TODO: uncomment this once the plan is saved to FireBase in prior to showing ListCompositionFragment
 //        mShoppingListDatabaseReference.child(plan.getId()).setValue(plan);
-        Log.d("INFO", plan.getId());
     }
 }

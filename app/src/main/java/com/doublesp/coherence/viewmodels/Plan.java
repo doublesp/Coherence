@@ -2,8 +2,8 @@ package com.doublesp.coherence.viewmodels;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by pinyaoting on 11/16/16.
@@ -20,16 +20,9 @@ public class Plan {
     public Plan() {
     }
 
-    public Plan(List<Idea> ideas, String title, String owner) {
-        this.id = UUID.randomUUID().toString();
-        this.ideas = ideas;
-        this.title = title;
-        this.owner = owner;
-    }
-
     public Plan(String id, List<Idea> ideas, String title, String owner) {
         this.id = id;
-        this.ideas = ideas;
+        this.ideas = (ideas == null) ? new ArrayList<Idea>() : ideas;
         this.title = title;
         this.owner = owner;
     }
@@ -39,6 +32,9 @@ public class Plan {
     }
 
     public List<Idea> getIdeas() {
+        if (ideas == null) {
+            ideas = new ArrayList<Idea>();
+        }
         return ideas;
     }
 
