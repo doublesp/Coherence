@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         setupTab();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseDatabase.setPersistenceEnabled(true);
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.USERS);
@@ -153,11 +154,18 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void showListCompositionDialog(Goal goal) {
-        // TODO: generate list id from FireBase
-        String listId = "test1234";
-        Plan plan = mIdeaInteractor.createPlan(listId);
-        // TODO: save plan in FireBase
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId, goal);
+        DatabaseReference keyReference = mListDatabaseReference.push();
+
+        HashMap<String, Object> timestampCreated = new HashMap<>();
+        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
+        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
+                ConstantsAndUtils.getOwner(this), timestampCreated);
+        keyReference.setValue(userList);
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
+        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
+                keyReference.getKey(), goal);
         listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
     }

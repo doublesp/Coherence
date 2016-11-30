@@ -9,7 +9,6 @@ import android.text.Editable;
 public interface ListFragmentActionHandlerInterface {
 
     void onShareButtonClick();
-    void onSaveButtonClick();
     void onSearchButtonClick();
     void afterTextChanged(Editable s);
     void onSuggestionClick(int pos);

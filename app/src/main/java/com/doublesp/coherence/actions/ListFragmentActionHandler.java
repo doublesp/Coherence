@@ -10,12 +10,10 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.doublesp.coherence.viewmodels.UserList;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -47,6 +45,9 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     @Override
     public void onShareButtonClick() {
+        /*
+        TODO: Sharing with sms, needs to be moved to another part or need to
+        figure out how to do this.
         DatabaseReference keyReference = mListDatabaseReference.push();
         Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
 
@@ -56,10 +57,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         keyReference.setValue(userList);
 
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
-
-        /*
-        TODO: Sharing with sms, needs to be moved to another part or need to
-        figure out how to do this.
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
@@ -74,20 +71,8 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         */
 
         Intent shareIntent = new Intent(mContext, ShareActivity.class);
-        shareIntent.putExtra(ConstantsAndUtils.LIST_ID, keyReference.getKey());
+        shareIntent.putExtra(ConstantsAndUtils.LIST_ID, mIdeaInteractor.getPlan().getId());
         mContext.startActivity(shareIntent);
-    }
-
-    @Override
-    public void onSaveButtonClick() {
-        Plan plan = mIdeaInteractor.getPlan();
-        DatabaseReference keyReference = mListDatabaseReference.push();
-
-        HashMap<String, Object> timestampCreated = new HashMap<>();
-        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(plan.getTitle(), plan.getOwner(), timestampCreated);
-        keyReference.setValue(userList);
-        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
     }
 
     @Override
@@ -105,6 +90,9 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         if (s.subSequence(i - 1, i).toString().equals("\n")) {
             mIdeaInteractor.addIdea(s.toString().trim());
             s.clear();
+            List<Idea> ideas = mIdeaInteractor.getPlan().getIdeas();
+            mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
+                    ConstantsAndUtils.IDEAS).setValue(ideas);
         } else {
             mIdeaInteractor.getSuggestions(s.toString().trim());
         }
@@ -123,11 +111,19 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         } else {
             mIdeaInteractor.crossoutIdea(pos);
         }
+
+        Idea updatedIdea = mIdeaInteractor.getIdeaAtPos(pos);
+        mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
+                ConstantsAndUtils.IDEAS).child(String.valueOf(pos)).setValue(updatedIdea);
     }
 
     @Override
     public void onRemoveButtonClick(int pos) {
         mIdeaInteractor.removeIdea(pos);
+        List<Idea> ideas = mIdeaInteractor.getPlan().getIdeas();
+
+        mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
+                ConstantsAndUtils.IDEAS).setValue(ideas);
     }
 
     public interface IdeaShareHandlerInterface {
@@ -135,5 +131,4 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
         void search(Plan plan);
     }
-
 }

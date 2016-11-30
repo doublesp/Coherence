@@ -18,8 +18,11 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -46,7 +49,8 @@ public class AddFriendActivity extends AppCompatActivity {
         mListsDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.USER_FRIENDS);
 
-        userFriends = getIntent().getStringArrayListExtra(ConstantsAndUtils.USER_FRIENDS);
+        userFriends = new ArrayList<>();
+        userFriends.add(ConstantsAndUtils.getOwner(this));
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -60,10 +64,12 @@ public class AddFriendActivity extends AppCompatActivity {
                 mUsersDatabaseReference) {
 
             @Override
-            protected void populateViewHolder(AddFriendViewHolder holder, User user, int position) {
+            protected void populateViewHolder(final AddFriendViewHolder holder, User user,
+                    int position) {
                 String name = user.getName();
                 String email = user.getEmail();
                 String emailDecoded = email.replace(",", ".");
+                if (name == null || name.isEmpty()) name = emailDecoded;
 
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 int color = generator.getColor(emailDecoded);
@@ -78,11 +84,31 @@ public class AddFriendActivity extends AppCompatActivity {
                 holder.mEmail.setText(emailDecoded);
                 holder.mName.setText(user.getName());
 
-                if (userFriends.contains(email)) {
+                if (email.equals(ConstantsAndUtils.getOwner(AddFriendActivity.this))) {
                     holder.mAddFriendButton.setImageResource(R.drawable.ic_check);
-                } else {
-                    holder.mAddFriendButton.setImageResource(R.drawable.ic_add_green);
+                    return;
                 }
+
+                mListsDatabaseReference.child(ConstantsAndUtils.getOwner(AddFriendActivity.this))
+                        .child(email).addListenerForSingleValueEvent(
+
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User thisUser = dataSnapshot.getValue(User.class);
+                                if (thisUser != null) {
+                                    holder.mAddFriendButton.setImageResource(R.drawable.ic_check);
+                                } else {
+                                    holder.mAddFriendButton.setImageResource(
+                                            R.drawable.ic_add_green);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
             }
         };
 

@@ -86,7 +86,8 @@ public class ListCompositionFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            final Goal goal = Parcels.unwrap(getArguments().getParcelable(LIST_COMPOSITION_VIEW_MODELS));
+            final Goal goal = Parcels.unwrap(
+                    getArguments().getParcelable(LIST_COMPOSITION_VIEW_MODELS));
             String listId = getArguments().getString(LIST_COMPOSITION_LIST_ID);
             if (listId != null) {
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();

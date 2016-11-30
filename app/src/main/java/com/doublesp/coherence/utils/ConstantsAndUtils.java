@@ -18,6 +18,7 @@ public class ConstantsAndUtils {
     public static final String TIMESTAMP = "timestamp";
     public static final String EMAIL = "email";
     public static final String NAME = "name";
+    public static final String IDEAS = "ideas";
     public static final String LIST_ID = "listId";
     public static final String USER_FRIENDS = "userFriends";
     public static final String SHARED_WITH = "sharedWith";

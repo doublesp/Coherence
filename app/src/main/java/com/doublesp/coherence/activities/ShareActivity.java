@@ -17,6 +17,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.User;
+import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,9 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ShareActivity extends AppCompatActivity {
@@ -37,7 +36,6 @@ public class ShareActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mListsDatabaseReference;
     private RecyclerView mRecyclerView;
-    private List<String> userFriends;
     public static FragmentManager fm;
 
     @Override
@@ -58,9 +56,6 @@ public class ShareActivity extends AppCompatActivity {
         mSharedWithListsDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.SHARED_WITH).child(mListId);
 
-        userFriends = new ArrayList<>();
-        userFriends.add(ConstantsAndUtils.getOwner(this));
-
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -78,8 +73,6 @@ public class ShareActivity extends AppCompatActivity {
                 String name = user.getName();
                 String email = user.getEmail();
                 String emailDecoded = email.replace(",", ".");
-
-                userFriends.add(email);
 
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 int color = generator.getColor(emailDecoded);
@@ -112,6 +105,9 @@ public class ShareActivity extends AppCompatActivity {
                                                                     user);
                                                     mFirebaseDatabase.getReference().updateChildren(
                                                             updatedUserData);
+                                                    mUsersListsDatabaseReference.child(
+                                                            user.getEmail()).child(
+                                                            mListId).removeValue();
                                                 }
                                             });
                                 } else {
@@ -127,6 +123,36 @@ public class ShareActivity extends AppCompatActivity {
                                                     mFirebaseDatabase.getReference().updateChildren(
                                                             updatedUserData);
 
+                                                    mUsersListsDatabaseReference.child(
+                                                            ConstantsAndUtils.getOwner(
+                                                                    ShareActivity.this)).child(
+                                                            mListId)
+                                                            .addListenerForSingleValueEvent(
+                                                                    new ValueEventListener() {
+                                                                        @Override
+                                                                        public void onDataChange(
+                                                                                DataSnapshot
+                                                                                        dataSnapshot) {
+                                                                            UserList userList =
+                                                                                    dataSnapshot
+                                                                                            .getValue(
+                                                                                                    UserList.class);
+                                                                            mUsersListsDatabaseReference.child(
+                                                                                    user.getEmail
+                                                                                            ())
+                                                                                    .child(
+                                                                                            mListId)
+                                                                                    .setValue(
+                                                                                            userList);
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onCancelled(
+                                                                                DatabaseError
+                                                                                        databaseError) {
+
+                                                                        }
+                                                                    });
                                                 }
                                             });
                                 }
@@ -145,8 +171,6 @@ public class ShareActivity extends AppCompatActivity {
 
     public void addFriend(View view) {
         Intent intent = new Intent(this, AddFriendActivity.class);
-        intent.putStringArrayListExtra(ConstantsAndUtils.USER_FRIENDS,
-                (ArrayList<String>) userFriends);
         startActivity(intent);
     }
 
