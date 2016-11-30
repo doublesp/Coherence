@@ -19,7 +19,7 @@
             android:layout_gravity="bottom|right|end"
             android:layout_margin="16dp"
             android:onClick="onIdeaCompositionClick"
-            android:src="@drawable/ic_create"
+            android:src="@drawable/ic_add"
             android:tint="@color/colorButton"
             app:fabSize="normal"
             app:fab_title="@string/custom_list"

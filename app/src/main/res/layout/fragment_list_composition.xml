@@ -46,9 +46,8 @@
             android:layout_gravity="bottom|right|end"
             android:layout_margin="16dp"
             app:fabSize="normal"
-            app:fab_addButtonColorNormal="@color/white"
-            app:fab_addButtonColorPressed="@color/white_pressed"
-            app:fab_addButtonPlusIconColor="@color/half_black"
+            app:fab_addButtonColorNormal="@color/colorAccent"
+            app:fab_addButtonColorPressed="@color/colorAccent"
             app:fab_labelStyle="@style/menu_labels_style"
             app:layout_anchor="@id/rvIdeas"
             app:layout_anchorGravity="bottom|right|end">
@@ -61,15 +60,6 @@
                 android:tint="@color/colorButton"
                 app:fab_colorNormal="@color/colorAccent"
                 app:fab_title="@string/share_list" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> handler.onSaveButtonClick()}"
-                android:src="@drawable/ic_bookmark"
-                android:tint="@color/colorButton"
-                app:fab_colorNormal="@color/colorAccent"
-                app:fab_title="@string/save_list" />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
