@@ -152,7 +152,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void showListCompositionDialog(Goal goal) {
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(goal);
+        // TODO: generate list id from FireBase
+        String listId = "test1234";
+        Plan plan = mIdeaInteractor.createPlan(listId);
+        // TODO: save plan in FireBase
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId, goal);
         listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
     }
