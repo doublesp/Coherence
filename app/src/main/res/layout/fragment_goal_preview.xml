@@ -1,54 +1,79 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="handler" type="com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface" />
-        <variable name="viewModel" type="com.doublesp.coherence.viewmodels.Goal" />
+
+        <variable
+            name="handler"
+            type="com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface"/>
+
+        <variable
+            name="viewModel"
+            type="com.doublesp.coherence.viewmodels.Goal"/>
     </data>
 
     <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        tools:context="com.doublesp.coherence.fragments.GoalPreviewFragment">
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 tools:context="com.doublesp.coherence.fragments.GoalPreviewFragment">
 
-        <ImageView android:id="@+id/ivIdeaBackgroundImage" android:layout_width="match_parent"
-            android:layout_height="match_parent" android:scaleType="centerCrop"
-            app:imageUrl='@{viewModel.imageUrl}' tools:src="@drawable/background_0" />
+        <ImageView
+            android:id="@+id/ivIdeaBackgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:imageUrl='@{viewModel.imageUrl}'
+            tools:src="@drawable/background_0"/>
 
-        <LinearLayout android:id="@+id/llIdeaDescriptionBox" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_gravity="bottom"
-            android:background="@color/colorOverlay" android:gravity="top"
+        <LinearLayout
+            android:id="@+id/llIdeaDescriptionBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorOverlay"
+            android:gravity="top"
             android:orientation="vertical">
 
-            <TextView android:id="@+id/tvTitle" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_margin="10dp"
-                android:gravity="center_horizontal" android:text='@{viewModel.title}'
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:text='@{viewModel.title}'
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorButton" tools:text="Grilled Deviled Chickens" />
+                android:textColor="@color/colorButton"
+                tools:text="Grilled Deviled Chickens"/>
 
-            <TextView android:id="@+id/tvOverview" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_margin="10dp"
-                android:ellipsize="end" android:text='@{viewModel.description}'
-                android:textColor="@color/colorButton" tools:text="4 baby chickens (poussins) or cornish hens (about 1 1/4 pounds each), or 4 chicken breast halves
+            <TextView
+                android:id="@+id/tvOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:ellipsize="end"
+                android:text='@{viewModel.description}'
+                android:textColor="@color/colorButton"
+                tools:text="4 baby chickens (poussins) or cornish hens (about 1 1/4 pounds each), or 4 chicken breast halves
 3 lemons, plus wedges for garnish
 4 cloves garlic, peeled and smashed
 1 tablespoon crushed red-pepper flakes, or to taste
 1 tablespoon finely chopped fresh thyme
 1 tablespoon finely chopped fresh rosemary
 1/2 cup olive oil
-Salt, to taste" />
+Salt, to taste"/>
 
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right|end"
-                android:layout_margin="16dp"
-                android:onClick="@{() -> handler.onCreateIdeaListClick(viewModel)}"
-                android:src="@drawable/ic_create"
-                android:tint="@color/colorButton"
-                app:backgroundTint="@color/colorAccent"
-                app:fabSize="normal"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right|end"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> handler.onCreateIdeaListClick(viewModel)}"
+            android:src="@drawable/ic_create"
+            android:tint="@color/colorButton"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="normal"/>
 
     </FrameLayout>
 </layout>
