@@ -62,10 +62,11 @@ public class ListCompositionFragment extends DialogFragment {
         return fragment;
     }
 
-    public static ListCompositionFragment newInstance(Goal goal) {
+    public static ListCompositionFragment newInstance(String listId, Goal goal) {
         ListCompositionFragment fragment = new ListCompositionFragment();
         Bundle args = new Bundle();
         if (goal != null) {
+            args.putString(LIST_COMPOSITION_LIST_ID, listId);
             args.putParcelable(LIST_COMPOSITION_VIEW_MODELS, Parcels.wrap(goal));
         }
         fragment.setArguments(args);
@@ -86,10 +87,7 @@ public class ListCompositionFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            Goal goal = Parcels.unwrap(getArguments().getParcelable(LIST_COMPOSITION_VIEW_MODELS));
-            if (goal != null) {
-                mInteractor.loadIdeasFromGoal(goal);
-            }
+            final Goal goal = Parcels.unwrap(getArguments().getParcelable(LIST_COMPOSITION_VIEW_MODELS));
             String listId = getArguments().getString(LIST_COMPOSITION_LIST_ID);
             if (listId != null) {
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -99,7 +97,10 @@ public class ListCompositionFragment extends DialogFragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Plan plan = dataSnapshot.getValue(Plan.class);
-                        mInteractor.setIdeas(plan.getIdeas());
+                        mInteractor.setPlan(plan);
+                        if (goal != null) {
+                            mInteractor.loadIdeasFromGoal(goal);
+                        }
                     }
 
                     @Override

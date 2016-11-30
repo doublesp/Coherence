@@ -7,8 +7,6 @@ import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
-import java.util.List;
-
 import rx.Observer;
 
 /**
@@ -30,13 +28,6 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         mIdeaDataStore.addIdea(
                 new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
-        mIdeaDataStore.setIdeaState(R.id.state_loaded);
-    }
-
-    @Override
-    public void setIdeas(List<Idea> ideas) {
-        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
-        mIdeaDataStore.setIdeas(ideas);
         mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
@@ -124,7 +115,6 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         return mIdeaDataStore.getIdeaAtPos(pos);
     }
 
-    @Deprecated // use create plan
     @Override
     public Plan getPlan() {
         return mIdeaDataStore.getPlan();
@@ -134,6 +124,14 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     public Plan createPlan(String id) {
         return mIdeaDataStore.createPlan(id);
     }
+
+    @Override
+    public void setPlan(Plan plan) {
+        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
+        mIdeaDataStore.setPlan(plan);
+        mIdeaDataStore.setIdeaState(R.id.state_loaded);
+    }
+
 
     @Override
     abstract public void loadIdeasFromGoal(Goal goal);

@@ -31,6 +31,7 @@ public class DataStore implements DataStoreInterface {
     List<Observer<Integer>> mSuggestionStateObservers;
     List<Observer<Integer>> mSavedGoalStateObservers;
     List<Observer<Integer>> mGoalStateObservers;
+    Plan mPlan;
     int mIdeaState;
     int mSuggestionState;
     int mSavedGoalState;
@@ -202,15 +203,21 @@ public class DataStore implements DataStoreInterface {
         return getSavedGoals().get(pos);
     }
 
-    @Deprecated  // use create plan
     @Override
     public Plan getPlan() {
-        return new Plan(getIdeas(), defaultTitle(), ConstantsAndUtils.getOwner(mContext));
+        return mPlan;
     }
 
     @Override
     public Plan createPlan(String id) {
-        return new Plan(id, getIdeas(), defaultTitle(), ConstantsAndUtils.getOwner(mContext));
+        mPlan = new Plan(id, getIdeas(), defaultTitle(), ConstantsAndUtils.getOwner(mContext));
+        return mPlan;
+    }
+
+    @Override
+    public void setPlan(Plan plan) {
+        mPlan = plan;
+        mSnapshotStore.mIdeas = mPlan.getIdeas();
     }
 
     private void notifyIdeaStateChange() {
