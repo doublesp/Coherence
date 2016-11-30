@@ -2,6 +2,7 @@ package com.doublesp.coherence.utils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.doublesp.coherence.R;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
@@ -19,15 +20,23 @@ public class BindingAdapterUtils {
 
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String url) {
-        Glide.with(view.getContext()).load(url).fitCenter().diskCacheStrategy(
-                DiskCacheStrategy.ALL).into(view);
+        Glide.with(view.getContext())
+                .load(url)
+                .fitCenter()
+                .placeholder(R.drawable.background_3)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
     }
 
     @BindingAdapter({"bind:roundedImageUrl"})
     public static void loadRoundedImage(ImageView view, String url) {
         Context context = view.getContext();
-        Glide.with(context).load(url).fitCenter().diskCacheStrategy(
-                DiskCacheStrategy.ALL).transform(new CircleTransform(context)).into(view);
+        Glide.with(context)
+                .load(url)
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transform(new CircleTransform(context))
+                .into(view);
     }
 
     @BindingAdapter({"bind:text"})
