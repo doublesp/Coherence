@@ -15,16 +15,43 @@ import java.util.List;
 @Parcel
 public class DataSnapshotStore {
 
-    List<Idea> mIdeas;
-    List<Idea> mSuggestions;
-    List<Goal> mSavedGoals;
-    List<Goal> mGoals;
+    private List<Idea> mIdeas;
+    private List<Idea> mSuggestions;
+    private List<Goal> mSavedGoals;
+    private List<Goal> mGoals;
 
     public DataSnapshotStore() {
-        mIdeas = new ArrayList<>();
-        mSuggestions = new ArrayList<>();
-        mSavedGoals = new ArrayList<>();
-        mGoals = new ArrayList<>();
     }
 
+    public List<Idea> getIdeas() {
+        if (mIdeas == null) {
+            mIdeas = new ArrayList<>();
+        }
+        return mIdeas;
+    }
+
+    public void setIdeas(List<Idea> ideas) {
+        mIdeas = ideas;
+    }
+
+    public List<Idea> getSuggestions() {
+        if (mSuggestions == null) {
+            mSuggestions = new ArrayList<>();
+        }
+        return mSuggestions;
+    }
+
+    public List<Goal> getSavedGoals() {
+        if (mSavedGoals == null) {
+            mSavedGoals = new ArrayList<>();
+        }
+        return mSavedGoals;
+    }
+
+    public List<Goal> getGoals() {
+        if (mGoals == null) {
+            mGoals = new ArrayList<>();
+        }
+        return mGoals;
+    }
 }

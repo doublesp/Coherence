@@ -3,7 +3,6 @@ package com.doublesp.coherence.adapters;
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-                                       ListFragmentActionHandlerInterface ideaActionHandler) {
+            ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -118,8 +117,8 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
     private void saveToFireBase() {
         Plan plan = mIdeaInteractor.getPlan();
-        // TODO: uncomment this once the plan is saved to FireBase in prior to showing ListCompositionFragment
+        // TODO: uncomment this once the plan is saved to FireBase in prior to showing
+        // ListCompositionFragment
 //        mShoppingListDatabaseReference.child(plan.getId()).setValue(plan);
-        Log.d("INFO", plan.getId());
     }
 }

@@ -216,7 +216,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setPlan(Plan plan) {
         mPlan = plan;
-        mSnapshotStore.mIdeas = mPlan.getIdeas();
+        mSnapshotStore.setIdeas(mPlan.getIdeas());
     }
 
     private void notifyIdeaStateChange() {
@@ -262,18 +262,18 @@ public class DataStore implements DataStoreInterface {
     }
 
     private List<Idea> getIdeas() {
-        return mSnapshotStore.mIdeas;
+        return mSnapshotStore.getIdeas();
     }
 
     private List<Idea> getSuggestions() {
-        return mSnapshotStore.mSuggestions;
+        return mSnapshotStore.getSuggestions();
     }
 
     private List<Goal> getGoals() {
-        return mSnapshotStore.mGoals;
+        return mSnapshotStore.getGoals();
     }
 
     private List<Goal> getSavedGoals() {
-        return mSnapshotStore.mSavedGoals;
+        return mSnapshotStore.getSavedGoals();
     }
 }
