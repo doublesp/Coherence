@@ -45,7 +45,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_format_strikethrough"
                 android:tint="@color/colorButton"
-                android:background="@color/colorSecondaryAccent"
+                android:background="@color/colorSecondary"
                 android:onClick="@{() -> handler.onCrossoutButtonClick(pos)}"
                 />
 
