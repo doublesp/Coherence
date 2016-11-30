@@ -1,10 +1,10 @@
 package com.doublesp.coherence.actions;
 
+import android.text.Editable;
+
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.viewmodels.Goal;
-
-import android.text.Editable;
 
 /**
  * Created by pinyaoting on 11/27/16.
@@ -15,7 +15,8 @@ public class SavedGoalActionHandler implements GoalActionHandlerInterface {
     PreviewHandlerInterface mPreviewHandler;
     GoalInteractorInterface mInteractor;
 
-    public SavedGoalActionHandler(GoalActionHandler.PreviewHandlerInterface previewHandler, GoalInteractorInterface interactor) {
+    public SavedGoalActionHandler(GoalActionHandler.PreviewHandlerInterface previewHandler,
+            GoalInteractorInterface interactor) {
         mPreviewHandler = previewHandler;
         mInteractor = interactor;
     }

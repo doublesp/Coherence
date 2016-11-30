@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.batch.android.Batch;
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
@@ -36,6 +37,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
+import com.doublesp.coherence.service.NotificationService;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.viewmodels.Goal;
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     static final String IDEA_SEARCH_RESULT_FRAGMENT = "IDEA_SEARCH_RESULT_FRAGMENT";
     ActivityMainBinding binding;
     MainActivitySubComponent mActivityComponent;
+    @Inject
+    IdeaInteractorInterface mIdeaInteractor;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -75,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mListDatabaseReference;
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
-
-    @Inject
-    IdeaInteractorInterface mIdeaInteractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         setupTab();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseDatabase.setPersistenceEnabled(true);
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.USERS);
@@ -179,6 +179,30 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        Batch.onNewIntent(this, intent);
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Batch.onStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        Batch.onStop(this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Batch.onDestroy(this);
+        super.onDestroy();
+    }
+
+    @Override
     public void share(Intent i) {
         startActivity(i);
     }
@@ -227,6 +251,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         timestampJoined.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
         User currentUser = new User(mUsername, user.getEmail().replace(".", ","), timestampJoined);
         mUsersDatabaseReference.child(user.getEmail().replace(".", ",")).setValue(currentUser);
+
+        startService(new Intent(this, NotificationService.class));
 
         // add user information to sharedPref
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(
@@ -287,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     private void onSignedOutCleanup() {
         mUsername = ConstantsAndUtils.ANONYMOUS;
+        stopService(new Intent(this, NotificationService.class));
     }
 
     public void onIdeaCompositionClick(View view) {

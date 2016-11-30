@@ -22,6 +22,7 @@ public class ConstantsAndUtils {
     public static final String LIST_ID = "listId";
     public static final String USER_FRIENDS = "userFriends";
     public static final String SHARED_WITH = "sharedWith";
+    public static final String NOTIFY = "notify";
 
     public static String getOwner(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(

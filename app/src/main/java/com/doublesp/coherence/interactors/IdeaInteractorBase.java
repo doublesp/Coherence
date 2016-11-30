@@ -121,17 +121,16 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        return mIdeaDataStore.createPlan(id);
-    }
-
-    @Override
     public void setPlan(Plan plan) {
         mIdeaDataStore.setIdeaState(R.id.state_refreshing);
         mIdeaDataStore.setPlan(plan);
         mIdeaDataStore.setIdeaState(R.id.state_loaded);
     }
 
+    @Override
+    public Plan createPlan(String id) {
+        return mIdeaDataStore.createPlan(id);
+    }
 
     @Override
     abstract public void loadIdeasFromGoal(Goal goal);
