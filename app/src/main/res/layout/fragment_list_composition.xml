@@ -35,10 +35,7 @@
                 android:gravity="center"
                 android:hint="@string/idea_hint_create"
                 android:maxLines="1"
-                android:textColor="@color/colorText"
-                android:textColorHint="@color/colorHint"
-                android:background="@drawable/border"
-                />
+                style="@style/SearchBox"/>
 
         <com.getbase.floatingactionbutton.FloatingActionsMenu
                 android:id="@+id/multiple_actions"

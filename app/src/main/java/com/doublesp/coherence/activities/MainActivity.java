@@ -285,10 +285,10 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
     }
 
-    public void onIdeaSearchClick(View view) {
-        GoalSearchFragment searchResultFragment = GoalSearchFragment.newInstance();
-        searchResultFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        searchResultFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
+    public void onBookmarkClick(View view) {
+        SavedGoalsFragment savedGoalsFragment = SavedGoalsFragment.newInstance();
+        savedGoalsFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        savedGoalsFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
     }
 
     private void handleDeeplink() {

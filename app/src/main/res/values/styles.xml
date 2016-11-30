@@ -22,4 +22,10 @@
         <item name="android:textColor">@color/colorButton</item>
     </style>
 
+    <style name="SearchBox">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:background">@drawable/border</item>
+    </style>
+
 </resources>
