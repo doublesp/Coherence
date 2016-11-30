@@ -33,6 +33,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text='@{viewModel.content}'
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@color/colorText"
             app:crossout='@{viewModel.crossedOut}'
             tools:text="egg" />
@@ -42,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/activity_list_composition_idea_height"
             android:layout_weight="1"
-            android:background="@color/colorSecondaryAccent"
+            android:background="@color/colorSecondary"
             android:onClick="@{() -> handler.onCrossoutButtonClick(pos)}"
             android:src="@drawable/ic_format_strikethrough"
             android:tint="@color/colorButton" />

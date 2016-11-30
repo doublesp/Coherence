@@ -1,32 +1,43 @@
 package com.doublesp.coherence.fragments;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
+import com.doublesp.coherence.databinding.SinglePlanBinding;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ImageUtils;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.doublesp.coherence.R.id.owner;
-
 public class SavedIdeasFragment extends Fragment {
+
+    static final int SAVED_IDEAS_IMAGE_ROTATION_INTERVAL = 3000;
 
     FragmentSavedIdeasBinding binding;
     private static FirebaseRecyclerAdapter<UserList, ItemViewHolder> mFirebaseRecyclerAdapter;
@@ -68,9 +79,12 @@ public class SavedIdeasFragment extends Fragment {
                     String owner = userList.getOwner().isEmpty() ? ConstantsAndUtils.ANONYMOUS
                             : userList.getOwner();
 
-                    holder.mSinglePlan.setText(title);
-                    holder.mOwner.setText(holder.mOwner.getResources().getString(R.string.owner,
+                    holder.binding.singlePlan.setText(title);
+                    holder.binding.owner.setText(getContext().getString(R.string.owner,
                             owner.replace(",", ".")));
+
+                    String listId = mFirebaseRecyclerAdapter.getRef(position).getKey();
+                    asyncRotateImage(holder.mHandler, holder.binding.ivPlanImage, listId);
                 }
             };
 
@@ -115,15 +129,13 @@ public class SavedIdeasFragment extends Fragment {
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView mSinglePlan;
-        TextView mOwner;
+
+        public SinglePlanBinding binding;
+        public Handler mHandler;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-
-            mSinglePlan = (TextView) itemView.findViewById(R.id.single_plan);
-            mOwner = (TextView) itemView.findViewById(owner);
-
+            binding = SinglePlanBinding.bind(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -135,6 +147,30 @@ public class SavedIdeasFragment extends Fragment {
                                     .getKey());
                 }
             });
+            mHandler = new Handler();
         }
+    }
+
+    private void asyncRotateImage(final Handler handler, final ImageView imageView, String listId) {
+        handler.removeCallbacksAndMessages(null);
+        DatabaseReference listsDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS).child(listId);
+        listsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Plan plan = dataSnapshot.getValue(Plan.class);
+                List<String> imageUrls = new ArrayList<String>();
+                for (Idea idea : plan.getIdeas()) {
+                    imageUrls.add(idea.getMeta().getImageUrl());
+                }
+                ImageUtils.rotateImage(
+                        handler, imageView, imageUrls, 0, SAVED_IDEAS_IMAGE_ROTATION_INTERVAL);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                handler.removeCallbacksAndMessages(null);
+            }
+        });
     }
 }
