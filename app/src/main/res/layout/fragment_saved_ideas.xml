@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right|end"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_create"
+                android:src="@drawable/ic_add"
                 android:tint="@color/colorButton"
                 android:onClick="onIdeaCompositionClick"
                 app:fabSize="normal"

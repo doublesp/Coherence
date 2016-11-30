@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
         binding.tabs.setupWithViewPager(binding.viewpager);
         TabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
+        setupTab();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -302,5 +303,15 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             return;
         }
         showListCompositionDialog(listId);
+    }
+
+    private void setupTab() {
+        // WORKAROUND: by default the tab indicator is not properly high-lighted, so
+        // here we manually pull the trigger.
+        binding.viewpager.setCurrentItem(1);
+        if (binding.viewpager.getCurrentItem() == 1) {
+            binding.viewpager.setCurrentItem(0);
+        }
+
     }
 }
