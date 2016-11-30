@@ -15,8 +15,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -32,7 +32,6 @@ import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMP
 public class GoalSearchFragment extends DialogFragment {
 
     static final String GOAL_SEARCH_FRAGMENT_VIEW_MODEL = "GOAL_SEARCH_FRAGMENT_VIEW_MODEL";
-    static final int GOAL_SEARCH_FRAGMENT_SPANS = 2;
     FragmentGoalSearchBinding binding;
     int[] mBackgroundImageIds;
     int mBackgroundImageIndex;
@@ -83,8 +82,7 @@ public class GoalSearchFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_goal_search, container, false);
-        binding.rvIdeaSearchResults.setLayoutManager(new StaggeredGridLayoutManager(
-                GOAL_SEARCH_FRAGMENT_SPANS, StaggeredGridLayoutManager.VERTICAL));
+        binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeaSearchResults.setAdapter(mAdapter);
         binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,13 +115,9 @@ public class GoalSearchFragment extends DialogFragment {
 
     @Override
     public void onResume() {
-        // Get existing layout params for the window
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        // Assign window properties to fill the parent
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-        // Call super onResume after sizing
+        if (getDialog() != null) {
+            updateLayoutParams();
+        }
         super.onResume();
     }
 
@@ -155,5 +149,14 @@ public class GoalSearchFragment extends DialogFragment {
                 rotateImage();
             }
         }, LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL);
+    }
+
+    private void updateLayoutParams() {
+        // Get existing layout params for the window
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
     }
 }

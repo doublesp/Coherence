@@ -47,6 +47,7 @@ Salt, to taste" />
                 android:onClick="@{() -> handler.onCreateIdeaListClick(viewModel)}"
                 android:src="@drawable/ic_create"
                 android:tint="@color/colorButton"
+                android:backgroundTint="@color/colorAccent"
                 app:fabSize="normal"/>
 
     </FrameLayout>

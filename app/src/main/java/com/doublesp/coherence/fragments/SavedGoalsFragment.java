@@ -8,17 +8,18 @@ import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class SavedGoalsFragment extends Fragment {
+public class SavedGoalsFragment extends DialogFragment {
 
     FragmentSavedGoalsBinding binding;
     @Inject
@@ -55,7 +56,7 @@ public class SavedGoalsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_goals, container, false);
-        binding.rvSavedGoals.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        binding.rvSavedGoals.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedGoals.setAdapter(mAdapter);
         binding.rvSavedGoals.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -79,9 +80,26 @@ public class SavedGoalsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        if (getDialog() != null) {
+            updateLayoutParams();
+        }
+        super.onResume();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mInteractor.loadBookmarkedGoals();
+    }
+
+    private void updateLayoutParams() {
+        // Get existing layout params for the window
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
     }
 
 }
