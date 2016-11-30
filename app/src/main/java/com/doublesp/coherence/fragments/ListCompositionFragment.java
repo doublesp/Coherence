@@ -97,7 +97,9 @@ public class ListCompositionFragment extends DialogFragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Plan plan = dataSnapshot.getValue(Plan.class);
-                        mInteractor.setPlan(plan);
+                        if (plan != null) {
+                            mInteractor.setPlan(plan);
+                        }
                         if (goal != null) {
                             mInteractor.loadIdeasFromGoal(goal);
                         }
