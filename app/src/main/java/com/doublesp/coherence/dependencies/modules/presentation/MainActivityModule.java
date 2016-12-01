@@ -1,5 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.doublesp.coherence.actions.GoalActionHandler;
 import com.doublesp.coherence.actions.GoalDetailActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
@@ -15,8 +17,6 @@ import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
-
-import android.support.v7.widget.RecyclerView;
 
 import java.util.Map;
 
@@ -44,7 +44,8 @@ public class MainActivityModule {
     @PresentationLayerScope
     @Named("Composition")
     public RecyclerView.Adapter<RecyclerView.ViewHolder> providesListCompositionArrayAdapter(
-            IdeaInteractorInterface ideaInteractor, ListFragmentActionHandlerInterface ideaActionHandler) {
+            IdeaInteractorInterface ideaInteractor,
+            ListFragmentActionHandlerInterface ideaActionHandler) {
         return new ListCompositionArrayAdapter(ideaInteractor, ideaActionHandler);
     }
 
@@ -67,7 +68,8 @@ public class MainActivityModule {
     @PresentationLayerScope
     @Named("Goal")
     public RecyclerView.Adapter<RecyclerView.ViewHolder> providesGoalArrayAdapter(
-            GoalInteractorInterface interactor, @Named("GoalAction") GoalActionHandlerInterface actionHandler) {
+            GoalInteractorInterface interactor,
+            @Named("GoalAction") GoalActionHandlerInterface actionHandler) {
         return new GoalArrayAdapter(interactor, actionHandler);
     }
 
@@ -75,21 +77,24 @@ public class MainActivityModule {
     @PresentationLayerScope
     @Named("SavedGoal")
     public RecyclerView.Adapter<RecyclerView.ViewHolder> providesBookmarkGoalArrayAdapter(
-            GoalInteractorInterface interactor, @Named("SavedGoalAction") GoalActionHandlerInterface actionHandler) {
+            GoalInteractorInterface interactor,
+            @Named("SavedGoalAction") GoalActionHandlerInterface actionHandler) {
         return new SavedGoalArrayAdapter(interactor, actionHandler);
     }
 
     @Provides
     @PresentationLayerScope
     @Named("GoalAction")
-    public GoalActionHandlerInterface providesGoalActionHandler(GoalInteractorInterface interactor) {
+    public GoalActionHandlerInterface providesGoalActionHandler(
+            GoalInteractorInterface interactor) {
         return new GoalActionHandler(mActivity, interactor);
     }
 
     @Provides
     @PresentationLayerScope
     @Named("SavedGoalAction")
-    public GoalActionHandlerInterface providesSavedGoalActionHandler(GoalInteractorInterface interactor) {
+    public GoalActionHandlerInterface providesSavedGoalActionHandler(
+            GoalInteractorInterface interactor) {
         return new SavedGoalActionHandler(mActivity, interactor);
     }
 

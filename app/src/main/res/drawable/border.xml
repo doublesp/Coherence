@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/colorButton" />
     <stroke
-            android:width="@dimen/border_width"
-            android:color="@color/colorPrimaryDark" />
+        android:width="@dimen/border_width"
+        android:color="@color/colorPrimaryDark" />
 </shape>

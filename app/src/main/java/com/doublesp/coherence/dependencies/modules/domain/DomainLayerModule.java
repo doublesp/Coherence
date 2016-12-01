@@ -1,5 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.domain;
 
+import android.content.Context;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.datastore.DataStore;
 import com.doublesp.coherence.interactors.IngredientInteractor;
@@ -11,8 +13,6 @@ import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.scopes.DomainLayerScope;
-
-import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
@@ -42,7 +42,8 @@ public class DomainLayerModule {
     @DomainLayerScope
     @IntoMap
     @IntKey(R.id.idea_category_recipe)
-    public com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface providesRecipeIdeaInteractor(
+    public com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface
+    providesRecipeIdeaInteractor(
             DataStoreInterface ideaDataStore,
             RecipeRepositoryInterface recipeRepository) {
         return new RecipeInteractor(ideaDataStore, recipeRepository);
@@ -52,7 +53,8 @@ public class DomainLayerModule {
     @DomainLayerScope
     @IntoMap
     @IntKey(R.id.idea_category_recipe_v2)
-    public com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface providesRecipeV2IdeaInteractor(
+    public com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface
+    providesRecipeV2IdeaInteractor(
             DataStoreInterface ideaDataStore,
             RecipeV2RepositoryInterface recipeRepository) {
         return new IngredientInteractor(ideaDataStore, recipeRepository);
@@ -62,7 +64,8 @@ public class DomainLayerModule {
     @DomainLayerScope
     @IntoMap
     @IntKey(R.id.idea_category_debug)
-    public com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface providesMockRecipeIdeaInteractor(
+    public com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface
+    providesMockRecipeIdeaInteractor(
             RecipeRepositoryInterface recipeRepository) {
         DataStore ideaDataStore = new DataStore(mContext);
         return new MockRecipeInteractor(ideaDataStore, recipeRepository);
@@ -71,7 +74,7 @@ public class DomainLayerModule {
     @Provides
     @DomainLayerScope
     public GoalInteractorInterface providesIdeaSearchInteractor(DataStoreInterface ideaDataStore,
-                                                                RecipeV2RepositoryInterface recipeRepository) {
+            RecipeV2RepositoryInterface recipeRepository) {
         return new RecipeV2Interactor(ideaDataStore, recipeRepository);
     }
 

@@ -1,7 +1,11 @@
 package com.doublesp.coherence.adapters;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -12,15 +16,12 @@ import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.List;
 
 import rx.Observer;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/12/16.
@@ -37,7 +38,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-                                       ListFragmentActionHandlerInterface ideaActionHandler) {
+            ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -118,7 +119,8 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
     private void saveToFireBase() {
         Plan plan = mIdeaInteractor.getPlan();
-        // TODO: uncomment this once the plan is saved to FireBase in prior to showing ListCompositionFragment
-//        mShoppingListDatabaseReference.child(plan.getId()).setValue(plan);
+        List<Idea> ideaList = plan.getIdeas();
+        mShoppingListDatabaseReference.child(plan.getId()).child(ConstantsAndUtils.IDEAS).setValue(
+                ideaList);
     }
 }

@@ -1,23 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
-import com.doublesp.coherence.databinding.SinglePlanBinding;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.utils.ImageUtils;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.Plan;
-import com.doublesp.coherence.viewmodels.UserList;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -30,6 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
+import com.doublesp.coherence.databinding.SinglePlanBinding;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ImageUtils;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
+import com.doublesp.coherence.viewmodels.UserList;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +37,13 @@ import javax.inject.Inject;
 public class SavedIdeasFragment extends Fragment {
 
     static final int SAVED_IDEAS_IMAGE_ROTATION_INTERVAL = 3000;
-
-    FragmentSavedIdeasBinding binding;
+    public static SavedIdeasActionHandlerInterface mActionHandlerRef;
     private static FirebaseRecyclerAdapter<UserList, ItemViewHolder> mFirebaseRecyclerAdapter;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mListsDatabaseReference;
     @Inject
     public SavedIdeasActionHandlerInterface mActionHandler;
-    public static SavedIdeasActionHandlerInterface mActionHandlerRef;
+    FragmentSavedIdeasBinding binding;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mListsDatabaseReference;
 
     public SavedIdeasFragment() {
         // Required empty public constructor
@@ -73,7 +71,7 @@ public class SavedIdeasFragment extends Fragment {
                     mListsDatabaseReference) {
                 @Override
                 protected void populateViewHolder(ItemViewHolder holder, UserList userList,
-                                                  int position) {
+                        int position) {
                     String title = userList.getlistName().isEmpty() ? ConstantsAndUtils.ANONYMOUS
                             : userList.getlistName();
                     String owner = userList.getOwner().isEmpty() ? ConstantsAndUtils.ANONYMOUS
@@ -93,8 +91,9 @@ public class SavedIdeasFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_ideas, container, false);
+            Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_ideas, container,
+                false);
 
         binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
@@ -128,6 +127,33 @@ public class SavedIdeasFragment extends Fragment {
         mFirebaseRecyclerAdapter.cleanup();
     }
 
+    private void asyncRotateImage(final Handler handler, final ImageView imageView, String listId) {
+        handler.removeCallbacksAndMessages(null);
+        DatabaseReference listsDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS).child(listId);
+        listsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Plan plan = dataSnapshot.getValue(Plan.class);
+                List<String> imageUrls = new ArrayList<>();
+                for (Idea idea : plan.getIdeas()) {
+                    if (idea == null || idea.getMeta() == null) continue;
+                    imageUrls.add(idea.getMeta().getImageUrl());
+                }
+
+                if (!imageUrls.isEmpty()) {
+                    ImageUtils.rotateImage(
+                            handler, imageView, imageUrls, 0, SAVED_IDEAS_IMAGE_ROTATION_INTERVAL);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                handler.removeCallbacksAndMessages(null);
+            }
+        });
+    }
+
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         public SinglePlanBinding binding;
@@ -149,28 +175,5 @@ public class SavedIdeasFragment extends Fragment {
             });
             mHandler = new Handler();
         }
-    }
-
-    private void asyncRotateImage(final Handler handler, final ImageView imageView, String listId) {
-        handler.removeCallbacksAndMessages(null);
-        DatabaseReference listsDatabaseReference = mFirebaseDatabase.getReference().child(
-                ConstantsAndUtils.SHOPPING_LISTS).child(listId);
-        listsDatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Plan plan = dataSnapshot.getValue(Plan.class);
-                List<String> imageUrls = new ArrayList<String>();
-                for (Idea idea : plan.getIdeas()) {
-                    imageUrls.add(idea.getMeta().getImageUrl());
-                }
-                ImageUtils.rotateImage(
-                        handler, imageView, imageUrls, 0, SAVED_IDEAS_IMAGE_ROTATION_INTERVAL);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                handler.removeCallbacksAndMessages(null);
-            }
-        });
     }
 }

@@ -40,7 +40,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     PublishSubject<Integer> mSavedBookmarkDebouncer;
 
     public RecipeV2Interactor(DataStoreInterface dataStore,
-                              RecipeV2RepositoryInterface recipeRepository) {
+            RecipeV2RepositoryInterface recipeRepository) {
         mDataStore = dataStore;
         mRecipeRepository = recipeRepository;
         mRecipeRepository.subscribe(new Observer<List<RecipeV2>>() {
