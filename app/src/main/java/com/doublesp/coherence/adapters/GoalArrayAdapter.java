@@ -26,7 +26,8 @@ public class GoalArrayAdapter
     GoalInteractorInterface mInteractor;
     GoalActionHandlerInterface mActionHandler;
 
-    public GoalArrayAdapter(GoalInteractorInterface interactor, GoalActionHandlerInterface actionHandler) {
+    public GoalArrayAdapter(GoalInteractorInterface interactor,
+            GoalActionHandlerInterface actionHandler) {
         mInteractor = interactor;
         mActionHandler = actionHandler;
         mInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {

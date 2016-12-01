@@ -17,7 +17,9 @@ import dagger.Component;
 @Component(dependencies = DataLayerComponent.class, modules = DomainLayerModule.class)
 public interface DomainLayerComponent {
 
-    Map<Integer, com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface> ideaInteractors();
+    Map<Integer, com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface>
+    ideaInteractors();
+
     GoalInteractorInterface ideaSearchInteractor();
 
 }

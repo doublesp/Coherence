@@ -1,7 +1,10 @@
 package com.doublesp.coherence.viewmodels;
 
 
+import com.google.firebase.database.Exclude;
+
 import java.util.HashMap;
+import java.util.Map;
 
 public class UserList {
     private String listName;
@@ -28,5 +31,15 @@ public class UserList {
 
     public HashMap<String, Object> getTimestampCreated() {
         return timestampCreated;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("listName", getlistName());
+        result.put("owner", getOwner());
+        result.put("timestampCreated", getTimestampCreated());
+
+        return result;
     }
 }

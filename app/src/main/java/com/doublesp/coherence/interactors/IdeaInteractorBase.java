@@ -138,11 +138,6 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        return mIdeaDataStore.createPlan(id);
-    }
-
-    @Override
     public void setPlan(Plan plan) {
         mIdeaDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing,
@@ -151,6 +146,11 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         mIdeaDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded,
                 ViewState.OPERATION.RELOAD));
+    }
+
+    @Override
+    public Plan createPlan(String id) {
+        return mIdeaDataStore.createPlan(id);
     }
 
     @Override

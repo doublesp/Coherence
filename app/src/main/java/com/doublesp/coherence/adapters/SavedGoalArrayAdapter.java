@@ -26,7 +26,7 @@ public class SavedGoalArrayAdapter extends RecyclerView.Adapter {
     GoalActionHandlerInterface mActionHandler;
 
     public SavedGoalArrayAdapter(GoalInteractorInterface interactor,
-                                 GoalActionHandlerInterface actionHandler) {
+            GoalActionHandlerInterface actionHandler) {
         mInteractor = interactor;
         mActionHandler = actionHandler;
         mInteractor.subscribeToSavedGoalStateChange(new Observer<ViewState>() {

@@ -1,8 +1,12 @@
 package com.doublesp.coherence.viewmodels;
 
 import com.doublesp.coherence.R;
+import com.google.firebase.database.Exclude;
 
 import org.parceler.Parcel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by pinyaoting on 11/10/16.
@@ -68,5 +72,18 @@ public class Idea {
             return this.content.equals(target.content);
         }
         return false;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", getId());
+        result.put("category", getCategory());
+        result.put("content", getContent());
+        result.put("crossedOut", isCrossedOut());
+        result.put("type", getType());
+        result.put("meta", getMeta());
+
+        return result;
     }
 }

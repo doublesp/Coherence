@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
+import com.batch.android.Batch;
 import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
@@ -25,11 +26,13 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
+import com.doublesp.coherence.service.NotificationService;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
+import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.auth.AuthUI;
 
 import android.content.Intent;
@@ -68,14 +71,15 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     static final String IDEA_SEARCH_RESULT_FRAGMENT = "IDEA_SEARCH_RESULT_FRAGMENT";
     ActivityMainBinding binding;
     MainActivitySubComponent mActivityComponent;
+    @Inject
+    IdeaInteractorInterface mIdeaInteractor;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private DatabaseReference mUsersDatabaseReference;
+    private DatabaseReference mListDatabaseReference;
+    private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
-
-    @Inject
-    IdeaInteractorInterface mIdeaInteractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child(ConstantsAndUtils.USERS);
+        mListDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.USER_LISTS).child(ConstantsAndUtils.getOwner(this));
+        mShoppingListDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -147,20 +155,52 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void showListCompositionDialog(Goal goal) {
-        // TODO: generate list id from FireBase
-        String listId = "test1234";
-        Plan plan = mIdeaInteractor.createPlan(listId);
-        // TODO: save plan in FireBase
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId, goal);
+        DatabaseReference keyReference = mListDatabaseReference.push();
+
+        HashMap<String, Object> timestampCreated = new HashMap<>();
+        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
+        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
+                ConstantsAndUtils.getOwner(this), timestampCreated);
+        keyReference.setValue(userList);
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
+        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
+                keyReference.getKey(), goal);
         listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
     }
 
     @Override
     public void showListCompositionDialog(String listId) {
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId);
+        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
+                listId);
         listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Batch.onNewIntent(this, intent);
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Batch.onStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        Batch.onStop(this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Batch.onDestroy(this);
+        super.onDestroy();
     }
 
     @Override
@@ -213,8 +253,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         User currentUser = new User(mUsername, user.getEmail().replace(".", ","), timestampJoined);
         mUsersDatabaseReference.child(user.getEmail().replace(".", ",")).setValue(currentUser);
 
+        startService(new Intent(this, NotificationService.class));
+
         // add user information to sharedPref
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(
+                getContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(ConstantsAndUtils.EMAIL, user.getEmail().replace(".", ","));
         editor.putString(ConstantsAndUtils.NAME, user.getDisplayName());
@@ -271,18 +314,21 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     private void onSignedOutCleanup() {
         mUsername = ConstantsAndUtils.ANONYMOUS;
+        stopService(new Intent(this, NotificationService.class));
     }
 
     public void onIdeaCompositionClick(View view) {
-        // TODO: generate list id from FireBase
-        String listId = "test1234";
-        Plan plan = mIdeaInteractor.createPlan(listId);
-        // TODO: save plan in FireBase
-        // TODO: pass listId to ListCompositionFragment, the fragment will then load the list from FireBase
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance();
-//        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(listId);
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+        DatabaseReference keyReference = mListDatabaseReference.push();
+
+        HashMap<String, Object> timestampCreated = new HashMap<>();
+        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
+        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
+                ConstantsAndUtils.getOwner(this), timestampCreated);
+        keyReference.setValue(userList);
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
+        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+
+        showListCompositionDialog(keyReference.getKey());
     }
 
     public void onBookmarkClick(View view) {
