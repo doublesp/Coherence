@@ -72,7 +72,7 @@ public interface DataStoreInterface {
 
     Plan getPlan();
 
-    Plan createPlan(String id);
-
     void setPlan(Plan plan);
+
+    Plan createPlan(String id);
 }

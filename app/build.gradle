@@ -21,7 +21,7 @@ android {
     dataBinding.enabled = true
     defaultConfig {
         applicationId "com.doublesp.coherence"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,7 @@ android {
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven {url 'http://dl.bintray.com/amulyakhare/maven'}
 }
 
 apply plugin: 'com.neenbedankt.android-apt'
@@ -86,12 +87,16 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.google.firebase:firebase-database:9.8.0'
+    compile 'com.google.firebase:firebase-crash:9.8.0'
     compile 'com.firebaseui:firebase-ui:1.0.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'org.parceler:parceler:1.1.1'
     apt 'com.google.dagger:dagger-compiler:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.batch.android:batch-sdk:1.7+'
+    compile 'com.google.android.gms:play-services:9.8.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

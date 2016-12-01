@@ -26,16 +26,9 @@ public class SavedRecipe extends BaseModel {
         super();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public static SavedRecipe byId(String id) {
-        return new Select().from(SavedRecipe.class).where(SavedRecipe_Table.id.eq(id)).querySingle();
+        return new Select().from(SavedRecipe.class).where(
+                SavedRecipe_Table.id.eq(id)).querySingle();
     }
 
     public static List<RecipeV2> savedRecipes() {
@@ -44,5 +37,13 @@ public class SavedRecipe extends BaseModel {
                 .on(RecipeV2_Table.id.withTable(NameAlias.builder("T").build())
                         .eq(SavedRecipe_Table.id.withTable(NameAlias.builder("U").build())))
                 .orderBy(RecipeV2_Table.id, false).queryList();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

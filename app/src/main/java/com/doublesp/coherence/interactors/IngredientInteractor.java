@@ -35,17 +35,20 @@ public class IngredientInteractor extends IdeaInteractorBase {
     PublishSubject<String> mSearchDebouncer;
 
     public IngredientInteractor(DataStoreInterface ideaDataStore,
-                                RecipeV2RepositoryInterface recipeRepository) {
+            RecipeV2RepositoryInterface recipeRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mRecipeRepository = recipeRepository;
         mRecipeRepository.subscribeAutoCompleteIngredient(new Observer<List<IngredientV2>>() {
             List<IngredientV2> mIngredients = new ArrayList<IngredientV2>();
+
             @Override
             public void onCompleted() {
                 List<Idea> suggestions = new ArrayList<Idea>();
                 for (IngredientV2 ingredient : mIngredients) {
-                    Idea idea = new Idea("", R.id.idea_category_recipe_v2, ingredient.getName(), false, R.id.idea_type_suggestion, new IdeaMeta(ingredient.getImage(), ingredient.getName(), null));
+                    Idea idea = new Idea("", R.id.idea_category_recipe_v2, ingredient.getName(),
+                            false, R.id.idea_type_suggestion,
+                            new IdeaMeta(ingredient.getImage(), ingredient.getName(), null));
                     suggestions.add(idea);
                 }
                 mIdeaDataStore.setSuggestions(suggestions);
@@ -75,7 +78,10 @@ public class IngredientInteractor extends IdeaInteractorBase {
                     if (dedupSet.contains(ingredient.getName())) {
                         continue;
                     }
-                    Idea idea = new Idea(ingredient.getId(), R.id.idea_category_recipe_v2, ingredient.getName(), false, R.id.idea_type_user_generated, new IdeaMeta(ingredient.getImage(), ingredient.getName(), ingredient.getOriginalString()));
+                    Idea idea = new Idea(ingredient.getId(), R.id.idea_category_recipe_v2,
+                            ingredient.getName(), false, R.id.idea_type_user_generated,
+                            new IdeaMeta(ingredient.getImage(), ingredient.getName(),
+                                    ingredient.getOriginalString()));
                     ideas.add(idea);
                     dedupSet.add(ingredient.getName());
                 }
@@ -133,7 +139,8 @@ public class IngredientInteractor extends IdeaInteractorBase {
                         @Override
                         public void call(String s) {
                             mIdeaDataStore.setIdeaState(R.id.state_refreshing);
-                            mRecipeRepository.autoCompleteIngredients(s, INGREDIENT_INTERACTOR_BATCH_SIZE);
+                            mRecipeRepository.autoCompleteIngredients(s,
+                                    INGREDIENT_INTERACTOR_BATCH_SIZE);
                         }
                     });
         }

@@ -1,21 +1,17 @@
 package com.doublesp.coherence.actions;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
+import android.content.Context;
+import android.content.Intent;
+import android.text.Editable;
 
+import com.doublesp.coherence.activities.ShareActivity;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.doublesp.coherence.viewmodels.UserList;
-
-import android.content.Context;
-import android.content.Intent;
-import android.text.Editable;
-
-import java.util.HashMap;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -47,11 +43,9 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     @Override
     public void onShareButtonClick() {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        StringBuilder sharableContentBuilder = new StringBuilder();
-
+        /*
+        TODO: Sharing with sms, needs to be moved to another part or need to
+        figure out how to do this.
         DatabaseReference keyReference = mListDatabaseReference.push();
         Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
 
@@ -61,6 +55,10 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         keyReference.setValue(userList);
 
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        StringBuilder sharableContentBuilder = new StringBuilder();
         sharableContentBuilder
                 .append("http://doublesp.com/shared/")
                 .append(keyReference.getKey());
@@ -68,18 +66,11 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         // with app link
         shareIntent.putExtra(Intent.EXTRA_TEXT, sharableContentBuilder.toString());
         mShareHandler.share(shareIntent);
-    }
+        */
 
-    @Override
-    public void onSaveButtonClick() {
-        Plan plan = mIdeaInteractor.getPlan();
-        DatabaseReference keyReference = mListDatabaseReference.push();
-
-        HashMap<String, Object> timestampCreated = new HashMap<>();
-        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(plan.getTitle(), plan.getOwner(), timestampCreated);
-        keyReference.setValue(userList);
-        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
+        Intent shareIntent = new Intent(mContext, ShareActivity.class);
+        shareIntent.putExtra(ConstantsAndUtils.LIST_ID, mIdeaInteractor.getPlan().getId());
+        mContext.startActivity(shareIntent);
     }
 
     @Override
@@ -124,7 +115,7 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     public interface IdeaShareHandlerInterface {
         void share(Intent intent);
+
         void search(Plan plan);
     }
-
 }

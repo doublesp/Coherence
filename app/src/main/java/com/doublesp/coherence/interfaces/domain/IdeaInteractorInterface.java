@@ -40,9 +40,9 @@ public interface IdeaInteractorInterface {
 
     Plan getPlan();
 
-    Plan createPlan(String id);
-
     void setPlan(Plan plan);
+
+    Plan createPlan(String id);
 
     void loadIdeasFromGoal(Goal goal);
 
