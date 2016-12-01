@@ -1,5 +1,6 @@
 package com.doublesp.coherence.interfaces.domain;
 
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -14,13 +15,13 @@ import rx.Observer;
 
 public interface DataStoreInterface {
 
-    void setIdeaState(int state);
+    void setIdeaState(ViewState state);
 
-    void setSuggestionState(int state);
+    void setSuggestionState(ViewState state);
 
-    void setGoalState(int state);
+    void setGoalState(ViewState state);
 
-    void setSavedGoalState(int state);
+    void setSavedGoalState(ViewState state);
 
     void addIdea(Idea idea);
 
@@ -62,13 +63,13 @@ public interface DataStoreInterface {
 
     int getSavedGoalCount();
 
-    void subscribeToIdeaStateChanges(Observer<Integer> observer);
+    void subscribeToIdeaStateChanges(Observer<ViewState> observer);
 
-    void subscribeToSuggestionStateChanges(Observer<Integer> observer);
+    void subscribeToSuggestionStateChanges(Observer<ViewState> observer);
 
-    void subscribeToGoalStateChanges(Observer<Integer> observer);
+    void subscribeToGoalStateChanges(Observer<ViewState> observer);
 
-    void subscribeToSavedGoalStateChanges(Observer<Integer> observer);
+    void subscribeToSavedGoalStateChanges(Observer<ViewState> observer);
 
     Plan getPlan();
 

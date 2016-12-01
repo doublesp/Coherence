@@ -1,5 +1,6 @@
 package com.doublesp.coherence.interfaces.domain;
 
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -28,9 +29,9 @@ public interface IdeaInteractorInterface {
 
     void getSuggestions(String keyword);
 
-    void subscribeIdeaStateChange(Observer<Integer> observer);
+    void subscribeIdeaStateChange(Observer<ViewState> observer);
 
-    void subscribeSuggestionStateChange(Observer<Integer> observer);
+    void subscribeSuggestionStateChange(Observer<ViewState> observer);
 
     int getIdeaCount();
 

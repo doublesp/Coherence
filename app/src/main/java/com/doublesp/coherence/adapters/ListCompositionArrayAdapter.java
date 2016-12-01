@@ -7,6 +7,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
@@ -47,15 +48,52 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         mShoppingListDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.SHOPPING_LISTS);
 
-        mIdeaInteractor.subscribeIdeaStateChange(new Observer<Integer>() {
-            int mState;
+        mIdeaInteractor.subscribeIdeaStateChange(new Observer<ViewState>() {
+            ViewState mState;
 
             @Override
             public void onCompleted() {
-                switch (mState) {
+                int start;
+                int count;
+                switch (mState.getState()) {
+                    case R.id.state_refreshing:
+                        // TODO: reflect pending state on UI, maybe grey out the
+                        // row and show a loding icon
+                        break;
                     case R.id.state_loaded:
-                        notifyDataSetChanged();
-                        saveToFireBase();
+                        switch (mState.getOperation()) {
+                            case RELOAD:
+                                notifyDataSetChanged();
+                                saveToFireBase();
+                                break;
+                            case ADD:
+                                start = mState.getStart();
+                                count = 1;
+                                notifyItemInserted(start);
+                                saveNewItemsToFireBase(start, count);
+                                break;
+                            case INSERT:
+                                start = mState.getStart();
+                                count = mState.getCount();
+                                notifyItemRangeInserted(start, count);
+                                saveNewItemsToFireBase(start, count);
+                                break;
+                            case UPDATE:
+                                start = mState.getStart();
+                                count = mState.getCount();
+                                notifyItemRangeChanged(start, count);
+                                saveItemsToFireBase(start, count);
+                                break;
+                            case REMOVE:
+                                start = mState.getStart();
+                                count = mState.getCount();
+                                notifyItemRangeRemoved(start, count);
+                                saveToFireBase();
+                                break;
+                            case CLEAR:
+                                notifyDataSetChanged();
+                                break;
+                        }
                         break;
                 }
             }
@@ -66,7 +104,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
             }
 
             @Override
-            public void onNext(Integer state) {
+            public void onNext(ViewState state) {
                 mState = state;
             }
         });
@@ -120,5 +158,24 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         Plan plan = mIdeaInteractor.getPlan();
         // TODO: uncomment this once the plan is saved to FireBase in prior to showing ListCompositionFragment
 //        mShoppingListDatabaseReference.child(plan.getId()).setValue(plan);
+    }
+
+    private void saveItemsToFireBase(int start, int count) {
+        Plan plan = mIdeaInteractor.getPlan();
+        for (int i = 0; i < count; i++) {
+            int pos = start + count - 1;
+            Idea updatedIdea = mIdeaInteractor.getIdeaAtPos(pos);
+//            mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
+//                    ConstantsAndUtils.IDEAS).child(String.valueOf(pos)).setValue(updatedIdea);
+        }
+    }
+
+    private void saveNewItemsToFireBase(int start, int count) {
+        Plan plan = mIdeaInteractor.getPlan();
+        for (int i = 0; i < count; i++) {
+            int pos = start + count - 1;
+            Idea newIdea = mIdeaInteractor.getIdeaAtPos(pos);
+            // TODO: save new item to FireBase
+        }
     }
 }

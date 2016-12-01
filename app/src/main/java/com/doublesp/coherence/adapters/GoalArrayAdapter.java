@@ -3,6 +3,7 @@ package com.doublesp.coherence.adapters;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewholders.GoalViewHolder;
 import com.doublesp.coherence.viewmodels.Goal;
 
@@ -28,14 +29,45 @@ public class GoalArrayAdapter
     public GoalArrayAdapter(GoalInteractorInterface interactor, GoalActionHandlerInterface actionHandler) {
         mInteractor = interactor;
         mActionHandler = actionHandler;
-        mInteractor.subscribeToGoalStateChange(new Observer<Integer>() {
-            int mState;
+        mInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {
+            ViewState mState;
 
             @Override
             public void onCompleted() {
-                switch (mState) {
+                int start;
+                int count;
+                switch (mState.getState()) {
+                    case R.id.state_refreshing:
+                        // TODO: reflect pending state on UI
+                        break;
                     case R.id.state_loaded:
-                        notifyDataSetChanged();
+                        switch (mState.getOperation()) {
+                            case RELOAD:
+                                notifyDataSetChanged();
+                                break;
+                            case ADD:
+                                start = mState.getStart();
+                                notifyItemInserted(start);
+                                break;
+                            case INSERT:
+                                start = mState.getStart();
+                                count = mState.getCount();
+                                notifyItemRangeInserted(start, count);
+                                break;
+                            case UPDATE:
+                                start = mState.getStart();
+                                count = mState.getCount();
+                                notifyItemRangeChanged(start, count);
+                                break;
+                            case REMOVE:
+                                start = mState.getStart();
+                                count = mState.getCount();
+                                notifyItemRangeRemoved(start, count);
+                                break;
+                            case CLEAR:
+                                notifyDataSetChanged();
+                                break;
+                        }
                         break;
                 }
             }
@@ -46,7 +78,7 @@ public class GoalArrayAdapter
             }
 
             @Override
-            public void onNext(Integer state) {
+            public void onNext(ViewState state) {
                 mState = state;
             }
         });

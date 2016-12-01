@@ -4,6 +4,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.models.v2.RecipeV2;
 import com.doublesp.coherence.models.v2.SavedRecipe;
 import com.doublesp.coherence.viewmodels.Goal;
@@ -60,7 +61,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     ));
                 }
                 mDataStore.setGoals(goals);
-                mDataStore.setGoalState(R.id.state_loaded);
+                mDataStore.setGoalState(new ViewState(
+                        R.id.state_loaded, ViewState.OPERATION.RELOAD));
             }
 
             @Override
@@ -93,12 +95,15 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
 
     @Override
     public void bookmarkGoalAtPos(int pos) {
+        mDataStore.setSavedGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
         getBookmarkDebouncer().onNext(pos);
     }
 
     @Override
     public void search(String keyword) {
-        mDataStore.setGoalState(R.id.state_refreshing);
+        mDataStore.setGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
         if (keyword == null) {
             mRecipeRepository.randomRecipe(RECIPEV2_INTERACTOR_BATCH_SIZE);
             return;
@@ -122,7 +127,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     }
 
     @Override
-    public void subscribeToGoalStateChange(Observer<Integer> observer) {
+    public void subscribeToGoalStateChange(Observer<ViewState> observer) {
         mDataStore.subscribeToGoalStateChanges(observer);
     }
 
@@ -138,12 +143,15 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
 
     @Override
     public void bookmarkSavedGoalAtPos(int pos) {
+        mDataStore.setSavedGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
         getSavedBookmarkDebouncer().onNext(pos);
     }
 
     @Override
     public void loadBookmarkedGoals() {
-        mDataStore.setSavedGoalState(R.id.state_refreshing);
+        mDataStore.setSavedGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
         List<Goal> bookmarkedGoals = new ArrayList<>();
         List<RecipeV2> bookmarkedRecipes = SavedRecipe.savedRecipes();
         for (RecipeV2 recipe : bookmarkedRecipes) {
@@ -155,11 +163,12 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     true));
         }
         mDataStore.setSavedGoals(bookmarkedGoals);
-        mDataStore.setSavedGoalState(R.id.state_loaded);
+        mDataStore.setSavedGoalState(new ViewState(
+                R.id.state_loaded, ViewState.OPERATION.RELOAD));
     }
 
     @Override
-    public void subscribeToSavedGoalStateChange(Observer<Integer> observer) {
+    public void subscribeToSavedGoalStateChange(Observer<ViewState> observer) {
         mDataStore.subscribeToSavedGoalStateChanges(observer);
     }
 
@@ -186,7 +195,6 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     .subscribe(new Action1<Integer>() {
                         @Override
                         public void call(Integer pos) {
-                            mDataStore.setGoalState(R.id.state_refreshing);
                             Goal goal = mDataStore.getGoalAtPos(pos);
                             SavedRecipe savedRecipe;
                             if (!goal.isBookmarked()) {
@@ -205,7 +213,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                                     goal.getDescription(),
                                     goal.getImageUrl(),
                                     !goal.isBookmarked()));
-                            mDataStore.setGoalState(R.id.state_loaded);
+                            mDataStore.setGoalState(new ViewState(
+                                    R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
                         }
                     });
         }
@@ -220,7 +229,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     .subscribe(new Action1<Integer>() {
                         @Override
                         public void call(Integer pos) {
-                            mDataStore.setSavedGoalState(R.id.state_refreshing);
+
                             Goal goal = mDataStore.getSavedGoalAtPos(pos);
                             SavedRecipe savedRecipe;
                             if (!goal.isBookmarked()) {
@@ -239,7 +248,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                                     goal.getDescription(),
                                     goal.getImageUrl(),
                                     !goal.isBookmarked()));
-                            mDataStore.setSavedGoalState(R.id.state_loaded);
+                            mDataStore.setSavedGoalState(new ViewState(
+                                    R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
                         }
                     });
         }
