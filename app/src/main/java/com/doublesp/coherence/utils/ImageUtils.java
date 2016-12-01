@@ -1,11 +1,11 @@
 package com.doublesp.coherence.utils;
 
-import android.os.Handler;
-import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.doublesp.coherence.R;
+
+import android.os.Handler;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -35,5 +35,9 @@ public class ImageUtils {
                 rotateImage(handler, imageView, imageUrls, newImageIndex, interveral);
             }
         }, interveral);
+    }
+
+    public static String composeImageUri(String baseUri, String imageUri) {
+        return new StringBuilder(baseUri).append(imageUri).toString();
     }
 }

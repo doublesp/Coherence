@@ -1,16 +1,20 @@
 package com.doublesp.coherence.datastore;
 
-import android.content.Context;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
+import android.content.Context;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Observer;
@@ -25,15 +29,16 @@ import rx.schedulers.Schedulers;
 public class DataStore implements DataStoreInterface {
 
     DataSnapshotStore mSnapshotStore;
-    List<Observer<Integer>> mIdeaStateObservers;
-    List<Observer<Integer>> mSuggestionStateObservers;
-    List<Observer<Integer>> mSavedGoalStateObservers;
-    List<Observer<Integer>> mGoalStateObservers;
+    List<Observer<ViewState>> mIdeaStateObservers;
+    List<Observer<ViewState>> mSuggestionStateObservers;
+    List<Observer<ViewState>> mSavedGoalStateObservers;
+    List<Observer<ViewState>> mGoalStateObservers;
     Plan mPlan;
-    int mIdeaState;
-    int mSuggestionState;
-    int mSavedGoalState;
-    int mGoalState;
+    ViewState mIdeaState;
+    ViewState mSuggestionState;
+    ViewState mSavedGoalState;
+    ViewState mGoalState;
+    Map<String, GoalReducer> mGoalReducers;
     private Context mContext;
 
     public DataStore(Context context) {
@@ -42,33 +47,33 @@ public class DataStore implements DataStoreInterface {
         mSuggestionStateObservers = new ArrayList<>();
         mSavedGoalStateObservers = new ArrayList<>();
         mGoalStateObservers = new ArrayList<>();
-        mIdeaState = R.id.state_idle;
-        mSuggestionState = R.id.state_idle;
-        mSavedGoalState = R.id.state_idle;
-        mGoalState = R.id.state_idle;
+        mIdeaState = new ViewState(R.id.state_idle);
+        mSuggestionState = new ViewState(R.id.state_idle);
+        mSavedGoalState = new ViewState(R.id.state_idle);
+        mGoalState = new ViewState(R.id.state_idle);
         mContext = context;
     }
 
     @Override
-    public void setIdeaState(int state) {
+    public void setIdeaState(ViewState state) {
         mIdeaState = state;
         notifyIdeaStateChange();
     }
 
     @Override
-    public void setSuggestionState(int state) {
+    public void setSuggestionState(ViewState state) {
         mSuggestionState = state;
         notifySuggestionStateChange();
     }
 
     @Override
-    public void setGoalState(int state) {
+    public void setGoalState(ViewState state) {
         mGoalState = state;
         notifyGoalStateChange();
     }
 
     @Override
-    public void setSavedGoalState(int state) {
+    public void setSavedGoalState(ViewState state) {
         mSavedGoalState = state;
         notifySavedGoalStateChange();
     }
@@ -95,16 +100,6 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void clearIdeas() {
         getIdeas().clear();
-    }
-
-    @Override
-    public void updateGoal(int pos, Goal goal) {
-        getGoals().set(pos, goal);
-    }
-
-    @Override
-    public void updateSavedGoal(int pos, Goal goal) {
-        getSavedGoals().set(pos, goal);
     }
 
     @Override
@@ -138,22 +133,22 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void subscribeToIdeaStateChanges(Observer<Integer> observer) {
+    public void subscribeToIdeaStateChanges(Observer<ViewState> observer) {
         mIdeaStateObservers.add(observer);
     }
 
     @Override
-    public void subscribeToSuggestionStateChanges(Observer<Integer> observer) {
+    public void subscribeToSuggestionStateChanges(Observer<ViewState> observer) {
         mSuggestionStateObservers.add(observer);
     }
 
     @Override
-    public void subscribeToGoalStateChanges(Observer<Integer> observer) {
+    public void subscribeToGoalStateChanges(Observer<ViewState> observer) {
         mGoalStateObservers.add(observer);
     }
 
     @Override
-    public void subscribeToSavedGoalStateChanges(Observer<Integer> observer) {
+    public void subscribeToSavedGoalStateChanges(Observer<ViewState> observer) {
         mSavedGoalStateObservers.add(observer);
     }
 
@@ -196,8 +191,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifyIdeaStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(mIdeaState).publish();
-        for (Observer<Integer> observer : mIdeaStateObservers) {
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(mIdeaState).publish();
+        for (Observer<ViewState> observer : mIdeaStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(observer);
@@ -206,9 +201,9 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifySuggestionStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(
                 mSuggestionState).publish();
-        for (Observer<Integer> observer : mSuggestionStateObservers) {
+        for (Observer<ViewState> observer : mSuggestionStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(observer);
@@ -217,9 +212,9 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifySavedGoalStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(
                 mSavedGoalState).publish();
-        for (Observer<Integer> observer : mSavedGoalStateObservers) {
+        for (Observer<ViewState> observer : mSavedGoalStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(observer);
@@ -228,8 +223,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifyGoalStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(mGoalState).publish();
-        for (Observer<Integer> observer : mGoalStateObservers) {
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(mGoalState).publish();
+        for (Observer<ViewState> observer : mGoalStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(observer);
@@ -264,6 +259,11 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setGoals(List<Goal> goals) {
         getGoals().clear();
+        for (Goal goal : goals) {
+            if (!getGoalReducers().containsKey(goal.getId())) {
+                getGoalReducers().put(goal.getId(), new GoalReducer(goal));
+            }
+        }
         getGoals().addAll(goals);
     }
 
@@ -274,6 +274,24 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setSavedGoals(List<Goal> goals) {
         getSavedGoals().clear();
+        for (Goal goal : goals) {
+            if (!getGoalReducers().containsKey(goal.getId())) {
+                getGoalReducers().put(goal.getId(), new GoalReducer(goal));
+            }
+        }
         getSavedGoals().addAll(goals);
     }
+
+    @Override
+    public GoalReducer getGoalReducer(String id) {
+        return getGoalReducers().get(id);
+    }
+
+    private Map<String, GoalReducer> getGoalReducers() {
+        if (mGoalReducers == null) {
+            mGoalReducers = new HashMap();
+        }
+        return mGoalReducers;
+    }
+
 }

@@ -25,7 +25,7 @@ public interface GoalInteractorInterface {
 
     void searchGoalByIdeas(List<Idea> ideas);
 
-    void subscribeToGoalStateChange(Observer<Integer> observer);
+    void subscribeToGoalStateChange(Observer<ViewState> observer);
 
     int getSavedGoalCount();
 
@@ -35,6 +35,6 @@ public interface GoalInteractorInterface {
 
     void loadBookmarkedGoals();
 
-    void subscribeToSavedGoalStateChange(Observer<Integer> observer);
+    void subscribeToSavedGoalStateChange(Observer<ViewState> observer);
 
 }

@@ -17,6 +17,7 @@ import rx.subjects.PublishSubject;
  * Created by pinyaoting on 11/17/16.
  */
 
+@Deprecated
 public class RecipeInteractor extends IdeaInteractorBase {
 
     public static final long RECIPE_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES = 500;
@@ -73,7 +74,6 @@ public class RecipeInteractor extends IdeaInteractorBase {
                     .subscribe(new Action1<String>() {
                         @Override
                         public void call(String s) {
-                            mIdeaDataStore.setIdeaState(R.id.state_refreshing);
                             mRecipeRepository.searchRecipe(s);
                         }
                     });

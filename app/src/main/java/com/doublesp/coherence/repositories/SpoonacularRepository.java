@@ -1,7 +1,5 @@
 package com.doublesp.coherence.repositories;
 
-import android.app.Application;
-
 import com.doublesp.coherence.api.SpoonacularClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
@@ -9,10 +7,13 @@ import com.doublesp.coherence.models.v2.IngredientV2;
 import com.doublesp.coherence.models.v2.RandomRecipeResponseV2;
 import com.doublesp.coherence.models.v2.RecipeResponseV2;
 import com.doublesp.coherence.models.v2.RecipeV2;
+import com.doublesp.coherence.utils.ImageUtils;
 import com.doublesp.coherence.utils.NetworkUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
+
+import android.app.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,12 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             @Override
             public void onNext(RecipeResponseV2 recipeResponse) {
                 mRecipes.clear();
-                mRecipes.addAll(recipeResponse.getProducts());
+                String baseUri = recipeResponse.getBaseUri();
+                List<RecipeV2> recipes = recipeResponse.getResults();
+                for (RecipeV2 recipe : recipes) {
+                    recipe.setImage(ImageUtils.composeImageUri(baseUri, recipe.getImage()));
+                }
+                mRecipes.addAll(recipes);
                 asyncPersistRecipes(mRecipes);
             }
         });

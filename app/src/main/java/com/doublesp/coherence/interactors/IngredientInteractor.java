@@ -3,6 +3,7 @@ package com.doublesp.coherence.interactors;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.models.v2.IngredientV2;
 import com.doublesp.coherence.models.v2.RecipeV2;
 import com.doublesp.coherence.viewmodels.Goal;
@@ -52,7 +53,8 @@ public class IngredientInteractor extends IdeaInteractorBase {
                     suggestions.add(idea);
                 }
                 mIdeaDataStore.setSuggestions(suggestions);
-                mIdeaDataStore.setSuggestionState(R.id.state_loaded);
+                mIdeaDataStore.setSuggestionState(new ViewState(
+                        R.id.state_loaded, ViewState.OPERATION.RELOAD));
             }
 
             @Override
@@ -85,8 +87,12 @@ public class IngredientInteractor extends IdeaInteractorBase {
                     ideas.add(idea);
                     dedupSet.add(ingredient.getName());
                 }
+                mIdeaDataStore.getGoalReducer(mRecipe.getId())
+                        .setDescription(mRecipe.getInstructions());
                 mIdeaDataStore.setIdeas(ideas);
-                mIdeaDataStore.setIdeaState(R.id.state_loaded);
+                mIdeaDataStore.setIdeaState(new ViewState(
+                        R.id.state_loaded, ViewState.OPERATION.RELOAD));
+
             }
 
             @Override
@@ -103,7 +109,8 @@ public class IngredientInteractor extends IdeaInteractorBase {
 
     @Override
     public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
+        mIdeaDataStore.setIdeaState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount()));
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         mIdeaDataStore.removeIdea(pos);
         mIdeaDataStore.addIdea(idea);
@@ -120,13 +127,15 @@ public class IngredientInteractor extends IdeaInteractorBase {
             // TODO: show default suggestions
             return;
         }
-        mIdeaDataStore.setSuggestionState(R.id.state_refreshing);
+        mIdeaDataStore.setSuggestionState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
         searchIngredientsWithDebounce(keyword);
     }
 
     @Override
     public void loadIdeasFromGoal(Goal goal) {
-        mIdeaDataStore.setIdeaState(R.id.state_refreshing);
+        mIdeaDataStore.setIdeaState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
         mRecipeRepository.searchRecipeDetail(goal.getId());
     }
 
@@ -138,9 +147,10 @@ public class IngredientInteractor extends IdeaInteractorBase {
                     .subscribe(new Action1<String>() {
                         @Override
                         public void call(String s) {
-                            mIdeaDataStore.setIdeaState(R.id.state_refreshing);
                             mRecipeRepository.autoCompleteIngredients(s,
                                     INGREDIENT_INTERACTOR_BATCH_SIZE);
+                            mIdeaDataStore.setSuggestionState(new ViewState(
+                                    R.id.state_loaded, ViewState.OPERATION.RELOAD));
                         }
                     });
         }

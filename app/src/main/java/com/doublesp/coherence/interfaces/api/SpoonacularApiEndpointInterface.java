@@ -24,7 +24,7 @@ public interface SpoonacularApiEndpointInterface {
             "X-Mashape-Key: C63FSizlZ6mshv49TJt4OapjoeqOp1nSif7jsnz0CoPVIinGat";
 
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
-    @GET("food/products/search")
+    @GET("recipes/search")
     Observable<RecipeResponseV2> searchRecipe(@Query("query") String keyword,
             @Query("number") int number,
             @Query("offset") int offset);
