@@ -9,8 +9,6 @@ import com.doublesp.coherence.databinding.ItemGoalBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.viewmodels.Goal;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.support.v7.graphics.Palette;
@@ -57,24 +55,33 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
                             if (colorFrom == colorTo) {
                                 return;
                             }
-                            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-                            colorAnimation.setDuration(500);
-                            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-                                @Override
-                                public void onAnimationUpdate(ValueAnimator animator) {
-                                    int color = (int) animator.getAnimatedValue();
+                            // Update the title TextView with the proper text color
+                            binding.tvGoalTitle.setTextColor(colorTo);
+                            binding.tvGoalIndex.setTextColor(colorTo);
 
-                                    // Update the title TextView with the proper text color
-                                    binding.tvGoalTitle.setTextColor(color);
-                                    binding.tvGoalIndex.setTextColor(color);
+                            // Set the background color of a layout based on the vibrant color
+                            binding.tvGoalTitle.setBackgroundTintList(ColorStateList.valueOf(colorTo));
+                            binding.tvGoalIndex.setBackgroundTintList(ColorStateList.valueOf(colorTo));
 
-                                    // Set the background color of a layout based on the vibrant color
-                                    binding.tvGoalTitle.setBackgroundTintList(ColorStateList.valueOf(color));
-                                    binding.tvGoalIndex.setBackgroundTintList(ColorStateList.valueOf(color));
-                                }
-                            });
-                            colorAnimation.start();
+//                            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+//                            colorAnimation.setDuration(500);
+//                            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//
+//                                @Override
+//                                public void onAnimationUpdate(ValueAnimator animator) {
+//                                    int color = (int) animator.getAnimatedValue();
+//
+//                                    // Update the title TextView with the proper text color
+//                                    binding.tvGoalTitle.setTextColor(color);
+//                                    binding.tvGoalIndex.setTextColor(color);
+//
+//                                    // Set the background color of a layout based on the vibrant color
+//                                    binding.tvGoalTitle.setBackgroundTintList(ColorStateList.valueOf(color));
+//                                    binding.tvGoalIndex.setBackgroundTintList(ColorStateList.valueOf(color));
+//                                }
+//                            });
+//                            colorAnimation.start();
                         }
                     }
                 });

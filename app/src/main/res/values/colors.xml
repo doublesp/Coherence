@@ -8,6 +8,7 @@
     <color name="colorText">#000000</color>
     <color name="colorBackground">#000000</color>
     <color name="colorButton">#FFFFFF</color>
+    <color name="colorButtonUnselected">#808080</color>
     <color name="colorIndicator">#FFFFFF</color>
     <color name="colorHint">#BDBDBD</color>
     <color name="colorBorder">#808080</color>

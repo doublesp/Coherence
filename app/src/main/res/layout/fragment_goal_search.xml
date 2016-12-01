@@ -30,19 +30,32 @@
                 android:layout_gravity="bottom"
                 android:gravity="center"
                 android:hint="@string/idea_hint_search"
+                android:visibility="invisible"
                 android:maxLines="1"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/multiple_actions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right|end"
                 android:layout_margin="16dp"
-                android:onClick="onBookmarkClick"
-                android:src="@drawable/ic_bookmark"
-                android:tint="@color/colorButton"
                 app:fabSize="normal"
+                app:fab_addButtonColorNormal="@color/colorAccent"
+                app:fab_addButtonColorPressed="@color/colorAccent"
+                app:fab_labelStyle="@style/menu_labels_style"
                 app:layout_anchor="@id/rvIdeaSearchResults"
-                app:layout_anchorGravity="bottom|right|end"/>
+                app:layout_anchorGravity="bottom|right|end">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onBookmarkClick"
+                    android:src="@drawable/ic_bookmark"
+                    android:tint="@color/colorButton"
+                    app:fab_colorNormal="@color/colorAccent"
+                    app:fab_title="@string/share_list"/>
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </FrameLayout>
 </layout>
