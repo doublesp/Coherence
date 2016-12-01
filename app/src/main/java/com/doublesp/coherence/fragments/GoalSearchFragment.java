@@ -1,14 +1,7 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
-import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.utils.AnimationUtils;
-import com.doublesp.coherence.viewmodels.Plan;
-
-import org.parceler.Parcels;
+import static com.doublesp.coherence.fragments.ListCompositionFragment
+        .LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -24,10 +17,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.utils.AnimationUtils;
+import com.doublesp.coherence.viewmodels.Plan;
+
+import org.parceler.Parcels;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
 public class GoalSearchFragment extends DialogFragment {
 
@@ -79,7 +80,7 @@ public class GoalSearchFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_goal_search, container, false);
         binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));

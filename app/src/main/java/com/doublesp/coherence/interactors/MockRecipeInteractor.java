@@ -18,7 +18,7 @@ import java.util.List;
 public class MockRecipeInteractor extends RecipeInteractor {
 
     public MockRecipeInteractor(DataStoreInterface ideaDataStore,
-                                RecipeRepositoryInterface recipeRepository) {
+            RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore, recipeRepository);
     }
 

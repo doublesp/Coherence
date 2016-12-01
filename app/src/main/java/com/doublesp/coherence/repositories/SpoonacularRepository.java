@@ -1,5 +1,7 @@
 package com.doublesp.coherence.repositories;
 
+import android.app.Application;
+
 import com.doublesp.coherence.api.SpoonacularClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
@@ -11,8 +13,6 @@ import com.doublesp.coherence.utils.NetworkUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
-
-import android.app.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +105,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         });
         getClient().subscribeRecipeDetail(new Observer<RecipeV2>() {
             RecipeV2 mRecipe = null;
+
             @Override
             public void onCompleted() {
                 notifyAllDetailObservers(mRecipe);
@@ -125,6 +126,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         });
         getClient().subscribeAutoCompleteIngredient(new Observer<List<IngredientV2>>() {
             List<IngredientV2> mIngredients = new ArrayList<IngredientV2>();
+
             @Override
             public void onCompleted() {
                 notifyAllAutoCompleteIngredientObservers(mIngredients);
@@ -143,6 +145,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         });
         getClient().subscribeAutoCompleteRecipe(new Observer<List<RecipeV2>>() {
             List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+
             @Override
             public void onCompleted() {
                 notifyAllAutoCompleteRecipeObservers(mRecipes);
@@ -292,7 +295,8 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
                             public void processModel(RecipeV2 recipe) {
                                 recipe.save();
                                 if (recipe.getExtendedIngredients() != null) {
-                                    for (IngredientV2 ingredient : recipe.getExtendedIngredients()) {
+                                    for (IngredientV2 ingredient : recipe.getExtendedIngredients
+                                            ()) {
                                         // TODO: save object relation
                                         ingredient.save();
                                     }

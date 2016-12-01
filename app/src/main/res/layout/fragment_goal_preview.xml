@@ -1,21 +1,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface"/>
+            type="com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface" />
 
         <variable
             name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Goal"/>
+            type="com.doublesp.coherence.viewmodels.Goal" />
     </data>
 
     <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 tools:context="com.doublesp.coherence.fragments.GoalPreviewFragment">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.doublesp.coherence.fragments.GoalPreviewFragment">
 
         <ImageView
             android:id="@+id/ivIdeaBackgroundImage"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:imageUrl='@{viewModel.imageUrl}'
-            tools:src="@drawable/background_0"/>
+            tools:src="@drawable/background_0" />
 
         <LinearLayout
             android:id="@+id/llIdeaDescriptionBox"
@@ -43,7 +43,7 @@
                 android:text='@{viewModel.title}'
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/colorButton"
-                tools:text="Grilled Deviled Chickens"/>
+                tools:text="Grilled Deviled Chickens" />
 
             <TextView
                 android:id="@+id/tvOverview"
@@ -60,7 +60,7 @@
 1 tablespoon finely chopped fresh thyme
 1 tablespoon finely chopped fresh rosemary
 1/2 cup olive oil
-Salt, to taste"/>
+Salt, to taste" />
 
         </LinearLayout>
 
@@ -73,7 +73,7 @@ Salt, to taste"/>
             android:src="@drawable/ic_create"
             android:tint="@color/colorButton"
             app:backgroundTint="@color/colorAccent"
-            app:fabSize="normal"/>
+            app:fabSize="normal" />
 
     </FrameLayout>
 </layout>

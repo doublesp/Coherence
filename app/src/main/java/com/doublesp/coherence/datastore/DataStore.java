@@ -1,5 +1,7 @@
 package com.doublesp.coherence.datastore;
 
+import android.content.Context;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
@@ -7,11 +9,7 @@ import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
-import android.content.Context;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
@@ -81,12 +79,6 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void setIdeas(List<Idea> ideas) {
-        getIdeas().clear();
-        getIdeas().addAll(ideas);
-    }
-
-    @Override
     public void updateIdea(int pos, Idea idea) {
         if (pos == getIdeas().size()) {
             getIdeas().add(idea);
@@ -103,24 +95,6 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void clearIdeas() {
         getIdeas().clear();
-    }
-
-    @Override
-    public void setSuggestions(List<Idea> ideas) {
-        getSuggestions().clear();
-        getSuggestions().addAll(ideas);
-    }
-
-    @Override
-    public void setGoals(List<Goal> goals) {
-        getGoals().clear();
-        getGoals().addAll(goals);
-    }
-
-    @Override
-    public void setSavedGoals(List<Goal> goals) {
-        getSavedGoals().clear();
-        getSavedGoals().addAll(goals);
     }
 
     @Override
@@ -209,15 +183,16 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        mPlan = new Plan(id, getIdeas(), defaultTitle(), ConstantsAndUtils.getOwner(mContext));
-        return mPlan;
-    }
-
-    @Override
     public void setPlan(Plan plan) {
         mPlan = plan;
         mSnapshotStore.setIdeas(mPlan.getIdeas());
+    }
+
+    @Override
+    public Plan createPlan(String id) {
+        mPlan = new Plan(id, getIdeas(), ConstantsAndUtils.getDefaultTitle(mContext),
+                ConstantsAndUtils.getOwner(mContext));
+        return mPlan;
     }
 
     private void notifyIdeaStateChange() {
@@ -231,7 +206,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifySuggestionStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(mSuggestionState).publish();
+        ConnectableObservable<Integer> connectedObservable = Observable.just(
+                mSuggestionState).publish();
         for (Observer<Integer> observer : mSuggestionStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -241,7 +217,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifySavedGoalStateChange() {
-        ConnectableObservable<Integer> connectedObservable = Observable.just(mSavedGoalState).publish();
+        ConnectableObservable<Integer> connectedObservable = Observable.just(
+                mSavedGoalState).publish();
         for (Observer<Integer> observer : mSavedGoalStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -264,25 +241,39 @@ public class DataStore implements DataStoreInterface {
         return mSnapshotStore.getIdeas();
     }
 
+    @Override
+    public void setIdeas(List<Idea> ideas) {
+        getIdeas().clear();
+        getIdeas().addAll(ideas);
+    }
+
     private List<Idea> getSuggestions() {
         return mSnapshotStore.getSuggestions();
+    }
+
+    @Override
+    public void setSuggestions(List<Idea> ideas) {
+        getSuggestions().clear();
+        getSuggestions().addAll(ideas);
     }
 
     private List<Goal> getGoals() {
         return mSnapshotStore.getGoals();
     }
 
+    @Override
+    public void setGoals(List<Goal> goals) {
+        getGoals().clear();
+        getGoals().addAll(goals);
+    }
+
     private List<Goal> getSavedGoals() {
         return mSnapshotStore.getSavedGoals();
     }
 
-    private String defaultTitle() {
-        // TODO: allow user to name the plan
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
-        StringBuilder titleBuilder =  new StringBuilder(mContext.getString(R.string.default_idea_prefix));
-        titleBuilder.append(" ");
-        titleBuilder.append(formatter.format(calendar.getTime()));
-        return titleBuilder.toString();
+    @Override
+    public void setSavedGoals(List<Goal> goals) {
+        getSavedGoals().clear();
+        getSavedGoals().addAll(goals);
     }
 }
