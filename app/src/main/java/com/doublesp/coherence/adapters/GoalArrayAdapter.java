@@ -31,38 +31,45 @@ public class GoalArrayAdapter
         mInteractor = interactor;
         mActionHandler = actionHandler;
         mInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {
-            ViewState mState;
-
             @Override
             public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(ViewState state) {
+
                 int start;
                 int count;
-                switch (mState.getState()) {
+                switch (state.getState()) {
                     case R.id.state_refreshing:
                         // TODO: reflect pending state on UI
                         break;
                     case R.id.state_loaded:
-                        switch (mState.getOperation()) {
+                        switch (state.getOperation()) {
                             case RELOAD:
                                 notifyDataSetChanged();
                                 break;
                             case ADD:
-                                start = mState.getStart();
+                                start = state.getStart();
                                 notifyItemInserted(start);
                                 break;
                             case INSERT:
-                                start = mState.getStart();
-                                count = mState.getCount();
+                                start = state.getStart();
+                                count = state.getCount();
                                 notifyItemRangeInserted(start, count);
                                 break;
                             case UPDATE:
-                                start = mState.getStart();
-                                count = mState.getCount();
+                                start = state.getStart();
+                                count = state.getCount();
                                 notifyItemRangeChanged(start, count);
                                 break;
                             case REMOVE:
-                                start = mState.getStart();
-                                count = mState.getCount();
+                                start = state.getStart();
+                                count = state.getCount();
                                 notifyItemRangeRemoved(start, count);
                                 break;
                             case CLEAR:
@@ -71,16 +78,6 @@ public class GoalArrayAdapter
                         }
                         break;
                 }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(ViewState state) {
-                mState = state;
             }
         });
     }

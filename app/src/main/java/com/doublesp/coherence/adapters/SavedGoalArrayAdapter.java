@@ -30,10 +30,19 @@ public class SavedGoalArrayAdapter extends RecyclerView.Adapter {
         mInteractor = interactor;
         mActionHandler = actionHandler;
         mInteractor.subscribeToSavedGoalStateChange(new Observer<ViewState>() {
-            ViewState mState;
 
             @Override
             public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ViewState mState) {
                 int start;
                 int count;
                 switch (mState.getState()) {
@@ -70,16 +79,6 @@ public class SavedGoalArrayAdapter extends RecyclerView.Adapter {
                         }
                         break;
                 }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(ViewState state) {
-                mState = state;
             }
         });
     }

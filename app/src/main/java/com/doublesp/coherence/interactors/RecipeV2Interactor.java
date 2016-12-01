@@ -207,12 +207,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                                     savedRecipe.delete();
                                 }
                             }
-                            mDataStore.updateGoal(pos, new Goal(
-                                    goal.getId(),
-                                    goal.getTitle(),
-                                    goal.getDescription(),
-                                    goal.getImageUrl(),
-                                    !goal.isBookmarked()));
+                            mDataStore.getGoalReducer(
+                                    goal.getId()).setBookmarked(!goal.isBookmarked());
                             mDataStore.setGoalState(new ViewState(
                                     R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
                         }
@@ -229,7 +225,6 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     .subscribe(new Action1<Integer>() {
                         @Override
                         public void call(Integer pos) {
-
                             Goal goal = mDataStore.getSavedGoalAtPos(pos);
                             SavedRecipe savedRecipe;
                             if (!goal.isBookmarked()) {
@@ -242,12 +237,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                                     savedRecipe.delete();
                                 }
                             }
-                            mDataStore.updateSavedGoal(pos, new Goal(
-                                    goal.getId(),
-                                    goal.getTitle(),
-                                    goal.getDescription(),
-                                    goal.getImageUrl(),
-                                    !goal.isBookmarked()));
+                            mDataStore.getGoalReducer(
+                                    goal.getId()).setBookmarked(!goal.isBookmarked());
                             mDataStore.setSavedGoalState(new ViewState(
                                     R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
                         }

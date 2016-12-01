@@ -1,11 +1,7 @@
 package com.doublesp.coherence.adapters;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -17,12 +13,17 @@ import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
 import rx.Observer;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/12/16.
@@ -50,44 +51,51 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                 ConstantsAndUtils.SHOPPING_LISTS);
 
         mIdeaInteractor.subscribeIdeaStateChange(new Observer<ViewState>() {
-            ViewState mState;
-
             @Override
             public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(ViewState state) {
+
                 int start;
                 int count;
-                switch (mState.getState()) {
+                switch (state.getState()) {
                     case R.id.state_refreshing:
                         // TODO: reflect pending state on UI, maybe grey out the
                         // row and show a loding icon
                         break;
                     case R.id.state_loaded:
-                        switch (mState.getOperation()) {
+                        switch (state.getOperation()) {
                             case RELOAD:
                                 notifyDataSetChanged();
                                 saveToFireBase();
                                 break;
                             case ADD:
-                                start = mState.getStart();
+                                start = state.getStart();
                                 count = 1;
                                 notifyItemInserted(start);
                                 saveNewItemsToFireBase(start, count);
                                 break;
                             case INSERT:
-                                start = mState.getStart();
-                                count = mState.getCount();
+                                start = state.getStart();
+                                count = state.getCount();
                                 notifyItemRangeInserted(start, count);
                                 saveNewItemsToFireBase(start, count);
                                 break;
                             case UPDATE:
-                                start = mState.getStart();
-                                count = mState.getCount();
+                                start = state.getStart();
+                                count = state.getCount();
                                 notifyItemRangeChanged(start, count);
                                 saveItemsToFireBase(start, count);
                                 break;
                             case REMOVE:
-                                start = mState.getStart();
-                                count = mState.getCount();
+                                start = state.getStart();
+                                count = state.getCount();
                                 notifyItemRangeRemoved(start, count);
                                 saveToFireBase();
                                 break;
@@ -97,16 +105,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                         }
                         break;
                 }
-            }
 
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(ViewState state) {
-                mState = state;
             }
         });
     }

@@ -2,6 +2,7 @@ package com.doublesp.coherence.interfaces.domain;
 
 import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
@@ -39,9 +40,7 @@ public interface DataStoreInterface {
 
     void setSavedGoals(List<Goal> goals);
 
-    void updateGoal(int pos, Goal goal);
-
-    void updateSavedGoal(int pos, Goal goal);
+    GoalReducer getGoalReducer(String id);
 
     void clearSuggestions();
 

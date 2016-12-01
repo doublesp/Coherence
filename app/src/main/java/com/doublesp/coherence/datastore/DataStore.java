@@ -1,17 +1,20 @@
 package com.doublesp.coherence.datastore;
 
-import android.content.Context;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
+import android.content.Context;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Observer;
@@ -35,6 +38,7 @@ public class DataStore implements DataStoreInterface {
     ViewState mSuggestionState;
     ViewState mSavedGoalState;
     ViewState mGoalState;
+    Map<String, GoalReducer> mGoalReducers;
     private Context mContext;
 
     public DataStore(Context context) {
@@ -96,16 +100,6 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void clearIdeas() {
         getIdeas().clear();
-    }
-
-    @Override
-    public void updateGoal(int pos, Goal goal) {
-        getGoals().set(pos, goal);
-    }
-
-    @Override
-    public void updateSavedGoal(int pos, Goal goal) {
-        getSavedGoals().set(pos, goal);
     }
 
     @Override
@@ -265,6 +259,11 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setGoals(List<Goal> goals) {
         getGoals().clear();
+        for (Goal goal : goals) {
+            if (!getGoalReducers().containsKey(goal.getId())) {
+                getGoalReducers().put(goal.getId(), new GoalReducer(goal));
+            }
+        }
         getGoals().addAll(goals);
     }
 
@@ -275,6 +274,24 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setSavedGoals(List<Goal> goals) {
         getSavedGoals().clear();
+        for (Goal goal : goals) {
+            if (!getGoalReducers().containsKey(goal.getId())) {
+                getGoalReducers().put(goal.getId(), new GoalReducer(goal));
+            }
+        }
         getSavedGoals().addAll(goals);
     }
+
+    @Override
+    public GoalReducer getGoalReducer(String id) {
+        return getGoalReducers().get(id);
+    }
+
+    private Map<String, GoalReducer> getGoalReducers() {
+        if (mGoalReducers == null) {
+            mGoalReducers = new HashMap();
+        }
+        return mGoalReducers;
+    }
+
 }

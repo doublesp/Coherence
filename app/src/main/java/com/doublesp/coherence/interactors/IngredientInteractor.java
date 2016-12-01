@@ -87,6 +87,8 @@ public class IngredientInteractor extends IdeaInteractorBase {
                     ideas.add(idea);
                     dedupSet.add(ingredient.getName());
                 }
+                mIdeaDataStore.getGoalReducer(mRecipe.getId())
+                        .setDescription(mRecipe.getInstructions());
                 mIdeaDataStore.setIdeas(ideas);
                 mIdeaDataStore.setIdeaState(new ViewState(
                         R.id.state_loaded, ViewState.OPERATION.RELOAD));
