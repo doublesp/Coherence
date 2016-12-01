@@ -27,11 +27,11 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public void addIdea(String content) {
         mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount()));
+                R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount() - 1));
         mIdeaDataStore.addIdea(
                 new Idea("", getCategory(), content, false, R.id.idea_type_user_generated, null));
         mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount()));
+                R.id.state_loaded, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount() - 1));
     }
 
     @Override

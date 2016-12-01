@@ -1,11 +1,7 @@
 package com.doublesp.coherence.adapters;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -17,12 +13,17 @@ import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
 import rx.Observer;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/12/16.
@@ -173,7 +174,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     private void saveNewItemsToFireBase(int start, int count) {
         Plan plan = mIdeaInteractor.getPlan();
         for (int i = 0; i < count; i++) {
-            int pos = start + count - 2;
+            int pos = start + count - 1;
             Idea newIdea = mIdeaInteractor.getIdeaAtPos(pos);
             mShoppingListDatabaseReference.child(plan.getId()).child(
                     ConstantsAndUtils.IDEAS).child(String.valueOf(pos)).setValue(newIdea);
