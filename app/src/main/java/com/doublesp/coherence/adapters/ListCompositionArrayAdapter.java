@@ -91,7 +91,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                                 start = state.getStart();
                                 count = state.getCount();
                                 notifyItemRangeChanged(start, count);
-                                saveItemsToFireBase(start, count);
+                                updateItemInFireBase(start, count);
                                 break;
                             case REMOVE:
                                 start = state.getStart();
@@ -161,13 +161,13 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                 ideaList);
     }
 
-    private void saveItemsToFireBase(int start, int count) {
+    private void updateItemInFireBase(int start, int count) {
         Plan plan = mIdeaInteractor.getPlan();
         for (int i = 0; i < count; i++) {
             int pos = start + count - 1;
             Idea updatedIdea = mIdeaInteractor.getIdeaAtPos(pos);
-//            mShoppingListDatabaseReference.child(mIdeaInteractor.getPlan().getId()).child(
-//                    ConstantsAndUtils.IDEAS).child(String.valueOf(pos)).setValue(updatedIdea);
+            mShoppingListDatabaseReference.child(plan.getId()).child(ConstantsAndUtils.IDEAS)
+                    .child(String.valueOf(pos)).setValue(updatedIdea);
         }
     }
 
@@ -176,7 +176,8 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         for (int i = 0; i < count; i++) {
             int pos = start + count - 1;
             Idea newIdea = mIdeaInteractor.getIdeaAtPos(pos);
-            // TODO: save new item to FireBase
+            mShoppingListDatabaseReference.child(plan.getId()).child(
+                    ConstantsAndUtils.IDEAS).child(String.valueOf(pos)).setValue(newIdea);
         }
     }
 }
