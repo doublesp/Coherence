@@ -4,7 +4,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.ItemGoalBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.viewmodels.Goal;
@@ -91,9 +90,7 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
         Glide.with(binding.ivGoalImage.getContext())
                 .load(viewModel.getImageUrl())
                 .asBitmap()
-                .animate(R.anim.abc_fade_in)
                 .fitCenter()
-                .placeholder(R.drawable.background_3)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(target);
     }

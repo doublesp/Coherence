@@ -29,10 +29,11 @@ import android.view.WindowManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
-
 public class GoalSearchFragment extends DialogFragment {
 
+    static final long GOAL_SEARCH_FRAGMENT_FADEIN_DURATION = 250L;
+    static final long GOAL_SEARCH_FRAGMENT_FADEOUT_DURATION = 250L;
+    static final long GOAL_SEARCH_FRAGMENT_DELAY_DURATION = 3000L;
     static final String GOAL_SEARCH_FRAGMENT_VIEW_MODEL = "GOAL_SEARCH_FRAGMENT_VIEW_MODEL";
     FragmentGoalSearchBinding binding;
     int[] mBackgroundImageIds;
@@ -141,6 +142,7 @@ public class GoalSearchFragment extends DialogFragment {
     }
 
     void rotateImage() {
+        // TODO: replace the image with actual recipes
         binding.ivIdeaSearchBackground.setImageResource(
                 mBackgroundImageIds[mBackgroundImageIndex]);
 
@@ -148,11 +150,11 @@ public class GoalSearchFragment extends DialogFragment {
                 binding.ivIdeaSearchBackground, "alpha", 0f, 1f);
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
                 binding.ivIdeaSearchBackground, "alpha", 1f, 0f);
-        fadeIn.setDuration(LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL / 2);
-        fadeOut.setDuration(LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL / 2);
+        fadeIn.setDuration(GOAL_SEARCH_FRAGMENT_FADEIN_DURATION);
+        fadeOut.setDuration(GOAL_SEARCH_FRAGMENT_FADEOUT_DURATION);
 
         mAnimatorSet = new AnimatorSet();
-        mAnimatorSet.play(fadeIn).before(fadeOut);
+        mAnimatorSet.play(fadeOut).after(GOAL_SEARCH_FRAGMENT_DELAY_DURATION).after(fadeIn);
 
         mAnimatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
