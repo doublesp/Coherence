@@ -24,6 +24,7 @@ import com.doublesp.coherence.fragments.SavedIdeasFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.service.NotificationService;
@@ -60,6 +61,9 @@ import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
 
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.CREATE_LIST;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     static final String IDEA_SEARCH_RESULT_FRAGMENT = "IDEA_SEARCH_RESULT_FRAGMENT";
     ActivityMainBinding binding;
     MainActivitySubComponent mActivityComponent;
+    @Inject
+    GoalInteractorInterface mGoalInteractor;
     @Inject
     IdeaInteractorInterface mIdeaInteractor;
     private FirebaseDatabase mFirebaseDatabase;
@@ -310,11 +316,18 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // TODO: perform query here
-                int currentItem = binding.viewpager.getCurrentItem();
+                int currentViewPagerIndex = binding.viewpager.getCurrentItem();
+                switch (currentViewPagerIndex) {
+                    case SEARCH_GOAL:
+                        mGoalInteractor.search(query);
+                        break;
+                    case CREATE_LIST:
+                        break;
+                    case SAVED_IDEAS:
+                        break;
+                }
 
-
-                // workaround to avoid issues with some emulators and keyboard devices
+                // WORKAROUND: to avoid issues with some emulators and keyboard devices
                 // firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();

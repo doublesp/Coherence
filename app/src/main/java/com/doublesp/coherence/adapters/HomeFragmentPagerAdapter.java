@@ -15,6 +15,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
+    public static final int SEARCH_GOAL = 0;
+    public static final int CREATE_LIST = 1;
+    public static final int SAVED_IDEAS = 2;
+
     private String tabTitles[] = new String[]{"Explore Recipes", "Create Grocery List", "Saved Ideas"};
     private Context mContext;
     private GoalSearchFragment mGoalSearchFragment;
@@ -29,15 +33,17 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0:
+            case SEARCH_GOAL:
                 mGoalSearchFragment = GoalSearchFragment.newInstance();
                 return mGoalSearchFragment;
-            case 1:
+            case CREATE_LIST:
                 mListCompositionFragment = ListCompositionFragment.newInstance();
                 return mListCompositionFragment;
-            default:
+            case SAVED_IDEAS:
                 mSavedIdeasFragment = SavedIdeasFragment.newInstance();
                 return mSavedIdeasFragment;
+            default:
+                return null;
         }
     }
 
