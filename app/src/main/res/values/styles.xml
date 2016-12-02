@@ -37,11 +37,11 @@
         <!-- Tints the input fields like checkboxes and text fields -->
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Applies to views in their normal state. -->
-        <item name="colorControlNormal">@color/colorButton</item>
+        <item name="colorControlNormal">@color/colorWhiteOverlay</item>
         <!-- Applies to views in their activated state (i.e checked or switches) -->
-        <item name="colorControlActivated">@color/colorButton</item>
+        <item name="colorControlActivated">@color/colorWhiteOverlay</item>
         <!-- Applied to framework control highlights (i.e ripples or list selectors) -->
-        <item name="colorControlHighlight">@color/colorButton</item>
+        <item name="colorControlHighlight">@color/colorWhiteOverlay</item>
 
         <!-- Enable these below if you want clicking icons to trigger a ripple effect -->
         <item name="selectableItemBackground">?android:selectableItemBackground</item>

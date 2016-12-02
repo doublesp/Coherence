@@ -22,7 +22,8 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            tools:background="@color/colorBackground">
 
         <TextView
                 android:id="@+id/tvGoalIndex"
@@ -48,7 +49,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/background_3"/>
 
-        <TextView
+        <Button
                 android:id="@+id/tvGoalTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,9 +58,11 @@
                 android:maxLines="2"
                 android:text='@{viewModel.title}'
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:backgroundTint="@color/colorText"
+                android:background="@android:color/transparent"
                 android:textColor="@color/colorText"
-                tools:text="Perperoni Pizza"/>
+                android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
+                tools:text="Perperoni Pizza"
+                />
 
     </LinearLayout>
 

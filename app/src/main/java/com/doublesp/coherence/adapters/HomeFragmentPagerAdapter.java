@@ -1,12 +1,13 @@
 package com.doublesp.coherence.adapters;
 
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 /**
  * Created by pinyaoting on 11/16/16.
@@ -14,8 +15,11 @@ import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private String tabTitles[] = new String[]{"Explore Recipes", "Saved Ideas"};
+    private String tabTitles[] = new String[]{"Explore Recipes", "Create Grocery List", "Saved Ideas"};
     private Context mContext;
+    private GoalSearchFragment mGoalSearchFragment;
+    private ListCompositionFragment mListCompositionFragment;
+    private SavedIdeasFragment mSavedIdeasFragment;
 
     public HomeFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -26,9 +30,14 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return GoalSearchFragment.newInstance();
+                mGoalSearchFragment = GoalSearchFragment.newInstance();
+                return mGoalSearchFragment;
+            case 1:
+                mListCompositionFragment = ListCompositionFragment.newInstance();
+                return mListCompositionFragment;
             default:
-                return SavedIdeasFragment.newInstance();
+                mSavedIdeasFragment = SavedIdeasFragment.newInstance();
+                return mSavedIdeasFragment;
         }
     }
 

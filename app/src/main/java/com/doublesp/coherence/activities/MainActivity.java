@@ -44,7 +44,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -94,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
         binding.tabs.setupWithViewPager(binding.viewpager);
         TabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
-        setupTab();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -299,8 +300,34 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // TODO: perform query here
+                int currentItem = binding.viewpager.getCurrentItem();
+
+
+                // workaround to avoid issues with some emulators and keyboard devices
+                // firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
 
@@ -354,13 +381,4 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         showListCompositionDialog(listId);
     }
 
-    private void setupTab() {
-        // WORKAROUND: by default the tab indicator is not properly high-lighted, so
-        // here we manually pull the trigger.
-        binding.viewpager.setCurrentItem(1);
-        if (binding.viewpager.getCurrentItem() == 1) {
-            binding.viewpager.setCurrentItem(0);
-        }
-
-    }
 }

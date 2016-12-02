@@ -156,14 +156,10 @@ public class ListCompositionFragment extends DialogFragment {
 
     @Override
     public void onResume() {
+        if (getDialog() != null) {
+            updateLayoutParams();
+        }
         binding.multipleActions.collapse();
-        // Get existing layout params for the window
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        // Assign window properties to fill the parent
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-        // Call super onResume after sizing
         super.onResume();
     }
 
@@ -197,4 +193,12 @@ public class ListCompositionFragment extends DialogFragment {
         }, LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL);
     }
 
+    private void updateLayoutParams() {
+        // Get existing layout params for the window
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
 }

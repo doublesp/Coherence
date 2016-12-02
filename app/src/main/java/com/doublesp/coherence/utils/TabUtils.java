@@ -40,8 +40,24 @@ public class TabUtils {
                 }
         );
 
-        layout.getTabAt(0).setIcon(R.drawable.ic_shopping_cart);
-        layout.getTabAt(1).setIcon(R.drawable.ic_library_books);
+        setupTabs(context, layout);
     }
 
+    private static void setupTabs(Context context, final TabLayout layout) {
+        int selectedTabIconColor = ContextCompat.getColor(context, R.color.colorButton);
+        int tabIconColor = ContextCompat.getColor(context, R.color.colorButtonUnselected);
+        TabLayout.Tab tab;
+
+        tab = layout.getTabAt(0);
+        tab.setIcon(R.drawable.ic_shopping_cart);
+        tab.getIcon().setColorFilter(selectedTabIconColor, PorterDuff.Mode.SRC_IN);
+
+        tab = layout.getTabAt(1);
+        tab.setIcon(R.drawable.ic_create);
+        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+
+        tab = layout.getTabAt(2);
+        tab.setIcon(R.drawable.ic_library_books);
+        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+    }
 }
