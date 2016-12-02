@@ -16,6 +16,7 @@
     <color name="colorOverlay">#80000000</color>
     <color name="colorOverlayLight">#60000000</color>
     <color name="colorWhiteOverlay">#AAFFFFFF</color>
+    <color name="colorActionBarTitle">#FFFFFF</color>
     <color name="colorUp">#FF4081</color>
     <color name="colorRight">#FBC02D</color>
     <color name="colorDown">#64FFDA</color>
