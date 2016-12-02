@@ -10,6 +10,18 @@
             android:theme="@style/ToolbarTheme"
             android:background="@drawable/grey_gradient"
             app:popupTheme="@style/PopupMenuTheme"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways">
 
+        <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/colorText"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:textSize="@dimen/action_bar_text_size_xxxl"
+                android:layout_gravity="left"
+                />
+
+    </android.support.v7.widget.Toolbar>
 </layout>
