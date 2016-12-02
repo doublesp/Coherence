@@ -34,8 +34,8 @@
                 android:text='@{Integer.toString(pos+1)}'
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:background="@drawable/ic_panorama_fish_eye"
-                android:backgroundTint="@color/colorButton"
-                android:textColor="@color/colorButton"
+                android:backgroundTint="@color/colorText"
+                android:textColor="@color/colorText"
                 tools:text="1"/>
 
         <ImageButton
@@ -57,8 +57,8 @@
                 android:maxLines="2"
                 android:text='@{viewModel.title}'
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:backgroundTint="@color/colorButton"
-                android:textColor="@color/colorButton"
+                android:backgroundTint="@color/colorText"
+                android:textColor="@color/colorText"
                 tools:text="Perperoni Pizza"/>
 
     </LinearLayout>
