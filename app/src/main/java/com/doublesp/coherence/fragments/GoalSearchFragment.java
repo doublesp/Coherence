@@ -5,14 +5,11 @@ import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.utils.ImageUtils;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -36,9 +33,6 @@ public class GoalSearchFragment extends DialogFragment {
     static final long GOAL_SEARCH_FRAGMENT_DELAY_DURATION = 3000L;
     static final String GOAL_SEARCH_FRAGMENT_VIEW_MODEL = "GOAL_SEARCH_FRAGMENT_VIEW_MODEL";
     FragmentGoalSearchBinding binding;
-    int[] mBackgroundImageIds;
-    int mBackgroundImageIndex;
-    AnimatorSet mAnimatorSet;
     @Inject
     @Named("GoalAction")
     GoalActionHandlerInterface mActionHandler;
@@ -77,7 +71,6 @@ public class GoalSearchFragment extends DialogFragment {
             } else {
                 mGoalInteractor.search(null);
             }
-            setupBackgroundImageId();
         }
     }
 
@@ -86,8 +79,21 @@ public class GoalSearchFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_goal_search, container, false);
+
         binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeaSearchResults.setAdapter(mAdapter);
+        binding.rvIdeaSearchResults.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int scrollY = binding.rvIdeaSearchResults.computeVerticalScrollOffset();
+                float min = -getResources().getDimension(
+                        R.dimen.fragment_goal_search_background_padding_top);
+                float max = 0;
+                binding.flGoalSearchBackground.setTranslationY(
+                        Math.min(max, Math.max(min, -scrollY)));
+            }
+        });
         binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -104,7 +110,7 @@ public class GoalSearchFragment extends DialogFragment {
                 mActionHandler.afterTextChanged(editable);
             }
         });
-        rotateImage();
+        ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
         return binding.getRoot();
     }
 
@@ -129,44 +135,6 @@ public class GoalSearchFragment extends DialogFragment {
     public void onDetach() {
         super.onDetach();
         mGoalInteractor.clearGoal();
-    }
-
-    void setupBackgroundImageId() {
-        mBackgroundImageIds = new int[5];
-        mBackgroundImageIds[0] = R.drawable.background_0;
-        mBackgroundImageIds[1] = R.drawable.background_1;
-        mBackgroundImageIds[2] = R.drawable.background_2;
-        mBackgroundImageIds[3] = R.drawable.background_3;
-        mBackgroundImageIds[4] = R.drawable.background_4;
-        mBackgroundImageIndex = 0;
-    }
-
-    void rotateImage() {
-        // TODO: replace the image with actual recipes
-        binding.ivIdeaSearchBackground.setImageResource(
-                mBackgroundImageIds[mBackgroundImageIndex]);
-
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(
-                binding.ivIdeaSearchBackground, "alpha", 0f, 1f);
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
-                binding.ivIdeaSearchBackground, "alpha", 1f, 0f);
-        fadeIn.setDuration(GOAL_SEARCH_FRAGMENT_FADEIN_DURATION);
-        fadeOut.setDuration(GOAL_SEARCH_FRAGMENT_FADEOUT_DURATION);
-
-        mAnimatorSet = new AnimatorSet();
-        mAnimatorSet.play(fadeOut).after(GOAL_SEARCH_FRAGMENT_DELAY_DURATION).after(fadeIn);
-
-        mAnimatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mBackgroundImageIndex = (mBackgroundImageIndex + 1) % mBackgroundImageIds.length;
-                binding.ivIdeaSearchBackground.setImageResource(
-                        mBackgroundImageIds[mBackgroundImageIndex]);
-                super.onAnimationEnd(animation);
-                mAnimatorSet.start();
-            }
-        });
-        mAnimatorSet.start();
     }
 
     private void updateLayoutParams() {

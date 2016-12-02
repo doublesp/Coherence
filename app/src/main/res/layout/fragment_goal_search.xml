@@ -10,9 +10,16 @@
         <ImageView
                 android:id="@+id/ivIdeaSearchBackground"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/fragment_goal_search_padding_top"
+                android:layout_height="@dimen/big_top_height"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/background_0"/>
+
+        <FrameLayout
+                android:id="@+id/flGoalSearchBackground"
+                android:layout_marginTop="@dimen/fragment_goal_search_background_padding_top"
+                android:layout_width="match_parent"
+                android:layout_height="800dp"
+                android:background="@color/colorBackground" />
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvIdeaSearchResults"

@@ -6,7 +6,8 @@
     <color name="colorSecondary">#FF8A80</color>
     <color name="colorLightPrimary">#F8F8F8</color>
     <color name="colorText">#000000</color>
-    <color name="colorBackground">#000000</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorCardBackground">#FFFFFF</color>
     <color name="colorButton">#FFFFFF</color>
     <color name="colorButtonUnselected">#808080</color>
     <color name="colorIndicator">#FFFFFF</color>

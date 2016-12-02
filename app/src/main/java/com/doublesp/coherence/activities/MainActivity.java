@@ -29,6 +29,7 @@ import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInt
 import com.doublesp.coherence.service.NotificationService;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
+import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
@@ -86,7 +87,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         getActivityComponent().inject(MainActivity.this);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ToolbarBindingUtils.bind(this, binding.activityMainToolbarContainer.toolbar);
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
         binding.tabs.setupWithViewPager(binding.viewpager);
