@@ -5,8 +5,8 @@
         android:width="500px"
         android:height="500px">
 
-    <shape android:name="rectangular_triangle"
-           android:fillColor="@color/colorPrimary"
+    <path android:name="rectangular_triangle"
+           android:fillColor="@color/colorAccent"
            android:pathData="M0,0 L500,500 L0,500 L0,0 z" />
 
 </vector>

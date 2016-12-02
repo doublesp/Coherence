@@ -31,7 +31,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -39,6 +41,7 @@ public class SavedIdeasFragment extends Fragment {
 
     static final int SAVED_IDEAS_IMAGE_ROTATION_INTERVAL = 3000;
     public static SavedIdeasActionHandlerInterface mActionHandlerRef;
+    public static Set<Handler> mHandlers;
     private static FirebaseRecyclerAdapter<UserList, ItemViewHolder> mFirebaseRecyclerAdapter;
     @Inject
     public SavedIdeasActionHandlerInterface mActionHandler;
@@ -66,6 +69,8 @@ public class SavedIdeasFragment extends Fragment {
 
             mListsDatabaseReference = mFirebaseDatabase.getReference().child(
                     ConstantsAndUtils.USER_LISTS).child(ConstantsAndUtils.getOwner(getContext()));
+
+            mHandlers = new HashSet<>();
 
             mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<UserList, ItemViewHolder>(
                     UserList.class, R.layout.single_plan, ItemViewHolder.class,
@@ -125,6 +130,9 @@ public class SavedIdeasFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mFirebaseRecyclerAdapter.cleanup();
+        for (Handler handler : mHandlers) {
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 
     private void asyncRotateImage(final Handler handler, final ImageView imageView, String listId) {
@@ -174,6 +182,7 @@ public class SavedIdeasFragment extends Fragment {
                 }
             });
             mHandler = new Handler();
+            SavedIdeasFragment.mHandlers.add(mHandler);
         }
     }
 }

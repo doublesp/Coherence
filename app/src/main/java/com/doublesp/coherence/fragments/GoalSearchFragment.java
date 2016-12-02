@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,11 +88,9 @@ public class GoalSearchFragment extends DialogFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int scrollY = binding.rvIdeaSearchResults.computeVerticalScrollOffset();
-                float min = -getResources().getDimension(
-                        R.dimen.fragment_goal_search_background_padding_top);
                 float max = 0;
-                binding.flGoalSearchBackground.setTranslationY(
-                        Math.min(max, Math.max(min, -scrollY)));
+                float translationY = Math.min(max, -scrollY);
+                binding.flGoalSearchBackground.setTranslationY(translationY);
             }
         });
         binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {

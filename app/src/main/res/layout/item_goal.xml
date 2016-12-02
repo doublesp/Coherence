@@ -17,63 +17,51 @@
                 type="com.doublesp.coherence.viewmodels.Goal"/>
     </data>
 
-    <android.support.v7.widget.CardView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/cvRoot"
-            android:layout_marginLeft="@dimen/grid_margin"
-            android:layout_marginRight="@dimen/grid_margin"
-            android:layout_marginTop="@dimen/cell_margin"
+
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="@dimen/card_corner_radius"
-            app:cardElevation="@dimen/card_elevation">
+            android:background="@android:color/transparent">
 
-        <LinearLayout
-                android:orientation="vertical"
+        <TextView
+                android:id="@+id/tvGoalIndex"
+                android:layout_width="@dimen/activity_list_composition_idea_icon_width"
+                android:layout_height="@dimen/activity_list_composition_idea_icon_height"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text='@{Integer.toString(pos+1)}'
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:background="@drawable/ic_panorama_fish_eye"
+                android:backgroundTint="@color/colorButton"
+                android:textColor="@color/colorButton"
+                tools:text="1"/>
+
+        <ImageButton
+                android:id="@+id/ivGoalImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_goal_height"
+                android:adjustViewBounds="true"
+                android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/background_3"/>
+
+        <TextView
+                android:id="@+id/tvGoalTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorCardBackground">
+                android:gravity="left"
+                android:padding="20dp"
+                android:maxLines="2"
+                android:text='@{viewModel.title}'
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:backgroundTint="@color/colorButton"
+                android:textColor="@color/colorButton"
+                tools:text="Perperoni Pizza"/>
 
-            <TextView
-                    android:id="@+id/tvGoalIndex"
-                    android:layout_width="@dimen/activity_list_composition_idea_icon_width"
-                    android:layout_height="@dimen/activity_list_composition_idea_icon_height"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text='@{Integer.toString(pos+1)}'
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                    android:background="@drawable/ic_panorama_fish_eye"
-                    android:backgroundTint="@color/colorButton"
-                    android:textColor="@color/colorButton"
-                    tools:text="1"/>
+    </LinearLayout>
 
-            <ImageButton
-                    android:id="@+id/ivGoalImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_goal_height"
-                    android:adjustViewBounds="true"
-                    android:onClick="@{() -> handler.onPreviewButtonClick(pos)}"
-                    android:padding="0dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/background_3"/>
 
-            <TextView
-                    android:id="@+id/tvGoalTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:padding="20dp"
-                    android:maxLines="2"
-                    android:text='@{viewModel.title}'
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                    android:backgroundTint="@color/colorButton"
-                    android:textColor="@color/colorButton"
-                    tools:text="Perperoni Pizza"/>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
 </layout>
