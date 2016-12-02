@@ -8,6 +8,7 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
+            android:background="@drawable/grey_gradient"
             app:popupTheme="@style/PopupMenuTheme"
             app:layout_scrollFlags="scroll|enterAlways" />
 

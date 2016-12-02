@@ -14,6 +14,7 @@
     <color name="colorHint">#BDBDBD</color>
     <color name="colorBorder">#808080</color>
     <color name="colorOverlay">#80000000</color>
+    <color name="colorOverlayLight">#60000000</color>
     <color name="colorWhiteOverlay">#AAFFFFFF</color>
     <color name="colorUp">#FF4081</color>
     <color name="colorRight">#FBC02D</color>
