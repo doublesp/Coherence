@@ -102,7 +102,6 @@ public class SavedIdeasFragment extends Fragment {
                 false);
         binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
-//        ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
         return binding.getRoot();
     }
 
