@@ -23,6 +23,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -102,6 +104,11 @@ public class SavedIdeasFragment extends Fragment {
                 false);
         binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(
+                ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
+        binding.rvSavedIdeas.addItemDecoration(dividerItemDecoration);
         ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
         return binding.getRoot();
     }

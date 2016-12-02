@@ -96,7 +96,8 @@ public class GoalSearchFragment extends DialogFragment {
         });
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
+        dividerItemDecoration.setDrawable(
+                ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.rvIdeaSearchResults.addItemDecoration(dividerItemDecoration);
         binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
             @Override
