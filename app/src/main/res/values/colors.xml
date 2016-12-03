@@ -13,8 +13,8 @@
     <color name="colorIndicator">#FFFFFF</color>
     <color name="colorHint">#BDBDBD</color>
     <color name="colorBorder">#808080</color>
-    <color name="colorOverlay">#80000000</color>
-    <color name="colorOverlayDark">#AA000000</color>
+    <color name="colorOverlay">#67000000</color>
+    <color name="colorOverlayLight">#50000000</color>
     <color name="colorWhiteOverlay">#AAFFFFFF</color>
     <color name="colorActionBarTitle">#FFFFFF</color>
     <color name="colorUp">#FF4081</color>

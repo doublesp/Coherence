@@ -29,7 +29,8 @@ public class TabUtils {
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
                         super.onTabUnselected(tab);
-                        int tabIconColor = ContextCompat.getColor(context, R.color.colorButtonUnselected);
+                        int tabIconColor = ContextCompat.getColor(
+                                context, R.color.colorButtonUnselected);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
@@ -44,7 +45,7 @@ public class TabUtils {
     }
 
     private static void setupTabs(Context context, final TabLayout layout) {
-        int selectedTabIconColor = ContextCompat.getColor(context, R.color.colorButton);
+        int selectedTabIconColor = ContextCompat.getColor(context, R.color.colorText);
         int tabIconColor = ContextCompat.getColor(context, R.color.colorButtonUnselected);
         TabLayout.Tab tab;
 
