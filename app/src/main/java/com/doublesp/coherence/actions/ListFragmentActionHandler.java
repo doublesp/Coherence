@@ -82,9 +82,12 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     @Override
     public void afterTextChanged(Editable s) {
         final int i = s.length();
-        if (i == 0) {
+
+        if (s.toString().trim().isEmpty()) {
+            s.clear();
             return;
         }
+
         if (s.subSequence(i - 1, i).toString().equals("\n")) {
             mIdeaInteractor.addIdea(s.toString().trim());
             s.clear();
