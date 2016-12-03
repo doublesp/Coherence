@@ -22,7 +22,7 @@ public class TabUtils {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         super.onTabSelected(tab);
-                        int tabIconColor = ContextCompat.getColor(context, R.color.colorButton);
+                        int tabIconColor = ContextCompat.getColor(context, R.color.colorText);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
