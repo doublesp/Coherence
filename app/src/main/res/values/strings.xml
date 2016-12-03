@@ -31,4 +31,8 @@
     <string name="remove">Remove</string>
     <string name="notification_title">A new list shared.</string>
     <string name="notification_text">Curious what to get ? - click here !</string>
+    <string name="save_empty_list">Do you want to save an empty list ?</string>
+    <string name="empty_list">Empty List</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

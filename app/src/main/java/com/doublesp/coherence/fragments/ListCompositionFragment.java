@@ -14,14 +14,19 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.utils.AnimationUtils;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import org.parceler.Parcels;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +36,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -83,6 +90,68 @@ public class ListCompositionFragment extends DialogFragment {
         return fragment;
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return new Dialog(getActivity(), getTheme()) {
+            @Override
+            public void onBackPressed() {
+                final String listId = getArguments().getString(LIST_COMPOSITION_LIST_ID);
+                if (listId != null) {
+                    final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    final DatabaseReference listsDatabaseReference =
+                            firebaseDatabase.getReference().child(
+                                    ConstantsAndUtils.SHOPPING_LISTS).child(listId);
+                    listsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Plan plan = dataSnapshot.getValue(Plan.class);
+                            if (plan != null) {
+                                List<Idea> ideas = plan.getIdeas();
+                                if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(
+                                            getContext());
+                                    builder.setTitle(R.string.empty_list)
+                                            .setMessage(R.string.save_empty_list);
+
+                                    builder.setPositiveButton(R.string.yes,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    dismiss();
+                                                }
+                                            });
+                                    builder.setNegativeButton(R.string.no,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    firebaseDatabase.getReference().child(
+                                                            ConstantsAndUtils.USER_LISTS)
+                                                            .child(
+                                                                    ConstantsAndUtils
+                                                                            .getOwner(
+                                                                                    getContext())
+                                                            ).child(
+                                                            listId)
+                                                            .removeValue();
+                                                    dismiss();
+                                                }
+                                            })
+                                            .show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+        };
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +187,7 @@ public class ListCompositionFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list_composition, container,
                 false);
