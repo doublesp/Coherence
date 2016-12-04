@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Garçon</string>
+    <string name="create_grocery_list">Create List</string>
+    <string name="saved_grocery_list">Saved List</string>
+    <string name="create_grocery_hint">Create Grocery List</string>
+    <string name="saved_grocery_hint">Saved Grocery List</string>
 
     <string name="google_maps_api_key">AIzaSyCBjupD4UBQ4puue5J2uqjKpjpvpTJeB50</string>
     <string name="fabric_api_key">58083912c035206135aea30a9df62233cd1f2cf5</string>

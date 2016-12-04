@@ -118,14 +118,27 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             @Override
             public void onPageSelected(int position) {
                 binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
+                String title = getString(R.string.app_name);
+                float titleSize = getResources().getInteger(R.integer.toolbar_title_size);
                 switch (position) {
                     case HomeFragmentPagerAdapter.CREATE_LIST:
                         loadList(getListId(), mGoal);
+                        title = getString(R.string.create_grocery_hint);
+                        break;
+                    case HomeFragmentPagerAdapter.SAVED_IDEAS:
+                        discardListIfEmpty();
+                        title = getString(R.string.saved_grocery_hint);
+                        break;
+                    case HomeFragmentPagerAdapter.SEARCH_GOAL:
+                        discardListIfEmpty();
+                        titleSize = getResources().getInteger(R.integer.app_title_size);
                         break;
                     default:
                         discardListIfEmpty();
                         break;
                 }
+                binding.activityMainToolbarContainer.toolbarTitle.setText(title);
+                binding.activityMainToolbarContainer.toolbarTitle.setTextSize(titleSize);
             }
 
             @Override

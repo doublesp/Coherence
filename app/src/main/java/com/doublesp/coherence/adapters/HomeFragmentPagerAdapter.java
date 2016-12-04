@@ -1,5 +1,6 @@
 package com.doublesp.coherence.adapters;
 
+import com.doublesp.coherence.R;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
@@ -52,4 +53,23 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         return tabTitles.length;
     }
 
+
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        String title = null;
+        switch (position) {
+            case SEARCH_GOAL:
+                title = mContext.getString(R.string.app_name);
+                break;
+            case CREATE_LIST:
+                title = mContext.getString(R.string.create_grocery_list);
+                break;
+            case SAVED_IDEAS:
+                title = mContext.getString(R.string.saved_grocery_list);
+                break;
+            default:
+        }
+        return title;
+    }
 }
