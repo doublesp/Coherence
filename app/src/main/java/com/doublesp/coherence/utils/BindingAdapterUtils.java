@@ -62,4 +62,15 @@ public class BindingAdapterUtils {
             view.setPaintFlags(view.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
     }
+
+    @BindingAdapter({"bind:bookmark_title"})
+    public static void setBookmarkTitle(
+            com.getbase.floatingactionbutton.FloatingActionButton view, boolean bookmarked) {
+        Context context = view.getContext();
+        if (!bookmarked) {
+            view.setTitle(context.getString(R.string.save_recipe));
+        } else {
+            view.setTitle(context.getString(R.string.remove_recipe));
+        }
+    }
 }

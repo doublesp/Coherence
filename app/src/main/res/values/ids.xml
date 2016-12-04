@@ -10,4 +10,6 @@
     <item name="state_idle" type="id" />
     <item name="state_refreshing" type="id" />
     <item name="state_loaded" type="id" />
+    <item name="flag_saved_recipes" type="id" />
+    <item name="flag_explore_recipes" type="id" />
 </resources>

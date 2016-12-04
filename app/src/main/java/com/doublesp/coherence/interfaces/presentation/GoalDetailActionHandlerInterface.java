@@ -8,7 +8,8 @@ import com.doublesp.coherence.viewmodels.Goal;
 
 public interface GoalDetailActionHandlerInterface {
 
-    void onCreateIdeaListClick(Goal goal);
+    void onCreateIdeaListClick(int pos);
+    void onBookmarkClick(int pos);
 
     interface ListCompositionDialogHandlerInterface {
 

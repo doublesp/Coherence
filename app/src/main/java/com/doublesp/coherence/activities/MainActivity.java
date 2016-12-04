@@ -19,7 +19,6 @@ import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.fragments.SavedGoalsFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
@@ -157,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void showPreviewDialog(Goal goal) {
-        GoalPreviewFragment previewDialog = GoalPreviewFragment.newInstance(goal);
+    public void showPreviewDialog(int pos) {
+        GoalPreviewFragment previewDialog = GoalPreviewFragment.newInstance(pos);
         previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
@@ -237,11 +236,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(GoalSearchFragment fragment) {
-        getActivityComponent().inject(fragment);
-    }
-
-    @Override
-    public void inject(SavedGoalsFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 
@@ -375,9 +369,16 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     public void onBookmarkClick(View view) {
-        SavedGoalsFragment savedGoalsFragment = SavedGoalsFragment.newInstance();
-        savedGoalsFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        savedGoalsFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
+        // TODO: move this to GoalActionHandler
+        int currentFlag = mGoalInteractor.getDisplayGoalFlag();
+        switch (currentFlag) {
+            case R.id.flag_explore_recipes:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_saved_recipes);
+                break;
+            case R.id.flag_saved_recipes:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_explore_recipes);
+                break;
+        }
     }
 
     private void handleDeeplink() {

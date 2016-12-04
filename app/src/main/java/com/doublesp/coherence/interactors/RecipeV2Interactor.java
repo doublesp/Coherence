@@ -38,7 +38,6 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     RecipeV2RepositoryInterface mRecipeRepository;
     PublishSubject<String> mSearchDebouncer;
     PublishSubject<Integer> mBookmarkDebouncer;
-    PublishSubject<Integer> mSavedBookmarkDebouncer;
 
     public RecipeV2Interactor(DataStoreInterface dataStore,
             RecipeV2RepositoryInterface recipeRepository) {
@@ -60,7 +59,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                             isBookmarked
                     ));
                 }
-                mDataStore.setGoals(goals);
+                mDataStore.setExploreGoals(goals);
                 mDataStore.setGoalState(new ViewState(
                         R.id.state_loaded, ViewState.OPERATION.RELOAD));
             }
@@ -95,7 +94,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
 
     @Override
     public void bookmarkGoalAtPos(int pos) {
-        mDataStore.setSavedGoalState(new ViewState(
+        mDataStore.setGoalState(new ViewState(
                 R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
         getBookmarkDebouncer().onNext(pos);
     }
@@ -129,47 +128,6 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     @Override
     public void subscribeToGoalStateChange(Observer<ViewState> observer) {
         mDataStore.subscribeToGoalStateChanges(observer);
-    }
-
-    @Override
-    public int getSavedGoalCount() {
-        return mDataStore.getSavedGoalCount();
-    }
-
-    @Override
-    public Goal getSavedGoalAtPos(int pos) {
-        return mDataStore.getSavedGoalAtPos(pos);
-    }
-
-    @Override
-    public void bookmarkSavedGoalAtPos(int pos) {
-        mDataStore.setSavedGoalState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
-        getSavedBookmarkDebouncer().onNext(pos);
-    }
-
-    @Override
-    public void loadBookmarkedGoals() {
-        mDataStore.setSavedGoalState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
-        List<Goal> bookmarkedGoals = new ArrayList<>();
-        List<RecipeV2> bookmarkedRecipes = SavedRecipe.savedRecipes();
-        for (RecipeV2 recipe : bookmarkedRecipes) {
-            bookmarkedGoals.add(new Goal(
-                    recipe.getId(),
-                    recipe.getTitle(),
-                    recipe.getInstructions(),
-                    recipe.getImage(),
-                    true));
-        }
-        mDataStore.setSavedGoals(bookmarkedGoals);
-        mDataStore.setSavedGoalState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.RELOAD));
-    }
-
-    @Override
-    public void subscribeToSavedGoalStateChange(Observer<ViewState> observer) {
-        mDataStore.subscribeToSavedGoalStateChanges(observer);
     }
 
     private PublishSubject getDebouncer() {
@@ -217,37 +175,39 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
         return mBookmarkDebouncer;
     }
 
-    private PublishSubject getSavedBookmarkDebouncer() {
-        if (mSavedBookmarkDebouncer == null) {
-            mSavedBookmarkDebouncer = PublishSubject.create();
-            mSavedBookmarkDebouncer.debounce(RECIPEV2_BOOKMARK_INTERACTOR_DEBOUNCE_TIME_IN_MILLIES,
-                    TimeUnit.MILLISECONDS)
-                    .subscribe(new Action1<Integer>() {
-                        @Override
-                        public void call(Integer pos) {
-                            Goal goal = mDataStore.getSavedGoalAtPos(pos);
-                            SavedRecipe savedRecipe;
-                            if (!goal.isBookmarked()) {
-                                savedRecipe = new SavedRecipe();
-                                savedRecipe.setId(goal.getId());
-                                savedRecipe.save();
-                            } else {
-                                savedRecipe = SavedRecipe.byId(goal.getId());
-                                if (savedRecipe != null) {
-                                    savedRecipe.delete();
-                                }
-                            }
-                            mDataStore.getGoalReducer(
-                                    goal.getId()).setBookmarked(!goal.isBookmarked());
-                            mDataStore.setSavedGoalState(new ViewState(
-                                    R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
-                        }
-                    });
-        }
-        return mSavedBookmarkDebouncer;
-    }
-
     private void searchRecipeWithDebounce(final String keyword) {
         getDebouncer().onNext(keyword);
+    }
+
+    @Override
+    public void setDisplayGoalFlag(int flag) {
+        mDataStore.setGoalFlag(flag);
+        switch (flag) {
+            case R.id.flag_saved_recipes:
+                loadBookmarkedGoals();
+        }
+    }
+
+    @Override
+    public int getDisplayGoalFlag() {
+        return mDataStore.getGoalFlag();
+    }
+
+    private void loadBookmarkedGoals() {
+        mDataStore.setGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
+        List<Goal> bookmarkedGoals = new ArrayList<>();
+        List<RecipeV2> bookmarkedRecipes = SavedRecipe.savedRecipes();
+        for (RecipeV2 recipe : bookmarkedRecipes) {
+            bookmarkedGoals.add(new Goal(
+                    recipe.getId(),
+                    recipe.getTitle(),
+                    recipe.getInstructions(),
+                    recipe.getImage(),
+                    true));
+        }
+        mDataStore.setSavedGoals(bookmarkedGoals);
+        mDataStore.setGoalState(new ViewState(
+                R.id.state_loaded, ViewState.OPERATION.RELOAD));
     }
 }

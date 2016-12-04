@@ -22,8 +22,6 @@ public interface DataStoreInterface {
 
     void setGoalState(ViewState state);
 
-    void setSavedGoalState(ViewState state);
-
     void addIdea(Idea idea);
 
     void setIdeas(List<Idea> ideas);
@@ -36,7 +34,7 @@ public interface DataStoreInterface {
 
     void setSuggestions(List<Idea> ideas);
 
-    void setGoals(List<Goal> goals);
+    void setExploreGoals(List<Goal> goals);
 
     void setSavedGoals(List<Goal> goals);
 
@@ -50,17 +48,9 @@ public interface DataStoreInterface {
 
     Idea getSuggestionAtPos(int pos);
 
-    Goal getGoalAtPos(int pos);
-
-    Goal getSavedGoalAtPos(int pos);
-
     int getIdeaCount();
 
     int getSuggestionCount();
-
-    int getGoalCount();
-
-    int getSavedGoalCount();
 
     void subscribeToIdeaStateChanges(Observer<ViewState> observer);
 
@@ -68,11 +58,17 @@ public interface DataStoreInterface {
 
     void subscribeToGoalStateChanges(Observer<ViewState> observer);
 
-    void subscribeToSavedGoalStateChanges(Observer<ViewState> observer);
-
     Plan getPlan();
 
     void setPlan(Plan plan);
 
     Plan createPlan(String id);
+
+    Goal getGoalAtPos(int pos);
+
+    int getGoalCount();
+
+    void setGoalFlag(int flag);
+
+    int getGoalFlag();
 }

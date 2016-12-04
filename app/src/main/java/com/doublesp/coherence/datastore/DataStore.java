@@ -40,6 +40,7 @@ public class DataStore implements DataStoreInterface {
     ViewState mGoalState;
     Map<String, GoalReducer> mGoalReducers;
     private Context mContext;
+    private int mDisplayGoalFlag;
 
     public DataStore(Context context) {
         mSnapshotStore = new DataSnapshotStore();
@@ -51,6 +52,7 @@ public class DataStore implements DataStoreInterface {
         mSuggestionState = new ViewState(R.id.state_idle);
         mSavedGoalState = new ViewState(R.id.state_idle);
         mGoalState = new ViewState(R.id.state_idle);
+        mDisplayGoalFlag = R.id.flag_explore_recipes;
         mContext = context;
     }
 
@@ -70,12 +72,6 @@ public class DataStore implements DataStoreInterface {
     public void setGoalState(ViewState state) {
         mGoalState = state;
         notifyGoalStateChange();
-    }
-
-    @Override
-    public void setSavedGoalState(ViewState state) {
-        mSavedGoalState = state;
-        notifySavedGoalStateChange();
     }
 
     @Override
@@ -113,23 +109,13 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public int getGoalCount() {
-        return getGoals().size();
-    }
-
-    @Override
-    public int getSavedGoalCount() {
-        return getSavedGoals().size();
-    }
-
-    @Override
     public void clearSuggestions() {
         getSuggestions().clear();
     }
 
     @Override
     public void clearGoals() {
-        getGoals().clear();
+        getExploreGoals().clear();
     }
 
     @Override
@@ -148,11 +134,6 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void subscribeToSavedGoalStateChanges(Observer<ViewState> observer) {
-        mSavedGoalStateObservers.add(observer);
-    }
-
-    @Override
     public Idea getIdeaAtPos(int pos) {
         return getIdeas().get(pos);
     }
@@ -160,16 +141,6 @@ public class DataStore implements DataStoreInterface {
     @Override
     public Idea getSuggestionAtPos(int pos) {
         return getSuggestions().get(pos);
-    }
-
-    @Override
-    public Goal getGoalAtPos(int pos) {
-        return getGoals().get(pos);
-    }
-
-    @Override
-    public Goal getSavedGoalAtPos(int pos) {
-        return getSavedGoals().get(pos);
     }
 
     @Override
@@ -252,19 +223,19 @@ public class DataStore implements DataStoreInterface {
         getSuggestions().addAll(ideas);
     }
 
-    private List<Goal> getGoals() {
-        return mSnapshotStore.getGoals();
+    private List<Goal> getExploreGoals() {
+        return mSnapshotStore.getExploreGoals();
     }
 
     @Override
-    public void setGoals(List<Goal> goals) {
-        getGoals().clear();
+    public void setExploreGoals(List<Goal> goals) {
+        getExploreGoals().clear();
         for (Goal goal : goals) {
             if (!getGoalReducers().containsKey(goal.getId())) {
                 getGoalReducers().put(goal.getId(), new GoalReducer(goal));
             }
         }
-        getGoals().addAll(goals);
+        getExploreGoals().addAll(goals);
     }
 
     private List<Goal> getSavedGoals() {
@@ -294,4 +265,35 @@ public class DataStore implements DataStoreInterface {
         return mGoalReducers;
     }
 
+    @Override
+    public Goal getGoalAtPos(int pos) {
+        switch (mDisplayGoalFlag) {
+            case R.id.flag_explore_recipes:
+                return getExploreGoals().get(pos);
+            case R.id.flag_saved_recipes:
+                return getSavedGoals().get(pos);
+        }
+        return null;
+    }
+
+    @Override
+    public void setGoalFlag(int flag) {
+        mDisplayGoalFlag = flag;
+    }
+
+    @Override
+    public int getGoalFlag() {
+        return mDisplayGoalFlag;
+    }
+
+    @Override
+    public int getGoalCount() {
+        switch (mDisplayGoalFlag) {
+            case R.id.flag_explore_recipes:
+                return getExploreGoals().size();
+            case R.id.flag_saved_recipes:
+                return getSavedGoals().size();
+        }
+        return 0;
+    }
 }

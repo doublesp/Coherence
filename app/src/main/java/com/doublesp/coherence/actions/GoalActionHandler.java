@@ -1,10 +1,9 @@
 package com.doublesp.coherence.actions;
 
-import android.text.Editable;
-
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-import com.doublesp.coherence.viewmodels.Goal;
+
+import android.text.Editable;
 
 /**
  * Created by pinyaoting on 11/26/16.
@@ -42,8 +41,7 @@ public class GoalActionHandler implements GoalActionHandlerInterface {
 
     @Override
     public void onPreviewButtonClick(int pos) {
-        Goal goal = mInteractor.getGoalAtPos(pos);
-        mPreviewHandler.showPreviewDialog(goal);
+        mPreviewHandler.showPreviewDialog(pos);
     }
 
 }

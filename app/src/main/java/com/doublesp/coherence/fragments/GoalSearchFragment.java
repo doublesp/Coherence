@@ -31,13 +31,9 @@ import javax.inject.Named;
 
 public class GoalSearchFragment extends DialogFragment {
 
-    static final long GOAL_SEARCH_FRAGMENT_FADEIN_DURATION = 250L;
-    static final long GOAL_SEARCH_FRAGMENT_FADEOUT_DURATION = 250L;
-    static final long GOAL_SEARCH_FRAGMENT_DELAY_DURATION = 3000L;
     static final String GOAL_SEARCH_FRAGMENT_VIEW_MODEL = "GOAL_SEARCH_FRAGMENT_VIEW_MODEL";
     FragmentGoalSearchBinding binding;
     @Inject
-    @Named("GoalAction")
     GoalActionHandlerInterface mActionHandler;
     @Inject
     @Named("Goal")
