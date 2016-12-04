@@ -184,7 +184,7 @@ public class SavedIdeasFragment extends Fragment {
                 public void onClick(View view) {
                     // TODO: inject action handler into FirebaseRecyclerAdapter
                     // instead of using static reference
-                    SavedIdeasFragment.mActionHandlerRef.showListCompositionDialog(
+                    SavedIdeasFragment.mActionHandlerRef.compose(
                             mFirebaseRecyclerAdapter
                                     .getRef(getAdapterPosition())
                                     .getKey());

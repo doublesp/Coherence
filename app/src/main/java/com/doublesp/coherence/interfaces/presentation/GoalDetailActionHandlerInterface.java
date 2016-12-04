@@ -13,7 +13,7 @@ public interface GoalDetailActionHandlerInterface {
 
     interface ListCompositionDialogHandlerInterface {
 
-        void showListCompositionDialog(Goal goal);
+        void compose(Goal goal);
 
     }
 }

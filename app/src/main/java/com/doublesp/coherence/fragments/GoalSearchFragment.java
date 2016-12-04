@@ -6,15 +6,12 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.utils.ImageUtils;
-import com.doublesp.coherence.viewmodels.Plan;
-
-import org.parceler.Parcels;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,12 +21,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-public class GoalSearchFragment extends DialogFragment {
+public class GoalSearchFragment extends Fragment {
 
     static final String GOAL_SEARCH_FRAGMENT_VIEW_MODEL = "GOAL_SEARCH_FRAGMENT_VIEW_MODEL";
     FragmentGoalSearchBinding binding;
@@ -46,15 +42,8 @@ public class GoalSearchFragment extends DialogFragment {
     }
 
     public static GoalSearchFragment newInstance() {
-        return GoalSearchFragment.newInstance(null);
-    }
-
-    public static GoalSearchFragment newInstance(Plan plan) {
         GoalSearchFragment fragment = new GoalSearchFragment();
         Bundle args = new Bundle();
-        if (plan != null) {
-            args.putParcelable(GOAL_SEARCH_FRAGMENT_VIEW_MODEL, Parcels.wrap(plan));
-        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,13 +52,6 @@ public class GoalSearchFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            Plan plan = Parcels.unwrap(
-                    getArguments().getParcelable(GOAL_SEARCH_FRAGMENT_VIEW_MODEL));
-            if (plan != null) {
-                mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
-            } else {
-                mGoalInteractor.search(null);
-            }
         }
     }
 
@@ -135,9 +117,6 @@ public class GoalSearchFragment extends DialogFragment {
 
     @Override
     public void onResume() {
-        if (getDialog() != null) {
-            updateLayoutParams();
-        }
         super.onResume();
     }
 
@@ -147,12 +126,4 @@ public class GoalSearchFragment extends DialogFragment {
         mGoalInteractor.clearGoal();
     }
 
-    private void updateLayoutParams() {
-        // Get existing layout params for the window
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        // Assign window properties to fill the parent
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-    }
 }

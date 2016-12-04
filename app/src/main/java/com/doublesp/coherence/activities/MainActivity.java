@@ -2,9 +2,12 @@ package com.doublesp.coherence.activities;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import com.batch.android.Batch;
 import com.crashlytics.android.Crashlytics;
@@ -31,6 +34,7 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
 import com.doublesp.coherence.viewmodels.UserList;
@@ -45,6 +49,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -55,6 +60,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -88,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mListDatabaseReference;
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
+    private DialogFragment mDialogFragment;
+    private String mListId;
+    private Goal mGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +108,30 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         ToolbarBindingUtils.bind(this, binding.activityMainToolbarContainer.toolbar);
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(
+                    int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case HomeFragmentPagerAdapter.CREATE_LIST:
+                        loadList(getListId(), mGoal);
+                        break;
+                    default:
+                        discardListIfEmpty();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         binding.tabs.setupWithViewPager(binding.viewpager);
         TabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
 
@@ -139,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 }
             }
         };
+        mGoalInteractor.search(null);
     }
 
     public MainActivitySubComponent getActivityComponent() {
@@ -157,35 +191,98 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void showPreviewDialog(int pos) {
-        GoalPreviewFragment previewDialog = GoalPreviewFragment.newInstance(pos);
-        previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+        mDialogFragment = GoalPreviewFragment.newInstance(pos);
+        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
 
     @Override
-    public void showListCompositionDialog(Goal goal) {
+    public void compose(Goal goal) {
+        if (mDialogFragment != null) {
+            mDialogFragment.dismiss();
+        }
+        mListId = newListId();
+        mGoal = goal;
+        binding.viewpager.setCurrentItem(HomeFragmentPagerAdapter.CREATE_LIST);
+    }
+
+    @Override
+    public void compose(String listId) {
+        if (listId == null) {
+            return;
+        }
+        mListId = listId;
+        mGoal = null;
+        binding.viewpager.setCurrentItem(HomeFragmentPagerAdapter.CREATE_LIST);
+    }
+
+    @Override
+    public void search(Plan plan) {
+        mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
+        binding.viewpager.setCurrentItem(HomeFragmentPagerAdapter.SEARCH_GOAL);
+    }
+
+    private String newListId() {
+        // create empty plan and persists to FireBase
         DatabaseReference keyReference = mListDatabaseReference.push();
 
         HashMap<String, Object> timestampCreated = new HashMap<>();
         timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
-                ConstantsAndUtils.getOwner(this), timestampCreated);
+        UserList userList = new UserList(
+                ConstantsAndUtils.getDefaultTitle(this),
+                ConstantsAndUtils.getOwner(this),
+                timestampCreated);
         keyReference.setValue(userList);
         Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
 
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
-                keyReference.getKey(), goal);
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+        return keyReference.getKey();
     }
 
-    @Override
-    public void showListCompositionDialog(String listId) {
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
-                listId);
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    private String getListId() {
+        if (mListId == null) {
+            mListId = newListId();
+        }
+        return mListId;
+    }
+
+    private void loadList(final String listId, final Goal goal) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference listsDatabaseReference = firebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS).child(listId);
+        listsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Plan plan = dataSnapshot.getValue(Plan.class);
+                if (plan != null) {
+                    mIdeaInteractor.setPlan(plan);
+                }
+                if (goal != null) {
+                    mIdeaInteractor.loadIdeasFromGoal(goal);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void discardListIfEmpty() {
+        Plan plan = mIdeaInteractor.getPlan();
+        if (plan == null) {
+            return;
+        }
+        List<Idea> ideas = plan.getIdeas();
+        if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
+            mFirebaseDatabase.getReference()
+                    .child(ConstantsAndUtils.USER_LISTS)
+                    .child(ConstantsAndUtils.getOwner(getContext()))
+                    .child(mListId)
+                    .removeValue();
+            mListId = null;
+        }
     }
 
     @Override
@@ -215,13 +312,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     @Override
     public void share(Intent i) {
         startActivity(i);
-    }
-
-    @Override
-    public void search(Plan plan) {
-        GoalSearchFragment goalSearchFragment = GoalSearchFragment.newInstance(plan);
-        goalSearchFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        goalSearchFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
     }
 
     @Override
@@ -354,20 +444,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         stopService(new Intent(this, NotificationService.class));
     }
 
-    public void onIdeaCompositionClick(View view) {
-        DatabaseReference keyReference = mListDatabaseReference.push();
-
-        HashMap<String, Object> timestampCreated = new HashMap<>();
-        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
-                ConstantsAndUtils.getOwner(this), timestampCreated);
-        keyReference.setValue(userList);
-        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
-        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
-
-        showListCompositionDialog(keyReference.getKey());
-    }
-
     public void onBookmarkClick(View view) {
         // TODO: move this to GoalActionHandler
         int currentFlag = mGoalInteractor.getDisplayGoalFlag();
@@ -392,7 +468,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         if (listId == null) {
             return;
         }
-        showListCompositionDialog(listId);
+        compose(listId);
     }
 
 }
