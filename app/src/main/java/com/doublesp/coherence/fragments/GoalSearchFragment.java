@@ -13,6 +13,7 @@ import org.parceler.Parcels;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -117,6 +118,14 @@ public class GoalSearchFragment extends DialogFragment {
         });
         ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int padding = ImageUtils.topImagePadding(getActivity().getWindowManager(), getResources());
+        padding -= (getResources().getDimension(R.dimen.item_goal_height) / 4);
+        binding.rvIdeaSearchResults.setPadding(0, padding, 0, 0);
     }
 
     @Override

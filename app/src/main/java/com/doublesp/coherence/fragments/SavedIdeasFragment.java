@@ -22,6 +22,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,6 +105,14 @@ public class SavedIdeasFragment extends Fragment {
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
         ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int padding = ImageUtils.topImagePadding(getActivity().getWindowManager(), getResources());
+        int h = binding.ivIdeaSearchBackground.getMeasuredHeight();
+        binding.rvSavedIdeas.setPadding(0, padding, 0, 0);
     }
 
     @Override

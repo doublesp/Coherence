@@ -16,7 +16,7 @@
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb1822316278006079</string>
     <string name="custom_list">Custom list</string>
-    <string name="recipe_list">Recipe list</string>
+    <string name="saved_recipes">Saved Recipes</string>
     <string name="owner">Owner: %1s</string>
     <string name="add_friends">Add New Friend</string>
     <string name="add_friend">Add Friend</string>
@@ -35,4 +35,5 @@
     <string name="empty_list">Empty List</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
 </resources>

@@ -8,7 +8,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.res.Resources;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -74,6 +77,16 @@ public class ImageUtils {
             }
         });
         animatorSet.start();
+    }
+
+    public static int topImagePadding(WindowManager wm, Resources r) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
+        int statusBarHeightPixels = Math.round(
+                r.getDimension(R.dimen.status_bar_height) * metrics.density);
+        int viewportHeightPixels = metrics.heightPixels - statusBarHeightPixels;
+        float offset = r.getFraction(R.fraction.top_image_ratio, viewportHeightPixels, 1);
+        return Math.round(offset);
     }
 
     public static String composeImageUri(String baseUri, String imageUri) {
