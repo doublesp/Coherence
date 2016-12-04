@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             @Override
             public void onPageSelected(int position) {
+                binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
                 switch (position) {
                     case HomeFragmentPagerAdapter.CREATE_LIST:
                         loadList(getListId(), mGoal);
