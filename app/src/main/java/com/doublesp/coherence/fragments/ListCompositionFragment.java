@@ -5,13 +5,14 @@ import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
-import com.doublesp.coherence.utils.AnimationUtils;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -23,14 +24,14 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import jp.wasabeef.blurry.Blurry;
+
 public class ListCompositionFragment extends Fragment {
 
     static final String LIST_COMPOSITION_VIEW_MODELS = "LIST_COMPOSITION_VIEW_MODELS";
     static final String LIST_COMPOSITION_LIST_ID = "LIST_COMPOSITION_LIST_ID";
     static final int LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL = 5000;
     FragmentListCompositionBinding binding;
-    int[] mBackgroundImageIds;
-    int mBackgroundImageIndex;
     @Inject
     @Named("Composition")
     RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
@@ -55,7 +56,6 @@ public class ListCompositionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        setupBackgroundImageId();
     }
 
     @Override
@@ -66,6 +66,11 @@ public class ListCompositionFragment extends Fragment {
                 false);
         binding.rvIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeas.setAdapter(mAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(
+                ContextCompat.getDrawable(getContext(), R.drawable.line_divider_edge_to_edge));
+        binding.rvIdeas.addItemDecoration(dividerItemDecoration);
         binding.setHandler(mActionHandler);
         binding.etIdea.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,8 +88,23 @@ public class ListCompositionFragment extends Fragment {
                 mActionHandler.afterTextChanged(editable);
             }
         });
-        rotateImage();
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.ivIdeaCompositionBackground.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        binding.ivIdeaCompositionBackground.layout(
+                0, 0, binding.ivIdeaCompositionBackground.getMeasuredWidth(),
+                binding.ivIdeaCompositionBackground.getMeasuredHeight());
+
+        Blurry.with(getContext())
+                .capture(binding.ivIdeaCompositionBackground)
+                .into(binding.ivIdeaCompositionBackground);
     }
 
     @Override
@@ -106,30 +126,6 @@ public class ListCompositionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mInteractor.clearIdeas();
-    }
-
-    void setupBackgroundImageId() {
-        mBackgroundImageIds = new int[5];
-        mBackgroundImageIds[0] = R.drawable.background_0;
-        mBackgroundImageIds[1] = R.drawable.background_1;
-        mBackgroundImageIds[2] = R.drawable.background_2;
-        mBackgroundImageIds[3] = R.drawable.background_3;
-        mBackgroundImageIds[4] = R.drawable.background_4;
-        mBackgroundImageIndex = 0;
-    }
-
-    void rotateImage() {
-        binding.ivIdeaCompositionBackground.setImageResource(
-                mBackgroundImageIds[mBackgroundImageIndex]);
-        binding.ivIdeaCompositionBackground.startAnimation(AnimationUtils.fadeInOutAnimation(
-                LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mBackgroundImageIndex = (mBackgroundImageIndex + 1) % mBackgroundImageIds.length;
-                rotateImage();
-            }
-        }, LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL);
     }
 
 }

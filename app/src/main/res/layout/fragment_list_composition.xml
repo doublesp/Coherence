@@ -17,14 +17,15 @@
             android:id="@+id/ivIdeaCompositionBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.1"
             android:scaleType="centerCrop"
-            tools:src="@drawable/background_0" />
+            android:src="@drawable/background_0" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvIdeas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="84dp"
+            android:clipToPadding="false"
             android:background="@android:color/transparent" />
 
         <EditText

@@ -98,6 +98,7 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.batch.android:batch-sdk:1.7+'
     compile 'com.google.android.gms:play-services:9.8.0'
+    compile 'jp.wasabeef:blurry:2.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
