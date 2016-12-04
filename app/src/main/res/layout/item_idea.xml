@@ -29,11 +29,15 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/activity_list_composition_idea_height"
                 android:layout_weight="3"
-                android:gravity="center"
+                android:gravity="center_vertical|left|start"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:maxLines="1"
                 android:text='@{viewModel.content}'
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorButton"
                 app:crossout='@{viewModel.crossedOut}'
                 tools:text="egg"/>
 
