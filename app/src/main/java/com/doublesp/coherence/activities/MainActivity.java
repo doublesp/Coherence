@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     private void discardListIfEmpty() {
         Plan plan = mIdeaInteractor.getPlan();
-        if (plan == null) {
+        if (plan == null || mListId == null) {
             return;
         }
         List<Idea> ideas = plan.getIdeas();
