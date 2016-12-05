@@ -6,7 +6,7 @@
           android:title="Search"
           android:icon="@android:drawable/ic_menu_search"
           app:showAsAction="ifRoom|collapseActionView"
-          app:actionViewClass="android.support.v7.widget.SearchView" />
+          app:actionViewClass="com.doublesp.coherence.view.AutoCompleteSearchView" />
     <item
         android:id="@+id/sign_out_menu"
         android:title="@string/sign_out"

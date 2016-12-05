@@ -10,7 +10,6 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
-import com.doublesp.coherence.viewholders.SuggestedIdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 
@@ -40,7 +39,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-            ListFragmentActionHandlerInterface ideaActionHandler) {
+                                       ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -121,16 +120,10 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view;
         RecyclerView.ViewHolder holder = null;
-        switch (viewType) {
-            case R.id.idea_type_user_generated:
-                view = inflater.inflate(R.layout.item_idea, parent, false);
-                holder = new IdeaViewHolder(view);
-                break;
-            case R.id.idea_type_suggestion:
-                view = inflater.inflate(R.layout.item_idea_suggestions, parent, false);
-                holder = new SuggestedIdeaViewHolder(view);
-                break;
-        }
+
+        view = inflater.inflate(R.layout.item_idea, parent, false);
+        holder = new IdeaViewHolder(view);
+
         if (holder instanceof IdeaViewHolderInterface) {
             IdeaViewHolderInterface ideaViewHolder = (IdeaViewHolderInterface) holder;
             ideaViewHolder.setHandler(mIdeaActionHandler);

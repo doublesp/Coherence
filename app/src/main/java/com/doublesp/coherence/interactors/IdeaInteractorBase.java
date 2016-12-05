@@ -133,6 +133,11 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
+    public Idea getSuggestionAtPos(int pos) {
+        return mIdeaDataStore.getSuggestionAtPos(pos);
+    }
+
+    @Override
     public Plan getPlan() {
         return mIdeaDataStore.getPlan();
     }

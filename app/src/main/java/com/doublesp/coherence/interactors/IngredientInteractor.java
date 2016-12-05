@@ -111,9 +111,10 @@ public class IngredientInteractor extends IdeaInteractorBase {
     public void acceptSuggestedIdeaAtPos(int pos) {
         mIdeaDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount()));
-        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        mIdeaDataStore.removeIdea(pos);
+        Idea idea = mIdeaDataStore.getSuggestionAtPos(pos);
         mIdeaDataStore.addIdea(idea);
+        mIdeaDataStore.setIdeaState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount()));
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.crashlytics.android.Crashlytics;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
+import com.doublesp.coherence.adapters.IdeaSuggestionsAdapter;
 import com.doublesp.coherence.application.CoherenceApplication;
 import com.doublesp.coherence.databinding.ActivityMainBinding;
 import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
@@ -33,6 +34,7 @@ import com.doublesp.coherence.service.NotificationService;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.utils.ToolbarBindingUtils;
+import com.doublesp.coherence.view.AutoCompleteSearchView;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -56,6 +58,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -409,8 +412,23 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        final AutoCompleteSearchView searchView =
+                (AutoCompleteSearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setAdapter(new IdeaSuggestionsAdapter(
+                MainActivity.this, mIdeaInteractor));
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                mIdeaInteractor.acceptSuggestedIdeaAtPos(position);
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                searchView.requestFocus();
+
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -420,6 +438,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                         mGoalInteractor.search(query);
                         break;
                     case CREATE_LIST:
+                        // NOTE: intentionally do nothing so that user can only
+                        // add groceries that is available from API
                         break;
                     case SAVED_IDEAS:
                         break;
@@ -434,8 +454,12 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
+            public boolean onQueryTextChange(String s) {
+                if (s.toString().trim().isEmpty()) {
+                    return true;
+                }
+                mIdeaInteractor.getSuggestions(s.toString().trim());
+                return true;
             }
         });
 

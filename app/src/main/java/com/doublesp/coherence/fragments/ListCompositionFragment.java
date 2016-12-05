@@ -15,8 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,22 +70,6 @@ public class ListCompositionFragment extends Fragment {
                 ContextCompat.getDrawable(getContext(), R.drawable.line_divider_edge_to_edge));
         binding.rvIdeas.addItemDecoration(dividerItemDecoration);
         binding.setHandler(mActionHandler);
-        binding.etIdea.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mActionHandler.afterTextChanged(editable);
-            }
-        });
         return binding.getRoot();
     }
 

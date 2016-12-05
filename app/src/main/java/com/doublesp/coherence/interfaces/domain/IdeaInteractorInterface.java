@@ -39,6 +39,8 @@ public interface IdeaInteractorInterface {
 
     Idea getIdeaAtPos(int pos);
 
+    Idea getSuggestionAtPos(int pos);
+
     Plan getPlan();
 
     void setPlan(Plan plan);

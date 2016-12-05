@@ -22,4 +22,8 @@
     <color name="colorRight">#FBC02D</color>
     <color name="colorDown">#64FFDA</color>
     <color name="colorLeft">#4A148C</color>
+    <color name="colorUpOverlay">#55FF4081</color>
+    <color name="colorRightOverlay">#55FBC02D</color>
+    <color name="colorDownOverlay">#5564FFDA</color>
+    <color name="colorLeftOverlay">#554A148C</color>
 </resources>

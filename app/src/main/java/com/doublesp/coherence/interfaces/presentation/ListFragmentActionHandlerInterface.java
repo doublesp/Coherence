@@ -14,8 +14,6 @@ public interface ListFragmentActionHandlerInterface {
 
     void afterTextChanged(Editable s);
 
-    void onSuggestionClick(int pos);
-
     void onCrossoutButtonClick(int pos);
 
     void onRemoveButtonClick(int pos);

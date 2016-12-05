@@ -1,8 +1,7 @@
 package com.doublesp.coherence.actions;
 
-import android.content.Context;
-import android.content.Intent;
-import android.text.Editable;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.activities.ShareActivity;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -10,8 +9,10 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import android.content.Context;
+import android.content.Intent;
+import android.text.Editable;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -94,11 +95,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
         } else {
             mIdeaInteractor.getSuggestions(s.toString().trim());
         }
-    }
-
-    @Override
-    public void onSuggestionClick(int pos) {
-        mIdeaInteractor.acceptSuggestedIdeaAtPos(pos);
     }
 
     @Override

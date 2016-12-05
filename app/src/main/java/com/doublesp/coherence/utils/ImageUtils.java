@@ -104,4 +104,25 @@ public class ImageUtils {
         }
         return mBackgroundImageId;
     }
+
+    public static int getColorForPosition(int position) {
+        int colorResource = R.color.colorUpOverlay;
+        switch (position % 4) {
+            case 0:
+                colorResource = R.color.colorUpOverlay;
+                break;
+            case 1:
+                colorResource = R.color.colorLeftOverlay;
+                break;
+            case 2:
+                colorResource = R.color.colorRightOverlay;
+                break;
+            case 3:
+                colorResource = R.color.colorDownOverlay;
+                break;
+            default:
+                break;
+        }
+        return colorResource;
+    }
 }
