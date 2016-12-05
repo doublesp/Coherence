@@ -12,7 +12,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Editable;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -78,23 +77,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     public void onSearchButtonClick() {
         Plan plan = mIdeaInteractor.getPlan();
         mShareHandler.search(plan);
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        final int i = s.length();
-
-        if (s.toString().trim().isEmpty()) {
-            s.clear();
-            return;
-        }
-
-        if (s.subSequence(i - 1, i).toString().equals("\n")) {
-            mIdeaInteractor.addIdea(s.toString().trim());
-            s.clear();
-        } else {
-            mIdeaInteractor.getSuggestions(s.toString().trim());
-        }
     }
 
     @Override

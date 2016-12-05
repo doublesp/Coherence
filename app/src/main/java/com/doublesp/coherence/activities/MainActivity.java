@@ -274,6 +274,10 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 if (plan != null) {
                     mIdeaInteractor.setPlan(plan);
                 }
+                List<Idea> ideas = plan.getIdeas();
+                if (ideas != null && !ideas.isEmpty()) {
+                    return;
+                }
                 if (goal != null) {
                     mIdeaInteractor.loadIdeasFromGoal(goal);
                 }

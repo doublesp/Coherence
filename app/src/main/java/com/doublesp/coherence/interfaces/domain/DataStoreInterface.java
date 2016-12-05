@@ -4,6 +4,7 @@ import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import java.util.List;
@@ -26,8 +27,6 @@ public interface DataStoreInterface {
 
     void setIdeas(List<Idea> ideas);
 
-    void updateIdea(int pos, Idea idea);
-
     void removeIdea(int pos);
 
     void clearIdeas();
@@ -38,7 +37,11 @@ public interface DataStoreInterface {
 
     void setSavedGoals(List<Goal> goals);
 
-    GoalReducer getGoalReducer(String id);
+    IdeaReducer getIdeaReducer(String id);
+
+    GoalReducer getExploreGoalReducer(String id);
+
+    GoalReducer getSavedGoalReducer(String id);
 
     void clearSuggestions();
 

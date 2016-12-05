@@ -25,6 +25,8 @@ public interface GoalInteractorInterface {
 
     void searchGoalByIdeas(List<Idea> ideas);
 
+    void loadDetailsForGoalAtPos(int pos);
+
     void subscribeToGoalStateChange(Observer<ViewState> observer);
 
     void setDisplayGoalFlag(int flag);

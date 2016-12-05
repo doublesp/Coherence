@@ -142,7 +142,7 @@ public class SavedIdeasFragment extends Fragment {
             handler.removeCallbacksAndMessages(null);
         }
     }
-
+    
     private void asyncRotateImage(final Handler handler, final ImageView imageView, String listId) {
         handler.removeCallbacksAndMessages(null);
         DatabaseReference listsDatabaseReference = mFirebaseDatabase.getReference().child(

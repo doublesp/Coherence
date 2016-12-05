@@ -27,7 +27,6 @@ import javax.inject.Named;
 
 public class GoalSearchFragment extends Fragment {
 
-    static final String GOAL_SEARCH_FRAGMENT_VIEW_MODEL = "GOAL_SEARCH_FRAGMENT_VIEW_MODEL";
     FragmentGoalSearchBinding binding;
     @Inject
     GoalActionHandlerInterface mActionHandler;

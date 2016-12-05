@@ -77,29 +77,24 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                             case ADD:
                                 start = state.getStart();
                                 count = 1;
-                                notifyItemInserted(start);
                                 saveNewItemsToFireBase(start, count);
                                 break;
                             case INSERT:
                                 start = state.getStart();
                                 count = state.getCount();
-                                notifyItemRangeInserted(start, count);
                                 saveNewItemsToFireBase(start, count);
                                 break;
                             case UPDATE:
                                 start = state.getStart();
                                 count = state.getCount();
-                                notifyItemRangeChanged(start, count);
                                 updateItemInFireBase(start, count);
                                 break;
                             case REMOVE:
                                 start = state.getStart();
                                 count = state.getCount();
-                                notifyItemRangeRemoved(start, count);
                                 saveToFireBase();
                                 break;
                             case CLEAR:
-                                notifyDataSetChanged();
                                 break;
                         }
                         break;

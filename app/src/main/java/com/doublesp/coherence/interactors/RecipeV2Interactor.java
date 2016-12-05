@@ -8,6 +8,7 @@ import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.models.v2.RecipeV2;
 import com.doublesp.coherence.models.v2.SavedRecipe;
 import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 
 import java.util.ArrayList;
@@ -75,6 +76,35 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                 mRecipes.addAll(recipes);
             }
         });
+        mRecipeRepository.subscribeDetail(new Observer<RecipeV2>() {
+            RecipeV2 mRecipe;
+
+            @Override
+            public void onCompleted() {
+                GoalReducer exploreGoalReducer = mDataStore.getExploreGoalReducer(
+                        mRecipe.getId());
+                if (exploreGoalReducer != null) {
+                    exploreGoalReducer.setDescription(mRecipe.getInstructions());
+                }
+                GoalReducer savedGoalReducer = mDataStore.getSavedGoalReducer(
+                        mRecipe.getId());
+                if (savedGoalReducer != null) {
+                    savedGoalReducer.setDescription(mRecipe.getInstructions());
+                }
+                mDataStore.setGoalState(new ViewState(
+                        R.id.state_loaded, ViewState.OPERATION.UPDATE));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(RecipeV2 recipe) {
+                mRecipe = recipe;
+            }
+        });
     }
 
     @Override
@@ -126,6 +156,14 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     }
 
     @Override
+    public void loadDetailsForGoalAtPos(int pos) {
+        mDataStore.setGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.UPDATE));
+        Goal goal = mDataStore.getGoalAtPos(pos);
+        mRecipeRepository.searchRecipeDetail(goal.getId());
+    }
+
+    @Override
     public void subscribeToGoalStateChange(Observer<ViewState> observer) {
         mDataStore.subscribeToGoalStateChanges(observer);
     }
@@ -165,7 +203,9 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                                     savedRecipe.delete();
                                 }
                             }
-                            mDataStore.getGoalReducer(
+                            mDataStore.getExploreGoalReducer(
+                                    goal.getId()).setBookmarked(!goal.isBookmarked());
+                            mDataStore.getSavedGoalReducer(
                                     goal.getId()).setBookmarked(!goal.isBookmarked());
                             mDataStore.setGoalState(new ViewState(
                                     R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));

@@ -52,13 +52,10 @@ public class GoalPreviewFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mPos = getArguments().getInt(IDEA_PREVIEW_FRAGMENT_INDEX);
-            Goal goal = mGoalInteractor.getGoalAtPos(mPos);
-            mIdeaInteractor.loadIdeasFromGoal(goal);
-            mIdeaInteractor.subscribeIdeaStateChange(new Observer<ViewState>() {
+            mGoalInteractor.loadDetailsForGoalAtPos(mPos);
+            mGoalInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {
                 @Override
                 public void onCompleted() {
-                    Goal updatedGoal = mGoalInteractor.getGoalAtPos(mPos);
-                    binding.setViewModel(updatedGoal);
                 }
 
                 @Override
@@ -68,7 +65,18 @@ public class GoalPreviewFragment extends DialogFragment {
 
                 @Override
                 public void onNext(ViewState viewState) {
-
+                    switch (viewState.getState()) {
+                        case R.id.state_loaded:
+                            switch (viewState.getOperation()) {
+                                case UPDATE:
+                                    if (viewState.getStart() != -1) {
+                                        return;
+                                    }
+                                    Goal updatedGoal = mGoalInteractor.getGoalAtPos(mPos);
+                                    binding.setViewModel(updatedGoal);
+                                    binding.executePendingBindings();
+                            }
+                    }
                 }
             });
         }
