@@ -85,8 +85,7 @@ public class SavedIdeasFragment extends Fragment {
                             : userList.getOwner();
 
                     holder.binding.singlePlan.setText(title);
-                    holder.binding.owner.setText(getContext().getString(R.string.owner,
-                            owner.replace(",", ".")));
+                    holder.binding.owner.setText(owner.replace(",", "."));
 
                     String listId = mFirebaseRecyclerAdapter.getRef(position).getKey();
                     asyncRotateImage(holder.mHandler, holder.binding.ivPlanImage, listId);

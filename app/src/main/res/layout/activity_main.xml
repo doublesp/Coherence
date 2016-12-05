@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorWhiteOverlay"
+                    android:background="@color/colorTabLayout"
                     app:tabTextColor="@color/colorButtonUnselected"
                     app:tabSelectedTextColor="@color/colorText"
                     app:tabIndicatorColor="@color/colorIndicator"
