@@ -425,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 mIdeaInteractor.acceptSuggestedIdeaAtPos(position);
                 searchView.setQuery("", false);
                 searchView.clearFocus();
-                searchView.requestFocus();
 
             }
         });
@@ -438,8 +437,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                         mGoalInteractor.search(query);
                         break;
                     case CREATE_LIST:
-                        // NOTE: intentionally do nothing so that user can only
-                        // add groceries that is available from API
+                        if (mIdeaInteractor.getSuggestionCount() < 1) {
+                            return true;
+                        }
+                        mIdeaInteractor.acceptSuggestedIdeaAtPos(0);
+                        searchView.setQuery("", false);
                         break;
                     case SAVED_IDEAS:
                         break;
