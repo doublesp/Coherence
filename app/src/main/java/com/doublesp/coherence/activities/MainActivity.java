@@ -1,10 +1,21 @@
 package com.doublesp.coherence.activities;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.batch.android.Batch;
 import com.crashlytics.android.Crashlytics;
@@ -34,21 +45,11 @@ import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.auth.AuthUI;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,8 +57,6 @@ import java.util.HashMap;
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
         GoalActionHandlerInterface.PreviewHandlerInterface,
@@ -125,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                                                     AuthUI.GOOGLE_PROVIDER).build(),
                                             new AuthUI.IdpConfig.Builder(
                                                     AuthUI.FACEBOOK_PROVIDER).build()))
+                                    .setTheme(R.style.FullscreenTheme)
                                     .build(),
                             RC_SIGN_IN);
                 }
