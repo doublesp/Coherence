@@ -8,8 +8,8 @@
             type="com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface" />
 
         <variable
-                name="pos"
-                type="int" />
+            name="pos"
+            type="int" />
 
         <variable
             name="viewModel"
@@ -76,37 +76,37 @@ Salt, to taste" />
         </LinearLayout>
 
         <com.getbase.floatingactionbutton.FloatingActionsMenu
-                android:id="@+id/multiple_actions"
+            android:id="@+id/multiple_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right|end"
+            android:layout_margin="16dp"
+            app:fabSize="normal"
+            app:fab_addButtonColorNormal="@color/colorUpOverlayDark"
+            app:fab_addButtonColorPressed="@color/colorUpOverlayDark"
+            app:fab_labelStyle="@style/menu_labels_style"
+            app:layout_anchor="@id/llIdeaDescriptionBox"
+            app:layout_anchorGravity="bottom|right|end">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right|end"
-                android:layout_margin="16dp"
-                app:fabSize="normal"
-                app:fab_addButtonColorNormal="@color/colorUpOverlayDark"
-                app:fab_addButtonColorPressed="@color/colorUpOverlayDark"
-                app:fab_labelStyle="@style/menu_labels_style"
-                app:layout_anchor="@id/llIdeaDescriptionBox"
-                app:layout_anchorGravity="bottom|right|end">
+                android:onClick="@{() -> handler.onCreateIdeaListClick(pos)}"
+                android:src="@drawable/ic_create"
+                android:tint="@color/colorButton"
+                app:fab_colorNormal="@color/colorDownOverlayDark"
+                app:fab_title="@string/create_list" />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onCreateIdeaListClick(pos)}"
-                    android:src="@drawable/ic_create"
-                    android:tint="@color/colorButton"
-                    app:fab_colorNormal="@color/colorDownOverlayDark"
-                    app:fab_title="@string/create_list" />
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="@{() -> handler.onBookmarkClick(pos)}"
-                    android:src="@drawable/bookmark"
-                    android:tint="@color/colorButton"
-                    app:selected='@{!viewModel.bookmarked}'
-                    app:fab_colorNormal="@color/colorRightOverlayDark"
-                    app:fab_title="@string/save_recipe"
-                    app:bookmark_title='@{viewModel.bookmarked}' />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onBookmarkClick(pos)}"
+                android:src="@drawable/bookmark"
+                android:tint="@color/colorButton"
+                app:bookmark_title='@{viewModel.bookmarked}'
+                app:fab_colorNormal="@color/colorRightOverlayDark"
+                app:fab_title="@string/save_recipe"
+                app:selected='@{!viewModel.bookmarked}' />
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

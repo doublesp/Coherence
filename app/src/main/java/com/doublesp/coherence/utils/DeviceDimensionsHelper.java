@@ -5,10 +5,6 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-/**
- * Created by pinyaoting on 10/13/16.
- */
-
 public class DeviceDimensionsHelper {
     // DeviceDimensionsHelper.getDisplayWidth(context) => (display width in pixels)
     public static int getDisplayWidth(Context context) {

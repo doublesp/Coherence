@@ -20,10 +20,6 @@ import rx.Observer;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
-/**
- * Created by pinyaoting on 11/22/16.
- */
-
 public class IngredientInteractor extends IdeaInteractorBase {
 
     public static final int INGREDIENT_INTERACTOR_BATCH_SIZE = 10;
@@ -41,11 +37,11 @@ public class IngredientInteractor extends IdeaInteractorBase {
         mIdeaDataStore = ideaDataStore;
         mRecipeRepository = recipeRepository;
         mRecipeRepository.subscribeAutoCompleteIngredient(new Observer<List<IngredientV2>>() {
-            List<IngredientV2> mIngredients = new ArrayList<IngredientV2>();
+            List<IngredientV2> mIngredients = new ArrayList<>();
 
             @Override
             public void onCompleted() {
-                List<Idea> suggestions = new ArrayList<Idea>();
+                List<Idea> suggestions = new ArrayList<>();
                 for (IngredientV2 ingredient : mIngredients) {
                     Idea idea = new Idea("", R.id.idea_category_recipe_v2, ingredient.getName(),
                             false, R.id.idea_type_suggestion,
@@ -74,8 +70,8 @@ public class IngredientInteractor extends IdeaInteractorBase {
 
             @Override
             public void onCompleted() {
-                List<Idea> ideas = new ArrayList<Idea>();
-                Set<String> dedupSet = new HashSet<String>();
+                List<Idea> ideas = new ArrayList<>();
+                Set<String> dedupSet = new HashSet<>();
                 for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
                     if (dedupSet.contains(ingredient.getName())) {
                         continue;

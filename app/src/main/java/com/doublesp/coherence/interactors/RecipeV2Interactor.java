@@ -19,10 +19,6 @@ import rx.Observer;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
-/**
- * Created by pinyaoting on 11/26/16.
- */
-
 public class RecipeV2Interactor implements GoalInteractorInterface {
 
     public static final int RECIPEV2_INTERACTOR_BATCH_SIZE = 10;
@@ -45,7 +41,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
         mDataStore = dataStore;
         mRecipeRepository = recipeRepository;
         mRecipeRepository.subscribe(new Observer<List<RecipeV2>>() {
-            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+            List<RecipeV2> mRecipes = new ArrayList<>();
 
             @Override
             public void onCompleted() {
@@ -220,17 +216,17 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     }
 
     @Override
+    public int getDisplayGoalFlag() {
+        return mDataStore.getGoalFlag();
+    }
+
+    @Override
     public void setDisplayGoalFlag(int flag) {
         mDataStore.setGoalFlag(flag);
         switch (flag) {
             case R.id.flag_saved_recipes:
                 loadBookmarkedGoals();
         }
-    }
-
-    @Override
-    public int getDisplayGoalFlag() {
-        return mDataStore.getGoalFlag();
     }
 
     private void loadBookmarkedGoals() {

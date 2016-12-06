@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 public class RecipeResponse {
 
     @SerializedName("hits")

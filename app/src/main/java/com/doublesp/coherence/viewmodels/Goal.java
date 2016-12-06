@@ -2,10 +2,6 @@ package com.doublesp.coherence.viewmodels;
 
 import org.parceler.Parcel;
 
-/**
- * Created by pinyaoting on 11/27/16.
- */
-
 @Parcel
 public class Goal {
 
@@ -50,7 +46,7 @@ public class Goal {
     public boolean equals(Object obj) {
         if (obj instanceof Goal) {
             Goal target = (Goal) obj;
-            return this.getId() == target.getId();
+            return this.getId().equals(target.getId());
         }
         return false;
     }

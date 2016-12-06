@@ -1,17 +1,12 @@
 package com.doublesp.coherence.viewmodels;
 
-import com.google.firebase.database.Exclude;
-
 import com.doublesp.coherence.R;
+import com.google.firebase.database.Exclude;
 
 import org.parceler.Parcel;
 
 import java.util.HashMap;
 import java.util.Map;
-
-/**
- * Created by pinyaoting on 11/10/16.
- */
 
 @Parcel
 public class Idea {

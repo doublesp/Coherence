@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_horizontal_margin">
 
     <ImageView

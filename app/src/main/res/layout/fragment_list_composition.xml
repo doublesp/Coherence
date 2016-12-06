@@ -24,9 +24,9 @@
             android:id="@+id/rvIdeas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="84dp"
+            android:background="@android:color/transparent"
             android:clipToPadding="false"
-            android:background="@android:color/transparent" />
+            android:paddingTop="84dp" />
 
         <com.getbase.floatingactionbutton.FloatingActionsMenu
             android:id="@+id/multiple_actions"

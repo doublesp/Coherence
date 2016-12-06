@@ -11,10 +11,6 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/27/16.
- */
-
 @Table(database = RecipeV2Database.class)
 public class SavedRecipe extends BaseModel {
 

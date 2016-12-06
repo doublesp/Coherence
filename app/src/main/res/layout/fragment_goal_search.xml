@@ -1,65 +1,64 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.percent.PercentFrameLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorBackground"
-            tools:context="com.doublesp.coherence.fragments.GoalSearchFragment">
+    <android.support.percent.PercentFrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        tools:context="com.doublesp.coherence.fragments.GoalSearchFragment">
 
         <android.support.percent.PercentFrameLayout
-                android:id="@+id/flGoalSearchBackground"
+            android:id="@+id/flGoalSearchBackground"
+            android:layout_width="match_parent"
+            app:layout_heightPercent="@fraction/top_image_ratio">
+
+            <ImageView
+                android:id="@+id/ivIdeaSearchBackground"
                 android:layout_width="match_parent"
-                app:layout_heightPercent="@fraction/top_image_ratio">
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/background_0" />
 
             <ImageView
-                    android:id="@+id/ivIdeaSearchBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/background_0"/>
-
-            <ImageView
-                    android:id="@+id/ivGoalSearchBackground"
-                    android:layout_gravity="bottom"
-                    android:layout_width="match_parent"
-                    app:layout_heightPercent="@fraction/top_image_cut_ratio"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/rectangular_triangle"
-                    android:tint="@color/colorBackground"/>
+                android:id="@+id/ivGoalSearchBackground"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                android:scaleType="fitXY"
+                android:src="@drawable/rectangular_triangle"
+                android:tint="@color/colorBackground"
+                app:layout_heightPercent="@fraction/top_image_cut_ratio" />
 
         </android.support.percent.PercentFrameLayout>
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvIdeaSearchResults"
-                android:clipToPadding="false"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"/>
+            android:id="@+id/rvIdeaSearchResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:clipToPadding="false" />
 
         <EditText
-                android:id="@+id/etIdeaSearchBox"
-                style="@style/SearchBox"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_list_composition_idea_height"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:hint="@string/idea_hint_search"
-                android:visibility="invisible"
-                android:maxLines="1"/>
+            android:id="@+id/etIdeaSearchBox"
+            style="@style/SearchBox"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_list_composition_idea_height"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:hint="@string/idea_hint_search"
+            android:maxLines="1"
+            android:visibility="invisible" />
 
         <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right|end"
-                android:layout_margin="16dp"
-                android:onClick="onBookmarkClick"
-                android:src="@drawable/ic_bookmark"
-                android:tint="@color/colorButton"
-                app:backgroundTint="@color/colorUpOverlayDark"
-                app:fabSize="normal"
-                app:fab_title="@string/saved_recipes"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right|end"
+            android:layout_margin="16dp"
+            android:onClick="onBookmarkClick"
+            android:src="@drawable/ic_bookmark"
+            android:tint="@color/colorButton"
+            app:backgroundTint="@color/colorUpOverlayDark"
+            app:fabSize="normal"
+            app:fab_title="@string/saved_recipes" />
 
     </android.support.percent.PercentFrameLayout>
 </layout>

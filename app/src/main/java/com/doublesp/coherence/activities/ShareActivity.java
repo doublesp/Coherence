@@ -1,10 +1,18 @@
 package com.doublesp.coherence.activities;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -15,31 +23,23 @@ import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.viewmodels.User;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ShareActivity extends AppCompatActivity {
-    ActivityShareBinding binding;
     public static FragmentManager fm;
     private static DatabaseReference mUsersListsDatabaseReference;
     private static DatabaseReference mSharedWithListsDatabaseReference;
     private static DatabaseReference mNotifySharedDatabaseReference;
     private static String mListId;
     private static FirebaseRecyclerAdapter<User, FriendsViewHolder> mFirebaseRecyclerAdapter;
+    ActivityShareBinding binding;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mListsDatabaseReference;
     private RecyclerView mRecyclerView;
@@ -72,6 +72,8 @@ public class ShareActivity extends AppCompatActivity {
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,
                 linearLayoutManager.getOrientation());
+        dividerItemDecoration.setDrawable(
+                ContextCompat.getDrawable(this, R.drawable.line_divider_edge_to_edge));
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(

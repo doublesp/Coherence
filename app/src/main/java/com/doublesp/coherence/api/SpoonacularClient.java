@@ -16,10 +16,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by pinyaoting on 11/22/16.
- */
-
 public class SpoonacularClient {
 
     static final int DELAY_BETWEEN_API_CALLS = 1000;

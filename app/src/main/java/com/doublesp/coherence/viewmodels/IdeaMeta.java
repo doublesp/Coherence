@@ -2,10 +2,6 @@ package com.doublesp.coherence.viewmodels;
 
 import org.parceler.Parcel;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @Parcel
 public class IdeaMeta {
 

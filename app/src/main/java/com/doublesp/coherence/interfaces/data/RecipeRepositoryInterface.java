@@ -6,10 +6,6 @@ import java.util.List;
 
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 public interface RecipeRepositoryInterface {
 
     void subscribe(Observer<List<Recipe>> observer);

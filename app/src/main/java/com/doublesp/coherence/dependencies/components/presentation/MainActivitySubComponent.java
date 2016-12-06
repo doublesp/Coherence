@@ -11,10 +11,6 @@ import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
 import dagger.Subcomponent;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @PresentationLayerScope
 @Subcomponent(modules = MainActivityModule.class)
 public interface MainActivitySubComponent {

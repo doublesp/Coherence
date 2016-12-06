@@ -6,10 +6,6 @@ import android.net.NetworkInfo;
 
 import java.io.IOException;
 
-/**
- * Created by pinyaoting on 10/30/16.
- */
-
 public class NetworkUtils {
     public static Boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
@@ -24,9 +20,7 @@ public class NetworkUtils {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
             int exitValue = ipProcess.waitFor();
             return (exitValue == 0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return false;

@@ -11,10 +11,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     DataStoreInterface mIdeaDataStore;
