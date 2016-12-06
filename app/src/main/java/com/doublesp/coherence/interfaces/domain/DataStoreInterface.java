@@ -74,4 +74,6 @@ public interface DataStoreInterface {
     void setGoalFlag(int flag);
 
     int getGoalFlag();
+
+    void clearPlan();
 }

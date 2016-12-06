@@ -30,6 +30,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.service.NotificationService;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
@@ -70,7 +71,7 @@ import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
 
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.CREATE_LIST;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_GOALS;
 import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
 import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
@@ -79,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         GoalActionHandlerInterface.PreviewHandlerInterface,
         GoalDetailActionHandlerInterface.ListCompositionDialogHandlerInterface,
         ListFragmentActionHandler.IdeaShareHandlerInterface,
-        SavedIdeasActionHandlerInterface {
+        SavedIdeasActionHandlerInterface,
+        ListCompositionHandlerInterface {
 
     public static final int RC_SIGN_IN = 1;
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
@@ -99,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
     private DialogFragment mDialogFragment;
-    private String mListId;
-    private Goal mGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,22 +123,23 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             public void onPageSelected(int position) {
                 binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
                 String title = getString(R.string.app_name);
-                float titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                float titleSize = getResources().getInteger(R.integer.app_title_size);
                 switch (position) {
-                    case CREATE_LIST:
-                        loadList(getListId(), mGoal);
-                        title = getString(R.string.create_grocery_hint);
-                        break;
-                    case SAVED_IDEAS:
-                        discardListIfEmpty();
-                        title = getString(R.string.saved_grocery_hint);
-                        break;
                     case SEARCH_GOAL:
-                        discardListIfEmpty();
+                        mGoalInteractor.setDisplayGoalFlag(R.id.flag_explore_recipes);
+                        title = getString(R.string.app_name);
                         titleSize = getResources().getInteger(R.integer.app_title_size);
                         break;
+                    case SAVED_GOALS:
+                        mGoalInteractor.setDisplayGoalFlag(R.id.flag_saved_recipes);
+                        title = getString(R.string.saved_goals);
+                        titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                        break;
+                    case SAVED_IDEAS:
+                        title = getString(R.string.saved_grocery_hint);
+                        titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                        break;
                     default:
-                        discardListIfEmpty();
                         break;
                 }
                 binding.activityMainToolbarContainer.toolbarTitle.setText(title);
@@ -209,7 +210,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void showPreviewDialog(int pos) {
+    public void preview(int pos) {
+        dismissDialogIfNotNull();
         mDialogFragment = GoalPreviewFragment.newInstance(pos);
         mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
@@ -217,22 +219,35 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void compose(Goal goal) {
-        if (mDialogFragment != null) {
-            mDialogFragment.dismiss();
-        }
-        mListId = newListId();
-        mGoal = goal;
-        binding.viewpager.setCurrentItem(CREATE_LIST);
+        // load ingredients from recipe
+        dismissDialogIfNotNull();
+        loadList(newListId(), goal);
+        mDialogFragment = ListCompositionFragment.newInstance();
+        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
 
     @Override
     public void compose(String listId) {
+        // load existing list
         if (listId == null) {
-            return;
+            listId = newListId();
         }
-        mListId = listId;
-        mGoal = null;
-        binding.viewpager.setCurrentItem(CREATE_LIST);
+        dismissDialogIfNotNull();
+        loadList(listId, null);
+        mDialogFragment = ListCompositionFragment.newInstance();
+        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+    }
+
+    @Override
+    public void compose() {
+        // create new list
+        dismissDialogIfNotNull();
+        loadList(newListId(), null);
+        mDialogFragment = ListCompositionFragment.newInstance();
+        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
 
     @Override
@@ -256,13 +271,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
 
         return keyReference.getKey();
-    }
-
-    private String getListId() {
-        if (mListId == null) {
-            mListId = newListId();
-        }
-        return mListId;
     }
 
     private void loadList(final String listId, final Goal goal) {
@@ -290,22 +298,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             }
         });
-    }
-
-    private void discardListIfEmpty() {
-        Plan plan = mIdeaInteractor.getPlan();
-        if (plan == null || mListId == null) {
-            return;
-        }
-        List<Idea> ideas = plan.getIdeas();
-        if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
-            mFirebaseDatabase.getReference()
-                    .child(ConstantsAndUtils.USER_LISTS)
-                    .child(ConstantsAndUtils.getOwner(getContext()))
-                    .child(mListId)
-                    .removeValue();
-            mListId = null;
-        }
     }
 
     @Override
@@ -442,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                     case SEARCH_GOAL:
                         mGoalInteractor.search(query);
                         break;
-                    case CREATE_LIST:
+                    case SAVED_GOALS:
                         if (mIdeaInteractor.getSuggestionCount() < 1) {
                             return true;
                         }
@@ -517,4 +509,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         compose(listId);
     }
 
+    private void dismissDialogIfNotNull() {
+        if (mDialogFragment != null) {
+            mDialogFragment.dismiss();
+        }
+    }
 }

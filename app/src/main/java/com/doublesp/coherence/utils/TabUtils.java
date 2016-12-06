@@ -54,7 +54,7 @@ public class TabUtils {
         tab.getIcon().setColorFilter(selectedTabIconColor, PorterDuff.Mode.SRC_IN);
 
         tab = layout.getTabAt(1);
-        tab.setIcon(R.drawable.ic_create);
+        tab.setIcon(R.drawable.ic_bookmark);
         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
 
         tab = layout.getTabAt(2);

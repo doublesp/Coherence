@@ -2,7 +2,6 @@ package com.doublesp.coherence.adapters;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 import android.content.Context;
@@ -17,13 +16,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
     public static final int SEARCH_GOAL = 0;
-    public static final int CREATE_LIST = 1;
+    public static final int SAVED_GOALS = 1;
     public static final int SAVED_IDEAS = 2;
 
-    private String tabTitles[] = new String[]{"Explore Recipes", "Create Grocery List", "Saved Ideas"};
+    private String tabTitles[] = new String[]{"Explore Goals", "Saved Goals", "Saved Ideas"};
     private Context mContext;
     private GoalSearchFragment mGoalSearchFragment;
-    private ListCompositionFragment mListCompositionFragment;
+    private GoalSearchFragment mListCompositionFragment;
     private SavedIdeasFragment mSavedIdeasFragment;
 
     public HomeFragmentPagerAdapter(FragmentManager fm, Context context) {
@@ -37,8 +36,8 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
             case SEARCH_GOAL:
                 mGoalSearchFragment = GoalSearchFragment.newInstance();
                 return mGoalSearchFragment;
-            case CREATE_LIST:
-                mListCompositionFragment = ListCompositionFragment.newInstance();
+            case SAVED_GOALS:
+                mListCompositionFragment = GoalSearchFragment.newInstance();
                 return mListCompositionFragment;
             case SAVED_IDEAS:
                 mSavedIdeasFragment = SavedIdeasFragment.newInstance();
@@ -53,20 +52,18 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         return tabTitles.length;
     }
 
-
-
     @Override
     public CharSequence getPageTitle(int position) {
         String title = null;
         switch (position) {
             case SEARCH_GOAL:
-                title = mContext.getString(R.string.app_name);
+                title = mContext.getString(R.string.explore_goals);
                 break;
-            case CREATE_LIST:
-                title = mContext.getString(R.string.create_grocery_list);
+            case SAVED_GOALS:
+                title = mContext.getString(R.string.saved_goals);
                 break;
             case SAVED_IDEAS:
-                title = mContext.getString(R.string.saved_grocery_list);
+                title = mContext.getString(R.string.saved_ideas);
                 break;
             default:
         }

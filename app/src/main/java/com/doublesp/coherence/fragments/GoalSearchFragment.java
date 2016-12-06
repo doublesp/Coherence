@@ -5,6 +5,7 @@ import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
 import com.doublesp.coherence.utils.ImageUtils;
 
 import android.content.Context;
@@ -16,8 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,9 @@ public class GoalSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_goal_search, container, false);
-
+        if (getActivity() instanceof ListCompositionHandlerInterface) {
+            binding.setHandler((ListCompositionHandlerInterface) getActivity());
+        }
         binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeaSearchResults.setAdapter(mAdapter);
         binding.rvIdeaSearchResults.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -77,22 +78,6 @@ public class GoalSearchFragment extends Fragment {
         dividerItemDecoration.setDrawable(
                 ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.rvIdeaSearchResults.addItemDecoration(dividerItemDecoration);
-        binding.etIdeaSearchBox.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                mActionHandler.afterTextChanged(editable);
-            }
-        });
         ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
         return binding.getRoot();
     }

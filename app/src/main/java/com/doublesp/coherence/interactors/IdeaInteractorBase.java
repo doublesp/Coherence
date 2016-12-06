@@ -1,15 +1,22 @@
 package com.doublesp.coherence.interactors;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
 
+import java.util.List;
+
 import rx.Observer;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
  * Created by pinyaoting on 11/10/16.
@@ -64,15 +71,6 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
         mIdeaDataStore.removeIdea(pos);
         mIdeaDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.REMOVE, pos, 1));
-    }
-
-    @Override
-    public void clearIdeas() {
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.CLEAR));
-        mIdeaDataStore.clearIdeas();
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.CLEAR));
     }
 
     @Override
@@ -131,4 +129,28 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     abstract public void loadIdeasFromGoal(Goal goal);
+
+    @Override
+    public void discardPlanIfEmpty() {
+        Plan plan = mIdeaDataStore.getPlan();
+        if (plan == null || plan.getId() == null) {
+            return;
+        }
+        String listId = plan.getId();
+        List<Idea> ideas = plan.getIdeas();
+        if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
+            // TODO: inject FirebaseDatabase
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child(ConstantsAndUtils.USER_LISTS)
+                    .child(ConstantsAndUtils.getOwner(getContext()))
+                    .child(listId)
+                    .removeValue();
+        }
+    }
+
+    @Override
+    public void clearPlan() {
+        mIdeaDataStore.clearPlan();
+    }
 }

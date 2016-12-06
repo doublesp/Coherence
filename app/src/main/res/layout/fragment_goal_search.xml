@@ -1,6 +1,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+                name="handler"
+                type="com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface"/>
+    </data>
+
     <android.support.percent.PercentFrameLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -38,28 +44,17 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"/>
 
-        <EditText
-                android:id="@+id/etIdeaSearchBox"
-                style="@style/SearchBox"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_list_composition_idea_height"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:hint="@string/idea_hint_search"
-                android:visibility="invisible"
-                android:maxLines="1"/>
-
         <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right|end"
                 android:layout_margin="16dp"
-                android:onClick="onBookmarkClick"
-                android:src="@drawable/ic_bookmark"
+                android:onClick="@{() -> handler.compose()}"
+                android:src="@drawable/ic_create"
                 android:tint="@color/colorButton"
                 app:backgroundTint="@color/colorUpOverlayDark"
                 app:fabSize="normal"
-                app:fab_title="@string/saved_recipes"/>
+                app:fab_title="@string/create_grocery_list"/>
 
     </android.support.percent.PercentFrameLayout>
 </layout>

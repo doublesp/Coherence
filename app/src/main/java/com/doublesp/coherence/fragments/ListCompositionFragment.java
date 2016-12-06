@@ -10,7 +10,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,13 +18,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import jp.wasabeef.blurry.Blurry;
 
-public class ListCompositionFragment extends Fragment {
+public class ListCompositionFragment extends DialogFragment {
 
     static final String LIST_COMPOSITION_VIEW_MODELS = "LIST_COMPOSITION_VIEW_MODELS";
     static final String LIST_COMPOSITION_LIST_ID = "LIST_COMPOSITION_LIST_ID";
@@ -101,13 +102,21 @@ public class ListCompositionFragment extends Fragment {
     @Override
     public void onResume() {
         binding.multipleActions.collapse();
+        // Get existing layout params for the window
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        // Call super onResume after sizing
         super.onResume();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mInteractor.clearIdeas();
+        mInteractor.discardPlanIfEmpty();
+        mInteractor.clearPlan();
     }
 
 }

@@ -10,6 +10,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
 import com.doublesp.coherence.databinding.SinglePlanBinding;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.ImageUtils;
@@ -129,6 +130,9 @@ public class SavedIdeasFragment extends Fragment {
             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_ideas, container,
                 false);
+        if (getActivity() instanceof ListCompositionHandlerInterface) {
+            binding.setHandler((ListCompositionHandlerInterface) getActivity());
+        }
         binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
