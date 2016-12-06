@@ -18,10 +18,6 @@ import rx.Observer;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     DataStoreInterface mIdeaDataStore;

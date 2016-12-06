@@ -15,10 +15,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/21/16.
- */
-
 public class IdeaReviewArrayAdapter extends RecyclerView.Adapter {
 
     List<Idea> mIdeas;

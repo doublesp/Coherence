@@ -1,6 +1,5 @@
 package com.doublesp.coherence.activities;
 
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -448,10 +447,10 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s.toString().trim().isEmpty()) {
+                if (s.trim().isEmpty()) {
                     return true;
                 }
-                mIdeaInteractor.getSuggestions(s.toString().trim());
+                mIdeaInteractor.getSuggestions(s.trim());
                 return true;
             }
         });

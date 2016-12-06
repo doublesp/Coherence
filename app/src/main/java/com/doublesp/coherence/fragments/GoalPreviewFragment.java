@@ -1,5 +1,13 @@
 package com.doublesp.coherence.fragments;
 
+import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -8,14 +16,6 @@ import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
-
-import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import javax.inject.Inject;
 

@@ -1,17 +1,14 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.SavedIdeasFragment;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-/**
- * Created by pinyaoting on 11/16/16.
- */
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -19,7 +16,8 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
     public static final int SAVED_GOALS = 1;
     public static final int SAVED_IDEAS = 2;
 
-    private String tabTitles[] = new String[]{"Explore Goals", "Saved Goals", "Saved Ideas"};
+    private String tabTitles[] =
+            new String[]{"Explore Goals", "Saved Goals", "Saved Ideas"};
     private Context mContext;
     private GoalSearchFragment mGoalSearchFragment;
     private GoalSearchFragment mListCompositionFragment;

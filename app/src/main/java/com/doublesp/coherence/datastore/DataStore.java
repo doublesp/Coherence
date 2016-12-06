@@ -1,5 +1,7 @@
 package com.doublesp.coherence.datastore;
 
+import android.content.Context;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
@@ -9,8 +11,6 @@ import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,10 +23,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 public class DataStore implements DataStoreInterface {
 
     DataSnapshotStore mSnapshotStore;
@@ -34,14 +30,14 @@ public class DataStore implements DataStoreInterface {
     List<Observer<ViewState>> mSuggestionStateObservers;
     List<Observer<ViewState>> mSavedGoalStateObservers;
     List<Observer<ViewState>> mGoalStateObservers;
-    private Map<String, IdeaReducer> mIdeaReducers;
-    private Map<String, GoalReducer> mExploreGoalReducers;
-    private Map<String, GoalReducer> mSavedGoalReducers;
     Plan mPlan;
     ViewState mIdeaState;
     ViewState mSuggestionState;
     ViewState mSavedGoalState;
     ViewState mGoalState;
+    private Map<String, IdeaReducer> mIdeaReducers;
+    private Map<String, GoalReducer> mExploreGoalReducers;
+    private Map<String, GoalReducer> mSavedGoalReducers;
     private Context mContext;
     private int mDisplayGoalFlag;
 
@@ -167,7 +163,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifyIdeaStateChange() {
-        ConnectableObservable<ViewState> connectedObservable = Observable.just(mIdeaState).publish();
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(
+                mIdeaState).publish();
         for (Observer<ViewState> observer : mIdeaStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -188,7 +185,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifyGoalStateChange() {
-        ConnectableObservable<ViewState> connectedObservable = Observable.just(mGoalState).publish();
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(
+                mGoalState).publish();
         for (Observer<ViewState> observer : mGoalStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -276,13 +274,13 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void setGoalFlag(int flag) {
-        mDisplayGoalFlag = flag;
+    public int getGoalFlag() {
+        return mDisplayGoalFlag;
     }
 
     @Override
-    public int getGoalFlag() {
-        return mDisplayGoalFlag;
+    public void setGoalFlag(int flag) {
+        mDisplayGoalFlag = flag;
     }
 
     @Override

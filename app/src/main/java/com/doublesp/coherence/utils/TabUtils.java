@@ -1,16 +1,12 @@
 package com.doublesp.coherence.utils;
 
-import com.doublesp.coherence.R;
-
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
-/**
- * Created by pinyaoting on 11/16/16.
- */
+import com.doublesp.coherence.R;
 
 public class TabUtils {
 

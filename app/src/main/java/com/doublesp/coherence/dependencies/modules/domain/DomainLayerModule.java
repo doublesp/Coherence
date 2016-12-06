@@ -19,10 +19,6 @@ import dagger.Provides;
 import dagger.multibindings.IntKey;
 import dagger.multibindings.IntoMap;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @Module
 public class DomainLayerModule {
 

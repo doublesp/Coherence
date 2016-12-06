@@ -7,10 +7,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 public interface IdeaInteractorInterface {
 
     void acceptSuggestedIdeaAtPos(int pos);

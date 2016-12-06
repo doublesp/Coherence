@@ -11,10 +11,6 @@ import java.util.List;
 
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 public interface DataStoreInterface {
 
     void setIdeaState(ViewState state);
@@ -71,9 +67,9 @@ public interface DataStoreInterface {
 
     int getGoalCount();
 
-    void setGoalFlag(int flag);
-
     int getGoalFlag();
 
     void clearPlan();
+
+    void setGoalFlag(int flag);
 }

@@ -5,10 +5,6 @@ import com.raizlabs.android.dbflow.converter.TypeConverter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by pinyaoting on 11/18/16.
- */
-
 @com.raizlabs.android.dbflow.annotation.TypeConverter
 public class StringListConverter extends TypeConverter<String, JSONObject> {
 

@@ -11,10 +11,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/16/16.
- */
-
 public class MockRecipeInteractor extends RecipeInteractor {
 
     public MockRecipeInteractor(DataStoreInterface ideaDataStore,

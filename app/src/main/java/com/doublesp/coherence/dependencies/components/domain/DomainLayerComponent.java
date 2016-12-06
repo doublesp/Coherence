@@ -9,10 +9,6 @@ import java.util.Map;
 
 import dagger.Component;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @DomainLayerScope
 @Component(dependencies = DataLayerComponent.class, modules = DomainLayerModule.class)
 public interface DomainLayerComponent {

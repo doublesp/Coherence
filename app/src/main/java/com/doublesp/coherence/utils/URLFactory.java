@@ -2,10 +2,6 @@ package com.doublesp.coherence.utils;
 
 import okhttp3.HttpUrl;
 
-/**
- * Created by pinyaoting on 10/11/16.
- */
-
 public class URLFactory {
 
     static final String API_PROTOCOL = "https";

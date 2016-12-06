@@ -1,5 +1,7 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.doublesp.coherence.actions.GoalActionHandler;
 import com.doublesp.coherence.actions.GoalDetailActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
@@ -14,18 +16,12 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
 
-import android.support.v7.widget.RecyclerView;
-
 import java.util.Map;
 
 import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-
-/**
- * Created by pinyaoting on 11/11/16.
- */
 
 @Module
 public class MainActivityModule {

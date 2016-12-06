@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-                name="pos"
-                type="int"/>
+            name="pos"
+            type="int" />
     </data>
 
     <FrameLayout
-            android:id="@+id/llSinglePlan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:background="@color/colorUpOverlay">
+        android:id="@+id/llSinglePlan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/colorUpOverlay">
 
         <ImageView
-                android:id="@+id/ivPlanImage"
-                android:layout_width="@dimen/item_idea_image_width"
-                android:layout_height="@dimen/item_idea_image_height"
-                android:layout_gravity="left|start"
-                android:adjustViewBounds="true"
-                android:padding="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/background_3"/>
+            android:id="@+id/ivPlanImage"
+            android:layout_width="@dimen/item_idea_image_width"
+            android:layout_height="@dimen/item_idea_image_height"
+            android:layout_gravity="left|start"
+            android:adjustViewBounds="true"
+            android:padding="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_3" />
 
         <LinearLayout
-                android:id="@+id/llDescriptionBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/item_idea_image_width"
-                android:layout_marginStart="@dimen/item_idea_image_width"
-                android:orientation="vertical">
+            android:id="@+id/llDescriptionBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/item_idea_image_width"
+            android:layout_marginStart="@dimen/item_idea_image_width"
+            android:orientation="vertical">
 
             <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
-                        android:id="@+id/tvGoalIndex"
-                        android:layout_width="@dimen/activity_list_composition_idea_icon_width"
-                        android:layout_height="@dimen/activity_list_composition_idea_icon_height"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text='@{Integer.toString(pos+1)}'
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                        android:background="@drawable/ic_panorama_fish_eye"
-                        android:backgroundTint="@color/colorButton"
-                        android:textColor="@color/colorButton"
-                        tools:text="1"/>
+                    android:id="@+id/tvGoalIndex"
+                    android:layout_width="@dimen/activity_list_composition_idea_icon_width"
+                    android:layout_height="@dimen/activity_list_composition_idea_icon_height"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ic_panorama_fish_eye"
+                    android:backgroundTint="@color/colorButton"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text='@{Integer.toString(pos+1)}'
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorButton"
+                    tools:text="1" />
 
                 <TextView
-                        android:id="@+id/single_plan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingEnd="10dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                        android:textColor="@color/colorButton"
-                        tools:text="Grocery List"/>
+                    android:id="@+id/single_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingEnd="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingStart="10dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/colorButton"
+                    tools:text="Grocery List" />
             </LinearLayout>
 
             <TextView
-                    android:id="@+id/owner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="11dp"
-                    android:paddingLeft="11dp"
-                    android:paddingRight="11dp"
-                    android:paddingStart="11dp"
-                    android:textColor="@color/colorButton"
-                    tools:text="pinyaoting"/>
+                android:id="@+id/owner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="11dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingStart="11dp"
+                android:textColor="@color/colorButton"
+                tools:text="pinyaoting" />
 
         </LinearLayout>
     </FrameLayout>

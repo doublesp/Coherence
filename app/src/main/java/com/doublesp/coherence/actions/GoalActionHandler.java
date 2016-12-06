@@ -5,17 +5,13 @@ import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 
 import android.content.Context;
 
-/**
- * Created by pinyaoting on 11/26/16.
- */
-
 public class GoalActionHandler implements GoalActionHandlerInterface {
 
     PreviewHandlerInterface mPreviewHandler;
     GoalInteractorInterface mInteractor;
 
     public GoalActionHandler(Context context,
-            GoalInteractorInterface interactor) {
+                             GoalInteractorInterface interactor) {
         if (context instanceof PreviewHandlerInterface) {
             mPreviewHandler = (PreviewHandlerInterface) context;
         }
