@@ -1,5 +1,6 @@
 package com.doublesp.coherence.activities;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -124,15 +125,15 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 String title = getString(R.string.app_name);
                 float titleSize = getResources().getInteger(R.integer.toolbar_title_size);
                 switch (position) {
-                    case HomeFragmentPagerAdapter.CREATE_LIST:
+                    case CREATE_LIST:
                         loadList(getListId(), mGoal);
                         title = getString(R.string.create_grocery_hint);
                         break;
-                    case HomeFragmentPagerAdapter.SAVED_IDEAS:
+                    case SAVED_IDEAS:
                         discardListIfEmpty();
                         title = getString(R.string.saved_grocery_hint);
                         break;
-                    case HomeFragmentPagerAdapter.SEARCH_GOAL:
+                    case SEARCH_GOAL:
                         discardListIfEmpty();
                         titleSize = getResources().getInteger(R.integer.app_title_size);
                         break;
@@ -184,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                                                     AuthUI.GOOGLE_PROVIDER).build(),
                                             new AuthUI.IdpConfig.Builder(
                                                     AuthUI.FACEBOOK_PROVIDER).build()))
+                                    .setTheme(R.style.FullscreenTheme)
                                     .build(),
                             RC_SIGN_IN);
                 }
@@ -220,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         }
         mListId = newListId();
         mGoal = goal;
-        binding.viewpager.setCurrentItem(HomeFragmentPagerAdapter.CREATE_LIST);
+        binding.viewpager.setCurrentItem(CREATE_LIST);
     }
 
     @Override
@@ -230,13 +232,13 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         }
         mListId = listId;
         mGoal = null;
-        binding.viewpager.setCurrentItem(HomeFragmentPagerAdapter.CREATE_LIST);
+        binding.viewpager.setCurrentItem(CREATE_LIST);
     }
 
     @Override
     public void search(Plan plan) {
         mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
-        binding.viewpager.setCurrentItem(HomeFragmentPagerAdapter.SEARCH_GOAL);
+        binding.viewpager.setCurrentItem(SEARCH_GOAL);
     }
 
     private String newListId() {
