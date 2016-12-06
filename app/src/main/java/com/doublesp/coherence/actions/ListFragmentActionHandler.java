@@ -1,17 +1,19 @@
 package com.doublesp.coherence.actions;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.content.Context;
+import android.content.Intent;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.activities.ShareActivity;
+import com.doublesp.coherence.fragments.MapFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.content.Context;
-import android.content.Intent;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -81,7 +83,9 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
 
     @Override
     public void onNearbyStoreButtonClick() {
-
+        ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_home, MapFragment.newInstance(), "MapFragment")
+                .commit();
     }
 
     @Override
