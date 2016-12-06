@@ -4,31 +4,27 @@
     <data>
 
         <variable
-            name="pos"
-            type="int" />
+                name="pos"
+                type="int"/>
 
         <variable
-            name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface" />
-
-        <variable
-            name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea" />
+                name="viewModel"
+                type="com.doublesp.coherence.viewmodels.Idea"/>
     </data>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:id="@+id/flIdeaSuggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvIdeaSuggestion"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_list_composition_idea_height"
-            android:gravity="center"
-            android:maxLines="1"
-            android:onClick="@{() -> handler.onSuggestionClick(pos)}"
-            android:text='@{viewModel.content}'
-            android:textColor="@color/colorSecondary" />
+                android:id="@+id/tvIdeaSuggestion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_list_composition_idea_height"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text='@{viewModel.content}'
+                android:textColor="@color/colorButton"/>
 
     </FrameLayout>
 </layout>

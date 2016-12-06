@@ -4,6 +4,7 @@ import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import java.util.List;
@@ -22,13 +23,9 @@ public interface DataStoreInterface {
 
     void setGoalState(ViewState state);
 
-    void setSavedGoalState(ViewState state);
-
     void addIdea(Idea idea);
 
     void setIdeas(List<Idea> ideas);
-
-    void updateIdea(int pos, Idea idea);
 
     void removeIdea(int pos);
 
@@ -36,11 +33,15 @@ public interface DataStoreInterface {
 
     void setSuggestions(List<Idea> ideas);
 
-    void setGoals(List<Goal> goals);
+    void setExploreGoals(List<Goal> goals);
 
     void setSavedGoals(List<Goal> goals);
 
-    GoalReducer getGoalReducer(String id);
+    IdeaReducer getIdeaReducer(String id);
+
+    GoalReducer getExploreGoalReducer(String id);
+
+    GoalReducer getSavedGoalReducer(String id);
 
     void clearSuggestions();
 
@@ -50,17 +51,9 @@ public interface DataStoreInterface {
 
     Idea getSuggestionAtPos(int pos);
 
-    Goal getGoalAtPos(int pos);
-
-    Goal getSavedGoalAtPos(int pos);
-
     int getIdeaCount();
 
     int getSuggestionCount();
-
-    int getGoalCount();
-
-    int getSavedGoalCount();
 
     void subscribeToIdeaStateChanges(Observer<ViewState> observer);
 
@@ -68,11 +61,17 @@ public interface DataStoreInterface {
 
     void subscribeToGoalStateChanges(Observer<ViewState> observer);
 
-    void subscribeToSavedGoalStateChanges(Observer<ViewState> observer);
-
     Plan getPlan();
 
     void setPlan(Plan plan);
 
     Plan createPlan(String id);
+
+    Goal getGoalAtPos(int pos);
+
+    int getGoalCount();
+
+    void setGoalFlag(int flag);
+
+    int getGoalFlag();
 }

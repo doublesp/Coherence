@@ -33,4 +33,5 @@ public class IdeaMeta {
     public String getDescription() {
         return description;
     }
+
 }

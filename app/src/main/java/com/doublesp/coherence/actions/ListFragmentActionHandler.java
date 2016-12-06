@@ -1,8 +1,7 @@
 package com.doublesp.coherence.actions;
 
-import android.content.Context;
-import android.content.Intent;
-import android.text.Editable;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.activities.ShareActivity;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -10,8 +9,9 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import android.content.Context;
+import android.content.Intent;
 
 /**
  * Created by pinyaoting on 11/13/16.
@@ -77,28 +77,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     public void onSearchButtonClick() {
         Plan plan = mIdeaInteractor.getPlan();
         mShareHandler.search(plan);
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        final int i = s.length();
-
-        if (s.toString().trim().isEmpty()) {
-            s.clear();
-            return;
-        }
-
-        if (s.subSequence(i - 1, i).toString().equals("\n")) {
-            mIdeaInteractor.addIdea(s.toString().trim());
-            s.clear();
-        } else {
-            mIdeaInteractor.getSuggestions(s.toString().trim());
-        }
-    }
-
-    @Override
-    public void onSuggestionClick(int pos) {
-        mIdeaInteractor.acceptSuggestedIdeaAtPos(pos);
     }
 
     @Override

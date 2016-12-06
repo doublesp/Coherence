@@ -65,6 +65,9 @@ public class GoalArrayAdapter
                             case UPDATE:
                                 start = state.getStart();
                                 count = state.getCount();
+                                if (start == -1) {
+                                    return;
+                                }
                                 notifyItemRangeChanged(start, count);
                                 break;
                             case REMOVE:

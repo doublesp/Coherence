@@ -21,7 +21,7 @@ android {
     dataBinding.enabled = true
     defaultConfig {
         applicationId "com.doublesp.coherence"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -65,6 +65,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:support-v4:25.0.1'
     compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:palette-v7:25.0.1'
     compile 'com.android.support:percent:25.0.1'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.android.support:customtabs:25.0.1'
@@ -97,6 +98,7 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.batch.android:batch-sdk:1.7+'
     compile 'com.google.android.gms:play-services:9.8.0'
+    compile 'jp.wasabeef:blurry:2.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

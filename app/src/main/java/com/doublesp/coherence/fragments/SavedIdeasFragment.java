@@ -22,12 +22,17 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -36,6 +41,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class SavedIdeasFragment extends Fragment {
 
@@ -83,12 +90,34 @@ public class SavedIdeasFragment extends Fragment {
                     String owner = userList.getOwner().isEmpty() ? ConstantsAndUtils.ANONYMOUS
                             : userList.getOwner();
 
+                    int colorResource = ImageUtils.getColorForPosition(position);
+                    int color = ContextCompat.getColor(getContext(), colorResource);
+
+                    FrameLayout.LayoutParams paramsForImage = (FrameLayout.LayoutParams)
+                            holder.binding.ivPlanImage.getLayoutParams();
+                    FrameLayout.LayoutParams paramsForBox = (FrameLayout.LayoutParams)
+                            holder.binding.llDescriptionBox.getLayoutParams();
+                    if (position % 2 == 0) {
+                        paramsForImage.gravity = Gravity.LEFT | Gravity.START;
+                        paramsForBox.leftMargin = paramsForImage.width;
+                        paramsForBox.setMarginStart(paramsForImage.width);
+                        paramsForBox.rightMargin = 0;
+                        paramsForBox.setMarginEnd(0);
+                    } else {
+                        paramsForImage.gravity = Gravity.RIGHT | Gravity.END;
+                        paramsForBox.leftMargin = 0;
+                        paramsForBox.setMarginStart(0);
+                        paramsForBox.rightMargin = paramsForImage.width;
+                        paramsForBox.setMarginEnd(paramsForImage.width);
+                    }
+
+                    holder.binding.setPos(position);
                     holder.binding.singlePlan.setText(title);
-                    holder.binding.owner.setText(getContext().getString(R.string.owner,
-                            owner.replace(",", ".")));
+                    holder.binding.owner.setText(owner.replace(',', '.'));
+                    holder.binding.llSinglePlan.setBackgroundColor(color);
 
                     String listId = mFirebaseRecyclerAdapter.getRef(position).getKey();
-                    asyncRotateImage(holder.mHandler, holder.binding.ivPlanImage, listId);
+                    asyncLoadImage(holder.binding.ivPlanImage, holder.binding.llSinglePlan, listId);
                 }
             };
 
@@ -102,7 +131,28 @@ public class SavedIdeasFragment extends Fragment {
                 false);
         binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(
+                ContextCompat.getDrawable(getContext(), R.drawable.line_divider_edge_to_edge));
+        binding.rvSavedIdeas.addItemDecoration(dividerItemDecoration);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.ivSavedIdeasBackground.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        binding.ivSavedIdeasBackground.layout(
+                0, 0, binding.ivSavedIdeasBackground.getMeasuredWidth(),
+                binding.ivSavedIdeasBackground.getMeasuredHeight());
+
+        Blurry.with(getContext())
+                .capture(binding.ivSavedIdeasBackground)
+                .into(binding.ivSavedIdeasBackground);
     }
 
     @Override
@@ -132,6 +182,41 @@ public class SavedIdeasFragment extends Fragment {
         for (Handler handler : mHandlers) {
             handler.removeCallbacksAndMessages(null);
         }
+    }
+
+    private void asyncLoadImage(
+            final ImageView imageView, final ViewGroup container, String listId) {
+        DatabaseReference listsDatabaseReference = mFirebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS).child(listId);
+        listsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Plan plan = dataSnapshot.getValue(Plan.class);
+                if (plan == null) {
+                    return;
+                }
+                String imageUrl = null;
+                for (Idea idea : plan.getIdeas()) {
+                    if (idea == null || idea.getMeta() == null) {
+                        continue;
+                    }
+                    imageUrl = idea.getMeta().getImageUrl();
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
+                        break;
+                    }
+                }
+                if (imageUrl == null || imageUrl.isEmpty()) {
+                    return;
+                }
+                // TODO: [Monetization] replace image with ads
+                ImageUtils.loadImageWithProminentColor(imageView, container, imageUrl);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void asyncRotateImage(final Handler handler, final ImageView imageView, String listId) {
@@ -174,7 +259,7 @@ public class SavedIdeasFragment extends Fragment {
                 public void onClick(View view) {
                     // TODO: inject action handler into FirebaseRecyclerAdapter
                     // instead of using static reference
-                    SavedIdeasFragment.mActionHandlerRef.showListCompositionDialog(
+                    SavedIdeasFragment.mActionHandlerRef.compose(
                             mFirebaseRecyclerAdapter
                                     .getRef(getAdapterPosition())
                                     .getKey());

@@ -1,5 +1,9 @@
 package com.doublesp.coherence.utils;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.doublesp.coherence.R;
+
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Paint;
@@ -7,10 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.doublesp.coherence.R;
 
 /**
  * Created by pinyaoting on 10/20/16.
@@ -60,6 +60,17 @@ public class BindingAdapterUtils {
             view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             view.setPaintFlags(view.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+    }
+
+    @BindingAdapter({"bind:bookmark_title"})
+    public static void setBookmarkTitle(
+            com.getbase.floatingactionbutton.FloatingActionButton view, boolean bookmarked) {
+        Context context = view.getContext();
+        if (!bookmarked) {
+            view.setTitle(context.getString(R.string.save_recipe));
+        } else {
+            view.setTitle(context.getString(R.string.remove_recipe));
         }
     }
 }

@@ -25,16 +25,11 @@ public interface GoalInteractorInterface {
 
     void searchGoalByIdeas(List<Idea> ideas);
 
+    void loadDetailsForGoalAtPos(int pos);
+
     void subscribeToGoalStateChange(Observer<ViewState> observer);
 
-    int getSavedGoalCount();
+    void setDisplayGoalFlag(int flag);
 
-    Goal getSavedGoalAtPos(int pos);
-
-    void bookmarkSavedGoalAtPos(int pos);
-
-    void loadBookmarkedGoals();
-
-    void subscribeToSavedGoalStateChange(Observer<ViewState> observer);
-
+    int getDisplayGoalFlag();
 }

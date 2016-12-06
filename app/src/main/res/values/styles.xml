@@ -1,11 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="Dialog.FullScreen" parent="Theme.AppCompat.Dialog">
@@ -41,6 +44,29 @@
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textColorHint">@color/colorHint</item>
         <item name="android:background">@drawable/border</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- android:textColorPrimary is the color of the title text in the Toolbar  -->
+        <item name="android:textColorPrimary">@color/colorButton</item>
+        <!-- actionMenuTextColor is the color of the text of action (menu) items  -->
+        <item name="actionMenuTextColor">@color/colorButton</item>
+        <!-- Tints the input fields like checkboxes and text fields -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Applies to views in their normal state. -->
+        <item name="colorControlNormal">@color/colorWhiteOverlay</item>
+        <!-- Applies to views in their activated state (i.e checked or switches) -->
+        <item name="colorControlActivated">@color/colorWhiteOverlay</item>
+        <!-- Applied to framework control highlights (i.e ripples or list selectors) -->
+        <item name="colorControlHighlight">@color/colorWhiteOverlay</item>
+
+        <!-- Enable these below if you want clicking icons to trigger a ripple effect -->
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="PopupMenuTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:popupBackground">@color/colorWhiteOverlay</item>
     </style>
 
 </resources>

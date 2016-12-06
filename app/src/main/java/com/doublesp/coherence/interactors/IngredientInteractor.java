@@ -87,8 +87,6 @@ public class IngredientInteractor extends IdeaInteractorBase {
                     ideas.add(idea);
                     dedupSet.add(ingredient.getName());
                 }
-                mIdeaDataStore.getGoalReducer(mRecipe.getId())
-                        .setDescription(mRecipe.getInstructions());
                 mIdeaDataStore.setIdeas(ideas);
                 mIdeaDataStore.setIdeaState(new ViewState(
                         R.id.state_loaded, ViewState.OPERATION.RELOAD));
@@ -105,15 +103,6 @@ public class IngredientInteractor extends IdeaInteractorBase {
                 mRecipe = recipeV2;
             }
         });
-    }
-
-    @Override
-    public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount()));
-        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        mIdeaDataStore.removeIdea(pos);
-        mIdeaDataStore.addIdea(idea);
     }
 
     @Override

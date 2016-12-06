@@ -7,6 +7,7 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
 
 import android.content.Context;
@@ -33,13 +34,16 @@ public class DataStore implements DataStoreInterface {
     List<Observer<ViewState>> mSuggestionStateObservers;
     List<Observer<ViewState>> mSavedGoalStateObservers;
     List<Observer<ViewState>> mGoalStateObservers;
+    private Map<String, IdeaReducer> mIdeaReducers;
+    private Map<String, GoalReducer> mExploreGoalReducers;
+    private Map<String, GoalReducer> mSavedGoalReducers;
     Plan mPlan;
     ViewState mIdeaState;
     ViewState mSuggestionState;
     ViewState mSavedGoalState;
     ViewState mGoalState;
-    Map<String, GoalReducer> mGoalReducers;
     private Context mContext;
+    private int mDisplayGoalFlag;
 
     public DataStore(Context context) {
         mSnapshotStore = new DataSnapshotStore();
@@ -51,6 +55,10 @@ public class DataStore implements DataStoreInterface {
         mSuggestionState = new ViewState(R.id.state_idle);
         mSavedGoalState = new ViewState(R.id.state_idle);
         mGoalState = new ViewState(R.id.state_idle);
+        mDisplayGoalFlag = R.id.flag_explore_recipes;
+        mIdeaReducers = new HashMap<>();
+        mExploreGoalReducers = new HashMap<>();
+        mSavedGoalReducers = new HashMap<>();
         mContext = context;
     }
 
@@ -73,23 +81,9 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void setSavedGoalState(ViewState state) {
-        mSavedGoalState = state;
-        notifySavedGoalStateChange();
-    }
-
-    @Override
     public void addIdea(Idea idea) {
+        mIdeaReducers.put(idea.getId(), new IdeaReducer(idea));
         getIdeas().add(idea);
-    }
-
-    @Override
-    public void updateIdea(int pos, Idea idea) {
-        if (pos == getIdeas().size()) {
-            getIdeas().add(idea);
-        } else {
-            getIdeas().set(pos, idea);
-        }
     }
 
     @Override
@@ -113,23 +107,13 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public int getGoalCount() {
-        return getGoals().size();
-    }
-
-    @Override
-    public int getSavedGoalCount() {
-        return getSavedGoals().size();
-    }
-
-    @Override
     public void clearSuggestions() {
         getSuggestions().clear();
     }
 
     @Override
     public void clearGoals() {
-        getGoals().clear();
+        getExploreGoals().clear();
     }
 
     @Override
@@ -148,11 +132,6 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void subscribeToSavedGoalStateChanges(Observer<ViewState> observer) {
-        mSavedGoalStateObservers.add(observer);
-    }
-
-    @Override
     public Idea getIdeaAtPos(int pos) {
         return getIdeas().get(pos);
     }
@@ -163,16 +142,6 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public Goal getGoalAtPos(int pos) {
-        return getGoals().get(pos);
-    }
-
-    @Override
-    public Goal getSavedGoalAtPos(int pos) {
-        return getSavedGoals().get(pos);
-    }
-
-    @Override
     public Plan getPlan() {
         return mPlan;
     }
@@ -180,6 +149,13 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setPlan(Plan plan) {
         mPlan = plan;
+        mIdeaReducers.clear();
+        List<Idea> ideas = plan.getIdeas();
+        if (ideas != null) {
+            for (Idea idea : ideas) {
+                mIdeaReducers.put(idea.getId(), new IdeaReducer(idea));
+            }
+        }
         mSnapshotStore.setIdeas(mPlan.getIdeas());
     }
 
@@ -211,17 +187,6 @@ public class DataStore implements DataStoreInterface {
         connectedObservable.connect();
     }
 
-    private void notifySavedGoalStateChange() {
-        ConnectableObservable<ViewState> connectedObservable = Observable.just(
-                mSavedGoalState).publish();
-        for (Observer<ViewState> observer : mSavedGoalStateObservers) {
-            connectedObservable.subscribeOn(Schedulers.immediate())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(observer);
-        }
-        connectedObservable.connect();
-    }
-
     private void notifyGoalStateChange() {
         ConnectableObservable<ViewState> connectedObservable = Observable.just(mGoalState).publish();
         for (Observer<ViewState> observer : mGoalStateObservers) {
@@ -239,6 +204,9 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setIdeas(List<Idea> ideas) {
         getIdeas().clear();
+        for (Idea idea : ideas) {
+            mIdeaReducers.put(idea.getId(), new IdeaReducer(idea));
+        }
         getIdeas().addAll(ideas);
     }
 
@@ -252,19 +220,17 @@ public class DataStore implements DataStoreInterface {
         getSuggestions().addAll(ideas);
     }
 
-    private List<Goal> getGoals() {
-        return mSnapshotStore.getGoals();
+    private List<Goal> getExploreGoals() {
+        return mSnapshotStore.getExploreGoals();
     }
 
     @Override
-    public void setGoals(List<Goal> goals) {
-        getGoals().clear();
+    public void setExploreGoals(List<Goal> goals) {
+        getExploreGoals().clear();
         for (Goal goal : goals) {
-            if (!getGoalReducers().containsKey(goal.getId())) {
-                getGoalReducers().put(goal.getId(), new GoalReducer(goal));
-            }
+            mExploreGoalReducers.put(goal.getId(), new GoalReducer(goal));
         }
-        getGoals().addAll(goals);
+        getExploreGoals().addAll(goals);
     }
 
     private List<Goal> getSavedGoals() {
@@ -275,23 +241,55 @@ public class DataStore implements DataStoreInterface {
     public void setSavedGoals(List<Goal> goals) {
         getSavedGoals().clear();
         for (Goal goal : goals) {
-            if (!getGoalReducers().containsKey(goal.getId())) {
-                getGoalReducers().put(goal.getId(), new GoalReducer(goal));
-            }
+            mSavedGoalReducers.put(goal.getId(), new GoalReducer(goal));
         }
         getSavedGoals().addAll(goals);
     }
 
     @Override
-    public GoalReducer getGoalReducer(String id) {
-        return getGoalReducers().get(id);
+    public IdeaReducer getIdeaReducer(String id) {
+        return mIdeaReducers.get(id);
     }
 
-    private Map<String, GoalReducer> getGoalReducers() {
-        if (mGoalReducers == null) {
-            mGoalReducers = new HashMap();
+    @Override
+    public GoalReducer getExploreGoalReducer(String id) {
+        return mExploreGoalReducers.get(id);
+    }
+
+    @Override
+    public GoalReducer getSavedGoalReducer(String id) {
+        return mSavedGoalReducers.get(id);
+    }
+
+    @Override
+    public Goal getGoalAtPos(int pos) {
+        switch (mDisplayGoalFlag) {
+            case R.id.flag_explore_recipes:
+                return getExploreGoals().get(pos);
+            case R.id.flag_saved_recipes:
+                return getSavedGoals().get(pos);
         }
-        return mGoalReducers;
+        return null;
     }
 
+    @Override
+    public void setGoalFlag(int flag) {
+        mDisplayGoalFlag = flag;
+    }
+
+    @Override
+    public int getGoalFlag() {
+        return mDisplayGoalFlag;
+    }
+
+    @Override
+    public int getGoalCount() {
+        switch (mDisplayGoalFlag) {
+            case R.id.flag_explore_recipes:
+                return getExploreGoals().size();
+            case R.id.flag_saved_recipes:
+                return getSavedGoals().size();
+        }
+        return 0;
+    }
 }

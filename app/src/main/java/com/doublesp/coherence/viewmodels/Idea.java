@@ -1,7 +1,8 @@
 package com.doublesp.coherence.viewmodels;
 
-import com.doublesp.coherence.R;
 import com.google.firebase.database.Exclude;
+
+import com.doublesp.coherence.R;
 
 import org.parceler.Parcel;
 
@@ -86,4 +87,5 @@ public class Idea {
 
         return result;
     }
+
 }

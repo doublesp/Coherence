@@ -6,6 +6,6 @@ package com.doublesp.coherence.interfaces.presentation;
 
 public interface SavedIdeasActionHandlerInterface {
 
-    void showListCompositionDialog(String listId);
+    void compose(String listId);
 
 }

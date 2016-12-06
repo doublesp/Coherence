@@ -18,7 +18,7 @@ public class DataSnapshotStore {
     private List<Idea> mIdeas;
     private List<Idea> mSuggestions;
     private List<Goal> mSavedGoals;
-    private List<Goal> mGoals;
+    private List<Goal> mExploreGoals;
 
     public DataSnapshotStore() {
     }
@@ -48,11 +48,11 @@ public class DataSnapshotStore {
         return mSavedGoals;
     }
 
-    public List<Goal> getGoals() {
-        if (mGoals == null) {
-            mGoals = new ArrayList<>();
+    public List<Goal> getExploreGoals() {
+        if (mExploreGoals == null) {
+            mExploreGoals = new ArrayList<>();
         }
-        return mGoals;
+        return mExploreGoals;
     }
 
 }

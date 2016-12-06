@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Garçon</string>
+    <string name="create_grocery_list">Create List</string>
+    <string name="saved_grocery_list">Saved List</string>
+    <string name="create_grocery_hint">Add to list by searching ingredients</string>
+    <string name="saved_grocery_hint">Saved Grocery List</string>
 
     <string name="google_maps_api_key">AIzaSyCBjupD4UBQ4puue5J2uqjKpjpvpTJeB50</string>
     <string name="fabric_api_key">58083912c035206135aea30a9df62233cd1f2cf5</string>
@@ -16,12 +20,14 @@
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb1822316278006079</string>
     <string name="custom_list">Custom list</string>
-    <string name="recipe_list">Recipe list</string>
+    <string name="saved_recipes">Saved Recipes</string>
     <string name="owner">Owner: %1s</string>
     <string name="add_friends">Add New Friend</string>
     <string name="add_friend">Add Friend</string>
     <string name="share_list">Share List</string>
-    <string name="save_list">Save List</string>
+    <string name="save_recipe">Save Recipe</string>
+    <string name="remove_recipe">Remove Recipe</string>
+    <string name="create_list">Create Grocery List</string>
     <string name="search_goal">Search Recipe</string>
     <string name="default_idea_prefix">Groceries List</string>
     <string name="initials">Initials of user</string>
@@ -35,4 +41,5 @@
     <string name="empty_list">Empty List</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
 </resources>

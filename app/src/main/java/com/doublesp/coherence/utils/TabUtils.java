@@ -1,12 +1,12 @@
 package com.doublesp.coherence.utils;
 
+import com.doublesp.coherence.R;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-
-import com.doublesp.coherence.R;
 
 /**
  * Created by pinyaoting on 11/16/16.
@@ -22,14 +22,15 @@ public class TabUtils {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         super.onTabSelected(tab);
-                        int tabIconColor = ContextCompat.getColor(context, R.color.colorButton);
+                        int tabIconColor = ContextCompat.getColor(context, R.color.colorText);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
                         super.onTabUnselected(tab);
-                        int tabIconColor = ContextCompat.getColor(context, R.color.colorOverlay);
+                        int tabIconColor = ContextCompat.getColor(
+                                context, R.color.colorButtonUnselected);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
@@ -40,8 +41,24 @@ public class TabUtils {
                 }
         );
 
-        layout.getTabAt(0).setIcon(R.drawable.ic_shopping_cart);
-        layout.getTabAt(1).setIcon(R.drawable.ic_library_books);
+        setupTabs(context, layout);
     }
 
+    private static void setupTabs(Context context, final TabLayout layout) {
+        int selectedTabIconColor = ContextCompat.getColor(context, R.color.colorText);
+        int tabIconColor = ContextCompat.getColor(context, R.color.colorButtonUnselected);
+        TabLayout.Tab tab;
+
+        tab = layout.getTabAt(0);
+        tab.setIcon(R.drawable.ic_library_books);
+        tab.getIcon().setColorFilter(selectedTabIconColor, PorterDuff.Mode.SRC_IN);
+
+        tab = layout.getTabAt(1);
+        tab.setIcon(R.drawable.ic_create);
+        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+
+        tab = layout.getTabAt(2);
+        tab.setIcon(R.drawable.ic_shopping_cart);
+        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+    }
 }

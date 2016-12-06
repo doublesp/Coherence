@@ -1,5 +1,21 @@
 package com.doublesp.coherence.activities;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.ActivityAddFriendBinding;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ToolbarBindingUtils;
+import com.doublesp.coherence.viewmodels.User;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,22 +28,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.User;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 public class AddFriendActivity extends AppCompatActivity {
 
+    ActivityAddFriendBinding binding;
     private static DatabaseReference mListsDatabaseReference;
     private static FirebaseRecyclerAdapter<User, AddFriendViewHolder> mFirebaseRecyclerAdapter;
     private static RelativeLayout sRelativeLayout;
@@ -39,7 +44,10 @@ public class AddFriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        binding = DataBindingUtil.setContentView(
+                AddFriendActivity.this, R.layout.activity_add_friend);
+        ToolbarBindingUtils.bind(
+                AddFriendActivity.this, binding.activityAddFriendToolbarContainer.toolbar);
         setTitle(R.string.add_friend);
 
         sRelativeLayout = (RelativeLayout) findViewById(R.id.activity_add_friend);

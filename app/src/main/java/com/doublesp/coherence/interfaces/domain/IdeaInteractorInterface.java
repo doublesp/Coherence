@@ -13,11 +13,7 @@ import rx.Observer;
 
 public interface IdeaInteractorInterface {
 
-    void addIdea(String content);
-
     void acceptSuggestedIdeaAtPos(int pos);
-
-    void updateIdea(int pos, String content);
 
     void crossoutIdea(int pos);
 
@@ -38,6 +34,8 @@ public interface IdeaInteractorInterface {
     int getSuggestionCount();
 
     Idea getIdeaAtPos(int pos);
+
+    Idea getSuggestionAtPos(int pos);
 
     Plan getPlan();
 

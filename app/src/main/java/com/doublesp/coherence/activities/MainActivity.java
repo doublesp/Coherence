@@ -1,6 +1,47 @@
 package com.doublesp.coherence.activities;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+
+import com.batch.android.Batch;
+import com.crashlytics.android.Crashlytics;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.actions.ListFragmentActionHandler;
+import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
+import com.doublesp.coherence.adapters.IdeaSuggestionsAdapter;
+import com.doublesp.coherence.application.CoherenceApplication;
+import com.doublesp.coherence.databinding.ActivityMainBinding;
+import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
+import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
+import com.doublesp.coherence.fragments.GoalPreviewFragment;
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.IdeaReviewFragment;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
+import com.doublesp.coherence.service.NotificationService;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.TabUtils;
+import com.doublesp.coherence.utils.ToolbarBindingUtils;
+import com.doublesp.coherence.view.AutoCompleteSearchView;
+import com.doublesp.coherence.viewmodels.Goal;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
+import com.doublesp.coherence.viewmodels.User;
+import com.doublesp.coherence.viewmodels.UserList;
+import com.firebase.ui.auth.AuthUI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,53 +51,29 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
-
-import com.batch.android.Batch;
-import com.crashlytics.android.Crashlytics;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.actions.ListFragmentActionHandler;
-import com.doublesp.coherence.adapters.HomeFragmentPagerAdapter;
-import com.doublesp.coherence.application.CoherenceApplication;
-import com.doublesp.coherence.databinding.ActivityMainBinding;
-import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
-import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
-import com.doublesp.coherence.fragments.GoalPreviewFragment;
-import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.IdeaReviewFragment;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.fragments.SavedGoalsFragment;
-import com.doublesp.coherence.fragments.SavedIdeasFragment;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
-import com.doublesp.coherence.service.NotificationService;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.utils.TabUtils;
-import com.doublesp.coherence.viewmodels.Goal;
-import com.doublesp.coherence.viewmodels.Plan;
-import com.doublesp.coherence.viewmodels.User;
-import com.doublesp.coherence.viewmodels.UserList;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
+
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.CREATE_LIST;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
         GoalActionHandlerInterface.PreviewHandlerInterface,
@@ -71,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     ActivityMainBinding binding;
     MainActivitySubComponent mActivityComponent;
     @Inject
+    GoalInteractorInterface mGoalInteractor;
+    @Inject
     IdeaInteractorInterface mIdeaInteractor;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mFirebaseAuth;
@@ -79,18 +98,60 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mListDatabaseReference;
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
+    private DialogFragment mDialogFragment;
+    private String mListId;
+    private Goal mGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         getActivityComponent().inject(MainActivity.this);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ToolbarBindingUtils.bind(this, binding.activityMainToolbarContainer.toolbar);
         binding.viewpager.setAdapter(
                 new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(
+                    int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
+                String title = getString(R.string.app_name);
+                float titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                switch (position) {
+                    case CREATE_LIST:
+                        loadList(getListId(), mGoal);
+                        title = getString(R.string.create_grocery_hint);
+                        break;
+                    case SAVED_IDEAS:
+                        discardListIfEmpty();
+                        title = getString(R.string.saved_grocery_hint);
+                        break;
+                    case SEARCH_GOAL:
+                        discardListIfEmpty();
+                        titleSize = getResources().getInteger(R.integer.app_title_size);
+                        break;
+                    default:
+                        discardListIfEmpty();
+                        break;
+                }
+                binding.activityMainToolbarContainer.toolbarTitle.setText(title);
+                binding.activityMainToolbarContainer.toolbarTitle.setTextSize(titleSize);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         binding.tabs.setupWithViewPager(binding.viewpager);
         TabUtils.bindIcons(MainActivity.this, binding.viewpager, binding.tabs);
-        setupTab();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -130,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 }
             }
         };
+        mGoalInteractor.search(null);
     }
 
     public MainActivitySubComponent getActivityComponent() {
@@ -147,36 +209,103 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void showPreviewDialog(Goal goal) {
-        GoalPreviewFragment previewDialog = GoalPreviewFragment.newInstance(goal);
-        previewDialog.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        previewDialog.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+    public void showPreviewDialog(int pos) {
+        mDialogFragment = GoalPreviewFragment.newInstance(pos);
+        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
     }
 
     @Override
-    public void showListCompositionDialog(Goal goal) {
+    public void compose(Goal goal) {
+        if (mDialogFragment != null) {
+            mDialogFragment.dismiss();
+        }
+        mListId = newListId();
+        mGoal = goal;
+        binding.viewpager.setCurrentItem(CREATE_LIST);
+    }
+
+    @Override
+    public void compose(String listId) {
+        if (listId == null) {
+            return;
+        }
+        mListId = listId;
+        mGoal = null;
+        binding.viewpager.setCurrentItem(CREATE_LIST);
+    }
+
+    @Override
+    public void search(Plan plan) {
+        mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
+        binding.viewpager.setCurrentItem(SEARCH_GOAL);
+    }
+
+    private String newListId() {
+        // create empty plan and persists to FireBase
         DatabaseReference keyReference = mListDatabaseReference.push();
 
         HashMap<String, Object> timestampCreated = new HashMap<>();
         timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
-                ConstantsAndUtils.getOwner(this), timestampCreated);
+        UserList userList = new UserList(
+                ConstantsAndUtils.getDefaultTitle(this),
+                ConstantsAndUtils.getOwner(this),
+                timestampCreated);
         keyReference.setValue(userList);
         Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
 
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
-                keyReference.getKey(), goal);
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+        return keyReference.getKey();
     }
 
-    @Override
-    public void showListCompositionDialog(String listId) {
-        ListCompositionFragment listCompositionFragment = ListCompositionFragment.newInstance(
-                listId);
-        listCompositionFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        listCompositionFragment.show(getSupportFragmentManager(), LIST_COMPOSITION_FRAGMENT);
+    private String getListId() {
+        if (mListId == null) {
+            mListId = newListId();
+        }
+        return mListId;
+    }
+
+    private void loadList(final String listId, final Goal goal) {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference listsDatabaseReference = firebaseDatabase.getReference().child(
+                ConstantsAndUtils.SHOPPING_LISTS).child(listId);
+        listsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Plan plan = dataSnapshot.getValue(Plan.class);
+                if (plan != null) {
+                    mIdeaInteractor.setPlan(plan);
+                }
+                List<Idea> ideas = plan.getIdeas();
+                if (ideas != null && !ideas.isEmpty()) {
+                    return;
+                }
+                if (goal != null) {
+                    mIdeaInteractor.loadIdeasFromGoal(goal);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void discardListIfEmpty() {
+        Plan plan = mIdeaInteractor.getPlan();
+        if (plan == null || mListId == null) {
+            return;
+        }
+        List<Idea> ideas = plan.getIdeas();
+        if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
+            mFirebaseDatabase.getReference()
+                    .child(ConstantsAndUtils.USER_LISTS)
+                    .child(ConstantsAndUtils.getOwner(getContext()))
+                    .child(mListId)
+                    .removeValue();
+            mListId = null;
+        }
     }
 
     @Override
@@ -209,13 +338,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void search(Plan plan) {
-        GoalSearchFragment goalSearchFragment = GoalSearchFragment.newInstance(plan);
-        goalSearchFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        goalSearchFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
-    }
-
-    @Override
     public void inject(ListCompositionFragment fragment) {
         getActivityComponent().inject(fragment);
     }
@@ -227,11 +349,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(GoalSearchFragment fragment) {
-        getActivityComponent().inject(fragment);
-    }
-
-    @Override
-    public void inject(SavedGoalsFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 
@@ -296,8 +413,64 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        final AutoCompleteSearchView searchView =
+                (AutoCompleteSearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setAdapter(new IdeaSuggestionsAdapter(
+                MainActivity.this, mIdeaInteractor));
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                mIdeaInteractor.acceptSuggestedIdeaAtPos(position);
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                int currentViewPagerIndex = binding.viewpager.getCurrentItem();
+                switch (currentViewPagerIndex) {
+                    case SEARCH_GOAL:
+                        mGoalInteractor.search(query);
+                        break;
+                    case CREATE_LIST:
+                        if (mIdeaInteractor.getSuggestionCount() < 1) {
+                            return true;
+                        }
+                        mIdeaInteractor.acceptSuggestedIdeaAtPos(0);
+                        searchView.setQuery("", false);
+                        break;
+                    case SAVED_IDEAS:
+                        break;
+                }
+
+                // WORKAROUND: to avoid issues with some emulators and keyboard devices
+                // firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.toString().trim().isEmpty()) {
+                    return true;
+                }
+                mIdeaInteractor.getSuggestions(s.toString().trim());
+                return true;
+            }
+        });
+
         return true;
     }
 
@@ -317,24 +490,17 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         stopService(new Intent(this, NotificationService.class));
     }
 
-    public void onIdeaCompositionClick(View view) {
-        DatabaseReference keyReference = mListDatabaseReference.push();
-
-        HashMap<String, Object> timestampCreated = new HashMap<>();
-        timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
-        UserList userList = new UserList(ConstantsAndUtils.getDefaultTitle(this),
-                ConstantsAndUtils.getOwner(this), timestampCreated);
-        keyReference.setValue(userList);
-        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
-        mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
-
-        showListCompositionDialog(keyReference.getKey());
-    }
-
     public void onBookmarkClick(View view) {
-        SavedGoalsFragment savedGoalsFragment = SavedGoalsFragment.newInstance();
-        savedGoalsFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        savedGoalsFragment.show(getSupportFragmentManager(), IDEA_SEARCH_RESULT_FRAGMENT);
+        // TODO: move this to GoalActionHandler
+        int currentFlag = mGoalInteractor.getDisplayGoalFlag();
+        switch (currentFlag) {
+            case R.id.flag_explore_recipes:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_saved_recipes);
+                break;
+            case R.id.flag_saved_recipes:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_explore_recipes);
+                break;
+        }
     }
 
     private void handleDeeplink() {
@@ -348,16 +514,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         if (listId == null) {
             return;
         }
-        showListCompositionDialog(listId);
+        compose(listId);
     }
 
-    private void setupTab() {
-        // WORKAROUND: by default the tab indicator is not properly high-lighted, so
-        // here we manually pull the trigger.
-        binding.viewpager.setCurrentItem(1);
-        if (binding.viewpager.getCurrentItem() == 1) {
-            binding.viewpager.setCurrentItem(0);
-        }
-
-    }
 }

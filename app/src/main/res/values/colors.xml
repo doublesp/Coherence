@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#D32F2F</color>
-    <color name="colorPrimaryDark">#B71C1C</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#D32F2F</color>
     <color name="colorSecondary">#FF8A80</color>
     <color name="colorLightPrimary">#F8F8F8</color>
     <color name="colorText">#000000</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorCardBackground">#FFFFFF</color>
     <color name="colorButton">#FFFFFF</color>
-    <color name="colorIndicator">#FFFFFF</color>
+    <color name="colorButtonUnselected">#808080</color>
+    <color name="colorIndicator">#000000</color>
+    <color name="colorTabLayout">#AAF8F8F8</color>
     <color name="colorHint">#BDBDBD</color>
     <color name="colorBorder">#808080</color>
-    <color name="colorOverlay">#80000000</color>
+    <color name="colorOverlay">#67000000</color>
+    <color name="colorOverlayLight">#50000000</color>
     <color name="colorWhiteOverlay">#AAFFFFFF</color>
+    <color name="colorWhiteOverlayLight">#55FFFFFF</color>
+    <color name="colorActionBarTitle">#FFFFFF</color>
+    <color name="colorUp">#FF4081</color>
+    <color name="colorRight">#FBC02D</color>
+    <color name="colorDown">#64FFDA</color>
+    <color name="colorLeft">#4A148C</color>
+    <color name="colorUpOverlay">#55FF4081</color>
+    <color name="colorRightOverlay">#55FBC02D</color>
+    <color name="colorDownOverlay">#5564FFDA</color>
+    <color name="colorLeftOverlay">#554A148C</color>
+    <color name="colorUpOverlayDark">#DDFF4081</color>
+    <color name="colorRightOverlayDark">#DDFBC02D</color>
+    <color name="colorDownOverlayDark">#DD64FFDA</color>
+    <color name="colorLeftOverlayDark">#DD4A148C</color>
 </resources>

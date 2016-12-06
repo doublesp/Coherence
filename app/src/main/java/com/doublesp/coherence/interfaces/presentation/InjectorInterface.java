@@ -4,7 +4,6 @@ import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.fragments.SavedGoalsFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 /**
@@ -16,8 +15,6 @@ public interface InjectorInterface {
     void inject(ListCompositionFragment fragment);
 
     void inject(IdeaReviewFragment fragment);
-
-    void inject(SavedGoalsFragment fragment);
 
     void inject(GoalSearchFragment fragment);
 

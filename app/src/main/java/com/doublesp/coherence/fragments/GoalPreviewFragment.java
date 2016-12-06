@@ -4,10 +4,10 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewmodels.Goal;
-
-import org.parceler.Parcels;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -20,14 +20,18 @@ import android.view.WindowManager;
 
 import javax.inject.Inject;
 
+import rx.Observer;
+
 public class GoalPreviewFragment extends DialogFragment {
 
-    static final String IDEA_PREVIEW_FRAGMENT_VIEW_MODEL = "IDEA_PREVIEW_FRAGMENT_VIEW_MODEL";
+    static final String IDEA_PREVIEW_FRAGMENT_INDEX = "IDEA_PREVIEW_FRAGMENT_INDEX";
 
     FragmentGoalPreviewBinding binding;
-    Goal mGoal;
+    int mPos;
     @Inject
     GoalDetailActionHandlerInterface mActionHandler;
+    @Inject
+    GoalInteractorInterface mGoalInteractor;
     @Inject
     IdeaInteractorInterface mIdeaInteractor;
 
@@ -35,10 +39,10 @@ public class GoalPreviewFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static GoalPreviewFragment newInstance(Goal goal) {
+    public static GoalPreviewFragment newInstance(int pos) {
         GoalPreviewFragment fragment = new GoalPreviewFragment();
         Bundle args = new Bundle();
-        args.putParcelable(IDEA_PREVIEW_FRAGMENT_VIEW_MODEL, Parcels.wrap(goal));
+        args.putInt(IDEA_PREVIEW_FRAGMENT_INDEX, pos);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,8 +51,34 @@ public class GoalPreviewFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mGoal = Parcels.unwrap(getArguments().getParcelable(IDEA_PREVIEW_FRAGMENT_VIEW_MODEL));
-            mIdeaInteractor.loadIdeasFromGoal(mGoal);
+            mPos = getArguments().getInt(IDEA_PREVIEW_FRAGMENT_INDEX);
+            mGoalInteractor.loadDetailsForGoalAtPos(mPos);
+            mGoalInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(ViewState viewState) {
+                    switch (viewState.getState()) {
+                        case R.id.state_loaded:
+                            switch (viewState.getOperation()) {
+                                case UPDATE:
+                                    if (viewState.getStart() != -1) {
+                                        return;
+                                    }
+                                    Goal updatedGoal = mGoalInteractor.getGoalAtPos(mPos);
+                                    binding.setViewModel(updatedGoal);
+                                    binding.executePendingBindings();
+                            }
+                    }
+                }
+            });
         }
     }
 
@@ -65,7 +95,9 @@ public class GoalPreviewFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.setViewModel(mGoal);
+        Goal goal = mGoalInteractor.getGoalAtPos(mPos);
+        binding.setPos(mPos);
+        binding.setViewModel(goal);
         binding.executePendingBindings();
     }
 

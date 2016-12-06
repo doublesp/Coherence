@@ -1,5 +1,8 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="action_bar_text_size_xxxl">36sp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="header_height">84dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_list_composition_idea_height">44dp</dimen>
@@ -13,10 +16,14 @@
     <dimen name="fragment_idea_preview_idea_selector_height">100dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_width">100dp</dimen>
     <dimen name="item_goal_margin">16dp</dimen>
-    <dimen name="item_goal_height">300dp</dimen>
+    <dimen name="item_goal_height">150dp</dimen>
     <dimen name="item_idea_image_width">100dp</dimen>
     <dimen name="item_idea_image_height">100dp</dimen>
     <dimen name="border_width_thin">1dip</dimen>
     <dimen name="border_radius">4dip</dimen>
     <dimen name="border_width">5dip</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+    <dimen name="grid_margin">4dp</dimen>
+    <dimen name="cell_margin">16dp</dimen>
 </resources>

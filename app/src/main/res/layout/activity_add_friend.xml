@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_add_friend"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingStart="@dimen/activity_horizontal_margin"
-    tools:context="com.doublesp.coherence.activities.AddFriendActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/add_friends_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <RelativeLayout
+            android:id="@+id/activity_add_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            tools:context="com.doublesp.coherence.activities.AddFriendActivity">
 
-</RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/add_friends_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        <include
+                layout="@layout/toolbar_main"
+                android:id="@+id/activity_add_friend_toolbar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/status_bar_height"
+                android:fitsSystemWindows="true"
+                />
+
+    </RelativeLayout>
+</layout>

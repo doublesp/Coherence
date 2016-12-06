@@ -1,6 +1,23 @@
 package com.doublesp.coherence.activities;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.ActivityShareBinding;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ToolbarBindingUtils;
+import com.doublesp.coherence.viewmodels.User;
+import com.doublesp.coherence.viewmodels.UserList;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,23 +29,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.User;
-import com.doublesp.coherence.viewmodels.UserList;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ShareActivity extends AppCompatActivity {
+    ActivityShareBinding binding;
     public static FragmentManager fm;
     private static DatabaseReference mUsersListsDatabaseReference;
     private static DatabaseReference mSharedWithListsDatabaseReference;
@@ -42,13 +47,15 @@ public class ShareActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share);
+        binding = DataBindingUtil.setContentView(ShareActivity.this, R.layout.activity_share);
+        ToolbarBindingUtils.bind(ShareActivity.this, binding.activityShareToolbarContainer.toolbar);
+
         setTitle(R.string.share_list);
         fm = getSupportFragmentManager();
 
         mListId = getIntent().getStringExtra(ConstantsAndUtils.LIST_ID);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.friends_list_recycler_view);
+        mRecyclerView = binding.friendsListRecyclerView;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mListsDatabaseReference = mFirebaseDatabase.getReference().child(
                 ConstantsAndUtils.USER_FRIENDS).child(ConstantsAndUtils.getOwner(this));
