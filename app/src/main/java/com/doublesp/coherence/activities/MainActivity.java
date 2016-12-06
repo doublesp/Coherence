@@ -421,17 +421,20 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if (mDialogFragment != null && mDialogFragment instanceof ListCompositionFragment) {
+                    if (mIdeaInteractor.getSuggestionCount() < 1) {
+                        return true;
+                    }
+                    mIdeaInteractor.acceptSuggestedIdeaAtPos(0);
+                    searchView.setQuery("", false);
+                    return true;
+                }
                 int currentViewPagerIndex = binding.viewpager.getCurrentItem();
                 switch (currentViewPagerIndex) {
                     case SEARCH_GOAL:
                         mGoalInteractor.search(query);
                         break;
                     case SAVED_GOALS:
-                        if (mIdeaInteractor.getSuggestionCount() < 1) {
-                            return true;
-                        }
-                        mIdeaInteractor.acceptSuggestedIdeaAtPos(0);
-                        searchView.setQuery("", false);
                         break;
                     case SAVED_IDEAS:
                         break;
@@ -447,10 +450,18 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s.trim().isEmpty()) {
+                String query = s.trim();
+                if (query.isEmpty()) {
                     return true;
                 }
-                mIdeaInteractor.getSuggestions(s.trim());
+                if (mDialogFragment != null && mDialogFragment instanceof ListCompositionFragment) {
+                    // show auto complete for ingredients
+                    mIdeaInteractor.getSuggestions(query);
+                    return true;
+                } else {
+                    // TODO: add auto complete for recipes
+                }
+
                 return true;
             }
         });

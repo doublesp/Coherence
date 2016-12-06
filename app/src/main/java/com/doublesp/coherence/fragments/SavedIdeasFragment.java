@@ -133,8 +133,7 @@ public class SavedIdeasFragment extends Fragment {
         if (getActivity() instanceof ListCompositionHandlerInterface) {
             binding.setHandler((ListCompositionHandlerInterface) getActivity());
         }
-        binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(
-                getContext(), LinearLayoutManager.VERTICAL, true));
+        binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL);

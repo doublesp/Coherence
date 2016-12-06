@@ -59,8 +59,7 @@ public class GoalSearchFragment extends Fragment {
         if (getActivity() instanceof ListCompositionHandlerInterface) {
             binding.setHandler((ListCompositionHandlerInterface) getActivity());
         }
-        binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(
-                getContext(), LinearLayoutManager.VERTICAL, true));
+        binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvIdeaSearchResults.setAdapter(mAdapter);
         binding.rvIdeaSearchResults.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
