@@ -57,7 +57,7 @@
                 android:onClick="onBookmarkClick"
                 android:src="@drawable/ic_bookmark"
                 android:tint="@color/colorButton"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/colorUpOverlayDark"
                 app:fabSize="normal"
                 app:fab_title="@string/saved_recipes"/>
 
