@@ -80,6 +80,11 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     }
 
     @Override
+    public void onNearbyStoreButtonClick() {
+
+    }
+
+    @Override
     public void onCrossoutButtonClick(int pos) {
         Idea idea = mIdeaInteractor.getIdeaAtPos(pos);
         if (idea.isCrossedOut()) {

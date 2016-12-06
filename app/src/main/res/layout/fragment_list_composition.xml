@@ -59,6 +59,15 @@
                 app:fab_colorNormal="@color/colorRightOverlayDark"
                 app:fab_title="@string/search_goal" />
 
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> handler.onNearbyStoreButtonClick()}"
+                android:src="@drawable/ic_shopping_cart"
+                android:tint="@color/colorButton"
+                app:fab_colorNormal="@color/colorLeftOverlayDark"
+                app:fab_title="@string/nearby_stores" />
+
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
     </FrameLayout>
