@@ -1,12 +1,21 @@
 package com.doublesp.coherence.fragments;
 
-import static com.doublesp.coherence.fragments.ListCompositionFragment
-        .LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.viewmodels.Plan;
 
+import org.parceler.Parcels;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,18 +26,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
-import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.utils.AnimationUtils;
-import com.doublesp.coherence.viewmodels.Plan;
-
-import org.parceler.Parcels;
-
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
 public class GoalSearchFragment extends DialogFragment {
 
@@ -36,6 +37,7 @@ public class GoalSearchFragment extends DialogFragment {
     FragmentGoalSearchBinding binding;
     int[] mBackgroundImageIds;
     int mBackgroundImageIndex;
+    AnimatorSet mAnimatorSet;
     @Inject
     @Named("GoalAction")
     GoalActionHandlerInterface mActionHandler;
@@ -80,7 +82,7 @@ public class GoalSearchFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_goal_search, container, false);
         binding.rvIdeaSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -141,15 +143,28 @@ public class GoalSearchFragment extends DialogFragment {
     void rotateImage() {
         binding.ivIdeaSearchBackground.setImageResource(
                 mBackgroundImageIds[mBackgroundImageIndex]);
-        binding.ivIdeaSearchBackground.startAnimation(AnimationUtils.fadeInOutAnimation(
-                LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL));
-        new Handler().postDelayed(new Runnable() {
+
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(
+                binding.ivIdeaSearchBackground, "alpha", 0f, 1f);
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
+                binding.ivIdeaSearchBackground, "alpha", 1f, 0f);
+        fadeIn.setDuration(LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL / 2);
+        fadeOut.setDuration(LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL / 2);
+
+        mAnimatorSet = new AnimatorSet();
+        mAnimatorSet.play(fadeIn).before(fadeOut);
+
+        mAnimatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void run() {
+            public void onAnimationEnd(Animator animation) {
                 mBackgroundImageIndex = (mBackgroundImageIndex + 1) % mBackgroundImageIds.length;
-                rotateImage();
+                binding.ivIdeaSearchBackground.setImageResource(
+                        mBackgroundImageIds[mBackgroundImageIndex]);
+                super.onAnimationEnd(animation);
+                mAnimatorSet.start();
             }
-        }, LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL);
+        });
+        mAnimatorSet.start();
     }
 
     private void updateLayoutParams() {

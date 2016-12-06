@@ -1,12 +1,12 @@
 package com.doublesp.coherence.utils;
 
+import com.doublesp.coherence.R;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-
-import com.doublesp.coherence.R;
 
 /**
  * Created by pinyaoting on 11/16/16.
@@ -29,7 +29,7 @@ public class TabUtils {
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
                         super.onTabUnselected(tab);
-                        int tabIconColor = ContextCompat.getColor(context, R.color.colorOverlay);
+                        int tabIconColor = ContextCompat.getColor(context, R.color.colorButtonUnselected);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
