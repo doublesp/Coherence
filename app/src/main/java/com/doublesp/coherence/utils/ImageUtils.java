@@ -2,15 +2,23 @@ package com.doublesp.coherence.utils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.doublesp.coherence.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -27,6 +35,51 @@ public class ImageUtils {
     public static long FADEOUT_DURATION = 250L;
     public static long PAUSE_DURATION = 3000L;
     private static List<Integer> mBackgroundImageId;
+
+    public static void loadImageWithProminentColor(
+            final ImageView imageView, final ViewGroup container, String imageUrl) {
+        SimpleTarget target = new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                // insert the bitmap into the image view
+                imageView.setImageBitmap(bitmap);
+
+                // Use generate() method from the Palette API to get the vibrant color from the bitmap
+                // Set the result as the background color
+                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        // Get the "vibrant" color swatch based on the bitmap
+                        Palette.Swatch vibrant = palette.getVibrantSwatch();
+                        if (vibrant != null) {
+                            int colorFrom = ((ColorDrawable) container.getBackground()).getColor();
+                            int colorTo = vibrant.getRgb();
+
+                            ValueAnimator colorAnimation = ValueAnimator.ofObject(
+                                    new ArgbEvaluator(), colorFrom, colorTo);
+                            colorAnimation.setDuration(500);
+                            colorAnimation.addUpdateListener(
+                                    new ValueAnimator.AnimatorUpdateListener() {
+                                        @Override
+                                        public void onAnimationUpdate(ValueAnimator animator) {
+                                            int color = (int) animator.getAnimatedValue();
+                                            container.setBackgroundColor(color);
+                                        }
+                                    });
+                            colorAnimation.start();
+                        }
+                    }
+                });
+            }
+        };
+
+        Glide.with(imageView.getContext())
+                .load(imageUrl)
+                .asBitmap()
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(target);
+    }
 
     public static void rotateImage(final Handler handler, final ImageView imageView,
                                    final List<String> imageUrls, final int imageIndex, final int interveral) {

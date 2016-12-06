@@ -27,4 +27,8 @@
     <color name="colorRightOverlay">#55FBC02D</color>
     <color name="colorDownOverlay">#5564FFDA</color>
     <color name="colorLeftOverlay">#554A148C</color>
+    <color name="colorUpOverlayDark">#DDFF4081</color>
+    <color name="colorRightOverlayDark">#DDFBC02D</color>
+    <color name="colorDownOverlayDark">#DD64FFDA</color>
+    <color name="colorLeftOverlayDark">#DD4A148C</color>
 </resources>
