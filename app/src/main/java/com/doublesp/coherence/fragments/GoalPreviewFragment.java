@@ -12,17 +12,16 @@ import com.doublesp.coherence.viewmodels.Goal;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import javax.inject.Inject;
 
 import rx.Observer;
 
-public class GoalPreviewFragment extends DialogFragment {
+public class GoalPreviewFragment extends Fragment {
 
     static final String IDEA_PREVIEW_FRAGMENT_INDEX = "IDEA_PREVIEW_FRAGMENT_INDEX";
 
@@ -112,13 +111,6 @@ public class GoalPreviewFragment extends DialogFragment {
 
     @Override
     public void onResume() {
-        // Get existing layout params for the window
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        // Assign window properties to fill the parent
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-        // Call super onResume after sizing
         super.onResume();
     }
 

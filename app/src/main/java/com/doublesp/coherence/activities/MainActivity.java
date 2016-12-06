@@ -51,7 +51,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mListDatabaseReference;
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
-    private DialogFragment mDialogFragment;
+    private Fragment mDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,29 +121,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             @Override
             public void onPageSelected(int position) {
-                binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
-                String title = getString(R.string.app_name);
-                float titleSize = getResources().getInteger(R.integer.app_title_size);
-                switch (position) {
-                    case SEARCH_GOAL:
-                        mGoalInteractor.setDisplayGoalFlag(R.id.flag_explore_recipes);
-                        title = getString(R.string.app_name);
-                        titleSize = getResources().getInteger(R.integer.app_title_size);
-                        break;
-                    case SAVED_GOALS:
-                        mGoalInteractor.setDisplayGoalFlag(R.id.flag_saved_recipes);
-                        title = getString(R.string.saved_goals);
-                        titleSize = getResources().getInteger(R.integer.toolbar_title_size);
-                        break;
-                    case SAVED_IDEAS:
-                        title = getString(R.string.saved_grocery_hint);
-                        titleSize = getResources().getInteger(R.integer.toolbar_title_size);
-                        break;
-                    default:
-                        break;
-                }
-                binding.activityMainToolbarContainer.toolbarTitle.setText(title);
-                binding.activityMainToolbarContainer.toolbarTitle.setTextSize(titleSize);
+                configureTitle(position);
             }
 
             @Override
@@ -213,8 +191,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void preview(int pos) {
         dismissDialogIfNotNull();
         mDialogFragment = GoalPreviewFragment.newInstance(pos);
-        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+        showFragment();
     }
 
     @Override
@@ -223,8 +200,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         dismissDialogIfNotNull();
         loadList(newListId(), goal);
         mDialogFragment = ListCompositionFragment.newInstance();
-        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+        binding.activityMainToolbarContainer.toolbarTitle.setText(
+                getString(R.string.create_grocery_hint));
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(
+                getResources().getInteger(R.integer.toolbar_title_size));
+        showFragment();
     }
 
     @Override
@@ -236,8 +216,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         dismissDialogIfNotNull();
         loadList(listId, null);
         mDialogFragment = ListCompositionFragment.newInstance();
-        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+        binding.activityMainToolbarContainer.toolbarTitle.setText(
+                getString(R.string.create_grocery_hint));
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(
+                getResources().getInteger(R.integer.toolbar_title_size));
+        showFragment();
     }
 
     @Override
@@ -246,14 +229,24 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         dismissDialogIfNotNull();
         loadList(newListId(), null);
         mDialogFragment = ListCompositionFragment.newInstance();
-        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+        binding.activityMainToolbarContainer.toolbarTitle.setText(
+                getString(R.string.create_grocery_hint));
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(
+                getResources().getInteger(R.integer.toolbar_title_size));
+        showFragment();
     }
 
     @Override
     public void search(Plan plan) {
         mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
         binding.viewpager.setCurrentItem(SEARCH_GOAL);
+    }
+
+    private void showFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_home, mDialogFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private String newListId() {
@@ -477,6 +470,15 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mDialogFragment != null) {
+            configureTitle(binding.viewpager.getCurrentItem());
+        }
+        mDialogFragment = null;
+    }
+
     private void onSignedOutCleanup() {
         mUsername = ConstantsAndUtils.ANONYMOUS;
         stopService(new Intent(this, NotificationService.class));
@@ -511,7 +513,33 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     private void dismissDialogIfNotNull() {
         if (mDialogFragment != null) {
-            mDialogFragment.dismiss();
+            onBackPressed();
         }
+    }
+
+    private void configureTitle(int position) {
+        binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
+        String title = getString(R.string.app_name);
+        float titleSize = getResources().getInteger(R.integer.app_title_size);
+        switch (position) {
+            case SEARCH_GOAL:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_explore_recipes);
+                title = getString(R.string.app_name);
+                titleSize = getResources().getInteger(R.integer.app_title_size);
+                break;
+            case SAVED_GOALS:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_saved_recipes);
+                title = getString(R.string.saved_goals);
+                titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                break;
+            case SAVED_IDEAS:
+                title = getString(R.string.saved_grocery_hint);
+                titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                break;
+            default:
+                break;
+        }
+        binding.activityMainToolbarContainer.toolbarTitle.setText(title);
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(titleSize);
     }
 }
