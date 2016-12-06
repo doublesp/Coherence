@@ -1,7 +1,11 @@
 package com.doublesp.coherence.adapters;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -12,21 +16,12 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 import rx.Observer;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
-/**
- * Created by pinyaoting on 11/12/16.
- */
 
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
@@ -39,7 +34,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-                                       ListFragmentActionHandlerInterface ideaActionHandler) {
+            ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -90,8 +85,6 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                                 updateItemInFireBase(start, count);
                                 break;
                             case REMOVE:
-                                start = state.getStart();
-                                count = state.getCount();
                                 saveToFireBase();
                                 break;
                             case CLEAR:
@@ -114,7 +107,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view;
-        RecyclerView.ViewHolder holder = null;
+        RecyclerView.ViewHolder holder;
 
         view = inflater.inflate(R.layout.item_idea, parent, false);
         holder = new IdeaViewHolder(view);

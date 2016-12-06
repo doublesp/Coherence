@@ -6,10 +6,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 
-/**
- * Created by pinyaoting on 11/21/16.
- */
-
 public class AnimationUtils {
 
     public static Animation fadeInOutAnimation(int interval) {

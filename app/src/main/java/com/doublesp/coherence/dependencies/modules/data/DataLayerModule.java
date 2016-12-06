@@ -19,10 +19,6 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @Module
 public class DataLayerModule {
 

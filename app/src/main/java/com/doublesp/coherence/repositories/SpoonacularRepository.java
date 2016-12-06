@@ -1,5 +1,7 @@
 package com.doublesp.coherence.repositories;
 
+import android.app.Application;
+
 import com.doublesp.coherence.api.SpoonacularClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
@@ -13,8 +15,6 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
-import android.app.Application;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +23,6 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
-
-/**
- * Created by pinyaoting on 11/22/16.
- */
 
 public class SpoonacularRepository implements RecipeV2RepositoryInterface {
 
@@ -45,7 +41,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
         mAutoCompleteRecipeSubscribers = new ArrayList<>();
         mAutoCompleteIngredientSubscribers = new ArrayList<>();
         getClient().subscribeRecipe(new Observer<RecipeResponseV2>() {
-            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+            List<RecipeV2> mRecipes = new ArrayList<>();
 
             @Override
             public void onCompleted() {
@@ -70,7 +66,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             }
         });
         getClient().subscribeRecipeByIngredients(new Observer<List<RecipeV2>>() {
-            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+            List<RecipeV2> mRecipes = new ArrayList<>();
 
             @Override
             public void onCompleted() {
@@ -90,7 +86,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             }
         });
         getClient().subscribeRandomRecipe(new Observer<RandomRecipeResponseV2>() {
-            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+            List<RecipeV2> mRecipes = new ArrayList<>();
 
             @Override
             public void onCompleted() {
@@ -115,7 +111,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             @Override
             public void onCompleted() {
                 notifyAllDetailObservers(mRecipe);
-                List<RecipeV2> recipes = new ArrayList<RecipeV2>();
+                List<RecipeV2> recipes = new ArrayList<>();
                 recipes.add(mRecipe);
                 asyncPersistRecipes(recipes);
             }
@@ -131,7 +127,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             }
         });
         getClient().subscribeAutoCompleteIngredient(new Observer<List<IngredientV2>>() {
-            List<IngredientV2> mIngredients = new ArrayList<IngredientV2>();
+            List<IngredientV2> mIngredients = new ArrayList<>();
 
             @Override
             public void onCompleted() {
@@ -150,7 +146,7 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
             }
         });
         getClient().subscribeAutoCompleteRecipe(new Observer<List<RecipeV2>>() {
-            List<RecipeV2> mRecipes = new ArrayList<RecipeV2>();
+            List<RecipeV2> mRecipes = new ArrayList<>();
 
             @Override
             public void onCompleted() {

@@ -13,10 +13,6 @@ import rx.Observer;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 @Deprecated
 public class RecipeInteractor extends IdeaInteractorBase {
 

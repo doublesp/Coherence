@@ -109,7 +109,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<LocationCluster>(getContext(), mMap);
+        mClusterManager = new ClusterManager<>(getContext(), mMap);
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraChangeListener(mClusterManager);

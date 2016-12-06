@@ -1,13 +1,9 @@
 package com.doublesp.coherence.actions;
 
-import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-
 import android.text.Editable;
 
-/**
- * Created by pinyaoting on 11/26/16.
- */
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 
 public class GoalActionHandler implements GoalActionHandlerInterface {
 

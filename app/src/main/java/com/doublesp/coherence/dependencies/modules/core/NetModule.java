@@ -23,10 +23,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.schedulers.Schedulers;
 
 
-/**
- * Created by pinyaoting on 10/26/16.
- */
-
 @Module
 public class NetModule {
 

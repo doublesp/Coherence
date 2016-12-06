@@ -1,9 +1,5 @@
 package com.doublesp.coherence.viewmodels;
 
-/**
- * Created by pinyaoting on 12/5/16.
- */
-
 public class IdeaReducer {
 
     Idea mIdea;

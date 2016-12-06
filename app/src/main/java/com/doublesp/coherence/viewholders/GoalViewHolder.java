@@ -1,5 +1,11 @@
 package com.doublesp.coherence.viewholders;
 
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -7,16 +13,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.doublesp.coherence.databinding.ItemGoalBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.viewmodels.Goal;
-
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
-/**
- * Created by pinyaoting on 11/26/16.
- */
 
 public class GoalViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,11 +33,13 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
         // TODO: do palette with data bind
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
-            public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+            public void onResourceReady(Bitmap bitmap,
+                    GlideAnimation<? super Bitmap> glideAnimation) {
                 // insert the bitmap into the image view
                 binding.ivGoalImage.setImageBitmap(bitmap);
 
-                // Use generate() method from the Palette API to get the vibrant color from the bitmap
+                // Use generate() method from the Palette API to get the vibrant color from the
+                // bitmap
                 // Set the result as the background color
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                     @Override
@@ -60,12 +58,16 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
                             binding.tvGoalIndex.setTextColor(colorTo);
 
                             // Set the background color of a layout based on the vibrant color
-                            binding.tvGoalTitle.setBackgroundTintList(ColorStateList.valueOf(colorTo));
-                            binding.tvGoalIndex.setBackgroundTintList(ColorStateList.valueOf(colorTo));
+                            binding.tvGoalTitle.setBackgroundTintList(
+                                    ColorStateList.valueOf(colorTo));
+                            binding.tvGoalIndex.setBackgroundTintList(
+                                    ColorStateList.valueOf(colorTo));
 
-//                            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+//                            ValueAnimator colorAnimation = ValueAnimator.ofObject(new
+// ArgbEvaluator(), colorFrom, colorTo);
 //                            colorAnimation.setDuration(500);
-//                            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                            colorAnimation.addUpdateListener(new ValueAnimator
+// .AnimatorUpdateListener() {
 //
 //                                @Override
 //                                public void onAnimationUpdate(ValueAnimator animator) {
@@ -75,9 +77,12 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
 //                                    binding.tvGoalTitle.setTextColor(color);
 //                                    binding.tvGoalIndex.setTextColor(color);
 //
-//                                    // Set the background color of a layout based on the vibrant color
-//                                    binding.tvGoalTitle.setBackgroundTintList(ColorStateList.valueOf(color));
-//                                    binding.tvGoalIndex.setBackgroundTintList(ColorStateList.valueOf(color));
+//                                    // Set the background color of a layout based on the
+// vibrant color
+//                                    binding.tvGoalTitle.setBackgroundTintList(ColorStateList
+// .valueOf(color));
+//                                    binding.tvGoalIndex.setBackgroundTintList(ColorStateList
+// .valueOf(color));
 //                                }
 //                            });
 //                            colorAnimation.start();

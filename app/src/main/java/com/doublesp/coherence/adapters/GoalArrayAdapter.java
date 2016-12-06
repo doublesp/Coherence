@@ -1,5 +1,12 @@
 package com.doublesp.coherence.adapters;
 
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
@@ -7,18 +14,7 @@ import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.viewholders.GoalViewHolder;
 import com.doublesp.coherence.viewmodels.Goal;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import rx.Observer;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
-/**
- * Created by pinyaoting on 11/27/16.
- */
 
 public class GoalArrayAdapter
         extends RecyclerView.Adapter {

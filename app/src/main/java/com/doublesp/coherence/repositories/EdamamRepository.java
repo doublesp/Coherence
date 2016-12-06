@@ -23,10 +23,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 public class EdamamRepository implements RecipeRepositoryInterface {
 
     List<Observer<List<Recipe>>> mSubscribers;
@@ -39,7 +35,7 @@ public class EdamamRepository implements RecipeRepositoryInterface {
         mClient = client;
         mSubscribers = new ArrayList<>();
         getClient().subscribe(new Observer<RecipeResponse>() {
-            List<Recipe> mRecipes = new ArrayList<Recipe>();
+            List<Recipe> mRecipes = new ArrayList<>();
 
             @Override
             public void onCompleted() {

@@ -6,10 +6,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-/**
- * Created by pinyaoting on 11/22/16.
- */
-
 @Table(database = RecipeV2Database.class)
 public class IngredientV2 extends BaseModel {
 

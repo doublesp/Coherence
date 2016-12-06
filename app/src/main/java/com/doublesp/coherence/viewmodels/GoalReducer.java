@@ -1,9 +1,5 @@
 package com.doublesp.coherence.viewmodels;
 
-/**
- * Created by pinyaoting on 11/30/16.
- */
-
 public class GoalReducer {
 
     Goal mGoal;

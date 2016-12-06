@@ -8,10 +8,6 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/14/16.
- */
-
 @Parcel
 public class DataSnapshotStore {
 

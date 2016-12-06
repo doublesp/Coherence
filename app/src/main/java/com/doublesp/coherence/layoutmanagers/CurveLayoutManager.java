@@ -8,10 +8,6 @@ import android.view.View;
 
 import java.util.List;
 
-/**
- * Created by pinyaoting on 10/16/16.
- */
-
 public class CurveLayoutManager extends LinearLayoutManager {
 
     public Point mContentOffset;
@@ -87,8 +83,8 @@ public class CurveLayoutManager extends LinearLayoutManager {
             calculateAndSaveChildSize(view);
             addView(view);
 
-            int xOffset = 0;
-            int yOffset = 0;
+            int xOffset;
+            int yOffset;
             int radius = sizeOfRecyclerView / 2;
             switch (getOrientation()) {
                 case HORIZONTAL:

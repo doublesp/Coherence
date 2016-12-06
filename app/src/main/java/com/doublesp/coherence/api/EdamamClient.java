@@ -13,10 +13,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 public class EdamamClient {
 
     static final int DELAY_BETWEEN_API_CALLS = 1000;

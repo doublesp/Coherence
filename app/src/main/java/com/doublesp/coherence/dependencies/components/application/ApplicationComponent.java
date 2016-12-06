@@ -12,10 +12,6 @@ import javax.inject.Singleton;
 import dagger.Component;
 import retrofit2.Retrofit;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @Singleton
 @Component(modules = {AppModule.class, NetModule.class})
 public interface ApplicationComponent {
