@@ -44,7 +44,9 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
                 R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         IdeaReducer reducer = mIdeaDataStore.getIdeaReducer(idea.getId());
-        reducer.setCrossedOut(true);
+        if (reducer != null) {
+            reducer.setCrossedOut(true);
+        }
         mIdeaDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
     }
@@ -55,7 +57,9 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
                 R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
         Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
         IdeaReducer reducer = mIdeaDataStore.getIdeaReducer(idea.getId());
-        reducer.setCrossedOut(false);
+        if (reducer != null) {
+            reducer.setCrossedOut(false);
+        }
         mIdeaDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
     }

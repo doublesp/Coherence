@@ -1,11 +1,11 @@
 package com.doublesp.coherence.utils;
 
 
+import com.doublesp.coherence.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.doublesp.coherence.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,7 +32,7 @@ public class ConstantsAndUtils {
 
     public static String getDefaultTitle(Context context) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd");
         StringBuilder titleBuilder = new StringBuilder(
                 context.getString(R.string.default_idea_prefix));
         titleBuilder.append(" ");
