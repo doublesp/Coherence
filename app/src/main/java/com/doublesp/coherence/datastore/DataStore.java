@@ -202,6 +202,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setIdeas(List<Idea> ideas) {
         getIdeas().clear();
+        mIdeaReducers.clear();
         for (Idea idea : ideas) {
             mIdeaReducers.put(idea.getId(), new IdeaReducer(idea));
         }
@@ -225,6 +226,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setExploreGoals(List<Goal> goals) {
         getExploreGoals().clear();
+        mExploreGoalReducers.clear();
         for (Goal goal : goals) {
             mExploreGoalReducers.put(goal.getId(), new GoalReducer(goal));
         }
@@ -238,6 +240,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setSavedGoals(List<Goal> goals) {
         getSavedGoals().clear();
+        mSavedGoalReducers.clear();
         for (Goal goal : goals) {
             mSavedGoalReducers.put(goal.getId(), new GoalReducer(goal));
         }
@@ -289,5 +292,12 @@ public class DataStore implements DataStoreInterface {
                 return getSavedGoals().size();
         }
         return 0;
+    }
+
+    @Override
+    public void clearPlan() {
+        mPlan = null;
+        mIdeaReducers.clear();
+        mSnapshotStore.getIdeas().clear();
     }
 }

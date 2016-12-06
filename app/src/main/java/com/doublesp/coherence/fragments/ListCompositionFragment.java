@@ -98,14 +98,14 @@ public class ListCompositionFragment extends Fragment {
 
     @Override
     public void onResume() {
-        binding.multipleActions.collapse();
         super.onResume();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mInteractor.clearIdeas();
+        mInteractor.discardPlanIfEmpty();
+        mInteractor.clearPlan();
     }
 
 }

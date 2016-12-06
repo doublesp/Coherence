@@ -17,8 +17,6 @@ public interface IdeaInteractorInterface {
 
     void removeIdea(int pos);
 
-    void clearIdeas();
-
     void getSuggestions(String keyword);
 
     void subscribeIdeaStateChange(Observer<ViewState> observer);
@@ -40,5 +38,9 @@ public interface IdeaInteractorInterface {
     Plan createPlan(String id);
 
     void loadIdeasFromGoal(Goal goal);
+
+    void discardPlanIfEmpty();
+
+    void clearPlan();
 
 }

@@ -2,7 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <data>
+        <variable
+                name="handler"
+                type="com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface"/>
+    </data>
+
+    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -22,6 +28,18 @@
             android:background="@android:color/transparent"
             android:clipToPadding="false"
             android:paddingTop="@dimen/header_height" />
+
+        <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right|end"
+                android:layout_margin="16dp"
+                android:onClick="@{() -> handler.compose()}"
+                android:src="@drawable/ic_create"
+                android:tint="@color/colorButton"
+                app:backgroundTint="@color/colorUpOverlayDark"
+                app:fabSize="normal"
+                app:fab_title="@string/create_grocery_list"/>
 
     </FrameLayout>
 </layout>

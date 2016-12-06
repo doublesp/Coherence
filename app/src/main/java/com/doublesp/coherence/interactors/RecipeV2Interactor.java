@@ -199,10 +199,17 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                                     savedRecipe.delete();
                                 }
                             }
-                            mDataStore.getExploreGoalReducer(
-                                    goal.getId()).setBookmarked(!goal.isBookmarked());
-                            mDataStore.getSavedGoalReducer(
-                                    goal.getId()).setBookmarked(!goal.isBookmarked());
+                            boolean isBookmarked = !goal.isBookmarked();
+                            GoalReducer exploreGoalReducer = mDataStore.getExploreGoalReducer(
+                                    goal.getId());
+                            if (exploreGoalReducer != null) {
+                                exploreGoalReducer.setBookmarked(isBookmarked);
+                            }
+                            GoalReducer savedGoalReducer = mDataStore.getSavedGoalReducer(
+                                    goal.getId());
+                            if (savedGoalReducer != null) {
+                                savedGoalReducer.setBookmarked(isBookmarked);
+                            }
                             mDataStore.setGoalState(new ViewState(
                                     R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
                         }
