@@ -2,4 +2,5 @@
 <resources>
     <fraction name="top_image_ratio">60%</fraction>
     <fraction name="top_image_cut_ratio">16%</fraction>
+    <fraction name="detail_top_image_cut_ratio">8%</fraction>
 </resources>

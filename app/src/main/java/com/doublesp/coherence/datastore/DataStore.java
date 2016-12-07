@@ -1,7 +1,5 @@
 package com.doublesp.coherence.datastore;
 
-import android.content.Context;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
@@ -11,6 +9,8 @@ import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
+
+import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -299,5 +299,31 @@ public class DataStore implements DataStoreInterface {
         mPlan = null;
         mIdeaReducers.clear();
         mSnapshotStore.getIdeas().clear();
+    }
+
+    private List<Idea> getPendingIdeas() {
+        return mSnapshotStore.getPendingIdeas();
+    }
+
+    @Override
+    public void setPendingIdeas(List<Idea> pendingIdeas) {
+        getPendingIdeas().clear();
+        getPendingIdeas().addAll(pendingIdeas);
+    }
+
+    @Override
+    public void loadPendingIdeas() {
+        setIdeas(getPendingIdeas());
+        getPendingIdeas().clear();
+    }
+
+    @Override
+    public int getPendingIdeasCount() {
+        return getPendingIdeas().size();
+    }
+
+    @Override
+    public Idea getPendingIdeaAtPos(int pos) {
+        return getPendingIdeas().get(pos);
     }
 }

@@ -5,14 +5,18 @@ import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.models.v2.IngredientV2;
 import com.doublesp.coherence.models.v2.RecipeV2;
 import com.doublesp.coherence.models.v2.SavedRecipe;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.IdeaMeta;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observer;
@@ -87,6 +91,20 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                 if (savedGoalReducer != null) {
                     savedGoalReducer.setDescription(mRecipe.getInstructions());
                 }
+                List<Idea> ideas = new ArrayList<>();
+                Set<String> dedupSet = new HashSet<>();
+                for (IngredientV2 ingredient : mRecipe.getExtendedIngredients()) {
+                    if (dedupSet.contains(ingredient.getName())) {
+                        continue;
+                    }
+                    Idea idea = new Idea(ingredient.getId(), R.id.idea_category_recipe_v2,
+                            ingredient.getName(), false, R.id.idea_type_user_generated,
+                            new IdeaMeta(ingredient.getImage(), ingredient.getName(),
+                                    ingredient.getOriginalString()));
+                    ideas.add(idea);
+                    dedupSet.add(ingredient.getName());
+                }
+                mDataStore.setPendingIdeas(ideas);
                 mDataStore.setGoalState(new ViewState(
                         R.id.state_loaded, ViewState.OPERATION.UPDATE));
             }
