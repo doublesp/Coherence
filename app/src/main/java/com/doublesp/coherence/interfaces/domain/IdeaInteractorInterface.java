@@ -37,10 +37,13 @@ public interface IdeaInteractorInterface {
 
     Plan createPlan(String id);
 
-    void loadIdeasFromGoal(Goal goal);
+    void loadPendingIdeas(Goal goal);
 
     void discardPlanIfEmpty();
 
     void clearPlan();
 
+    int getPendingIdeasCount();
+
+    Idea getPendingIdeaAtPos(int pos);
 }

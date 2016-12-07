@@ -78,7 +78,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
     }
 
     @Override
-    public void loadIdeasFromGoal(Goal goal) {
+    public void loadPendingIdeas(Goal goal) {
         return;
     }
 }

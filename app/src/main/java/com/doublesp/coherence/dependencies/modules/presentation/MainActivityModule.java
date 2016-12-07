@@ -1,12 +1,11 @@
 package com.doublesp.coherence.dependencies.modules.presentation;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.doublesp.coherence.actions.GoalActionHandler;
 import com.doublesp.coherence.actions.GoalDetailActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.adapters.GoalArrayAdapter;
+import com.doublesp.coherence.adapters.IdeasArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
@@ -15,6 +14,8 @@ import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.interfaces.scopes.PresentationLayerScope;
+
+import android.support.v7.widget.RecyclerView;
 
 import java.util.Map;
 
@@ -84,5 +85,11 @@ public class MainActivityModule {
     @PresentationLayerScope
     public SavedIdeasActionHandlerInterface providesSavedIdeasActionHandler() {
         return mActivity;
+    }
+
+    @Provides
+    @PresentationLayerScope
+    public IdeasArrayAdapter providesIdeasArrayAdapter(IdeaInteractorInterface ideaInteractor) {
+        return new IdeasArrayAdapter(ideaInteractor);
     }
 }

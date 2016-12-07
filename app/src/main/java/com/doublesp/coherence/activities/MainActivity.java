@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                     return;
                 }
                 if (goal != null) {
-                    mIdeaInteractor.loadIdeasFromGoal(goal);
+                    mIdeaInteractor.loadPendingIdeas(goal);
                 }
             }
 
@@ -404,6 +404,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
         final MenuItem searchItem = menu.findItem(R.id.action_search);
 
+        if (searchItem == null) {
+            return true;
+        }
         final AutoCompleteSearchView searchView =
                 (AutoCompleteSearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setAdapter(new IdeaSuggestionsAdapter(

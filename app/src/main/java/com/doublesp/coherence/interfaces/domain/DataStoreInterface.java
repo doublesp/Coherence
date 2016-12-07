@@ -72,4 +72,12 @@ public interface DataStoreInterface {
     void clearPlan();
 
     void setGoalFlag(int flag);
+
+    void setPendingIdeas(List<Idea> pendingIdeas);
+
+    void loadPendingIdeas();
+
+    int getPendingIdeasCount();
+
+    Idea getPendingIdeaAtPos(int pos);
 }
