@@ -23,6 +23,9 @@ public class ConstantsAndUtils {
     public static final String USER_FRIENDS = "userFriends";
     public static final String SHARED_WITH = "sharedWith";
     public static final String NOTIFY = "notify";
+    static final String SPOONACULAR_IMAGE_CDN_BASE_URL =
+            "https://spoonacular.com/cdn/ingredients_100x100/";
+
 
     public static String getOwner(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(
@@ -39,5 +42,9 @@ public class ConstantsAndUtils {
         titleBuilder.append(formatter.format(calendar.getTime()));
 
         return titleBuilder.toString();
+    }
+
+    public static String getSpoonacularImageUrl(String path) {
+        return new StringBuilder(SPOONACULAR_IMAGE_CDN_BASE_URL).append(path).toString();
     }
 }

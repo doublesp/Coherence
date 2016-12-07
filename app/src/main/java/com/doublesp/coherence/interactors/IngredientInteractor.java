@@ -5,6 +5,7 @@ import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.models.v2.IngredientV2;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
@@ -40,9 +41,14 @@ public class IngredientInteractor extends IdeaInteractorBase {
             public void onCompleted() {
                 List<Idea> suggestions = new ArrayList<>();
                 for (IngredientV2 ingredient : mIngredients) {
-                    Idea idea = new Idea("", R.id.idea_category_recipe_v2, ingredient.getName(),
+                    Idea idea = new Idea(ingredient.getId(),
+                            R.id.idea_category_recipe_v2,
+                            ingredient.getName(),
                             false, R.id.idea_type_suggestion,
-                            new IdeaMeta(ingredient.getImage(), ingredient.getName(), null));
+                            new IdeaMeta(
+                                    ConstantsAndUtils.getSpoonacularImageUrl(ingredient.getImage()),
+                                    ingredient.getName(),
+                                    null));
                     suggestions.add(idea);
                 }
                 mDataStore.setSuggestions(suggestions);
@@ -97,7 +103,7 @@ public class IngredientInteractor extends IdeaInteractorBase {
                         @Override
                         public void call(String s) {
                             mRecipeRepository.autoCompleteIngredients(s,
-                                    INGREDIENT_INTERACTOR_BATCH_SIZE);
+                                    INGREDIENT_INTERACTOR_BATCH_SIZE, true);
                             mDataStore.setSuggestionState(new ViewState(
                                     R.id.state_loaded, ViewState.OPERATION.RELOAD));
                         }

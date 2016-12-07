@@ -180,4 +180,5 @@ public class ImageUtils {
         }
         return colorResource;
     }
+
 }

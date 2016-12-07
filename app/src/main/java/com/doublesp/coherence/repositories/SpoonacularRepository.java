@@ -1,7 +1,5 @@
 package com.doublesp.coherence.repositories;
 
-import android.app.Application;
-
 import com.doublesp.coherence.api.SpoonacularClient;
 import com.doublesp.coherence.database.RecipeDatabase;
 import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
@@ -14,6 +12,8 @@ import com.doublesp.coherence.utils.NetworkUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
+
+import android.app.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,11 +229,11 @@ public class SpoonacularRepository implements RecipeV2RepositoryInterface {
     }
 
     @Override
-    public void autoCompleteIngredients(String keyword, int count) {
+    public void autoCompleteIngredients(String keyword, int count, boolean metaInformation) {
         if (!NetworkUtils.isNetworkAvailable(getApplication())) {
             return;
         }
-        getClient().autoCompleteIngredient(keyword, count);
+        getClient().autoCompleteIngredient(keyword, count, metaInformation);
     }
 
     @Override
