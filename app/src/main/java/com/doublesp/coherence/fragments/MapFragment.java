@@ -31,6 +31,8 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks {
+public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, ClusterManager.OnClusterClickListener<LocationCluster>, ClusterManager.OnClusterItemClickListener<LocationCluster> {
 
     private static String TAG = MapFragment.class.getSimpleName();
 
@@ -150,14 +152,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             return;
         }
 
-//        mMap.setMyLocationEnabled(true);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 10));
-//
-
         setUpClusterer();
-
-
-
     }
 
     // Identifier for the permission request
@@ -224,6 +219,11 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         // manager.
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
+        mClusterManager.setOnClusterClickListener(this);
+        mClusterManager.setOnClusterItemClickListener(this);
+
+        mClusterManager.cluster();
+
 
 //        // Add cluster items (markers) to the cluster manager.
 //        addItems();
@@ -231,10 +231,11 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
     private void addItems(List<Result> stores) {
 
+        mClusterManager.clearItems();
         for (Result store : stores) {
             com.doublesp.coherence.googleplace.gplace.Location location = store.getGeometry().getLocation();
             Log.d(TAG, "Add store to cluster master: " + location.toString());
-            mClusterManager.addItem(new LocationCluster(location.getLat(), location.getLng()));
+            mClusterManager.addItem(new LocationCluster(store));
         }
         mClusterManager.cluster();
     }
@@ -338,6 +339,24 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .subscribeOn(Schedulers.io()) // optional if you do not wish to override the default behavior
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SearchNearbyStoresSubscriber(true));
+    }
+
+    @Override
+    public boolean onClusterClick(Cluster<LocationCluster> cluster) {
+        // Show a toast with some info when the cluster is clicked.
+        Log.d(TAG, "onClusterClick()");
+        float currentZoom = mMap.getCameraPosition().zoom;
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.getPosition(), currentZoom + 1));
+        return true;
+    }
+
+    @Override
+    public boolean onClusterItemClick(LocationCluster locationCluster) {
+        Log.d(TAG, "onClusterItemClick: " + locationCluster);
+        Result store = locationCluster.getStore();
+        Toast.makeText(getActivity(), store.getName() + "\n" + store.getVicinity(), Toast.LENGTH_SHORT).show();
+
+        return true;
     }
 
     private class SearchNearbyStoresSubscriber extends Subscriber<GPlace> {
