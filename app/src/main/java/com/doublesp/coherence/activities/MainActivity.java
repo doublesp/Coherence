@@ -36,6 +36,7 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.view.AutoCompleteSearchView;
+import com.doublesp.coherence.viewholders.GoalViewHolder;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -55,6 +56,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -100,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
     private Fragment mDialogFragment;
+    private HomeFragmentPagerAdapter mPagerAdapter;
+    private Transition mChangeTransform;
+    private Transition mFadeTransform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +115,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         ToolbarBindingUtils.bind(this, binding.activityMainToolbarContainer.toolbar);
-        binding.viewpager.setAdapter(
-                new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+        mPagerAdapter = new HomeFragmentPagerAdapter(
+                getSupportFragmentManager(), MainActivity.this);
+        binding.viewpager.setAdapter(mPagerAdapter);
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(
@@ -170,6 +177,12 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             }
         };
         mGoalInteractor.search(null);
+
+        mChangeTransform = TransitionInflater.from(this).
+                inflateTransition(R.transition.transition_to_detail);
+        mFadeTransform = TransitionInflater.from(this).
+                inflateTransition(android.R.transition.fade);
+
     }
 
     public MainActivitySubComponent getActivityComponent() {
@@ -187,10 +200,10 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void preview(int pos) {
+    public void preview(GoalViewHolder holder, int pos) {
         dismissDialogIfNotNull();
         mDialogFragment = GoalPreviewFragment.newInstance(pos);
-        showFragment();
+        showFragmentWithTransition(holder);
     }
 
     @Override
@@ -239,6 +252,30 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void search(Plan plan) {
         mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
         binding.viewpager.setCurrentItem(SEARCH_GOAL);
+    }
+
+    private void showFragmentWithTransition(GoalViewHolder holder) {
+        int curr = binding.viewpager.getCurrentItem();
+        GoalSearchFragment exitFragment = (GoalSearchFragment) mPagerAdapter.getItem(curr);
+
+        // Setup exit transition on first fragment
+        exitFragment.setSharedElementReturnTransition(mChangeTransform);
+        exitFragment.setExitTransition(mFadeTransform);
+
+        // Setup enter transition on second fragment
+        mDialogFragment.setSharedElementEnterTransition(mChangeTransform);
+        mDialogFragment.setEnterTransition(mFadeTransform);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_home, mDialogFragment)
+                .addSharedElement(holder.binding.ivGoalImage,
+                        getString(R.string.transition_goal_image))
+                .addSharedElement(holder.binding.tvGoalIndex,
+                        getString(R.string.transition_goal_index))
+                .addSharedElement(holder.binding.tvGoalTitle,
+                        getString(R.string.transition_goal_title))
+                .addToBackStack(null)
+                .commit();
     }
 
     private void showFragment() {

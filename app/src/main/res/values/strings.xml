@@ -43,4 +43,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="transition_goal_image" translatable="false">goalImage</string>
+    <string name="transition_goal_title" translatable="false">goalTitle</string>
+    <string name="transition_goal_index" translatable="false">goalIndex</string>
+
 </resources>

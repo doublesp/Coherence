@@ -8,7 +8,10 @@ import com.doublesp.coherence.databinding.SimpleItemIdeaBinding;
 import com.doublesp.coherence.utils.ImageUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -51,9 +54,26 @@ public class SimpleIdeaViewHolder extends RecyclerView.ViewHolder {
                         // Get the "vibrant" color swatch based on the bitmap
                         Palette.Swatch vibrant = palette.getVibrantSwatch();
                         if (vibrant != null) {
-                            int color = vibrant.getRgb();
-                            int colorWithAlpha = (color & 0x00FFFFFF) | 0x40000000;
-                            binding.flSimpleItemIdea.setBackgroundColor(colorWithAlpha);
+                            ColorDrawable bgDrawable = (ColorDrawable) binding
+                                    .flSimpleItemIdea.getBackground();
+                            int colorFrom = bgDrawable.getColor();
+                            int colorTo = vibrant.getRgb();
+                            int colorToWithAlpha = (colorTo & 0x00FFFFFF) | 0x40000000;
+
+                            ValueAnimator colorAnimation = ValueAnimator.ofObject(
+                                    new ArgbEvaluator(), colorFrom, colorToWithAlpha);
+                            colorAnimation.setDuration(250); // milliseconds
+                            colorAnimation.addUpdateListener(
+                                    new ValueAnimator.AnimatorUpdateListener() {
+
+                                @Override
+                                public void onAnimationUpdate(ValueAnimator animator) {
+                                    binding.flSimpleItemIdea
+                                            .setBackgroundColor((int) animator.getAnimatedValue());
+                                }
+
+                            });
+                            colorAnimation.start();
                         }
                     }
                 });

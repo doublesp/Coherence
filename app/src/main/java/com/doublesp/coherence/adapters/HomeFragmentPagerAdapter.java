@@ -1,14 +1,13 @@
 package com.doublesp.coherence.adapters;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
-import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -20,7 +19,7 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
             new String[]{"Explore Goals", "Saved Goals", "Saved Ideas"};
     private Context mContext;
     private GoalSearchFragment mGoalSearchFragment;
-    private GoalSearchFragment mListCompositionFragment;
+    private GoalSearchFragment mSavedGoalFragment;
     private SavedIdeasFragment mSavedIdeasFragment;
 
     public HomeFragmentPagerAdapter(FragmentManager fm, Context context) {
@@ -32,17 +31,35 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case SEARCH_GOAL:
-                mGoalSearchFragment = GoalSearchFragment.newInstance();
-                return mGoalSearchFragment;
+                return getGoalSearchFragment();
             case SAVED_GOALS:
-                mListCompositionFragment = GoalSearchFragment.newInstance();
-                return mListCompositionFragment;
+                return getSavedGoalFragment();
             case SAVED_IDEAS:
-                mSavedIdeasFragment = SavedIdeasFragment.newInstance();
-                return mSavedIdeasFragment;
+                return getSavedIdeasFragment();
             default:
                 return null;
         }
+    }
+
+    public GoalSearchFragment getGoalSearchFragment() {
+        if (mGoalSearchFragment == null) {
+            mGoalSearchFragment = GoalSearchFragment.newInstance();
+        }
+        return mGoalSearchFragment;
+    }
+
+    public GoalSearchFragment getSavedGoalFragment() {
+        if (mSavedGoalFragment == null) {
+            mSavedGoalFragment = GoalSearchFragment.newInstance();
+        }
+        return mSavedGoalFragment;
+    }
+
+    public SavedIdeasFragment getSavedIdeasFragment() {
+        if (mSavedIdeasFragment == null) {
+            mSavedIdeasFragment = SavedIdeasFragment.newInstance();
+        }
+        return mSavedIdeasFragment;
     }
 
     @Override
