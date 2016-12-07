@@ -103,7 +103,7 @@ public class ListCompositionFragment extends Fragment {
 
             @Override
             public void onDoubleTap() {
-                // Call ListFragmentActionHandler onCrossoutButtonClick
+                // TODO: Call ListFragmentActionHandler onCrossoutButtonClick
             }
 
             @Override
@@ -121,7 +121,7 @@ public class ListCompositionFragment extends Fragment {
                 switch (i) {
                     case TouchTypeDetector.SWIPE_DIR_LEFT:
                     case TouchTypeDetector.SWIPE_DIR_RIGHT:
-                        // Call ListFragmentActionHandler onRemoveButtonClick
+                        // TODO: Call ListFragmentActionHandler onRemoveButtonClick
                         break;
                     default:
                         break;
