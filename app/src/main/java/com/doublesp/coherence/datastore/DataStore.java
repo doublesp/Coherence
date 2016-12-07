@@ -301,29 +301,41 @@ public class DataStore implements DataStoreInterface {
         mSnapshotStore.getIdeas().clear();
     }
 
-    private List<Idea> getPendingIdeas() {
+    private Map<String, List<Idea>> getPendingIdeas() {
         return mSnapshotStore.getPendingIdeas();
     }
 
     @Override
-    public void setPendingIdeas(List<Idea> pendingIdeas) {
-        getPendingIdeas().clear();
-        getPendingIdeas().addAll(pendingIdeas);
+    public void setPendingIdeas(String id, List<Idea> pendingIdeas) {
+        getPendingIdeas().put(id, pendingIdeas);
     }
 
     @Override
-    public void loadPendingIdeas() {
-        setIdeas(getPendingIdeas());
-        getPendingIdeas().clear();
+    public void loadPendingIdeas(String id) {
+        if (getPendingIdeas().containsKey(id)) {
+            setIdeas(getPendingIdeas().get(id));
+        }
     }
 
     @Override
-    public int getPendingIdeasCount() {
-        return getPendingIdeas().size();
+    public int getPendingIdeasCount(String id) {
+        if (getPendingIdeas().containsKey(id)) {
+            List<Idea> ideas = getPendingIdeas().get(id);
+            if (ideas != null) {
+                return ideas.size();
+            }
+        }
+        return 0;
     }
 
     @Override
-    public Idea getPendingIdeaAtPos(int pos) {
-        return getPendingIdeas().get(pos);
+    public Idea getPendingIdea(String id, int pos) {
+        if (getPendingIdeas().containsKey(id)) {
+            List<Idea> ideas = getPendingIdeas().get(id);
+            if (ideas.size() > pos) {
+                return ideas.get(pos);
+            }
+        }
+        return null;
     }
 }

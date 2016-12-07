@@ -83,7 +83,7 @@ public class IngredientInteractor extends IdeaInteractorBase {
     public void loadPendingIdeas(Goal goal) {
         mDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing, ViewState.OPERATION.RELOAD));
-        mDataStore.loadPendingIdeas();
+        mDataStore.loadPendingIdeas(goal.getId());
         mDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.RELOAD));
     }

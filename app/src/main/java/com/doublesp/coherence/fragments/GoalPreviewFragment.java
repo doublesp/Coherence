@@ -82,6 +82,7 @@ public class GoalPreviewFragment extends Fragment {
                                         return;
                                     }
                                     Goal updatedGoal = mGoalInteractor.getGoalAtPos(mPos);
+                                    mIdeasArrayAdapter.setGoalId(updatedGoal.getId());
                                     mIdeasArrayAdapter.notifyDataSetChanged();
                                     binding.setViewModel(updatedGoal);
                                     binding.executePendingBindings();

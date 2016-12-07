@@ -16,11 +16,12 @@ import android.view.View;
 
 public class GoalViewHolder extends RecyclerView.ViewHolder {
 
-    ItemGoalBinding binding;
+    public ItemGoalBinding binding;
 
     public GoalViewHolder(View itemView) {
         super(itemView);
         binding = ItemGoalBinding.bind(itemView);
+        binding.setViewHolder(this); // NOTE: circular reference
     }
 
     public void setPosition(int position) {

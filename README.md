@@ -8,13 +8,13 @@ An app for dinner makers to search for recipe, create a shopping list, and send 
   * [x] User can add items to a grocery.
   * [ ] User can crossout/un-crossout an item in grocery list by swiping horizontally.
   * [ ] User can remove an item from the grocery list by long press.
-  * [ ] User can see auto-complete suggestions when creating the grocery list.
+  * [x] User can see auto-complete suggestions when creating the grocery list.
   * [x] User can save a grocery list on server.  
 * [ ] User can share the grocery list.
   * [x] User can share the grocery list as a link. Tapping on the link would direct them back to our app with the grocery list shown.
   * [ ] If a user didn't install our app, he should see a web-version of the grocery list, with smart banner which prompts the user to download the app.
   * [x] User can share the grocery list internally with another user.
-  * [ ] User will get push notification if a list is shared with him/her internally.
+  * [x] User will get push notification if a list is shared with him/her internally.
 * [ ] User can search for recipes.
   * [x] User can search for a recipe contains a specific keyword.
   * [ ] User can see auto-complete suggestions when searching for a recipe.

@@ -43,7 +43,7 @@ public interface IdeaInteractorInterface {
 
     void clearPlan();
 
-    int getPendingIdeasCount();
+    int getPendingIdeasCount(String id);
 
-    Idea getPendingIdeaAtPos(int pos);
+    Idea getPendingIdea(String id, int pos);
 }

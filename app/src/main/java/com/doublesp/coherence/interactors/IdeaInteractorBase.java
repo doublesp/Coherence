@@ -155,12 +155,12 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public int getPendingIdeasCount() {
-        return mDataStore.getPendingIdeasCount();
+    public int getPendingIdeasCount(String id) {
+        return mDataStore.getPendingIdeasCount(id);
     }
 
     @Override
-    public Idea getPendingIdeaAtPos(int pos) {
-        return mDataStore.getPendingIdeaAtPos(pos);
+    public Idea getPendingIdea(String id, int pos) {
+        return mDataStore.getPendingIdea(id, pos);
     }
 }

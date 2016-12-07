@@ -73,11 +73,11 @@ public interface DataStoreInterface {
 
     void setGoalFlag(int flag);
 
-    void setPendingIdeas(List<Idea> pendingIdeas);
+    void setPendingIdeas(String id, List<Idea> pendingIdeas);
 
-    void loadPendingIdeas();
+    void loadPendingIdeas(String id);
 
-    int getPendingIdeasCount();
+    int getPendingIdeasCount(String id);
 
-    Idea getPendingIdeaAtPos(int pos);
+    Idea getPendingIdea(String id, int pos);
 }
