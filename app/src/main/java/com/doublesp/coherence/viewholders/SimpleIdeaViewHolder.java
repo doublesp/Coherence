@@ -58,7 +58,7 @@ public class SimpleIdeaViewHolder extends RecyclerView.ViewHolder {
                                     .flSimpleItemIdea.getBackground();
                             int colorFrom = bgDrawable.getColor();
                             int colorTo = vibrant.getRgb();
-                            int colorToWithAlpha = (colorTo & 0x00FFFFFF) | 0x40000000;
+                            int colorToWithAlpha = (colorTo & 0x00FFFFFF) | 0xB3000000;
 
                             ValueAnimator colorAnimation = ValueAnimator.ofObject(
                                     new ArgbEvaluator(), colorFrom, colorToWithAlpha);
