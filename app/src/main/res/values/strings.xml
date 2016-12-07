@@ -43,5 +43,6 @@
     <string name="empty_list">Empty List</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="navigate">Navigate</string>
 
 </resources>

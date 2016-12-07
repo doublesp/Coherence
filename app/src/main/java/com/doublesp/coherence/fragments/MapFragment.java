@@ -1,8 +1,10 @@
 package com.doublesp.coherence.fragments;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -364,18 +366,37 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public boolean onClusterItemClick(LocationCluster locationCluster) {
         Log.d(TAG, "onClusterItemClick: " + locationCluster);
-        Result store = locationCluster.getStore();
+        final Result store = locationCluster.getStore();
 //        Toast.makeText(getActivity(), store.getName() + "\n" + store.getVicinity(), Toast.LENGTH_SHORT).show();
 
-        Snackbar snackbar = Snackbar.make(mMapView, store.getName() + "\n" + store.getVicinity(), Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar
+                .make(mMapView, store.getName() + "\n" + store.getVicinity(), Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.navigate, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        beginNavigation(store);
+                    }
+                })
+                .setActionTextColor(getResources().getColor(R.color.linkColor));
         View snackbarLayout = snackbar.getView();
         TextView textView = (TextView)snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
+//        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
         textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
         snackbar.show();
 
-        return false;
+        return true;
     }
+
+    private void beginNavigation(Result store) {
+        com.doublesp.coherence.googleplace.gplace.Location destLocation = store.getGeometry().getLocation();
+        String dest = destLocation.getLat() + "," + destLocation.getLng();
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + dest);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+
+    }
+
 
     private class SearchNearbyStoresSubscriber extends Subscriber<GPlace> {
         private boolean clearOldList;
