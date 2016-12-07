@@ -36,13 +36,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 import java.util.IllegalFormatConversionException;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
