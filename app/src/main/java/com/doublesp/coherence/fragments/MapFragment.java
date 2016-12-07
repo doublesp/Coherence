@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.doublesp.coherence.R;
+import com.doublesp.coherence.googleplace.GooglePlaceClient;
+import com.doublesp.coherence.googleplace.gplace.GPlace;
 import com.doublesp.coherence.googleplace.gplace.Result;
 import com.doublesp.coherence.utils.LocationCluster;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,7 +34,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatConversionException;
+import java.util.List;
 
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -71,6 +77,17 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mStoreList = new ArrayList<>();
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
     }
 
     @Override
@@ -136,17 +153,10 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 //        mMap.setMyLocationEnabled(true);
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 10));
 //
-//        setUpClusterer();
 
-        LatLng lastKnownLocation = getLastKnownLocation();
+        setUpClusterer();
 
 
-        String latAndLng;
-
-        latAndLng = (lastKnownLocation != null) ? Double.toString(lastKnownLocation.latitude) + "," +
-                Double.toString(lastKnownLocation.longitude) : null;
-
-        subscribeNearbyStores(latAndLng);
 
     }
 
@@ -215,24 +225,18 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 
-        // Add cluster items (markers) to the cluster manager.
-        addItems();
+//        // Add cluster items (markers) to the cluster manager.
+//        addItems();
     }
 
-    private void addItems() {
+    private void addItems(List<Result> stores) {
 
-        // Set some lat/lng coordinates to start with.
-        double lat = 51.5145160;
-        double lng = -0.1270060;
-
-        // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 10; i++) {
-            double offset = i / 60d;
-            lat = lat + offset;
-            lng = lng + offset;
-            LocationCluster offsetItem = new LocationCluster(lat, lng);
-            mClusterManager.addItem(offsetItem);
+        for (Result store : stores) {
+            com.doublesp.coherence.googleplace.gplace.Location location = store.getGeometry().getLocation();
+            Log.d(TAG, "Add store to cluster master: " + location.toString());
+            mClusterManager.addItem(new LocationCluster(location.getLat(), location.getLng()));
         }
+        mClusterManager.cluster();
     }
 
     @Override
@@ -243,17 +247,52 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 Double.toString(location.getLongitude());
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         // You can now create a LatLng Object for use with maps
-        lastKnownLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
-    }
+        LatLng temp = new LatLng(location.getLatitude(), location.getLongitude());
 
-    private LatLng getLastKnownLocation() {
-        return lastKnownLocation;
+        Location loc1 = new Location("");
+        loc1.setLatitude(temp.latitude);
+        loc1.setLongitude(temp.longitude);
+
+        if (lastKnownLocation != null) {
+            Location loc2 = new Location("");
+            loc2.setLatitude(lastKnownLocation.latitude);
+            loc2.setLongitude(lastKnownLocation.longitude);
+
+            Log.d(TAG, "lastKnownLocation: " + lastKnownLocation);
+
+            float distanceInMeters = loc1.distanceTo(loc2);
+            if (distanceInMeters < 10) {
+                return;
+            }
+        }
+        lastKnownLocation = temp;
+
+
+        String latAndLng;
+
+        latAndLng = (lastKnownLocation != null) ? Double.toString(lastKnownLocation.latitude) + "," +
+                Double.toString(lastKnownLocation.longitude) : null;
+
+        Log.d(TAG, "Move camera to: " + lastKnownLocation);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastKnownLocation, 13));
+
+        subscribeNearbyStores(latAndLng);
+
     }
 
     @Override
     public void onConnected(Bundle dataBundle) {
         // Get last known recent location.
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
         Location mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         // Note that this can be NULL if last location isn't already known.
         if (mCurrentLocation != null) {
@@ -281,6 +320,14 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL);
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
         // Request location updates
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
@@ -291,6 +338,43 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .subscribeOn(Schedulers.io()) // optional if you do not wish to override the default behavior
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SearchNearbyStoresSubscriber(true));
+    }
+
+    private class SearchNearbyStoresSubscriber extends Subscriber<GPlace> {
+        private boolean clearOldList;
+
+        public SearchNearbyStoresSubscriber(boolean clearOldList) {
+            this.clearOldList = clearOldList;
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            if (e instanceof HttpException) {
+                HttpException response = (HttpException) e;
+                int code = response.code();
+                Log.d(TAG, "Rx Subscriber error with code: " + code);
+            } else if (e instanceof IllegalFormatConversionException) {
+
+            }
+
+        }
+
+        @Override
+        public void onNext(GPlace response) {
+            List<Result> results = response.getResults();
+            Log.d(TAG, "results: " + results.size());
+            if (clearOldList) {
+                mStoreList.clear();
+            }
+            mStoreList.addAll(results);
+
+            addItems(mStoreList);
+        }
     }
 
 }
