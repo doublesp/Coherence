@@ -1,7 +1,7 @@
 package com.doublesp.coherence.actions;
 
-import android.content.Context;
-import android.content.Intent;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.activities.MainActivity;
@@ -12,8 +12,9 @@ import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerI
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import android.content.Context;
+import android.content.Intent;
 
 public class ListFragmentActionHandler implements ListFragmentActionHandlerInterface {
 
@@ -81,6 +82,7 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
     public void onNearbyStoreButtonClick() {
         ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_home, MapFragment.newInstance(), "MapFragment")
+                .addToBackStack(null)
                 .commit();
     }
 
