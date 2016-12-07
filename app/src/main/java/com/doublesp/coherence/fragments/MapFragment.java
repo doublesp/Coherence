@@ -377,8 +377,9 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                         beginNavigation(store);
                     }
                 })
-                .setActionTextColor(getResources().getColor(R.color.linkColor));
+                .setActionTextColor(getResources().getColor(R.color.authui_inputTextColor));
         View snackbarLayout = snackbar.getView();
+        snackbarLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.authui_colorPrimary));
         TextView textView = (TextView)snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
 //        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
         textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
