@@ -2,7 +2,8 @@
     <string name="app_name">Garçon</string>
     <string name="create_grocery_list">Create List</string>
     <string name="saved_ideas">Grocery List</string>
-    <string name="create_grocery_hint">Add to list by searching ingredients</string>
+    <string name="create_grocery_hint">Start searching for groceries here</string>
+    <string name="create_grocery_snackbar_hint">Looks like your grocery list is empty, start adding groceries to the list by tapping on the search icon above.</string>
     <string name="saved_grocery_hint">Saved Grocery List</string>
 
     <string name="google_maps_api_key">AIzaSyCBjupD4UBQ4puue5J2uqjKpjpvpTJeB50</string>
@@ -42,6 +43,7 @@
     <string name="empty_list">Empty List</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="dismiss">dismiss</string>
 
     <string name="transition_goal_image" translatable="false">goalImage</string>
     <string name="transition_goal_title" translatable="false">goalTitle</string>
