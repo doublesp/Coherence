@@ -1,13 +1,29 @@
 package com.doublesp.coherence.activities;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_GOALS;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.batch.android.Batch;
 import com.crashlytics.android.Crashlytics;
@@ -42,25 +58,15 @@ import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.auth.AuthUI;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
+import com.github.nisrulz.sensey.Sensey;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -69,11 +75,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
-
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_GOALS;
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
         GoalActionHandlerInterface.PreviewHandlerInterface,
@@ -170,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             }
         };
         mGoalInteractor.search(null);
+        Sensey.getInstance().init(this);
     }
 
     public MainActivitySubComponent getActivityComponent() {
@@ -184,6 +186,13 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 // NOTE: use idea_category_debug for mock data
         }
         return mActivityComponent;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        // Setup onTouchEvent for detecting type of touch gesture
+        Sensey.getInstance().setupDispatchTouchEvent(event);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override

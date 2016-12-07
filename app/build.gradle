@@ -99,6 +99,7 @@ dependencies {
     compile 'com.batch.android:batch-sdk:1.7+'
     compile 'com.google.android.gms:play-services:9.8.0'
     compile 'jp.wasabeef:blurry:2.0.3'
+    compile 'com.github.nisrulz:sensey:1.5.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
