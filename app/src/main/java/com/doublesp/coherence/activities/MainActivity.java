@@ -19,6 +19,7 @@ import com.doublesp.coherence.application.CoherenceApplication;
 import com.doublesp.coherence.databinding.ActivityMainBinding;
 import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
 import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
+import com.doublesp.coherence.fragments.GoalDetailViewPagerFragment;
 import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     @Override
     public void preview(GoalViewHolder holder, int pos) {
         dismissDialogIfNotNull();
-        mDialogFragment = GoalPreviewFragment.newInstance(pos);
+        mDialogFragment = GoalDetailViewPagerFragment.newInstance(pos);
         showFragmentWithTransition(holder);
     }
 
@@ -380,6 +381,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(SavedIdeasFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(GoalDetailViewPagerFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 

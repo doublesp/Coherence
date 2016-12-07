@@ -104,7 +104,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     ideas.add(idea);
                     dedupSet.add(ingredient.getName());
                 }
-                mDataStore.setPendingIdeas(ideas);
+                mDataStore.setPendingIdeas(mRecipe.getId(), ideas);
                 mDataStore.setGoalState(new ViewState(
                         R.id.state_loaded, ViewState.OPERATION.UPDATE));
             }

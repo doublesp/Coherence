@@ -22,9 +22,14 @@ public class IdeasArrayAdapter extends RecyclerView.Adapter {
 
     @Inject
     IdeaInteractorInterface mIdeaInteractor;
+    String mGoalId;
 
     public IdeasArrayAdapter(IdeaInteractorInterface ideaInteractor) {
         mIdeaInteractor = ideaInteractor;
+    }
+
+    public void setGoalId(String goalId) {
+        this.mGoalId = goalId;
     }
 
     @Override
@@ -36,7 +41,7 @@ public class IdeasArrayAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Idea viewModel = mIdeaInteractor.getPendingIdeaAtPos(position);
+        Idea viewModel = mIdeaInteractor.getPendingIdea(mGoalId, position);
         if (holder instanceof SimpleIdeaViewHolder) {
             SimpleIdeaViewHolder viewHolder = (SimpleIdeaViewHolder) holder;
             viewHolder.setPosition(position);
@@ -47,6 +52,9 @@ public class IdeasArrayAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mIdeaInteractor.getPendingIdeasCount();
+        if (mGoalId == null) {
+            return 0;
+        }
+        return mIdeaInteractor.getPendingIdeasCount(mGoalId);
     }
 }

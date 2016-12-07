@@ -1,5 +1,6 @@
 package com.doublesp.coherence.interfaces.presentation;
 
+import com.doublesp.coherence.fragments.GoalDetailViewPagerFragment;
 import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
@@ -18,4 +19,5 @@ public interface InjectorInterface {
 
     void inject(SavedIdeasFragment fragment);
 
+    void inject(GoalDetailViewPagerFragment fragment);
 }
