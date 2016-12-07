@@ -156,8 +156,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        mPlan = new Plan(id, getIdeas(), ConstantsAndUtils.getDefaultTitle(mContext),
+    public Plan createPlan(String id, String name) {
+        mPlan = new Plan(id, getIdeas(), name,
                 ConstantsAndUtils.getOwner(mContext));
         return mPlan;
     }
@@ -207,6 +207,24 @@ public class DataStore implements DataStoreInterface {
             mIdeaReducers.put(idea.getId(), new IdeaReducer(idea));
         }
         getIdeas().addAll(ideas);
+    }
+
+    @Override
+    public void moveIdeaToBottom(int pos) {
+        if (getIdeas().size() <= pos) {
+            // out of bound
+            return;
+        }
+        getIdeas().add(getIdeas().remove(pos));
+    }
+
+    @Override
+    public void moveIdeaToTop(int pos) {
+        if (getIdeas().size() <= pos) {
+            // out of bound
+            return;
+        }
+        getIdeas().add(0, getIdeas().remove(pos));
     }
 
     private List<Idea> getSuggestions() {
@@ -301,29 +319,41 @@ public class DataStore implements DataStoreInterface {
         mSnapshotStore.getIdeas().clear();
     }
 
-    private List<Idea> getPendingIdeas() {
+    private Map<String, List<Idea>> getPendingIdeas() {
         return mSnapshotStore.getPendingIdeas();
     }
 
     @Override
-    public void setPendingIdeas(List<Idea> pendingIdeas) {
-        getPendingIdeas().clear();
-        getPendingIdeas().addAll(pendingIdeas);
+    public void setPendingIdeas(String id, List<Idea> pendingIdeas) {
+        getPendingIdeas().put(id, pendingIdeas);
     }
 
     @Override
-    public void loadPendingIdeas() {
-        setIdeas(getPendingIdeas());
-        getPendingIdeas().clear();
+    public void loadPendingIdeas(String id) {
+        if (getPendingIdeas().containsKey(id)) {
+            setIdeas(getPendingIdeas().get(id));
+        }
     }
 
     @Override
-    public int getPendingIdeasCount() {
-        return getPendingIdeas().size();
+    public int getPendingIdeasCount(String id) {
+        if (getPendingIdeas().containsKey(id)) {
+            List<Idea> ideas = getPendingIdeas().get(id);
+            if (ideas != null) {
+                return ideas.size();
+            }
+        }
+        return 0;
     }
 
     @Override
-    public Idea getPendingIdeaAtPos(int pos) {
-        return getPendingIdeas().get(pos);
+    public Idea getPendingIdea(String id, int pos) {
+        if (getPendingIdeas().containsKey(id)) {
+            List<Idea> ideas = getPendingIdeas().get(id);
+            if (ideas.size() > pos) {
+                return ideas.get(pos);
+            }
+        }
+        return null;
     }
 }

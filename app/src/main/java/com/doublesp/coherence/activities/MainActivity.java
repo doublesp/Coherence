@@ -19,6 +19,7 @@ import com.doublesp.coherence.application.CoherenceApplication;
 import com.doublesp.coherence.databinding.ActivityMainBinding;
 import com.doublesp.coherence.dependencies.components.presentation.MainActivitySubComponent;
 import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
+import com.doublesp.coherence.fragments.GoalDetailViewPagerFragment;
 import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
@@ -36,6 +37,7 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.TabUtils;
 import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.view.AutoCompleteSearchView;
+import com.doublesp.coherence.viewholders.GoalViewHolder;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
@@ -55,12 +57,13 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -100,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
     private Fragment mDialogFragment;
+    private HomeFragmentPagerAdapter mPagerAdapter;
+    private Transition mChangeTransform;
+    private Transition mFadeTransform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +115,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         ToolbarBindingUtils.bind(this, binding.activityMainToolbarContainer.toolbar);
-        binding.viewpager.setAdapter(
-                new HomeFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+        mPagerAdapter = new HomeFragmentPagerAdapter(
+                getSupportFragmentManager(), MainActivity.this);
+        binding.viewpager.setAdapter(mPagerAdapter);
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(
@@ -147,8 +154,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 if (user != null) {
                     // User is signed in
                     onSignedInInitialize(user);
-                    Toast.makeText(getContext(), getString(R.string.welcome, mUsername),
-                            Toast.LENGTH_SHORT).show();
                 } else {
                     // User is signed out
                     onSignedOutCleanup();
@@ -170,6 +175,12 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             }
         };
         mGoalInteractor.search(null);
+
+        mChangeTransform = TransitionInflater.from(this).
+                inflateTransition(R.transition.transition_to_detail);
+        mFadeTransform = TransitionInflater.from(this).
+                inflateTransition(android.R.transition.fade);
+
     }
 
     public MainActivitySubComponent getActivityComponent() {
@@ -187,17 +198,17 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void preview(int pos) {
+    public void preview(GoalViewHolder holder, int pos) {
         dismissDialogIfNotNull();
-        mDialogFragment = GoalPreviewFragment.newInstance(pos);
-        showFragment();
+        mDialogFragment = GoalDetailViewPagerFragment.newInstance(pos);
+        showFragmentWithTransition(holder);
     }
 
     @Override
     public void compose(Goal goal) {
         // load ingredients from recipe
         dismissDialogIfNotNull();
-        loadList(newListId(), goal);
+        loadList(newListId(goal.getTitle()), goal);
         mDialogFragment = ListCompositionFragment.newInstance();
         binding.activityMainToolbarContainer.toolbarTitle.setText(
                 getString(R.string.create_grocery_hint));
@@ -210,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void compose(String listId) {
         // load existing list
         if (listId == null) {
-            listId = newListId();
+            listId = newListId(null);
         }
         dismissDialogIfNotNull();
         loadList(listId, null);
@@ -226,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void compose() {
         // create new list
         dismissDialogIfNotNull();
-        loadList(newListId(), null);
+        loadList(newListId(null), null);
         mDialogFragment = ListCompositionFragment.newInstance();
         binding.activityMainToolbarContainer.toolbarTitle.setText(
                 getString(R.string.create_grocery_hint));
@@ -241,6 +252,30 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         binding.viewpager.setCurrentItem(SEARCH_GOAL);
     }
 
+    private void showFragmentWithTransition(GoalViewHolder holder) {
+        int curr = binding.viewpager.getCurrentItem();
+        GoalSearchFragment exitFragment = (GoalSearchFragment) mPagerAdapter.getItem(curr);
+
+        // Setup exit transition on first fragment
+        exitFragment.setSharedElementReturnTransition(mChangeTransform);
+        exitFragment.setExitTransition(mFadeTransform);
+
+        // Setup enter transition on second fragment
+        mDialogFragment.setSharedElementEnterTransition(mChangeTransform);
+        mDialogFragment.setEnterTransition(mFadeTransform);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_home, mDialogFragment)
+                .addSharedElement(holder.binding.ivGoalImage,
+                        getString(R.string.transition_goal_image))
+                .addSharedElement(holder.binding.tvGoalIndex,
+                        getString(R.string.transition_goal_index))
+                .addSharedElement(holder.binding.tvGoalTitle,
+                        getString(R.string.transition_goal_title))
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void showFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_home, mDialogFragment)
@@ -248,18 +283,21 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 .commit();
     }
 
-    private String newListId() {
+    private String newListId(String listName) {
+        if (listName == null) {
+            listName = ConstantsAndUtils.getDefaultTitle(this);
+        }
         // create empty plan and persists to FireBase
         DatabaseReference keyReference = mListDatabaseReference.push();
 
         HashMap<String, Object> timestampCreated = new HashMap<>();
         timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
         UserList userList = new UserList(
-                ConstantsAndUtils.getDefaultTitle(this),
+                listName,
                 ConstantsAndUtils.getOwner(this),
                 timestampCreated);
         keyReference.setValue(userList);
-        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey(), listName);
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
 
         return keyReference.getKey();
@@ -343,6 +381,11 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(SavedIdeasFragment fragment) {
+        getActivityComponent().inject(fragment);
+    }
+
+    @Override
+    public void inject(GoalDetailViewPagerFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 

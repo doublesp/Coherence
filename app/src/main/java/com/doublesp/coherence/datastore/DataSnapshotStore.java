@@ -6,13 +6,15 @@ import com.doublesp.coherence.viewmodels.Idea;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Parcel
 public class DataSnapshotStore {
 
     private List<Idea> mIdeas;
-    private List<Idea> mPendingIdeas;
+    private Map<String, List<Idea>> mPendingIdeas;
     private List<Idea> mSuggestions;
     private List<Goal> mSavedGoals;
     private List<Goal> mExploreGoals;
@@ -31,9 +33,9 @@ public class DataSnapshotStore {
         mIdeas = ideas;
     }
 
-    public List<Idea> getPendingIdeas() {
+    public Map<String, List<Idea>> getPendingIdeas() {
         if (mPendingIdeas == null) {
-            mPendingIdeas = new ArrayList<>();
+            mPendingIdeas = new HashMap<>();
         }
         return mPendingIdeas;
     }

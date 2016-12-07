@@ -27,7 +27,7 @@ public interface RecipeV2RepositoryInterface {
 
     void searchRecipeDetail(String id);
 
-    void autoCompleteIngredients(String keyword, int count);
+    void autoCompleteIngredients(String keyword, int count, boolean metaInformation);
 
     void autoCompleteRecipes(String keyword, int count);
 

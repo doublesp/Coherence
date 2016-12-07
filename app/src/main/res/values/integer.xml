@@ -3,4 +3,5 @@
     <integer name="config_animation_duration_long">500</integer>
     <integer name="app_title_size">36</integer>
     <integer name="toolbar_title_size">16</integer>
+    <integer name="bigtop_image_extra_padding">10</integer>
 </resources>

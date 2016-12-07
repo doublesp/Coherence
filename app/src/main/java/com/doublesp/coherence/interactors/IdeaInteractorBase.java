@@ -41,27 +41,29 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public void crossoutIdea(int pos) {
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_refreshing, ViewState.OPERATION.REMOVE));
         Idea idea = mDataStore.getIdeaAtPos(pos);
         IdeaReducer reducer = mDataStore.getIdeaReducer(idea.getId());
         if (reducer != null) {
             reducer.setCrossedOut(true);
         }
+        mDataStore.moveIdeaToBottom(pos);
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_loaded, ViewState.OPERATION.REMOVE));
     }
 
     @Override
     public void uncrossoutIdea(int pos) {
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_refreshing, ViewState.OPERATION.REMOVE));
         Idea idea = mDataStore.getIdeaAtPos(pos);
         IdeaReducer reducer = mDataStore.getIdeaReducer(idea.getId());
         if (reducer != null) {
             reducer.setCrossedOut(false);
         }
+        mDataStore.moveIdeaToTop(pos);
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_loaded, ViewState.OPERATION.REMOVE));
     }
 
     @Override
@@ -123,9 +125,10 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        return mDataStore.createPlan(id);
+    public Plan createPlan(String id, String name) {
+        return mDataStore.createPlan(id, name);
     }
+
 
     @Override
     abstract public void loadPendingIdeas(Goal goal);
@@ -155,12 +158,12 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public int getPendingIdeasCount() {
-        return mDataStore.getPendingIdeasCount();
+    public int getPendingIdeasCount(String id) {
+        return mDataStore.getPendingIdeasCount(id);
     }
 
     @Override
-    public Idea getPendingIdeaAtPos(int pos) {
-        return mDataStore.getPendingIdeaAtPos(pos);
+    public Idea getPendingIdea(String id, int pos) {
+        return mDataStore.getPendingIdea(id, pos);
     }
 }

@@ -6,6 +6,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.utils.ImageUtils;
 
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,8 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import rx.Observer;
 
 public class GoalSearchFragment extends Fragment {
 
@@ -77,6 +81,44 @@ public class GoalSearchFragment extends Fragment {
                 ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.rvIdeaSearchResults.addItemDecoration(dividerItemDecoration);
         ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
+
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                switch (mGoalInteractor.getDisplayGoalFlag()) {
+                    case R.id.flag_explore_recipes:
+                        mGoalInteractor.search(null);
+                        break;
+                    default:
+                        binding.swipeRefreshLayout.setRefreshing(false);
+                        break;
+                }
+            }
+        });
+        // Configure the refreshing colors
+        binding.swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        mGoalInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ViewState viewState) {
+                if (viewState.getState() == R.id.state_loaded) {
+                    binding.swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
         return binding.getRoot();
     }
 
@@ -84,7 +126,6 @@ public class GoalSearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int padding = ImageUtils.topImagePadding(getActivity().getWindowManager(), getResources());
-        padding -= (getResources().getDimension(R.dimen.item_goal_height) / 4);
         binding.rvIdeaSearchResults.setPadding(0, padding, 0, 0);
     }
 
