@@ -36,7 +36,7 @@
 
     <style name="menu_labels_style">
         <item name="android:padding">8dp</item>
-        <item name="android:background">@color/colorOverlay</item>
+        <item name="android:background">@color/colorOverlayDark</item>
         <item name="android:textColor">@color/colorButton</item>
     </style>
 
