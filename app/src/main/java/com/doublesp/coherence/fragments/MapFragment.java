@@ -245,7 +245,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         // You can now create a LatLng Object for use with maps
 
         LatLng temp = new LatLng(location.getLatitude(), location.getLongitude());
