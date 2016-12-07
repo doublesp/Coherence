@@ -1,5 +1,11 @@
 package com.doublesp.coherence.utils;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.doublesp.coherence.R;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -15,12 +21,6 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +138,10 @@ public class ImageUtils {
                 r.getDimension(R.dimen.status_bar_height) * metrics.density);
         int viewportHeightPixels = metrics.heightPixels - statusBarHeightPixels;
         float offset = r.getFraction(R.fraction.top_image_ratio, viewportHeightPixels, 1);
-        return Math.round(offset);
+        float cutThroughOffset = r.getFraction(
+                R.fraction.top_image_cut_ratio, Math.round(offset), 1);
+        int extraPadding = r.getInteger(R.integer.bigtop_image_extra_padding);
+        return Math.round(offset - cutThroughOffset + extraPadding);
     }
 
     public static String composeImageUri(String baseUri, String imageUri) {

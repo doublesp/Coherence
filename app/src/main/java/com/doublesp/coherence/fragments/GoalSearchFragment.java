@@ -126,7 +126,6 @@ public class GoalSearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int padding = ImageUtils.topImagePadding(getActivity().getWindowManager(), getResources());
-        padding -= (getResources().getDimension(R.dimen.item_goal_height) / 4);
         binding.rvIdeaSearchResults.setPadding(0, padding, 0, 0);
     }
 
