@@ -89,8 +89,9 @@ public class SpoonacularClient {
         connectableObservable.connect();
     }
 
-    public void autoCompleteIngredient(String keyword, int number) {
-        Observable<List<IngredientV2>> call = apiService.autocompleteIngredient(keyword, number);
+    public void autoCompleteIngredient(String keyword, int number, boolean metaInformation) {
+        Observable<List<IngredientV2>> call = apiService.autocompleteIngredient(
+                keyword, number, metaInformation);
         ConnectableObservable connectableObservable = call.publish();
         connectableObservable.delay(DELAY_BETWEEN_API_CALLS, TimeUnit.MILLISECONDS);
         for (Observer<List<IngredientV2>> subscriber : mAutoCompleteIngredientSubscribers) {
