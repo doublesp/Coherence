@@ -42,6 +42,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import java.util.ArrayList;
 import java.util.IllegalFormatConversionException;
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -88,6 +89,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .build();
+
+        getPermissionToAccessLocation();
     }
 
     @Override
@@ -145,15 +148,18 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
 
-        getPermissionToAccessLocation();
 
-        if (ActivityCompat.checkSelfPermission(getActivity(),
+        while (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         setUpClusterer();
@@ -305,7 +311,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            onConnected(dataBundle);
         }
         Location mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         // Note that this can be NULL if last location isn't already known.
@@ -379,7 +390,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 })
                 .setActionTextColor(getResources().getColor(R.color.authui_inputTextColor));
         View snackbarLayout = snackbar.getView();
-        snackbarLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.authui_colorPrimary));
+//        snackbarLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.authui_colorPrimary));
         TextView textView = (TextView)snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
 //        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
         textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
