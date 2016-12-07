@@ -7,6 +7,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.adapters.IdeasArrayAdapter;
 import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
@@ -42,6 +43,7 @@ public class GoalPreviewFragment extends Fragment {
     @Inject
     GoalInteractorInterface mGoalInteractor;
     @Inject
+    IdeaInteractorInterface mIdeaInteractor;
     IdeasArrayAdapter mIdeasArrayAdapter;
 
     public GoalPreviewFragment() {
@@ -61,6 +63,8 @@ public class GoalPreviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mPos = getArguments().getInt(IDEA_PREVIEW_FRAGMENT_INDEX);
+            Goal goal = mGoalInteractor.getGoalAtPos(mPos);
+            mIdeasArrayAdapter = new IdeasArrayAdapter(mIdeaInteractor, goal.getId());
             mGoalInteractor.loadDetailsForGoalAtPos(mPos);
             mGoalInteractor.subscribeToGoalStateChange(new Observer<ViewState>() {
                 @Override

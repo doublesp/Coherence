@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import javax.inject.Inject;
-
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 /**
@@ -20,12 +18,12 @@ import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class IdeasArrayAdapter extends RecyclerView.Adapter {
 
-    @Inject
     IdeaInteractorInterface mIdeaInteractor;
     String mGoalId;
 
-    public IdeasArrayAdapter(IdeaInteractorInterface ideaInteractor) {
+    public IdeasArrayAdapter(IdeaInteractorInterface ideaInteractor, String goalId) {
         mIdeaInteractor = ideaInteractor;
+        mGoalId = goalId;
     }
 
     public void setGoalId(String goalId) {
