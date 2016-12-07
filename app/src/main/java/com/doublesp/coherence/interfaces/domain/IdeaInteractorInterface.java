@@ -35,7 +35,7 @@ public interface IdeaInteractorInterface {
 
     void setPlan(Plan plan);
 
-    Plan createPlan(String id);
+    Plan createPlan(String id, String name);
 
     void loadPendingIdeas(Goal goal);
 
@@ -43,7 +43,7 @@ public interface IdeaInteractorInterface {
 
     void clearPlan();
 
-    int getPendingIdeasCount();
+    int getPendingIdeasCount(String id);
 
-    Idea getPendingIdeaAtPos(int pos);
+    Idea getPendingIdea(String id, int pos);
 }

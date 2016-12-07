@@ -104,7 +104,7 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     ideas.add(idea);
                     dedupSet.add(ingredient.getName());
                 }
-                mDataStore.setPendingIdeas(ideas);
+                mDataStore.setPendingIdeas(mRecipe.getId(), ideas);
                 mDataStore.setGoalState(new ViewState(
                         R.id.state_loaded, ViewState.OPERATION.UPDATE));
             }
@@ -247,16 +247,20 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
 
     @Override
     public void setDisplayGoalFlag(int flag) {
+        mDataStore.setGoalState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
         mDataStore.setGoalFlag(flag);
         switch (flag) {
+            case R.id.flag_explore_recipes:
             case R.id.flag_saved_recipes:
                 loadBookmarkedGoals();
+                break;
         }
+        mDataStore.setGoalState(new ViewState(
+                R.id.state_loaded, ViewState.OPERATION.RELOAD));
     }
 
     private void loadBookmarkedGoals() {
-        mDataStore.setGoalState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.RELOAD));
         List<Goal> bookmarkedGoals = new ArrayList<>();
         List<RecipeV2> bookmarkedRecipes = SavedRecipe.savedRecipes();
         for (RecipeV2 recipe : bookmarkedRecipes) {
@@ -268,7 +272,5 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     true));
         }
         mDataStore.setSavedGoals(bookmarkedGoals);
-        mDataStore.setGoalState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.RELOAD));
     }
 }

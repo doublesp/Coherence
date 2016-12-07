@@ -2,6 +2,7 @@ package com.doublesp.coherence.actions;
 
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.viewholders.GoalViewHolder;
 
 import android.content.Context;
 
@@ -19,8 +20,8 @@ public class GoalActionHandler implements GoalActionHandlerInterface {
     }
 
     @Override
-    public void onPreviewButtonClick(int pos) {
-        mPreviewHandler.preview(pos);
+    public void onPreviewButtonClick(GoalViewHolder holder, int pos) {
+        mPreviewHandler.preview(holder, pos);
     }
 
 }

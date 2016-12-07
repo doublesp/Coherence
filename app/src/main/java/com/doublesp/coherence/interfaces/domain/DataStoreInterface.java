@@ -23,6 +23,10 @@ public interface DataStoreInterface {
 
     void setIdeas(List<Idea> ideas);
 
+    void moveIdeaToBottom(int pos);
+
+    void moveIdeaToTop(int pos);
+
     void removeIdea(int pos);
 
     void clearIdeas();
@@ -61,7 +65,7 @@ public interface DataStoreInterface {
 
     void setPlan(Plan plan);
 
-    Plan createPlan(String id);
+    Plan createPlan(String id, String name);
 
     Goal getGoalAtPos(int pos);
 
@@ -73,11 +77,11 @@ public interface DataStoreInterface {
 
     void setGoalFlag(int flag);
 
-    void setPendingIdeas(List<Idea> pendingIdeas);
+    void setPendingIdeas(String id, List<Idea> pendingIdeas);
 
-    void loadPendingIdeas();
+    void loadPendingIdeas(String id);
 
-    int getPendingIdeasCount();
+    int getPendingIdeasCount(String id);
 
-    Idea getPendingIdeaAtPos(int pos);
+    Idea getPendingIdea(String id, int pos);
 }

@@ -1,13 +1,10 @@
 package com.doublesp.coherence.adapters;
 
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.R;
+import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
@@ -16,12 +13,18 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
 import rx.Observer;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
 
@@ -31,7 +34,6 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mListDatabaseReference;
     private DatabaseReference mShoppingListDatabaseReference;
-
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
             ListFragmentActionHandlerInterface ideaActionHandler) {
@@ -67,6 +69,12 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                         switch (state.getOperation()) {
                             case RELOAD:
                                 notifyDataSetChanged();
+                                if (mIdeaInteractor.getIdeaCount() == 0) {
+                                    Snackbar.make(ListCompositionFragment.binding.rvIdeas,
+                                            R.string.create_grocery_snackbar_hint,
+                                            Snackbar.LENGTH_LONG).show();
+                                }
+
                                 saveToFireBase();
                                 break;
                             case ADD:

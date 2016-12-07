@@ -2,6 +2,7 @@ package com.doublesp.coherence.dependencies.components.presentation;
 
 import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModule;
+import com.doublesp.coherence.fragments.GoalDetailViewPagerFragment;
 import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
 import com.doublesp.coherence.fragments.IdeaReviewFragment;
@@ -24,6 +25,8 @@ public interface MainActivitySubComponent {
     void inject(GoalPreviewFragment fragment);
 
     void inject(SavedIdeasFragment fragment);
+
+    void inject(GoalDetailViewPagerFragment fragment);
 
     void inject(MainActivity activity);
 }

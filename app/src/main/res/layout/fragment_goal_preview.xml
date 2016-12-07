@@ -25,6 +25,7 @@
         <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
                 android:fillViewport="true">
 
             <LinearLayout
@@ -42,7 +43,7 @@
                             android:layout_height="@dimen/item_goal_height"
                             android:layout_gravity="top"
                             android:scaleType="centerCrop"
-                            android:transitionName="goalImage"
+                            android:transitionName="@string/transition_goal_image"
                             tools:src="@drawable/background_0"/>
 
                     <ImageView
@@ -68,7 +69,7 @@
                             android:text='@{Integer.toString(pos+1)}'
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                             android:textColor="@color/colorButton"
-                            android:transitionName="goalIndex"
+                            android:transitionName="@string/transition_goal_index"
                             tools:text="1"/>
 
                 </android.support.percent.PercentFrameLayout>
@@ -82,7 +83,7 @@
                         android:text='@{viewModel.title}'
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="@color/colorUp"
-                        android:transitionName="goalTitle"
+                        android:transitionName="@string/transition_goal_title"
                         tools:text="Grilled Deviled Chickens"/>
 
                 <TextView
