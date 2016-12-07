@@ -8,10 +8,6 @@ import com.doublesp.coherence.interfaces.scopes.DataLayerScope;
 
 import dagger.Component;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 @DataLayerScope
 @Component(dependencies = {ApplicationComponent.class}, modules = DataLayerModule.class)
 public interface DataLayerComponent {

@@ -2,22 +2,13 @@ package com.doublesp.coherence.interfaces.presentation;
 
 import org.parceler.Parcel;
 
-/**
- * Created by pinyaoting on 11/30/16.
- */
-
 @Parcel
 public class ViewState {
-
-    public enum OPERATION {
-        NOOP, RELOAD, ADD, INSERT, UPDATE, REMOVE, CLEAR
-    }
 
     int state; // {R.id.state_idle, R.id.state_refreshing, R.id.state_loaded}
     OPERATION operation;
     int start;
     int count;
-
     public ViewState() {
     }
 
@@ -63,5 +54,9 @@ public class ViewState {
 
     public int getCount() {
         return count;
+    }
+
+    public enum OPERATION {
+        NOOP, RELOAD, ADD, INSERT, UPDATE, REMOVE, CLEAR
     }
 }

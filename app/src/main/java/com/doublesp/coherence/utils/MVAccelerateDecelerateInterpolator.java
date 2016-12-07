@@ -2,10 +2,6 @@ package com.doublesp.coherence.utils;
 
 import android.view.animation.Interpolator;
 
-/**
- * Created by pinyaoting on 11/20/16.
- */
-
 public class MVAccelerateDecelerateInterpolator implements Interpolator {
     @Override
     public float getInterpolation(float v) {

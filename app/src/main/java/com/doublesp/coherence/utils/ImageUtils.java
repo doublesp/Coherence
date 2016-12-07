@@ -1,11 +1,5 @@
 package com.doublesp.coherence.utils;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.R;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -22,12 +16,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.doublesp.coherence.R;
+
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by pinyaoting on 11/29/16.
- */
 
 public class ImageUtils {
 
@@ -40,11 +36,13 @@ public class ImageUtils {
             final ImageView imageView, final ViewGroup container, String imageUrl) {
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
-            public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+            public void onResourceReady(Bitmap bitmap,
+                    GlideAnimation<? super Bitmap> glideAnimation) {
                 // insert the bitmap into the image view
                 imageView.setImageBitmap(bitmap);
 
-                // Use generate() method from the Palette API to get the vibrant color from the bitmap
+                // Use generate() method from the Palette API to get the vibrant color from the
+                // bitmap
                 // Set the result as the background color
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                     @Override
@@ -82,7 +80,7 @@ public class ImageUtils {
     }
 
     public static void rotateImage(final Handler handler, final ImageView imageView,
-                                   final List<String> imageUrls, final int imageIndex, final int interveral) {
+            final List<String> imageUrls, final int imageIndex, final int interveral) {
         Glide.with(imageView.getContext())
                 .load(imageUrls.get(imageIndex))
                 .fitCenter()
@@ -120,6 +118,7 @@ public class ImageUtils {
 
         animatorSet.addListener(new AnimatorListenerAdapter() {
             int mIndex = index;
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 mIndex = (mIndex + 1) % getBackgroundImageId().size();

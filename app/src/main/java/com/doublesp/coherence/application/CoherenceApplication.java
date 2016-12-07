@@ -27,10 +27,6 @@ import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowLog;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
-/**
- * Created by pinyaoting on 11/11/16.
- */
-
 public class CoherenceApplication extends MultiDexApplication {
 
     private ApplicationComponent mApplicationComponent;

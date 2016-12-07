@@ -7,10 +7,6 @@ import java.util.List;
 
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/26/16.
- */
-
 public interface GoalInteractorInterface {
 
     int getGoalCount();
@@ -29,7 +25,7 @@ public interface GoalInteractorInterface {
 
     void subscribeToGoalStateChange(Observer<ViewState> observer);
 
-    void setDisplayGoalFlag(int flag);
-
     int getDisplayGoalFlag();
+
+    void setDisplayGoalFlag(int flag);
 }

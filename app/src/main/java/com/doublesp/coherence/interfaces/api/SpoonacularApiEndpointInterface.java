@@ -13,10 +13,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
-/**
- * Created by pinyaoting on 11/22/16.
- */
-
 public interface SpoonacularApiEndpointInterface {
 
     String REQUEST_HEADER_WITH_CACHE = "Cache-Control: max-age=640000";

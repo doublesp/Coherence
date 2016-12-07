@@ -10,7 +10,7 @@
     <color name="colorCardBackground">#FFFFFF</color>
     <color name="colorButton">#FFFFFF</color>
     <color name="colorButtonUnselected">#808080</color>
-    <color name="colorIndicator">#000000</color>
+    <color name="colorIndicator">#55FF4081</color>
     <color name="colorTabLayout">#AAF8F8F8</color>
     <color name="colorHint">#BDBDBD</color>
     <color name="colorBorder">#808080</color>

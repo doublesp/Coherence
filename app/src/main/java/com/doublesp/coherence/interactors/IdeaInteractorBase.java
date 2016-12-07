@@ -1,78 +1,76 @@
 package com.doublesp.coherence.interactors;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
 
+import java.util.List;
+
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
-    DataStoreInterface mIdeaDataStore;
+    DataStoreInterface mDataStore;
 
     public IdeaInteractorBase(DataStoreInterface ideaDataStore) {
-        mIdeaDataStore = ideaDataStore;
+        mDataStore = ideaDataStore;
     }
 
     abstract int getCategory();
 
     @Override
     public void acceptSuggestedIdeaAtPos(int pos) {
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount() - 1));
-        Idea idea = mIdeaDataStore.getSuggestionAtPos(pos);
-        mIdeaDataStore.addIdea(idea);
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.ADD, mIdeaDataStore.getIdeaCount() - 1));
+        mDataStore.setIdeaState(new ViewState(
+                R.id.state_refreshing, ViewState.OPERATION.ADD, mDataStore.getIdeaCount() - 1));
+        Idea idea = mDataStore.getSuggestionAtPos(pos);
+        mDataStore.addIdea(idea);
+        mDataStore.setIdeaState(new ViewState(
+                R.id.state_loaded, ViewState.OPERATION.ADD, mDataStore.getIdeaCount() - 1));
     }
 
     @Override
     public void crossoutIdea(int pos) {
-        mIdeaDataStore.setIdeaState(new ViewState(
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
-        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        IdeaReducer reducer = mIdeaDataStore.getIdeaReducer(idea.getId());
-        reducer.setCrossedOut(true);
-        mIdeaDataStore.setIdeaState(new ViewState(
+        Idea idea = mDataStore.getIdeaAtPos(pos);
+        IdeaReducer reducer = mDataStore.getIdeaReducer(idea.getId());
+        if (reducer != null) {
+            reducer.setCrossedOut(true);
+        }
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
     }
 
     @Override
     public void uncrossoutIdea(int pos) {
-        mIdeaDataStore.setIdeaState(new ViewState(
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
-        Idea idea = mIdeaDataStore.getIdeaAtPos(pos);
-        IdeaReducer reducer = mIdeaDataStore.getIdeaReducer(idea.getId());
-        reducer.setCrossedOut(false);
-        mIdeaDataStore.setIdeaState(new ViewState(
+        Idea idea = mDataStore.getIdeaAtPos(pos);
+        IdeaReducer reducer = mDataStore.getIdeaReducer(idea.getId());
+        if (reducer != null) {
+            reducer.setCrossedOut(false);
+        }
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
     }
 
     @Override
     public void removeIdea(int pos) {
-        mIdeaDataStore.setIdeaState(new ViewState(
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing, ViewState.OPERATION.REMOVE, pos, 1));
-        mIdeaDataStore.removeIdea(pos);
-        mIdeaDataStore.setIdeaState(new ViewState(
+        mDataStore.removeIdea(pos);
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded, ViewState.OPERATION.REMOVE, pos, 1));
-    }
-
-    @Override
-    public void clearIdeas() {
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.CLEAR));
-        mIdeaDataStore.clearIdeas();
-        mIdeaDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.CLEAR));
     }
 
     @Override
@@ -80,55 +78,89 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
 
     @Override
     public void subscribeIdeaStateChange(Observer<ViewState> observer) {
-        mIdeaDataStore.subscribeToIdeaStateChanges(observer);
+        mDataStore.subscribeToIdeaStateChanges(observer);
     }
 
     @Override
     public void subscribeSuggestionStateChange(Observer<ViewState> observer) {
-        mIdeaDataStore.subscribeToSuggestionStateChanges(observer);
+        mDataStore.subscribeToSuggestionStateChanges(observer);
     }
 
     @Override
     public int getIdeaCount() {
-        return mIdeaDataStore.getIdeaCount();
+        return mDataStore.getIdeaCount();
     }
 
     @Override
     public int getSuggestionCount() {
-        return mIdeaDataStore.getSuggestionCount();
+        return mDataStore.getSuggestionCount();
     }
 
     @Override
     public Idea getIdeaAtPos(int pos) {
-        return mIdeaDataStore.getIdeaAtPos(pos);
+        return mDataStore.getIdeaAtPos(pos);
     }
 
     @Override
     public Idea getSuggestionAtPos(int pos) {
-        return mIdeaDataStore.getSuggestionAtPos(pos);
+        return mDataStore.getSuggestionAtPos(pos);
     }
 
     @Override
     public Plan getPlan() {
-        return mIdeaDataStore.getPlan();
+        return mDataStore.getPlan();
     }
 
     @Override
     public void setPlan(Plan plan) {
-        mIdeaDataStore.setIdeaState(new ViewState(
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_refreshing,
                 ViewState.OPERATION.RELOAD));
-        mIdeaDataStore.setPlan(plan);
-        mIdeaDataStore.setIdeaState(new ViewState(
+        mDataStore.setPlan(plan);
+        mDataStore.setIdeaState(new ViewState(
                 R.id.state_loaded,
                 ViewState.OPERATION.RELOAD));
     }
 
     @Override
     public Plan createPlan(String id) {
-        return mIdeaDataStore.createPlan(id);
+        return mDataStore.createPlan(id);
     }
 
     @Override
-    abstract public void loadIdeasFromGoal(Goal goal);
+    abstract public void loadPendingIdeas(Goal goal);
+
+    @Override
+    public void discardPlanIfEmpty() {
+        Plan plan = mDataStore.getPlan();
+        if (plan == null || plan.getId() == null) {
+            return;
+        }
+        String listId = plan.getId();
+        List<Idea> ideas = plan.getIdeas();
+        if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
+            // TODO: inject FirebaseDatabase
+            FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child(ConstantsAndUtils.USER_LISTS)
+                    .child(ConstantsAndUtils.getOwner(getContext()))
+                    .child(listId)
+                    .removeValue();
+        }
+    }
+
+    @Override
+    public void clearPlan() {
+        mDataStore.clearPlan();
+    }
+
+    @Override
+    public int getPendingIdeasCount() {
+        return mDataStore.getPendingIdeasCount();
+    }
+
+    @Override
+    public Idea getPendingIdeaAtPos(int pos) {
+        return mDataStore.getPendingIdeaAtPos(pos);
+    }
 }

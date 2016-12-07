@@ -2,13 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-                name="pos"
-                type="int"/>
-    </data>
-
     <FrameLayout
             android:id="@+id/llSinglePlan"
             android:layout_width="match_parent"
@@ -34,38 +27,17 @@
                 android:layout_marginStart="@dimen/item_idea_image_width"
                 android:orientation="vertical">
 
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <TextView
-                        android:id="@+id/tvGoalIndex"
-                        android:layout_width="@dimen/activity_list_composition_idea_icon_width"
-                        android:layout_height="@dimen/activity_list_composition_idea_icon_height"
-                        android:layout_margin="10dp"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text='@{Integer.toString(pos+1)}'
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                        android:background="@drawable/ic_panorama_fish_eye"
-                        android:backgroundTint="@color/colorButton"
-                        android:textColor="@color/colorButton"
-                        tools:text="1"/>
-
-                <TextView
-                        android:id="@+id/single_plan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:paddingStart="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingEnd="10dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                        android:textColor="@color/colorButton"
-                        tools:text="Grocery List"/>
-            </LinearLayout>
+            <TextView
+                    android:id="@+id/single_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingStart="10dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/colorButton"
+                    tools:text="Grocery List"/>
 
             <TextView
                     android:id="@+id/owner"

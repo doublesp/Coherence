@@ -5,6 +5,7 @@ import com.doublesp.coherence.actions.GoalDetailActionHandler;
 import com.doublesp.coherence.actions.ListFragmentActionHandler;
 import com.doublesp.coherence.activities.MainActivity;
 import com.doublesp.coherence.adapters.GoalArrayAdapter;
+import com.doublesp.coherence.adapters.IdeasArrayAdapter;
 import com.doublesp.coherence.adapters.ListCompositionArrayAdapter;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
@@ -22,10 +23,6 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-
-/**
- * Created by pinyaoting on 11/11/16.
- */
 
 @Module
 public class MainActivityModule {
@@ -88,5 +85,11 @@ public class MainActivityModule {
     @PresentationLayerScope
     public SavedIdeasActionHandlerInterface providesSavedIdeasActionHandler() {
         return mActivity;
+    }
+
+    @Provides
+    @PresentationLayerScope
+    public IdeasArrayAdapter providesIdeasArrayAdapter(IdeaInteractorInterface ideaInteractor) {
+        return new IdeasArrayAdapter(ideaInteractor);
     }
 }

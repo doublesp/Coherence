@@ -7,10 +7,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 
 import rx.Observer;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 public interface IdeaInteractorInterface {
 
     void acceptSuggestedIdeaAtPos(int pos);
@@ -20,8 +16,6 @@ public interface IdeaInteractorInterface {
     void uncrossoutIdea(int pos);
 
     void removeIdea(int pos);
-
-    void clearIdeas();
 
     void getSuggestions(String keyword);
 
@@ -43,6 +37,13 @@ public interface IdeaInteractorInterface {
 
     Plan createPlan(String id);
 
-    void loadIdeasFromGoal(Goal goal);
+    void loadPendingIdeas(Goal goal);
 
+    void discardPlanIfEmpty();
+
+    void clearPlan();
+
+    int getPendingIdeasCount();
+
+    Idea getPendingIdeaAtPos(int pos);
 }

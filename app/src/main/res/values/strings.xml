@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Garçon</string>
     <string name="create_grocery_list">Create List</string>
-    <string name="saved_grocery_list">Saved List</string>
+    <string name="saved_ideas">Grocery List</string>
     <string name="create_grocery_hint">Add to list by searching ingredients</string>
     <string name="saved_grocery_hint">Saved Grocery List</string>
 
@@ -20,7 +20,8 @@
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb1822316278006079</string>
     <string name="custom_list">Custom list</string>
-    <string name="saved_recipes">Saved Recipes</string>
+    <string name="saved_goals">Saved Recipes</string>
+    <string name="explore_goals">Find Recipes</string>
     <string name="owner">Owner: %1s</string>
     <string name="add_friends">Add New Friend</string>
     <string name="add_friend">Add Friend</string>

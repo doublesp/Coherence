@@ -4,23 +4,17 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.ItemIdeaSuggestionsBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
-import com.doublesp.coherence.utils.ImageUtils;
 import com.doublesp.coherence.viewmodels.Idea;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import rx.Observer;
-
-/**
- * Created by pinyaoting on 12/4/16.
- */
 
 public class IdeaSuggestionsAdapter extends ArrayAdapter<Idea> {
 
@@ -32,6 +26,7 @@ public class IdeaSuggestionsAdapter extends ArrayAdapter<Idea> {
         mIdeaInteractor = ideaInteractor;
         mIdeaInteractor.subscribeSuggestionStateChange(new Observer<ViewState>() {
             ViewState mViewState;
+
             @Override
             public void onCompleted() {
                 switch (mViewState.getState()) {
@@ -75,9 +70,6 @@ public class IdeaSuggestionsAdapter extends ArrayAdapter<Idea> {
         viewHolder.binding.setPos(position);
         viewHolder.binding.setViewModel(viewModel);
 
-        int colorResource = ImageUtils.getColorForPosition(position);
-        int color = ContextCompat.getColor(getContext(), colorResource);
-        viewHolder.binding.flIdeaSuggestion.setBackgroundColor(color);
         // Return the completed view to render on screen
         return convertView;
     }

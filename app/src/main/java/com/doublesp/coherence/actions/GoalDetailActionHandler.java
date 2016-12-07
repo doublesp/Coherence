@@ -4,10 +4,6 @@ import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInt
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.viewmodels.Goal;
 
-/**
- * Created by pinyaoting on 11/27/16.
- */
-
 public class GoalDetailActionHandler implements GoalDetailActionHandlerInterface {
 
     ListCompositionDialogHandlerInterface mDialogHandler;

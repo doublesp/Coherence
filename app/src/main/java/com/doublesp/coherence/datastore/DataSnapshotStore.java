@@ -8,14 +8,11 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/14/16.
- */
-
 @Parcel
 public class DataSnapshotStore {
 
     private List<Idea> mIdeas;
+    private List<Idea> mPendingIdeas;
     private List<Idea> mSuggestions;
     private List<Goal> mSavedGoals;
     private List<Goal> mExploreGoals;
@@ -32,6 +29,13 @@ public class DataSnapshotStore {
 
     public void setIdeas(List<Idea> ideas) {
         mIdeas = ideas;
+    }
+
+    public List<Idea> getPendingIdeas() {
+        if (mPendingIdeas == null) {
+            mPendingIdeas = new ArrayList<>();
+        }
+        return mPendingIdeas;
     }
 
     public List<Idea> getSuggestions() {

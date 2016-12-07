@@ -13,10 +13,6 @@ import rx.Observer;
 import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 @Deprecated
 public class RecipeInteractor extends IdeaInteractorBase {
 
@@ -82,7 +78,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
     }
 
     @Override
-    public void loadIdeasFromGoal(Goal goal) {
+    public void loadPendingIdeas(Goal goal) {
         return;
     }
 }

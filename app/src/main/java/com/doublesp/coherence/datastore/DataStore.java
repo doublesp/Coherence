@@ -23,10 +23,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by pinyaoting on 11/10/16.
- */
-
 public class DataStore implements DataStoreInterface {
 
     DataSnapshotStore mSnapshotStore;
@@ -34,14 +30,14 @@ public class DataStore implements DataStoreInterface {
     List<Observer<ViewState>> mSuggestionStateObservers;
     List<Observer<ViewState>> mSavedGoalStateObservers;
     List<Observer<ViewState>> mGoalStateObservers;
-    private Map<String, IdeaReducer> mIdeaReducers;
-    private Map<String, GoalReducer> mExploreGoalReducers;
-    private Map<String, GoalReducer> mSavedGoalReducers;
     Plan mPlan;
     ViewState mIdeaState;
     ViewState mSuggestionState;
     ViewState mSavedGoalState;
     ViewState mGoalState;
+    private Map<String, IdeaReducer> mIdeaReducers;
+    private Map<String, GoalReducer> mExploreGoalReducers;
+    private Map<String, GoalReducer> mSavedGoalReducers;
     private Context mContext;
     private int mDisplayGoalFlag;
 
@@ -167,7 +163,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifyIdeaStateChange() {
-        ConnectableObservable<ViewState> connectedObservable = Observable.just(mIdeaState).publish();
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(
+                mIdeaState).publish();
         for (Observer<ViewState> observer : mIdeaStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -188,7 +185,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     private void notifyGoalStateChange() {
-        ConnectableObservable<ViewState> connectedObservable = Observable.just(mGoalState).publish();
+        ConnectableObservable<ViewState> connectedObservable = Observable.just(
+                mGoalState).publish();
         for (Observer<ViewState> observer : mGoalStateObservers) {
             connectedObservable.subscribeOn(Schedulers.immediate())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -204,6 +202,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setIdeas(List<Idea> ideas) {
         getIdeas().clear();
+        mIdeaReducers.clear();
         for (Idea idea : ideas) {
             mIdeaReducers.put(idea.getId(), new IdeaReducer(idea));
         }
@@ -227,6 +226,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setExploreGoals(List<Goal> goals) {
         getExploreGoals().clear();
+        mExploreGoalReducers.clear();
         for (Goal goal : goals) {
             mExploreGoalReducers.put(goal.getId(), new GoalReducer(goal));
         }
@@ -240,6 +240,7 @@ public class DataStore implements DataStoreInterface {
     @Override
     public void setSavedGoals(List<Goal> goals) {
         getSavedGoals().clear();
+        mSavedGoalReducers.clear();
         for (Goal goal : goals) {
             mSavedGoalReducers.put(goal.getId(), new GoalReducer(goal));
         }
@@ -273,13 +274,13 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public void setGoalFlag(int flag) {
-        mDisplayGoalFlag = flag;
+    public int getGoalFlag() {
+        return mDisplayGoalFlag;
     }
 
     @Override
-    public int getGoalFlag() {
-        return mDisplayGoalFlag;
+    public void setGoalFlag(int flag) {
+        mDisplayGoalFlag = flag;
     }
 
     @Override
@@ -291,5 +292,38 @@ public class DataStore implements DataStoreInterface {
                 return getSavedGoals().size();
         }
         return 0;
+    }
+
+    @Override
+    public void clearPlan() {
+        mPlan = null;
+        mIdeaReducers.clear();
+        mSnapshotStore.getIdeas().clear();
+    }
+
+    private List<Idea> getPendingIdeas() {
+        return mSnapshotStore.getPendingIdeas();
+    }
+
+    @Override
+    public void setPendingIdeas(List<Idea> pendingIdeas) {
+        getPendingIdeas().clear();
+        getPendingIdeas().addAll(pendingIdeas);
+    }
+
+    @Override
+    public void loadPendingIdeas() {
+        setIdeas(getPendingIdeas());
+        getPendingIdeas().clear();
+    }
+
+    @Override
+    public int getPendingIdeasCount() {
+        return getPendingIdeas().size();
+    }
+
+    @Override
+    public Idea getPendingIdeaAtPos(int pos) {
+        return getPendingIdeas().get(pos);
     }
 }

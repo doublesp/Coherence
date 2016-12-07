@@ -7,10 +7,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 import rx.Observable;
 
-/**
- * Created by pinyaoting on 11/17/16.
- */
-
 public interface EdamamApiEndpointInterface {
 
     String REQUEST_HEADER_WITH_CACHE = "Cache-Control: max-age=640000";

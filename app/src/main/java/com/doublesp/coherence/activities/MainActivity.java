@@ -1,6 +1,5 @@
 package com.doublesp.coherence.activities;
 
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +29,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface
 import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
 import com.doublesp.coherence.service.NotificationService;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
@@ -50,7 +50,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -70,7 +70,7 @@ import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
 
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.CREATE_LIST;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_GOALS;
 import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
 import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         GoalActionHandlerInterface.PreviewHandlerInterface,
         GoalDetailActionHandlerInterface.ListCompositionDialogHandlerInterface,
         ListFragmentActionHandler.IdeaShareHandlerInterface,
-        SavedIdeasActionHandlerInterface {
+        SavedIdeasActionHandlerInterface,
+        ListCompositionHandlerInterface {
 
     public static final int RC_SIGN_IN = 1;
     static final String IDEA_PREVIEW_FRAGMENT = "IDEA_PREVIEW_FRAGMENT";
@@ -98,9 +99,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     private DatabaseReference mListDatabaseReference;
     private DatabaseReference mShoppingListDatabaseReference;
     private String mUsername;
-    private DialogFragment mDialogFragment;
-    private String mListId;
-    private Goal mGoal;
+    private Fragment mDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,28 +120,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             @Override
             public void onPageSelected(int position) {
-                binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
-                String title = getString(R.string.app_name);
-                float titleSize = getResources().getInteger(R.integer.toolbar_title_size);
-                switch (position) {
-                    case CREATE_LIST:
-                        loadList(getListId(), mGoal);
-                        title = getString(R.string.create_grocery_hint);
-                        break;
-                    case SAVED_IDEAS:
-                        discardListIfEmpty();
-                        title = getString(R.string.saved_grocery_hint);
-                        break;
-                    case SEARCH_GOAL:
-                        discardListIfEmpty();
-                        titleSize = getResources().getInteger(R.integer.app_title_size);
-                        break;
-                    default:
-                        discardListIfEmpty();
-                        break;
-                }
-                binding.activityMainToolbarContainer.toolbarTitle.setText(title);
-                binding.activityMainToolbarContainer.toolbarTitle.setTextSize(titleSize);
+                configureTitle(position);
             }
 
             @Override
@@ -209,36 +187,65 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     }
 
     @Override
-    public void showPreviewDialog(int pos) {
+    public void preview(int pos) {
+        dismissDialogIfNotNull();
         mDialogFragment = GoalPreviewFragment.newInstance(pos);
-        mDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-        mDialogFragment.show(getSupportFragmentManager(), IDEA_PREVIEW_FRAGMENT);
+        showFragment();
     }
 
     @Override
     public void compose(Goal goal) {
-        if (mDialogFragment != null) {
-            mDialogFragment.dismiss();
-        }
-        mListId = newListId();
-        mGoal = goal;
-        binding.viewpager.setCurrentItem(CREATE_LIST);
+        // load ingredients from recipe
+        dismissDialogIfNotNull();
+        loadList(newListId(), goal);
+        mDialogFragment = ListCompositionFragment.newInstance();
+        binding.activityMainToolbarContainer.toolbarTitle.setText(
+                getString(R.string.create_grocery_hint));
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(
+                getResources().getInteger(R.integer.toolbar_title_size));
+        showFragment();
     }
 
     @Override
     public void compose(String listId) {
+        // load existing list
         if (listId == null) {
-            return;
+            listId = newListId();
         }
-        mListId = listId;
-        mGoal = null;
-        binding.viewpager.setCurrentItem(CREATE_LIST);
+        dismissDialogIfNotNull();
+        loadList(listId, null);
+        mDialogFragment = ListCompositionFragment.newInstance();
+        binding.activityMainToolbarContainer.toolbarTitle.setText(
+                getString(R.string.create_grocery_hint));
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(
+                getResources().getInteger(R.integer.toolbar_title_size));
+        showFragment();
+    }
+
+    @Override
+    public void compose() {
+        // create new list
+        dismissDialogIfNotNull();
+        loadList(newListId(), null);
+        mDialogFragment = ListCompositionFragment.newInstance();
+        binding.activityMainToolbarContainer.toolbarTitle.setText(
+                getString(R.string.create_grocery_hint));
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(
+                getResources().getInteger(R.integer.toolbar_title_size));
+        showFragment();
     }
 
     @Override
     public void search(Plan plan) {
         mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
         binding.viewpager.setCurrentItem(SEARCH_GOAL);
+    }
+
+    private void showFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_home, mDialogFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private String newListId() {
@@ -258,13 +265,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         return keyReference.getKey();
     }
 
-    private String getListId() {
-        if (mListId == null) {
-            mListId = newListId();
-        }
-        return mListId;
-    }
-
     private void loadList(final String listId, final Goal goal) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference listsDatabaseReference = firebaseDatabase.getReference().child(
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                     return;
                 }
                 if (goal != null) {
-                    mIdeaInteractor.loadIdeasFromGoal(goal);
+                    mIdeaInteractor.loadPendingIdeas(goal);
                 }
             }
 
@@ -290,22 +290,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             }
         });
-    }
-
-    private void discardListIfEmpty() {
-        Plan plan = mIdeaInteractor.getPlan();
-        if (plan == null || mListId == null) {
-            return;
-        }
-        List<Idea> ideas = plan.getIdeas();
-        if (ideas == null || ideas.isEmpty() || ideas.size() == 0) {
-            mFirebaseDatabase.getReference()
-                    .child(ConstantsAndUtils.USER_LISTS)
-                    .child(ConstantsAndUtils.getOwner(getContext()))
-                    .child(mListId)
-                    .removeValue();
-            mListId = null;
-        }
     }
 
     @Override
@@ -420,6 +404,9 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
         final MenuItem searchItem = menu.findItem(R.id.action_search);
 
+        if (searchItem == null) {
+            return true;
+        }
         final AutoCompleteSearchView searchView =
                 (AutoCompleteSearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setAdapter(new IdeaSuggestionsAdapter(
@@ -437,17 +424,20 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if (mDialogFragment != null && mDialogFragment instanceof ListCompositionFragment) {
+                    if (mIdeaInteractor.getSuggestionCount() < 1) {
+                        return true;
+                    }
+                    mIdeaInteractor.acceptSuggestedIdeaAtPos(0);
+                    searchView.setQuery("", false);
+                    return true;
+                }
                 int currentViewPagerIndex = binding.viewpager.getCurrentItem();
                 switch (currentViewPagerIndex) {
                     case SEARCH_GOAL:
                         mGoalInteractor.search(query);
                         break;
-                    case CREATE_LIST:
-                        if (mIdeaInteractor.getSuggestionCount() < 1) {
-                            return true;
-                        }
-                        mIdeaInteractor.acceptSuggestedIdeaAtPos(0);
-                        searchView.setQuery("", false);
+                    case SAVED_GOALS:
                         break;
                     case SAVED_IDEAS:
                         break;
@@ -463,10 +453,18 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s.toString().trim().isEmpty()) {
+                String query = s.trim();
+                if (query.isEmpty()) {
                     return true;
                 }
-                mIdeaInteractor.getSuggestions(s.toString().trim());
+                if (mDialogFragment != null && mDialogFragment instanceof ListCompositionFragment) {
+                    // show auto complete for ingredients
+                    mIdeaInteractor.getSuggestions(query);
+                    return true;
+                } else {
+                    // TODO: add auto complete for recipes
+                }
+
                 return true;
             }
         });
@@ -483,6 +481,15 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mDialogFragment != null) {
+            configureTitle(binding.viewpager.getCurrentItem());
+        }
+        mDialogFragment = null;
     }
 
     private void onSignedOutCleanup() {
@@ -517,4 +524,35 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
         compose(listId);
     }
 
+    private void dismissDialogIfNotNull() {
+        if (mDialogFragment != null) {
+            onBackPressed();
+        }
+    }
+
+    private void configureTitle(int position) {
+        binding.activityMainToolbarContainer.appBar.setExpanded(true, true);
+        String title = getString(R.string.app_name);
+        float titleSize = getResources().getInteger(R.integer.app_title_size);
+        switch (position) {
+            case SEARCH_GOAL:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_explore_recipes);
+                title = getString(R.string.app_name);
+                titleSize = getResources().getInteger(R.integer.app_title_size);
+                break;
+            case SAVED_GOALS:
+                mGoalInteractor.setDisplayGoalFlag(R.id.flag_saved_recipes);
+                title = getString(R.string.saved_goals);
+                titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                break;
+            case SAVED_IDEAS:
+                title = getString(R.string.saved_grocery_hint);
+                titleSize = getResources().getInteger(R.integer.toolbar_title_size);
+                break;
+            default:
+                break;
+        }
+        binding.activityMainToolbarContainer.toolbarTitle.setText(title);
+        binding.activityMainToolbarContainer.toolbarTitle.setTextSize(titleSize);
+    }
 }

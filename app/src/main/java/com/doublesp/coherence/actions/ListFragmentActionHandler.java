@@ -15,10 +15,6 @@ import com.doublesp.coherence.viewmodels.Plan;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * Created by pinyaoting on 11/13/16.
- */
-
 public class ListFragmentActionHandler implements ListFragmentActionHandlerInterface {
 
     Context mContext;

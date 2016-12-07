@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="pos"
+                type="int"/>
+
+        <variable
+                name="viewModel"
+                type="com.doublesp.coherence.viewmodels.Idea"/>
+    </data>
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:orientation="horizontal"
+                  android:id="@+id/flSimpleItemIdea"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/colorUpOverlay">
+
+        <ImageView
+                android:id="@+id/ivIdea"
+                android:layout_width="@dimen/simple_item_idea_image_width"
+                android:layout_height="@dimen/simple_item_idea_image_height"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/background_3"/>
+
+        <TextView
+                android:id="@+id/tvIdea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical|left|start"
+                android:text='@{viewModel.content}'
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorBackground"
+                tools:text="egg"/>
+
+    </LinearLayout>
+</layout>

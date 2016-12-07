@@ -8,10 +8,6 @@ import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.viewmodels.Idea;
 
-/**
- * Created by pinyaoting on 11/12/16.
- */
-
 public class IdeaViewHolder extends RecyclerView.ViewHolder implements IdeaViewHolderInterface {
 
     ItemIdeaBinding binding;

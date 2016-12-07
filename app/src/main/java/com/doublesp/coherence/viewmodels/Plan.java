@@ -5,10 +5,6 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pinyaoting on 11/16/16.
- */
-
 @Parcel
 public class Plan {
 
@@ -33,7 +29,7 @@ public class Plan {
 
     public List<Idea> getIdeas() {
         if (ideas == null) {
-            ideas = new ArrayList<Idea>();
+            ideas = new ArrayList<>();
         }
         return ideas;
     }

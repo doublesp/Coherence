@@ -1,9 +1,5 @@
 package com.doublesp.coherence.utils;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.doublesp.coherence.R;
-
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.graphics.Paint;
@@ -12,9 +8,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by pinyaoting on 10/20/16.
- */
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.doublesp.coherence.R;
 
 public class BindingAdapterUtils {
 
@@ -55,7 +51,6 @@ public class BindingAdapterUtils {
 
     @BindingAdapter({"bind:crossout"})
     public static void setCrossout(TextView view, boolean crossout) {
-        Context context = view.getContext();
         if (crossout) {
             view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
