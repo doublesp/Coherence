@@ -1,29 +1,13 @@
 package com.doublesp.coherence.activities;
 
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_GOALS;
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
-import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import com.batch.android.Batch;
 import com.crashlytics.android.Crashlytics;
@@ -60,14 +44,26 @@ import com.doublesp.coherence.viewmodels.Plan;
 import com.doublesp.coherence.viewmodels.User;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -76,6 +72,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.fabric.sdk.android.Fabric;
+
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_GOALS;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SAVED_IDEAS;
+import static com.doublesp.coherence.adapters.HomeFragmentPagerAdapter.SEARCH_GOAL;
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class MainActivity extends AppCompatActivity implements InjectorInterface,
         GoalActionHandlerInterface.PreviewHandlerInterface,
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void compose(Goal goal) {
         // load ingredients from recipe
         dismissDialogIfNotNull();
-        loadList(newListId(), goal);
+        loadList(newListId(goal.getTitle()), goal);
         mDialogFragment = ListCompositionFragment.newInstance();
         binding.activityMainToolbarContainer.toolbarTitle.setText(
                 getString(R.string.create_grocery_hint));
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void compose(String listId) {
         // load existing list
         if (listId == null) {
-            listId = newListId();
+            listId = newListId(null);
         }
         dismissDialogIfNotNull();
         loadList(listId, null);
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void compose() {
         // create new list
         dismissDialogIfNotNull();
-        loadList(newListId(), null);
+        loadList(newListId(null), null);
         mDialogFragment = ListCompositionFragment.newInstance();
         binding.activityMainToolbarContainer.toolbarTitle.setText(
                 getString(R.string.create_grocery_hint));
@@ -282,18 +283,21 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
                 .commit();
     }
 
-    private String newListId() {
+    private String newListId(String listName) {
+        if (listName == null) {
+            listName = ConstantsAndUtils.getDefaultTitle(this);
+        }
         // create empty plan and persists to FireBase
         DatabaseReference keyReference = mListDatabaseReference.push();
 
         HashMap<String, Object> timestampCreated = new HashMap<>();
         timestampCreated.put(ConstantsAndUtils.TIMESTAMP, ServerValue.TIMESTAMP);
         UserList userList = new UserList(
-                ConstantsAndUtils.getDefaultTitle(this),
+                listName,
                 ConstantsAndUtils.getOwner(this),
                 timestampCreated);
         keyReference.setValue(userList);
-        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey());
+        Plan plan = mIdeaInteractor.createPlan(keyReference.getKey(), listName);
         mShoppingListDatabaseReference.child(keyReference.getKey()).setValue(plan);
 
         return keyReference.getKey();
