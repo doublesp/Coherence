@@ -35,7 +35,7 @@ public interface IdeaInteractorInterface {
 
     void setPlan(Plan plan);
 
-    Plan createPlan(String id);
+    Plan createPlan(String id, String name);
 
     void loadPendingIdeas(Goal goal);
 

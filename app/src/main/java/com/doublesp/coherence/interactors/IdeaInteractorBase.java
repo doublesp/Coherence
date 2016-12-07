@@ -125,9 +125,10 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        return mDataStore.createPlan(id);
+    public Plan createPlan(String id, String name) {
+        return mDataStore.createPlan(id, name);
     }
+
 
     @Override
     abstract public void loadPendingIdeas(Goal goal);

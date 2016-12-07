@@ -65,7 +65,7 @@ public interface DataStoreInterface {
 
     void setPlan(Plan plan);
 
-    Plan createPlan(String id);
+    Plan createPlan(String id, String name);
 
     Goal getGoalAtPos(int pos);
 

@@ -156,8 +156,8 @@ public class DataStore implements DataStoreInterface {
     }
 
     @Override
-    public Plan createPlan(String id) {
-        mPlan = new Plan(id, getIdeas(), ConstantsAndUtils.getDefaultTitle(mContext),
+    public Plan createPlan(String id, String name) {
+        mPlan = new Plan(id, getIdeas(), name,
                 ConstantsAndUtils.getOwner(mContext));
         return mPlan;
     }
