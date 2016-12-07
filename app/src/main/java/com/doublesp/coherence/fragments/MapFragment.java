@@ -217,6 +217,15 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         mClusterManager = new ClusterManager<>(getContext(), mMap);
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
         mClusterManager.setOnClusterClickListener(this);
@@ -356,7 +365,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         Result store = locationCluster.getStore();
         Toast.makeText(getActivity(), store.getName() + "\n" + store.getVicinity(), Toast.LENGTH_SHORT).show();
 
-        return true;
+        return false;
     }
 
     private class SearchNearbyStoresSubscriber extends Subscriber<GPlace> {
