@@ -72,6 +72,9 @@ public class NotificationService extends Service {
         NotificationManager notificationManager = (NotificationManager) getSystemService(
                 NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference().child(ConstantsAndUtils.NOTIFY).
+                child(ConstantsAndUtils.getOwner(this)).removeValue();
     }
 
     @Override
