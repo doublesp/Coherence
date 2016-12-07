@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
     public void search(Plan plan) {
         mGoalInteractor.searchGoalByIdeas(plan.getIdeas());
         binding.viewpager.setCurrentItem(SEARCH_GOAL);
+        dismissDialogIfNotNull();
     }
 
     private void showFragmentWithTransition(GoalViewHolder holder) {
