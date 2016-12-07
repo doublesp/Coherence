@@ -155,7 +155,6 @@ public class ImageUtils {
             mBackgroundImageId.add(R.drawable.background_1);
             mBackgroundImageId.add(R.drawable.background_2);
             mBackgroundImageId.add(R.drawable.background_3);
-            mBackgroundImageId.add(R.drawable.background_4);
         }
         return mBackgroundImageId;
     }

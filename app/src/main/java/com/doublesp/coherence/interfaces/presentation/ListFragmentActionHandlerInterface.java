@@ -6,6 +6,8 @@ public interface ListFragmentActionHandlerInterface {
 
     void onSearchButtonClick();
 
+    void onNearbyStoreButtonClick();
+
     void onCrossoutButtonClick(int pos);
 
     void onRemoveButtonClick(int pos);
