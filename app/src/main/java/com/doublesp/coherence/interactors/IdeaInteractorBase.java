@@ -41,27 +41,29 @@ abstract public class IdeaInteractorBase implements IdeaInteractorInterface {
     @Override
     public void crossoutIdea(int pos) {
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_refreshing, ViewState.OPERATION.REMOVE));
         Idea idea = mDataStore.getIdeaAtPos(pos);
         IdeaReducer reducer = mDataStore.getIdeaReducer(idea.getId());
         if (reducer != null) {
             reducer.setCrossedOut(true);
         }
+        mDataStore.moveIdeaToBottom(pos);
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_loaded, ViewState.OPERATION.REMOVE));
     }
 
     @Override
     public void uncrossoutIdea(int pos) {
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_refreshing, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_refreshing, ViewState.OPERATION.REMOVE));
         Idea idea = mDataStore.getIdeaAtPos(pos);
         IdeaReducer reducer = mDataStore.getIdeaReducer(idea.getId());
         if (reducer != null) {
             reducer.setCrossedOut(false);
         }
+        mDataStore.moveIdeaToTop(pos);
         mDataStore.setIdeaState(new ViewState(
-                R.id.state_loaded, ViewState.OPERATION.UPDATE, pos, 1));
+                R.id.state_loaded, ViewState.OPERATION.REMOVE));
     }
 
     @Override
