@@ -112,7 +112,6 @@ public class SavedIdeasFragment extends Fragment {
                         paramsForBox.setMarginEnd(paramsForImage.width);
                     }
 
-                    holder.binding.setPos(position);
                     holder.binding.singlePlan.setText(title);
                     holder.binding.owner.setText(owner.replace(',', '.'));
                     holder.binding.llSinglePlan.setBackgroundColor(color);
@@ -133,7 +132,8 @@ public class SavedIdeasFragment extends Fragment {
         if (getActivity() instanceof ListCompositionHandlerInterface) {
             binding.setHandler((ListCompositionHandlerInterface) getActivity());
         }
-        binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvSavedIdeas.setLayoutManager(new LinearLayoutManager(
+                getContext(), LinearLayoutManager.VERTICAL, true));
         binding.rvSavedIdeas.setAdapter(mFirebaseRecyclerAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL);

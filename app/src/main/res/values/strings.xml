@@ -21,7 +21,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb1822316278006079</string>
     <string name="custom_list">Custom list</string>
     <string name="saved_goals">Saved Recipes</string>
-    <string name="explore_goals">Explore Recipes</string>
+    <string name="explore_goals">Find Recipes</string>
     <string name="owner">Owner: %1s</string>
     <string name="add_friends">Add New Friend</string>
     <string name="add_friend">Add Friend</string>

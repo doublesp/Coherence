@@ -19,7 +19,9 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +101,11 @@ public class GoalPreviewFragment extends Fragment {
         binding.setHandler(mActionHandler);
         binding.rvGoalPreviewIdeas.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvGoalPreviewIdeas.setAdapter(mIdeasArrayAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(
+                ContextCompat.getDrawable(getContext(), R.drawable.line_divider_edge_to_edge));
+        binding.rvGoalPreviewIdeas.addItemDecoration(dividerItemDecoration);
         binding.nsvGoalPreviewIdeasContainer.setNestedScrollingEnabled(false);
         return binding.getRoot();
     }
