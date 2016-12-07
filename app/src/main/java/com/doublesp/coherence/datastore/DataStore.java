@@ -209,6 +209,24 @@ public class DataStore implements DataStoreInterface {
         getIdeas().addAll(ideas);
     }
 
+    @Override
+    public void moveIdeaToBottom(int pos) {
+        if (getIdeas().size() <= pos) {
+            // out of bound
+            return;
+        }
+        getIdeas().add(getIdeas().remove(pos));
+    }
+
+    @Override
+    public void moveIdeaToTop(int pos) {
+        if (getIdeas().size() <= pos) {
+            // out of bound
+            return;
+        }
+        getIdeas().add(0, getIdeas().remove(pos));
+    }
+
     private List<Idea> getSuggestions() {
         return mSnapshotStore.getSuggestions();
     }

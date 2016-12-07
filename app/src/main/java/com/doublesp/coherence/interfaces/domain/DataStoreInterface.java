@@ -23,6 +23,10 @@ public interface DataStoreInterface {
 
     void setIdeas(List<Idea> ideas);
 
+    void moveIdeaToBottom(int pos);
+
+    void moveIdeaToTop(int pos);
+
     void removeIdea(int pos);
 
     void clearIdeas();
