@@ -18,6 +18,8 @@ import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.github.nisrulz.sensey.Sensey;
+import com.github.nisrulz.sensey.TouchTypeDetector;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,6 +39,8 @@ public class ListCompositionFragment extends Fragment {
     ListFragmentActionHandlerInterface mActionHandler;
     @Inject
     IdeaInteractorInterface mInteractor;
+
+    TouchTypeDetector.TouchTypListener mTouchTypListener;
 
     public ListCompositionFragment() {
         // Required empty public constructor
@@ -72,7 +76,7 @@ public class ListCompositionFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         binding.ivIdeaCompositionBackground.measure(
@@ -85,6 +89,51 @@ public class ListCompositionFragment extends Fragment {
         Blurry.with(getContext())
                 .capture(binding.ivIdeaCompositionBackground)
                 .into(binding.ivIdeaCompositionBackground);
+
+        mTouchTypListener = new TouchTypeDetector.TouchTypListener() {
+            @Override
+            public void onTwoFingerSingleTap() {
+
+            }
+
+            @Override
+            public void onThreeFingerSingleTap() {
+
+            }
+
+            @Override
+            public void onDoubleTap() {
+                // Call ListFragmentActionHandler onCrossoutButtonClick
+            }
+
+            @Override
+            public void onScroll(int i) {
+
+            }
+
+            @Override
+            public void onSingleTap() {
+
+            }
+
+            @Override
+            public void onSwipe(int i) {
+                switch (i) {
+                    case TouchTypeDetector.SWIPE_DIR_LEFT:
+                    case TouchTypeDetector.SWIPE_DIR_RIGHT:
+                        // Call ListFragmentActionHandler onRemoveButtonClick
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onLongPress() {
+
+            }
+        };
+        Sensey.getInstance().startTouchTypeDetection(mTouchTypListener);
     }
 
     @Override
@@ -106,6 +155,7 @@ public class ListCompositionFragment extends Fragment {
         super.onDetach();
         mInteractor.discardPlanIfEmpty();
         mInteractor.clearPlan();
+        Sensey.getInstance().stopTouchTypeDetection();
     }
 
 }
