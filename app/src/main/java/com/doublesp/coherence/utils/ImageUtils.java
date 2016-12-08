@@ -159,6 +159,10 @@ public class ImageUtils {
         return mBackgroundImageId;
     }
 
+    public static int getIlluminatedColor(int color) {
+        return (color & 0x00FFFFFF) | 0xB3000000;
+    }
+
     public static int getColorForPosition(int position) {
         int colorResource = R.color.colorUpOverlay;
         switch (position % 4) {

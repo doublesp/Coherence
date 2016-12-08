@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <variable
-                name="user"
-                type="com.doublesp.coherence.viewmodels.User"/>
-
-        <variable
-                name="shared"
-                type="boolean"/>
-    </data>
-
     <LinearLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/llAddFriend"
+            android:background="@color/colorUpOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -41,18 +33,15 @@
                     android:layout_height="25dp"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/colorButton"/>
 
             <TextView
                     android:id="@+id/friend_email_address"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorButton"/>
         </LinearLayout>
-
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:visibility="gone"/>
 
         <ImageButton
                 android:id="@+id/add_friend_button"
@@ -60,7 +49,10 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/add_friend"/>
+                android:tint="@color/colorButton"
+                android:contentDescription="@string/add_friend"
+                android:src="@drawable/ic_checkable"
+                />
 
     </LinearLayout>
 </layout>

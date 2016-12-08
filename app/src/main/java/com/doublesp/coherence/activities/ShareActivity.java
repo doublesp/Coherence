@@ -12,6 +12,7 @@ import com.doublesp.coherence.R;
 import com.doublesp.coherence.databinding.ActivityShareBinding;
 import com.doublesp.coherence.databinding.SingleAddFriendBinding;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ImageUtils;
 import com.doublesp.coherence.utils.ItemClickSupport;
 import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.viewmodels.User;
@@ -29,7 +30,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -98,14 +98,14 @@ public class ShareActivity extends AppCompatActivity {
                 new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                User user = mFirebaseRecyclerAdapter.getItem(position);
                 FriendsViewHolder viewHolder = (FriendsViewHolder) recyclerView
                         .getChildViewHolder(v);
-                boolean isShared = viewHolder.binding.getShared();
-                User user = viewHolder.binding.getUser();
+                boolean isShared = viewHolder.mAddFriendButton.isSelected();
                 if (isShared) {
-                    unshare(viewHolder.binding.getUser());
+                    unshare(user);
                 } else {
-                    share(viewHolder.binding.getUser());
+                    share(user);
                 }
             }
         });
@@ -122,17 +122,18 @@ public class ShareActivity extends AppCompatActivity {
 
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 int color = generator.getColor(emailDecoded);
+                int bgColor = ImageUtils.getIlluminatedColor(color);
 
                 TextDrawable.IBuilder initialConfig = TextDrawable.builder()
                         .beginConfig()
                         .endConfig()
-                        .roundRect(10);
+                        .round();
                 TextDrawable initial = initialConfig.build(String.valueOf(name.charAt(0)), color);
 
-                holder.mInitials.setImageDrawable(initial);
+                holder.binding.intialsImage.setImageDrawable(initial);
                 holder.mEmail.setText(emailDecoded);
                 holder.mName.setText(user.getName());
-                holder.binding.setUser(user);
+                holder.binding.llAddFriend.setBackgroundColor(bgColor);
 
                 mSharedWithListsDatabaseReference.child(email).addValueEventListener(
                         new ValueEventListener() {
@@ -140,13 +141,12 @@ public class ShareActivity extends AppCompatActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 final User userShared = dataSnapshot.getValue(
                                         User.class);
+                                boolean isShared = (userShared != null);
 
-                                holder.binding.setShared(userShared != null);
-                                if (userShared != null) {
-                                    holder.mAddFriendButton.setImageResource(R.drawable.ic_check);
+                                if (isShared) {
+                                    holder.mAddFriendButton.setSelected(true);
                                 } else {
-                                    holder.mAddFriendButton.setImageResource(
-                                            R.drawable.ic_add_green);
+                                    holder.mAddFriendButton.setSelected(false);
                                 }
                             }
 
@@ -216,7 +216,6 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     public static class FriendsViewHolder extends RecyclerView.ViewHolder {
-        ImageView mInitials;
         TextView mEmail;
         TextView mName;
         ImageButton mAddFriendButton;
@@ -226,7 +225,7 @@ public class ShareActivity extends AppCompatActivity {
             super(itemView);
             binding = SingleAddFriendBinding.bind(itemView);
 
-            mInitials = (ImageView) itemView.findViewById(R.id.intials_image);
+            // TODO: use data bind
             mEmail = (TextView) itemView.findViewById(R.id.friend_email_address);
             mName = (TextView) itemView.findViewById(R.id.friend_name);
             mAddFriendButton = (ImageButton) itemView.findViewById(R.id.add_friend_button);
