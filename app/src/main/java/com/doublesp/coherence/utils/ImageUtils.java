@@ -137,7 +137,7 @@ public class ImageUtils {
         int statusBarHeightPixels = Math.round(
                 r.getDimension(R.dimen.status_bar_height) * metrics.density);
         int viewportHeightPixels = metrics.heightPixels - statusBarHeightPixels;
-        float offset = r.getFraction(R.fraction.top_image_ratio, viewportHeightPixels, 1);
+        float offset = r.getDimension(R.dimen.big_top_image_height);
         float cutThroughOffset = r.getFraction(
                 R.fraction.top_image_cut_ratio, Math.round(offset), 1);
         int extraPadding = r.getInteger(R.integer.bigtop_image_extra_padding);
