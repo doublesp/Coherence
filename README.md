@@ -2,28 +2,24 @@
 
 An app for dinner makers to search for recipe, create a shopping list, and send it to their significant others to have them buy the ingredients back.
 
-## User Stories
+## Features
 
-* [ ] User can create a grocery list.
-  * [x] User can add items to a grocery.
-  * [ ] User can crossout/un-crossout an item in grocery list by swiping horizontally.
-  * [ ] User can remove an item from the grocery list by long press.
-  * [x] User can see auto-complete suggestions when creating the grocery list.
-  * [x] User can save a grocery list on server.  
-* [ ] User can share the grocery list.
-  * [x] User can share the grocery list as a link. Tapping on the link would direct them back to our app with the grocery list shown.
-  * [ ] If a user didn't install our app, he should see a web-version of the grocery list, with smart banner which prompts the user to download the app.
-  * [x] User can share the grocery list internally with another user.
-  * [x] User will get push notification if a list is shared with him/her internally.
-* [ ] User can search for recipes.
-  * [x] User can search for a recipe contains a specific keyword.
-  * [ ] User can see auto-complete suggestions when searching for a recipe.
-  * [x] User can see trending recipes suggested by the system.
-  * [x] User can see detail instruction of a recipe.
-  * [x] User can bookmark a recipe.
-* [x] User can create a grocery list from a recipe.
-* [x] User can reversely search for a recipe that contains as many ingredients on a grocery list, and as little missing ingredients as possible.
+### Cooking simplified for home cooks
+With Garcon, you can take your recipes and grocery list anywhere, make grocery lists and easily share them with your friends, family or even your future self when you need them. Dicover, Share and Shop for items all in one place.
 
+### Looking for inspiration - There are 1000s of recipie's to search from, as you open the app there are suggestions for you to try out, want to search something specific, you can always do that as well.
+
+### Save money by using leftovers in the fridge -> Enter left over ingredients and we will tell you what to make.
+Save your favorite recipes and get to them whenever needed.
+
+### Stay involed during journey to shopping - share grocery list with your significant others, get real time update, and sneak in last-minute item.
+
+## Roadmap
+
+* Advanced Gesture Support
+* Auto Complete for recipe search
+* Data Mining - Provide accurate grocery suggestion
+* Monetization - Integration with Native Ads
  
 ## Video Walkthrough
 
