@@ -1,14 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
-import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.ViewState;
-import com.doublesp.coherence.utils.ImageUtils;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,6 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentGoalSearchBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.utils.ImageUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -80,7 +80,7 @@ public class GoalSearchFragment extends Fragment {
         dividerItemDecoration.setDrawable(
                 ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.rvIdeaSearchResults.addItemDecoration(dividerItemDecoration);
-        ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
+//        ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
