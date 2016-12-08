@@ -1,5 +1,22 @@
 package com.doublesp.coherence.activities;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.ActivityAddFriendBinding;
+import com.doublesp.coherence.databinding.SingleAddFriendBinding;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ImageUtils;
+import com.doublesp.coherence.utils.ToolbarBindingUtils;
+import com.doublesp.coherence.viewmodels.User;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -10,23 +27,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.ActivityAddFriendBinding;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.utils.ToolbarBindingUtils;
-import com.doublesp.coherence.viewmodels.User;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -83,19 +85,20 @@ public class AddFriendActivity extends AppCompatActivity {
 
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 int color = generator.getColor(emailDecoded);
+                int bgColor = ImageUtils.getIlluminatedColor(color);
 
                 TextDrawable.IBuilder initialConfig = TextDrawable.builder()
                         .beginConfig()
                         .endConfig()
-                        .roundRect(10);
+                        .round();
                 TextDrawable initial = initialConfig.build(String.valueOf(name.charAt(0)), color);
 
-                holder.mInitials.setImageDrawable(initial);
+                holder.binding.intialsImage.setImageDrawable(initial);
                 holder.mEmail.setText(emailDecoded);
                 holder.mName.setText(user.getName());
+                holder.binding.llAddFriend.setBackgroundColor(bgColor);
 
                 if (email.equals(ConstantsAndUtils.getOwner(AddFriendActivity.this))) {
-                    holder.mAddFriendButton.setImageResource(R.drawable.ic_check);
                     return;
                 }
 
@@ -107,10 +110,9 @@ public class AddFriendActivity extends AppCompatActivity {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 User thisUser = dataSnapshot.getValue(User.class);
                                 if (thisUser != null) {
-                                    holder.mAddFriendButton.setImageResource(R.drawable.ic_check);
+                                    holder.mAddFriendButton.setSelected(true);
                                 } else {
-                                    holder.mAddFriendButton.setImageResource(
-                                            R.drawable.ic_add_green);
+                                    holder.mAddFriendButton.setSelected(false);
                                 }
                             }
 
@@ -132,15 +134,16 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     public static class AddFriendViewHolder extends RecyclerView.ViewHolder {
-        ImageView mInitials;
+        SingleAddFriendBinding binding;
         TextView mEmail;
         TextView mName;
         ImageButton mAddFriendButton;
 
         public AddFriendViewHolder(View itemView) {
             super(itemView);
+            binding = SingleAddFriendBinding.bind(itemView);
 
-            mInitials = (ImageView) itemView.findViewById(R.id.intials_image);
+            // TODO: use data bind
             mEmail = (TextView) itemView.findViewById(R.id.friend_email_address);
             mName = (TextView) itemView.findViewById(R.id.friend_name);
             mAddFriendButton = (ImageButton) itemView.findViewById(R.id.add_friend_button);
@@ -159,12 +162,12 @@ public class AddFriendActivity extends AppCompatActivity {
                         mListsDatabaseReference.child(ConstantsAndUtils.getOwner(view.getContext()))
                                 .child(user.getEmail()).removeValue();
                         userFriends.remove(user.getEmail());
-                        mAddFriendButton.setImageResource(R.drawable.ic_add_green);
+                        mAddFriendButton.setSelected(false);
                     } else {
                         userFriends.add(user.getEmail());
                         mListsDatabaseReference.child(ConstantsAndUtils.getOwner(view.getContext()))
                                 .child(user.getEmail()).setValue(user);
-                        mAddFriendButton.setImageResource(R.drawable.ic_check);
+                        mAddFriendButton.setSelected(true);
                     }
                 }
             });
