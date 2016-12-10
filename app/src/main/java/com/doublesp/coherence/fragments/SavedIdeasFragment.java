@@ -147,16 +147,18 @@ public class SavedIdeasFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.ivSavedIdeasBackground.measure(
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        binding.ivSavedIdeasBackground.layout(
-                0, 0, binding.ivSavedIdeasBackground.getMeasuredWidth(),
-                binding.ivSavedIdeasBackground.getMeasuredHeight());
+        if (ConstantsAndUtils.getAndroidSDKVersion() >= ConstantsAndUtils.LATEST) {
+            binding.ivSavedIdeasBackground.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            binding.ivSavedIdeasBackground.layout(
+                    0, 0, binding.ivSavedIdeasBackground.getMeasuredWidth(),
+                    binding.ivSavedIdeasBackground.getMeasuredHeight());
 
-        Blurry.with(getContext())
-                .capture(binding.ivSavedIdeasBackground)
-                .into(binding.ivSavedIdeasBackground);
+            Blurry.with(getContext())
+                    .capture(binding.ivSavedIdeasBackground)
+                    .into(binding.ivSavedIdeasBackground);
+        }
     }
 
     @Override
