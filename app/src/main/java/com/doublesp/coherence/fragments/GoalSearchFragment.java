@@ -7,6 +7,7 @@ import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.utils.ImageUtils;
 
 import android.content.Context;
@@ -80,7 +81,12 @@ public class GoalSearchFragment extends Fragment {
         dividerItemDecoration.setDrawable(
                 ContextCompat.getDrawable(getContext(), R.drawable.line_divider));
         binding.rvIdeaSearchResults.addItemDecoration(dividerItemDecoration);
-        ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
+        if (ConstantsAndUtils.getAndroidSDKVersion() >= ConstantsAndUtils.LATEST) {
+            // NOTE: disabled image rotation on low end device for better performance
+            ImageUtils.loadDefaultImageRotation(binding.ivIdeaSearchBackground);
+        } else {
+            binding.ivIdeaSearchBackground.setImageResource(R.drawable.background_0);
+        }
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

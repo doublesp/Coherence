@@ -57,16 +57,18 @@ public class ShareActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(ShareActivity.this, R.layout.activity_share);
         ToolbarBindingUtils.bind(ShareActivity.this, binding.activityShareToolbarContainer.toolbar);
 
-        binding.shareBackground.measure(
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        binding.shareBackground.layout(
-                0, 0, binding.shareBackground.getMeasuredWidth(),
-                binding.shareBackground.getMeasuredHeight());
+        if (ConstantsAndUtils.getAndroidSDKVersion() > ConstantsAndUtils.LATEST) {
+            binding.shareBackground.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            binding.shareBackground.layout(
+                    0, 0, binding.shareBackground.getMeasuredWidth(),
+                    binding.shareBackground.getMeasuredHeight());
 
-        Blurry.with(getContext())
-                .capture(binding.shareBackground)
-                .into(binding.shareBackground);
+            Blurry.with(getContext())
+                    .capture(binding.shareBackground)
+                    .into(binding.shareBackground);
+        }
 
         setTitle(R.string.share_list);
         fm = getSupportFragmentManager();
