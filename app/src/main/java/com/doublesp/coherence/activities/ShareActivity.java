@@ -197,7 +197,9 @@ public class ShareActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ItemClickSupport.removeFrom(mRecyclerView);
         mFirebaseRecyclerAdapter.cleanup();
+
     }
 
     private HashMap<String, Object> updateFriendInSharedWith(Boolean addFriend,

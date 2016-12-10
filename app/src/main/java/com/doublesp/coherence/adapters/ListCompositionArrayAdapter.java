@@ -4,9 +4,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.doublesp.coherence.R;
-import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.IdeaViewHolderInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
@@ -24,6 +22,7 @@ import java.util.List;
 
 import rx.Observer;
 
+import static com.doublesp.coherence.fragments.ListCompositionFragment.binding;
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
@@ -70,7 +69,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
                             case RELOAD:
                                 notifyDataSetChanged();
                                 if (mIdeaInteractor.getIdeaCount() == 0) {
-                                    Snackbar.make(ListCompositionFragment.binding.rvIdeas,
+                                    Snackbar.make(binding.rvIdeas,
                                             R.string.create_grocery_snackbar_hint,
                                             Snackbar.LENGTH_LONG).show();
                                 }
@@ -114,24 +113,16 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view;
-        RecyclerView.ViewHolder holder;
-
-        view = inflater.inflate(R.layout.item_idea, parent, false);
-        holder = new IdeaViewHolder(view);
-
-        if (holder instanceof IdeaViewHolderInterface) {
-            IdeaViewHolderInterface ideaViewHolder = (IdeaViewHolderInterface) holder;
-            ideaViewHolder.setHandler(mIdeaActionHandler);
-        }
+        View view = inflater.inflate(R.layout.item_idea, parent, false);
+        IdeaViewHolder holder = new IdeaViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Idea idea = mIdeaInteractor.getIdeaAtPos(position);
-        if (holder instanceof IdeaViewHolderInterface) {
-            IdeaViewHolderInterface ideaViewHolder = (IdeaViewHolderInterface) holder;
+        if (holder instanceof IdeaViewHolder) {
+            IdeaViewHolder ideaViewHolder = (IdeaViewHolder) holder;
             ideaViewHolder.setPosition(position);
             ideaViewHolder.setViewModel(idea);
             ideaViewHolder.executePendingBindings();
