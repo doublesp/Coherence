@@ -40,7 +40,7 @@
                     <ImageView
                             android:id="@+id/ivIdeaBackgroundImage"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/item_goal_height"
+                            android:layout_height="@dimen/big_top_image_height"
                             android:layout_gravity="top"
                             android:scaleType="centerCrop"
                             android:transitionName="@string/transition_goal_image"

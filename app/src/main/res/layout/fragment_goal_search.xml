@@ -23,7 +23,7 @@
             <android.support.percent.PercentFrameLayout
                     android:id="@+id/flGoalSearchBackground"
                     android:layout_width="match_parent"
-                    app:layout_heightPercent="@fraction/top_image_ratio">
+                    android:layout_height="@dimen/big_top_image_height">
 
                 <ImageView
                         android:id="@+id/ivIdeaSearchBackground"
