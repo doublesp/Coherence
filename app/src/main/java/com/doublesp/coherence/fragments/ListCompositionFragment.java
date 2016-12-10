@@ -1,5 +1,12 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,14 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
-
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class ListCompositionFragment extends Fragment {
 
@@ -73,16 +76,18 @@ public class ListCompositionFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        binding.ivIdeaCompositionBackground.measure(
-//                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//        binding.ivIdeaCompositionBackground.layout(
-//                0, 0, binding.ivIdeaCompositionBackground.getMeasuredWidth(),
-//                binding.ivIdeaCompositionBackground.getMeasuredHeight());
-//
-//        Blurry.with(getContext())
-//                .capture(binding.ivIdeaCompositionBackground)
-//                .into(binding.ivIdeaCompositionBackground);
+        if (ConstantsAndUtils.getAndroidSDKVersion() >= ConstantsAndUtils.LATEST) {
+            binding.ivIdeaCompositionBackground.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            binding.ivIdeaCompositionBackground.layout(
+                    0, 0, binding.ivIdeaCompositionBackground.getMeasuredWidth(),
+                    binding.ivIdeaCompositionBackground.getMeasuredHeight());
+
+            Blurry.with(getContext())
+                    .capture(binding.ivIdeaCompositionBackground)
+                    .into(binding.ivIdeaCompositionBackground);
+        }
     }
 
     @Override

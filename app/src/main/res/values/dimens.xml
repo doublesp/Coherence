@@ -16,12 +16,13 @@
     <dimen name="fragment_idea_preview_idea_selector_height">100dp</dimen>
     <dimen name="fragment_idea_preview_idea_selector_width">100dp</dimen>
     <dimen name="item_goal_margin">16dp</dimen>
-    <dimen name="item_goal_height">250dp</dimen>
+    <dimen name="item_goal_height">150dp</dimen>
     <dimen name="item_idea_image_width">100dp</dimen>
     <dimen name="item_idea_image_height">100dp</dimen>
     <dimen name="simple_item_idea_image_width">50dp</dimen>
     <dimen name="simple_item_idea_image_height">50dp</dimen>
-    <dimen name="goal_preview_btn_margin_start">8dp</dimen>
+    <dimen name="big_top_image_height">250dp</dimen>
+    <dimen name="goal_preview_btn_margin_start">10dp</dimen>
     <dimen name="goal_preview_title_margin">12dp</dimen>
     <dimen name="goal_preview_text_margin">16dp</dimen>
     <dimen name="border_width_thin">1dip</dimen>

@@ -23,6 +23,7 @@ public class ConstantsAndUtils {
     public static final String USER_FRIENDS = "userFriends";
     public static final String SHARED_WITH = "sharedWith";
     public static final String NOTIFY = "notify";
+    public static final int LATEST = 25;
     static final String SPOONACULAR_IMAGE_CDN_BASE_URL =
             "https://spoonacular.com/cdn/ingredients_100x100/";
 
@@ -46,5 +47,9 @@ public class ConstantsAndUtils {
 
     public static String getSpoonacularImageUrl(String path) {
         return new StringBuilder(SPOONACULAR_IMAGE_CDN_BASE_URL).append(path).toString();
+    }
+
+    public static int getAndroidSDKVersion() {
+        return android.os.Build.VERSION.SDK_INT;
     }
 }

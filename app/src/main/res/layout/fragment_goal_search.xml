@@ -23,14 +23,14 @@
             <android.support.percent.PercentFrameLayout
                     android:id="@+id/flGoalSearchBackground"
                     android:layout_width="match_parent"
-                    app:layout_heightPercent="@fraction/top_image_ratio">
+                    android:layout_height="@dimen/big_top_image_height">
 
                 <ImageView
                         android:id="@+id/ivIdeaSearchBackground"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/background_0"/>
+                        tools:src="@drawable/background_0"/>
 
                 <ImageView
                         android:id="@+id/ivGoalSearchBackground"
