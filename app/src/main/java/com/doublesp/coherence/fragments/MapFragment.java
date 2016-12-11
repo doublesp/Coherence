@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
@@ -279,10 +278,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         mClusterManager.setOnClusterItemClickListener(this);
 
         mClusterManager.cluster();
-
-
-//        // Add cluster items (markers) to the cluster manager.
-//        addItems();
     }
 
     private void addItems(List<Result> stores) {
@@ -424,7 +419,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 //        Toast.makeText(getActivity(), store.getName() + "\n" + store.getVicinity(), Toast.LENGTH_SHORT).show();
 
 
-
         String storeName = store.getName();
         String storeAddress = store.getVicinity();
         String storeOpening = (store.getOpeningHours().getOpenNow()) ? "OPEN" : "CLOSE";
@@ -435,35 +429,27 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             }
         }
 
-
         SpannableStringBuilder ssb = new SpannableStringBuilder(storeName);
+
+        // store name
         ssb.setSpan(new RelativeSizeSpan(1.5f), 0, storeName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-
-
+        // store rate
         ssb.append("\n");
-
         ForegroundColorSpan starForegroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.rating_gold));
-
         ssb.append(storeRate);
         ssb.setSpan(starForegroundColorSpan, ssb.length() - storeRate.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-
+        // store address
         ssb.append("\n");
-
         ssb.append(storeAddress);
         ssb.setSpan(new RelativeSizeSpan(1f), ssb.length() - storeAddress.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-
+        // store opening
         ssb.append("\n");
-
         ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan((storeOpening.equals("OPEN") ? Color.GREEN : Color.RED));
-
         ssb.append(storeOpening);
         ssb.setSpan(foregroundColorSpan, ssb.length() - storeOpening.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-
 
 
         Snackbar snackbar = Snackbar
