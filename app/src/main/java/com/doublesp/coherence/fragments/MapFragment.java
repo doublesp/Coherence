@@ -420,10 +420,31 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         String storeName = store.getName();
         String storeAddress = store.getVicinity();
         String storeOpening = (store.getOpeningHours().getOpenNow()) ? "OPEN" : "CLOSE";
+        String storeRate = "";
+        if (store.getRating() != null && store.getRating().length() > 0) {
+            for (int i = 0; i < Character.getNumericValue(store.getRating().charAt(0)); i++) {
+                storeRate += "\u2605";
+            }
+        }
 
 
         SpannableStringBuilder ssb = new SpannableStringBuilder(storeName);
         ssb.setSpan(new RelativeSizeSpan(1.5f), 0, storeName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+
+        ssb.append("\n");
+
+        ForegroundColorSpan starForegroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.rating_gold));
+
+        ssb.append(storeRate);
+        ssb.setSpan(starForegroundColorSpan, ssb.length() - storeRate.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        ssb.append("\n");
+
+        ssb.append(storeAddress);
+        ssb.setSpan(new RelativeSizeSpan(1f), ssb.length() - storeAddress.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
         ssb.append("\n");
@@ -432,15 +453,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
         ssb.append(storeOpening);
         ssb.setSpan(foregroundColorSpan, ssb.length() - storeOpening.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-
-
-        ssb.append("\n");
-
-        ssb.append(storeAddress);
-        ssb.setSpan(new RelativeSizeSpan(1f), ssb.length() - storeAddress.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
 
 
 
@@ -459,7 +471,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 //        snackbarLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.authui_colorPrimary));
         TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
 
-        textView.setMaxLines(3);
+        textView.setMaxLines(4);
         textView.setText(ssb);
 //        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
 //        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));

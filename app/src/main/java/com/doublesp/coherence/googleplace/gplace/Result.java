@@ -36,6 +36,9 @@ public class Result {
     @SerializedName("alt_ids")
     @Expose
     private List<AltId> altIds = new ArrayList<AltId>();
+    @SerializedName("rating")
+    @Expose
+    private String rating;
     @SerializedName("reference")
     @Expose
     private String reference;
@@ -206,6 +209,24 @@ public class Result {
      */
     public void setAltIds(List<AltId> altIds) {
         this.altIds = altIds;
+    }
+
+    /**
+     *
+     * @return
+     *     The reference
+     */
+    public String getRating() {
+        return rating;
+    }
+
+    /**
+     *
+     * @param reference
+     *     The reference
+     */
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     /**
