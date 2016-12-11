@@ -120,6 +120,14 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
     @Override
+    public void onStop() {
+        if (!searchNearbyStoresSubscription.isUnsubscribed()) {
+            searchNearbyStoresSubscription.unsubscribe();
+        }
+        super.onStop();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, containter, savedInstanceState);
@@ -311,7 +319,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             Log.d(TAG, "lastKnownLocation: " + lastKnownLocation);
 
             float distanceInMeters = loc1.distanceTo(loc2);
-            if (distanceInMeters < 10) {
+            if (distanceInMeters < 50) {
                 return;
             }
         }
