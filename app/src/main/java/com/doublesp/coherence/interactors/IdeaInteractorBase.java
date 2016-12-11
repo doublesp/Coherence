@@ -1,7 +1,5 @@
 package com.doublesp.coherence.interactors;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -11,6 +9,7 @@ import com.doublesp.coherence.viewmodels.Goal;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 

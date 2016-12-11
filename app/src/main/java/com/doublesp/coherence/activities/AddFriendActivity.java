@@ -1,22 +1,5 @@
 package com.doublesp.coherence.activities;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.ActivityAddFriendBinding;
-import com.doublesp.coherence.databinding.SingleAddFriendBinding;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.utils.ImageUtils;
-import com.doublesp.coherence.utils.ToolbarBindingUtils;
-import com.doublesp.coherence.viewmodels.User;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -29,6 +12,22 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.ActivityAddFriendBinding;
+import com.doublesp.coherence.databinding.SingleAddFriendBinding;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ImageUtils;
+import com.doublesp.coherence.utils.ToolbarBindingUtils;
+import com.doublesp.coherence.viewmodels.User;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 

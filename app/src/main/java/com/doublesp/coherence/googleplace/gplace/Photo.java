@@ -1,4 +1,3 @@
-
 package com.doublesp.coherence.googleplace.gplace;
 
 import com.google.gson.annotations.Expose;

@@ -1,13 +1,5 @@
 package com.doublesp.coherence.viewholders;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.databinding.SimpleItemIdeaBinding;
-import com.doublesp.coherence.utils.ImageUtils;
-import com.doublesp.coherence.viewmodels.Idea;
-
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
@@ -15,6 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.doublesp.coherence.databinding.SimpleItemIdeaBinding;
+import com.doublesp.coherence.utils.ImageUtils;
+import com.doublesp.coherence.viewmodels.Idea;
 
 /**
  * Created by pinyaoting on 12/6/16.

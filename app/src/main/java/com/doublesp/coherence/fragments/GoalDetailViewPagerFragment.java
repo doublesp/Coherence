@@ -1,11 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.adapters.GoalPreviewFragmentPagerAdapter;
-import com.doublesp.coherence.databinding.FragmentGoalDetailViewPagerBinding;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,6 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.GoalPreviewFragmentPagerAdapter;
+import com.doublesp.coherence.databinding.FragmentGoalDetailViewPagerBinding;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
 
 import javax.inject.Inject;
 
