@@ -5,12 +5,12 @@ import com.doublesp.coherence.googleplace.gplace.Result;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
-public class LocationCluster implements ClusterItem {
+public class LocationClusterItem implements ClusterItem {
 
     private final LatLng mPosition;
     private final Result mStore;
 
-    public LocationCluster(Result store) {
+    public LocationClusterItem(Result store) {
         mStore = store;
         Location location = store.getGeometry().getLocation();
         mPosition = new LatLng(location.getLat(), location.getLng());
