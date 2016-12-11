@@ -4,8 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,11 +14,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,7 +72,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     // Declare a variable for the cluster manager.
     private ClusterManager<LocationClusterItem> mClusterManager;
     IconGenerator mIconFactory;
-
 
     private GoogleApiClient mGoogleApiClient;
     private ArrayList<Result> mStoreList;
@@ -413,8 +415,39 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         final Result store = locationClusterItem.getStore();
 //        Toast.makeText(getActivity(), store.getName() + "\n" + store.getVicinity(), Toast.LENGTH_SHORT).show();
 
+
+
+        String storeName = store.getName();
+        String storeAddress = store.getVicinity();
+        String storeOpening = (store.getOpeningHours().getOpenNow()) ? "OPEN" : "CLOSE";
+
+
+        SpannableStringBuilder ssb = new SpannableStringBuilder(storeName);
+        ssb.setSpan(new RelativeSizeSpan(1.5f), 0, storeName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        ssb.append("\n");
+
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan((storeOpening.equals("OPEN") ? Color.GREEN : Color.RED));
+
+        ssb.append(storeOpening);
+        ssb.setSpan(foregroundColorSpan, ssb.length() - storeOpening.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+
+
+        ssb.append("\n");
+
+        ssb.append(storeAddress);
+        ssb.setSpan(new RelativeSizeSpan(1f), ssb.length() - storeAddress.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+
+
+
+
         Snackbar snackbar = Snackbar
-                .make(mMapView, store.getName() + "\n" + store.getVicinity(), Snackbar.LENGTH_INDEFINITE)
+                .make(mMapView, "", Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.navigate, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -424,9 +457,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .setActionTextColor(getResources().getColor(R.color.authui_inputTextColor));
         View snackbarLayout = snackbar.getView();
 //        snackbarLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.authui_colorPrimary));
-        TextView textView = (TextView)snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+
+        textView.setMaxLines(3);
+        textView.setText(ssb);
 //        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
-        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
+//        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
         snackbar.show();
 
         return true;
@@ -444,6 +480,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
 
     private class SearchNearbyStoresSubscriber extends Subscriber<GPlace> {
+
         private boolean clearOldList;
 
         public SearchNearbyStoresSubscriber(boolean clearOldList) {
@@ -464,7 +501,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             } else if (e instanceof IllegalFormatConversionException) {
 
             }
-
         }
 
         @Override
@@ -481,59 +517,18 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
 
-
-
-
-
-
-
     public class MarkerRenderer extends DefaultClusterRenderer<LocationClusterItem> implements GoogleMap.OnCameraChangeListener {
         private final IconGenerator mIconGenerator = new IconGenerator(getContext());
-
-        public MarkerRenderer(Context context, GoogleMap map, ClusterManager<LocationClusterItem> clusterManager) {
-            super(context, map, clusterManager);
-        }
-//        private final ImageView mImageView;
-//        private final int mDimension;
-
 
         public MarkerRenderer() {
             super(getActivity(), mMap, mClusterManager);
         }
 
-
         @Override
         protected void onBeforeClusterItemRendered(LocationClusterItem locationClusterItem, MarkerOptions markerOptions) {
-            // Draw a single person.
-            // Set the info window to show their name.
-//            mImageView.setImageResource(locationClusterItem.getPhotos().indexOf(0));
-//            Bitmap icon = mIconGenerator.makeIcon();
-//            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(person.name);
-
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(mIconFactory.makeIcon(locationClusterItem.getStore().getName())))
                     .anchor(mIconFactory.getAnchorU(), mIconFactory.getAnchorV());
-
         }
-
-//        @Override
-//        protected void onBeforeClusterRendered(Cluster<LocationClusterItem> cluster, MarkerOptions markerOptions) {
-//            // Draw multiple people.
-//            // Note: this method runs on the UI thread. Don't spend too much time in here (like in this example).
-////            List<Drawable> profilePhotos = new ArrayList<Drawable>(Math.min(4, cluster.getSize()));
-////            int width = mDimension;
-////            int height = mDimension;
-////
-////            for (LocationClusterItem locationClusterItem : cluster.getItems()) {
-////                // Draw 4 at most.
-////                if (profilePhotos.size() == 4) break;
-////                Drawable drawable = getResources().getDrawable(p.profilePhoto);
-////                drawable.setBounds(0, 0, width, height);
-////                profilePhotos.add(drawable);
-////            }
-////
-////            Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
-////            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
-//        }
 
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
