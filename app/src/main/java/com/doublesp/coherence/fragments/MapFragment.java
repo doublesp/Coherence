@@ -1,6 +1,7 @@
 package com.doublesp.coherence.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -56,8 +57,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 
 public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, ClusterManager.OnClusterClickListener<LocationClusterItem>, ClusterManager.OnClusterItemClickListener<LocationClusterItem> {
 
@@ -69,7 +68,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     boolean mIsMapInit;
     // Declare a variable for the cluster manager.
     private ClusterManager<LocationClusterItem> mClusterManager;
-    IconGenerator mIconFactory = new IconGenerator(getActivity());
+    IconGenerator mIconFactory;
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -107,6 +106,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mIconFactory = new IconGenerator(getActivity());
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
@@ -114,7 +119,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, containter, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_map, containter, false);
@@ -225,13 +230,13 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 if (showRationale) {
                     // do something here to handle degraded mode
                 } else {
-                        Toast.makeText(getActivity(), "Access location permission denied", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getActivity(), "Access location permission denied", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
 
     private void setUpClusterer() {
 
@@ -240,6 +245,23 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         mClusterManager = new ClusterManager<>(getContext(), mMap);
 
         mClusterManager.setRenderer(new MarkerRenderer());
+
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
@@ -332,6 +354,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         }
         // Begin polling for new location updates.
         startLocationUpdates();
+
+        try {
+            mMap.setMyLocationEnabled(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -461,21 +489,18 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
     public class MarkerRenderer extends DefaultClusterRenderer<LocationClusterItem> implements GoogleMap.OnCameraChangeListener {
         private final IconGenerator mIconGenerator = new IconGenerator(getContext());
+
+        public MarkerRenderer(Context context, GoogleMap map, ClusterManager<LocationClusterItem> clusterManager) {
+            super(context, map, clusterManager);
+        }
 //        private final ImageView mImageView;
 //        private final int mDimension;
 
 
         public MarkerRenderer() {
-            super(getApplicationContext(), mMap, mClusterManager);
-
-
-//            mImageView = new ImageView(getApplicationContext());
-//            mDimension = 20;
-//            mImageView.setLayoutParams(new ViewGroup.LayoutParams(mDimension, mDimension));
-//            int padding = 3;
-//            mImageView.setPadding(padding, padding, padding, padding);
-//            mIconGenerator.setContentView(mImageView);
+            super(getActivity(), mMap, mClusterManager);
         }
+
 
         @Override
         protected void onBeforeClusterItemRendered(LocationClusterItem locationClusterItem, MarkerOptions markerOptions) {
@@ -485,28 +510,30 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 //            Bitmap icon = mIconGenerator.makeIcon();
 //            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(person.name);
 
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(mIconFactory.makeIcon(locationClusterItem.getStore().getName())))
+                    .anchor(mIconFactory.getAnchorU(), mIconFactory.getAnchorV());
 
         }
 
-        @Override
-        protected void onBeforeClusterRendered(Cluster<LocationClusterItem> cluster, MarkerOptions markerOptions) {
-            // Draw multiple people.
-            // Note: this method runs on the UI thread. Don't spend too much time in here (like in this example).
-//            List<Drawable> profilePhotos = new ArrayList<Drawable>(Math.min(4, cluster.getSize()));
-//            int width = mDimension;
-//            int height = mDimension;
-//
-//            for (LocationClusterItem locationClusterItem : cluster.getItems()) {
-//                // Draw 4 at most.
-//                if (profilePhotos.size() == 4) break;
-//                Drawable drawable = getResources().getDrawable(p.profilePhoto);
-//                drawable.setBounds(0, 0, width, height);
-//                profilePhotos.add(drawable);
-//            }
-//
-//            Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
-//            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
-        }
+//        @Override
+//        protected void onBeforeClusterRendered(Cluster<LocationClusterItem> cluster, MarkerOptions markerOptions) {
+//            // Draw multiple people.
+//            // Note: this method runs on the UI thread. Don't spend too much time in here (like in this example).
+////            List<Drawable> profilePhotos = new ArrayList<Drawable>(Math.min(4, cluster.getSize()));
+////            int width = mDimension;
+////            int height = mDimension;
+////
+////            for (LocationClusterItem locationClusterItem : cluster.getItems()) {
+////                // Draw 4 at most.
+////                if (profilePhotos.size() == 4) break;
+////                Drawable drawable = getResources().getDrawable(p.profilePhoto);
+////                drawable.setBounds(0, 0, width, height);
+////                profilePhotos.add(drawable);
+////            }
+////
+////            Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
+////            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+//        }
 
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
