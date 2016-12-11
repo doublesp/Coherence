@@ -66,13 +66,13 @@ public class SimpleIdeaViewHolder extends RecyclerView.ViewHolder {
                             colorAnimation.addUpdateListener(
                                     new ValueAnimator.AnimatorUpdateListener() {
 
-                                @Override
-                                public void onAnimationUpdate(ValueAnimator animator) {
-                                    binding.flSimpleItemIdea
-                                            .setBackgroundColor((int) animator.getAnimatedValue());
-                                }
+                                        @Override
+                                        public void onAnimationUpdate(ValueAnimator animator) {
+                                            binding.flSimpleItemIdea
+                                                    .setBackgroundColor((int) animator.getAnimatedValue());
+                                        }
 
-                            });
+                                    });
                             colorAnimation.start();
                         }
                     }

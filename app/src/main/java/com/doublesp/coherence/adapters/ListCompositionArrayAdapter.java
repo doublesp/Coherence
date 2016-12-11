@@ -36,7 +36,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     private DatabaseReference mShoppingListDatabaseReference;
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-            ListFragmentActionHandlerInterface ideaActionHandler) {
+                                       ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mFirebaseDatabase = FirebaseDatabase.getInstance();

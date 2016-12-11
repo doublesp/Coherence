@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/activity_add_friend"
@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:alpha="0.5"
             android:scaleType="centerCrop"
-            android:src="@drawable/background_0" />
+            android:src="@drawable/background_0"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/add_friends_recycler_view"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:clipToPadding="false"
-            android:paddingTop="84dp" />
+            android:paddingTop="84dp"/>
 
         <include
             android:id="@+id/activity_add_friend_toolbar_container"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:fitsSystemWindows="true" />
+            android:fitsSystemWindows="true"/>
 
     </RelativeLayout>
 </layout>

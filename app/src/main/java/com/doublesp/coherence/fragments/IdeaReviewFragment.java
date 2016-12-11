@@ -72,7 +72,7 @@ public class IdeaReviewFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_idea_review,
                 container, false);
         binding.rvIdeaSelector.setLayoutManager(new LinearLayoutManager(getContext()));

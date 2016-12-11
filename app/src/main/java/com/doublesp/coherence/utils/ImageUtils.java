@@ -37,7 +37,7 @@ public class ImageUtils {
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap,
-                    GlideAnimation<? super Bitmap> glideAnimation) {
+                                        GlideAnimation<? super Bitmap> glideAnimation) {
                 // insert the bitmap into the image view
                 imageView.setImageBitmap(bitmap);
 
@@ -80,7 +80,7 @@ public class ImageUtils {
     }
 
     public static void rotateImage(final Handler handler, final ImageView imageView,
-            final List<String> imageUrls, final int imageIndex, final int interveral) {
+                                   final List<String> imageUrls, final int imageIndex, final int interveral) {
         Glide.with(imageView.getContext())
                 .load(imageUrls.get(imageIndex))
                 .fitCenter()

@@ -35,7 +35,7 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap,
-                    GlideAnimation<? super Bitmap> glideAnimation) {
+                                        GlideAnimation<? super Bitmap> glideAnimation) {
                 // insert the bitmap into the image view
                 binding.ivGoalImage.setImageBitmap(bitmap);
 

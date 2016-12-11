@@ -98,26 +98,26 @@ public class ShareActivity extends AppCompatActivity {
 
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                User user = mFirebaseRecyclerAdapter.getItem(position);
-                FriendsViewHolder viewHolder = (FriendsViewHolder) recyclerView
-                        .getChildViewHolder(v);
-                boolean isShared = viewHolder.mAddFriendButton.isSelected();
-                if (isShared) {
-                    unshare(user);
-                } else {
-                    share(user);
-                }
-            }
-        });
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        User user = mFirebaseRecyclerAdapter.getItem(position);
+                        FriendsViewHolder viewHolder = (FriendsViewHolder) recyclerView
+                                .getChildViewHolder(v);
+                        boolean isShared = viewHolder.mAddFriendButton.isSelected();
+                        if (isShared) {
+                            unshare(user);
+                        } else {
+                            share(user);
+                        }
+                    }
+                });
 
         mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(
                 User.class, R.layout.single_add_friend, FriendsViewHolder.class,
                 mListsDatabaseReference) {
             @Override
             protected void populateViewHolder(final FriendsViewHolder holder, final User user,
-                    int position) {
+                                              int position) {
                 String name = user.getName();
                 String email = user.getEmail();
                 String emailDecoded = email.replace(",", ".");
@@ -175,6 +175,7 @@ public class ShareActivity extends AppCompatActivity {
                         .setValue(userList);
                 mNotifySharedDatabaseReference.child(user.getEmail()).setValue(mListId);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -201,7 +202,7 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     private HashMap<String, Object> updateFriendInSharedWith(Boolean addFriend,
-            User user) {
+                                                             User user) {
         HashMap<String, Object> updatedUserData = new HashMap<>();
 
         if (addFriend) {

@@ -11,7 +11,7 @@ import com.doublesp.coherence.R;
 public class TabUtils {
 
     public static void bindIcons(final Context context, ViewPager viewPager,
-            final TabLayout layout) {
+                                 final TabLayout layout) {
         layout.addOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
 

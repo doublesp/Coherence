@@ -85,7 +85,7 @@ public class SavedIdeasFragment extends Fragment {
                     mListsDatabaseReference) {
                 @Override
                 protected void populateViewHolder(ItemViewHolder holder, UserList userList,
-                        int position) {
+                                                  int position) {
                     String title = userList.getlistName().isEmpty() ? ConstantsAndUtils.ANONYMOUS
                             : userList.getlistName();
                     String owner = userList.getOwner().isEmpty() ? ConstantsAndUtils.ANONYMOUS
@@ -126,7 +126,7 @@ public class SavedIdeasFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_ideas, container,
                 false);
         if (getActivity() instanceof ListCompositionHandlerInterface) {

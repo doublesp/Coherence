@@ -86,7 +86,7 @@ public class NetModule {
     @IntoMap
     @IntKey(R.id.idea_category_recipe_v2)
     Retrofit provideSpoonacularRetrofit(Gson gson, OkHttpClient okHttpClient,
-            Application application) {
+                                        Application application) {
         String endpoint = application.getString(R.string.api_endpoint_recipe_v2);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(endpoint)

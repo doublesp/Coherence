@@ -77,7 +77,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
             @Override
             protected void populateViewHolder(final AddFriendViewHolder holder, User user,
-                    int position) {
+                                              int position) {
                 String name = user.getName();
                 String email = user.getEmail();
                 String emailDecoded = email.replace(",", ".");

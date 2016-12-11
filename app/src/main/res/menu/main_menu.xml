@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="5"
         android:title="Search"
         app:actionViewClass="com.doublesp.coherence.view.AutoCompleteSearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView"/>
     <item
         android:id="@+id/sign_out_menu"
         android:title="@string/sign_out"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 </menu>

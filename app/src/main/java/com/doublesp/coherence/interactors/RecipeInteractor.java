@@ -23,7 +23,7 @@ public class RecipeInteractor extends IdeaInteractorBase {
     PublishSubject<String> mSearchDebouner;
 
     public RecipeInteractor(DataStoreInterface ideaDataStore,
-            RecipeRepositoryInterface recipeRepository) {
+                            RecipeRepositoryInterface recipeRepository) {
         super(ideaDataStore);
         mIdeaDataStore = ideaDataStore;
         mRecipeRepository = recipeRepository;
