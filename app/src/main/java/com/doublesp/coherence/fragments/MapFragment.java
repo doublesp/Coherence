@@ -1,5 +1,30 @@
 package com.doublesp.coherence.fragments;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.ui.IconGenerator;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.googleplace.GooglePlaceClient;
+import com.doublesp.coherence.googleplace.gplace.GPlace;
+import com.doublesp.coherence.googleplace.gplace.Result;
+import com.doublesp.coherence.utils.LocationClusterItem;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -24,30 +49,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.googleplace.GooglePlaceClient;
-import com.doublesp.coherence.googleplace.gplace.GPlace;
-import com.doublesp.coherence.googleplace.gplace.Result;
-import com.doublesp.coherence.utils.LocationClusterItem;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.view.DefaultClusterRenderer;
-import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;
 import java.util.IllegalFormatConversionException;
@@ -421,7 +422,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
         String storeName = store.getName();
         String storeAddress = store.getVicinity();
-        String storeOpening = (store.getOpeningHours().getOpenNow()) ? "OPEN" : "CLOSE";
+        String storeOpening = (store.getOpeningHours() != null) &&
+                (store.getOpeningHours().getOpenNow()) ? "OPEN" : "CLOSE";
         String storeRate = "";
         if (store.getRating() != null && store.getRating().length() > 0) {
             for (int i = 0; i < Character.getNumericValue(store.getRating().charAt(0)); i++) {
