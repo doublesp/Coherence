@@ -1,11 +1,5 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.ItemIdeaSuggestionsBinding;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.ViewState;
-import com.doublesp.coherence.viewmodels.Idea;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.ItemIdeaSuggestionsBinding;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.viewmodels.Idea;
 
 import rx.Observer;
 

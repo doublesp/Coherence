@@ -2,57 +2,56 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/llAddFriend"
-            android:background="@color/colorUpOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
+        android:id="@+id/llAddFriend"
+        android:background="@color/colorUpOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin">
 
         <ImageView
-                android:id="@+id/intials_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:contentDescription="@string/initials"/>
+            android:id="@+id/intials_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/initials"/>
 
         <LinearLayout
-                android:layout_width="0dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/friend_name"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorButton"/>
+
+            <TextView
+                android:id="@+id/friend_email_address"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
-
-            <TextView
-                    android:id="@+id/friend_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorButton"/>
-
-            <TextView
-                    android:id="@+id/friend_email_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorButton"/>
+                android:textColor="@color/colorButton"/>
         </LinearLayout>
 
         <ImageButton
-                android:id="@+id/add_friend_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:background="@android:color/transparent"
-                android:tint="@color/colorButton"
-                android:contentDescription="@string/add_friend"
-                android:src="@drawable/ic_checkable"
-                />
+            android:id="@+id/add_friend_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:tint="@color/colorButton"
+            android:contentDescription="@string/add_friend"
+            android:src="@drawable/ic_checkable"
+        />
 
     </LinearLayout>
 </layout>

@@ -1,5 +1,11 @@
 package com.doublesp.coherence.viewholders;
 
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -7,12 +13,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.doublesp.coherence.databinding.ItemGoalBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
 import com.doublesp.coherence.viewmodels.Goal;
-
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 public class GoalViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,7 +35,7 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap,
-                    GlideAnimation<? super Bitmap> glideAnimation) {
+                                        GlideAnimation<? super Bitmap> glideAnimation) {
                 // insert the bitmap into the image view
                 binding.ivGoalImage.setImageBitmap(bitmap);
 

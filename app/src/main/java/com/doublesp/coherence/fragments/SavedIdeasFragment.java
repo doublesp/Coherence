@@ -1,24 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
-import com.doublesp.coherence.databinding.SinglePlanBinding;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.utils.ImageUtils;
-import com.doublesp.coherence.viewmodels.Idea;
-import com.doublesp.coherence.viewmodels.Plan;
-import com.doublesp.coherence.viewmodels.UserList;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -35,6 +16,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentSavedIdeasBinding;
+import com.doublesp.coherence.databinding.SinglePlanBinding;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListCompositionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.SavedIdeasActionHandlerInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ImageUtils;
+import com.doublesp.coherence.viewmodels.Idea;
+import com.doublesp.coherence.viewmodels.Plan;
+import com.doublesp.coherence.viewmodels.UserList;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -85,7 +84,7 @@ public class SavedIdeasFragment extends Fragment {
                     mListsDatabaseReference) {
                 @Override
                 protected void populateViewHolder(ItemViewHolder holder, UserList userList,
-                        int position) {
+                                                  int position) {
                     String title = userList.getlistName().isEmpty() ? ConstantsAndUtils.ANONYMOUS
                             : userList.getlistName();
                     String owner = userList.getOwner().isEmpty() ? ConstantsAndUtils.ANONYMOUS
@@ -126,7 +125,7 @@ public class SavedIdeasFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_saved_ideas, container,
                 false);
         if (getActivity() instanceof ListCompositionHandlerInterface) {

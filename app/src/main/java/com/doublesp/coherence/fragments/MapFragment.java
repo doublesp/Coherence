@@ -1,29 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.googleplace.GooglePlaceClient;
-import com.doublesp.coherence.googleplace.gplace.GPlace;
-import com.doublesp.coherence.googleplace.gplace.Result;
-import com.doublesp.coherence.utils.LocationCluster;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -34,9 +10,45 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.ui.IconGenerator;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.googleplace.GooglePlaceClient;
+import com.doublesp.coherence.googleplace.gplace.GPlace;
+import com.doublesp.coherence.googleplace.gplace.Result;
+import com.doublesp.coherence.utils.LocationClusterItem;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.IllegalFormatConversionException;
@@ -49,7 +61,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, ClusterManager.OnClusterClickListener<LocationCluster>, ClusterManager.OnClusterItemClickListener<LocationCluster> {
+public class MapFragment extends Fragment implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, ClusterManager.OnClusterClickListener<LocationClusterItem>, ClusterManager.OnClusterItemClickListener<LocationClusterItem> {
 
     private static String TAG = MapFragment.class.getSimpleName();
 
@@ -58,8 +70,8 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     GoogleMap mMap;
     boolean mIsMapInit;
     // Declare a variable for the cluster manager.
-    private ClusterManager<LocationCluster> mClusterManager;
-
+    private ClusterManager<LocationClusterItem> mClusterManager;
+    IconGenerator mIconFactory;
 
     private GoogleApiClient mGoogleApiClient;
     private ArrayList<Result> mStoreList;
@@ -88,7 +100,17 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .addConnectionCallbacks(this)
                 .build();
 
+        mIconFactory.setRotation(0);
+        mIconFactory.setContentRotation(45);
+        mIconFactory.setStyle(IconGenerator.STYLE_RED);
+
         getPermissionToAccessLocation();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mIconFactory = new IconGenerator(getActivity());
     }
 
     @Override
@@ -98,8 +120,16 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
     @Override
+    public void onStop() {
+        if (!searchNearbyStoresSubscription.isUnsubscribed()) {
+            searchNearbyStoresSubscription.unsubscribe();
+        }
+        super.onStop();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreateView(inflater, containter, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_map, containter, false);
@@ -210,40 +240,45 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 if (showRationale) {
                     // do something here to handle degraded mode
                 } else {
-                        Toast.makeText(getActivity(), "Access location permission denied", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getActivity(), "Access location permission denied", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
 
     private void setUpClusterer() {
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
         mClusterManager = new ClusterManager<>(getContext(), mMap);
-        // Point the map's listeners at the listeners implemented by the cluster
-        // manager.
-        if (ActivityCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                getActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
+        mClusterManager.setRenderer(new MarkerRenderer());
+
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        mMap.setMyLocationEnabled(true);
+
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
         mClusterManager.setOnClusterClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);
 
         mClusterManager.cluster();
-
-
-//        // Add cluster items (markers) to the cluster manager.
-//        addItems();
     }
 
     private void addItems(List<Result> stores) {
@@ -252,7 +287,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         for (Result store : stores) {
             com.doublesp.coherence.googleplace.gplace.Location location = store.getGeometry().getLocation();
             Log.d(TAG, "Add store to cluster master: " + location.toString());
-            mClusterManager.addItem(new LocationCluster(store));
+            mClusterManager.addItem(new LocationClusterItem(store));
         }
         mClusterManager.cluster();
     }
@@ -280,7 +315,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             Log.d(TAG, "lastKnownLocation: " + lastKnownLocation);
 
             float distanceInMeters = loc1.distanceTo(loc2);
-            if (distanceInMeters < 10) {
+            if (distanceInMeters < 50) {
                 return;
             }
         }
@@ -325,6 +360,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
         }
         // Begin polling for new location updates.
         startLocationUpdates();
+
+        try {
+            mMap.setMyLocationEnabled(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -364,7 +405,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
     @Override
-    public boolean onClusterClick(Cluster<LocationCluster> cluster) {
+    public boolean onClusterClick(Cluster<LocationClusterItem> cluster) {
         // Show a toast with some info when the cluster is clicked.
         Log.d(TAG, "onClusterClick()");
         float currentZoom = mMap.getCameraPosition().zoom;
@@ -373,13 +414,48 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
     }
 
     @Override
-    public boolean onClusterItemClick(LocationCluster locationCluster) {
-        Log.d(TAG, "onClusterItemClick: " + locationCluster);
-        final Result store = locationCluster.getStore();
+    public boolean onClusterItemClick(LocationClusterItem locationClusterItem) {
+        Log.d(TAG, "onClusterItemClick: " + locationClusterItem);
+        final Result store = locationClusterItem.getStore();
 //        Toast.makeText(getActivity(), store.getName() + "\n" + store.getVicinity(), Toast.LENGTH_SHORT).show();
 
+
+        String storeName = store.getName();
+        String storeAddress = store.getVicinity();
+        String storeOpening = (store.getOpeningHours() != null) &&
+                (store.getOpeningHours().getOpenNow()) ? "OPEN" : "CLOSE";
+        String storeRate = "";
+        if (store.getRating() != null && store.getRating().length() > 0) {
+            for (int i = 0; i < Character.getNumericValue(store.getRating().charAt(0)); i++) {
+                storeRate += "\u2605";
+            }
+        }
+
+        SpannableStringBuilder ssb = new SpannableStringBuilder(storeName);
+
+        // store name
+        ssb.setSpan(new RelativeSizeSpan(1.5f), 0, storeName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // store rate
+        ssb.append("\n");
+        ForegroundColorSpan starForegroundColorSpan = new ForegroundColorSpan(getResources().getColor(R.color.rating_gold));
+        ssb.append(storeRate);
+        ssb.setSpan(starForegroundColorSpan, ssb.length() - storeRate.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // store address
+        ssb.append("\n");
+        ssb.append(storeAddress);
+        ssb.setSpan(new RelativeSizeSpan(1f), ssb.length() - storeAddress.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // store opening
+        ssb.append("\n");
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan((storeOpening.equals("OPEN") ? Color.GREEN : Color.RED));
+        ssb.append(storeOpening);
+        ssb.setSpan(foregroundColorSpan, ssb.length() - storeOpening.length(), ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
         Snackbar snackbar = Snackbar
-                .make(mMapView, store.getName() + "\n" + store.getVicinity(), Snackbar.LENGTH_INDEFINITE)
+                .make(mMapView, "", Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.navigate, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -389,9 +465,12 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
                 .setActionTextColor(getResources().getColor(R.color.authui_inputTextColor));
         View snackbarLayout = snackbar.getView();
 //        snackbarLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.authui_colorPrimary));
-        TextView textView = (TextView)snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = (TextView) snackbarLayout.findViewById(android.support.design.R.id.snackbar_text);
+
+        textView.setMaxLines(4);
+        textView.setText(ssb);
 //        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bookmark, 0, 0, 0);
-        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
+//        textView.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.snackbar_icon_padding));
         snackbar.show();
 
         return true;
@@ -409,6 +488,7 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
 
     private class SearchNearbyStoresSubscriber extends Subscriber<GPlace> {
+
         private boolean clearOldList;
 
         public SearchNearbyStoresSubscriber(boolean clearOldList) {
@@ -429,7 +509,6 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
             } else if (e instanceof IllegalFormatConversionException) {
 
             }
-
         }
 
         @Override
@@ -443,6 +522,33 @@ public class MapFragment extends Fragment implements LocationListener, OnMapRead
 
             addItems(mStoreList);
         }
+    }
+
+
+    public class MarkerRenderer extends DefaultClusterRenderer<LocationClusterItem> implements GoogleMap.OnCameraChangeListener {
+        private final IconGenerator mIconGenerator = new IconGenerator(getContext());
+
+        public MarkerRenderer() {
+            super(getActivity(), mMap, mClusterManager);
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(LocationClusterItem locationClusterItem, MarkerOptions markerOptions) {
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(mIconFactory.makeIcon(locationClusterItem.getStore().getName())))
+                    .anchor(mIconFactory.getAnchorU(), mIconFactory.getAnchorV());
+        }
+
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster cluster) {
+            // Always render clusters.
+            return cluster.getSize() > 1;
+        }
+
+        @Override
+        public void onCameraChange(CameraPosition cameraPosition) {
+
+        }
+
     }
 
 }

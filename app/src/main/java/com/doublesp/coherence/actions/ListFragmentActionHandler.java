@@ -1,7 +1,7 @@
 package com.doublesp.coherence.actions;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.content.Context;
+import android.content.Intent;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.activities.MainActivity;
@@ -11,9 +11,8 @@ import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.content.Context;
-import android.content.Intent;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ListFragmentActionHandler implements ListFragmentActionHandlerInterface {
 

@@ -5,11 +5,11 @@
 
         <variable
             name="pos"
-            type="int" />
+            type="int"/>
 
         <variable
             name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea" />
+            type="com.doublesp.coherence.viewmodels.Idea"/>
     </data>
 
     <FrameLayout
@@ -24,7 +24,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text='@{viewModel.content}'
-            android:textColor="@color/colorButton" />
+            android:textColor="@color/colorButton"/>
 
     </FrameLayout>
 </layout>

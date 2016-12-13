@@ -1,4 +1,3 @@
-
 package com.doublesp.coherence.googleplace.gplace;
 
 import com.google.gson.annotations.Expose;
@@ -14,36 +13,28 @@ public class AltId {
     private String scope;
 
     /**
-     * 
-     * @return
-     *     The placeId
+     * @return The placeId
      */
     public String getPlaceId() {
         return placeId;
     }
 
     /**
-     * 
-     * @param placeId
-     *     The place_id
+     * @param placeId The place_id
      */
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
     /**
-     * 
-     * @return
-     *     The scope
+     * @return The scope
      */
     public String getScope() {
         return scope;
     }
 
     /**
-     * 
-     * @param scope
-     *     The scope
+     * @param scope The scope
      */
     public void setScope(String scope) {
         this.scope = scope;

@@ -1,10 +1,17 @@
 package com.doublesp.coherence.activities;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -18,19 +25,11 @@ import com.doublesp.coherence.utils.ToolbarBindingUtils;
 import com.doublesp.coherence.viewmodels.User;
 import com.doublesp.coherence.viewmodels.UserList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,26 +97,26 @@ public class ShareActivity extends AppCompatActivity {
 
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                User user = mFirebaseRecyclerAdapter.getItem(position);
-                FriendsViewHolder viewHolder = (FriendsViewHolder) recyclerView
-                        .getChildViewHolder(v);
-                boolean isShared = viewHolder.mAddFriendButton.isSelected();
-                if (isShared) {
-                    unshare(user);
-                } else {
-                    share(user);
-                }
-            }
-        });
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        User user = mFirebaseRecyclerAdapter.getItem(position);
+                        FriendsViewHolder viewHolder = (FriendsViewHolder) recyclerView
+                                .getChildViewHolder(v);
+                        boolean isShared = viewHolder.mAddFriendButton.isSelected();
+                        if (isShared) {
+                            unshare(user);
+                        } else {
+                            share(user);
+                        }
+                    }
+                });
 
         mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(
                 User.class, R.layout.single_add_friend, FriendsViewHolder.class,
                 mListsDatabaseReference) {
             @Override
             protected void populateViewHolder(final FriendsViewHolder holder, final User user,
-                    int position) {
+                                              int position) {
                 String name = user.getName();
                 String email = user.getEmail();
                 String emailDecoded = email.replace(",", ".");
@@ -175,6 +174,7 @@ public class ShareActivity extends AppCompatActivity {
                         .setValue(userList);
                 mNotifySharedDatabaseReference.child(user.getEmail()).setValue(mListId);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -203,7 +203,7 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     private HashMap<String, Object> updateFriendInSharedWith(Boolean addFriend,
-            User user) {
+                                                             User user) {
         HashMap<String, Object> updatedUserData = new HashMap<>();
 
         if (addFriend) {

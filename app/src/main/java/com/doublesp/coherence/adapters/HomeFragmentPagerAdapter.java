@@ -1,13 +1,13 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.SavedIdeasFragment;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.fragments.GoalSearchFragment;
+import com.doublesp.coherence.fragments.SavedIdeasFragment;
 
 public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 

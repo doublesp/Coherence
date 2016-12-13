@@ -1,9 +1,9 @@
 package com.doublesp.coherence.utils;
 
-import com.doublesp.coherence.R;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.doublesp.coherence.R;
 
 public class ItemClickSupport {
     private final RecyclerView mRecyclerView;

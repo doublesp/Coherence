@@ -1,11 +1,5 @@
 package com.doublesp.coherence.utils;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.R;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -22,6 +16,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.doublesp.coherence.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class ImageUtils {
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap,
-                    GlideAnimation<? super Bitmap> glideAnimation) {
+                                        GlideAnimation<? super Bitmap> glideAnimation) {
                 // insert the bitmap into the image view
                 imageView.setImageBitmap(bitmap);
 
@@ -80,7 +80,7 @@ public class ImageUtils {
     }
 
     public static void rotateImage(final Handler handler, final ImageView imageView,
-            final List<String> imageUrls, final int imageIndex, final int interveral) {
+                                   final List<String> imageUrls, final int imageIndex, final int interveral) {
         Glide.with(imageView.getContext())
                 .load(imageUrls.get(imageIndex))
                 .fitCenter()

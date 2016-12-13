@@ -32,4 +32,5 @@
     <color name="colorRightOverlayDark">#DDFBC02D</color>
     <color name="colorDownOverlayDark">#DD64FFDA</color>
     <color name="colorLeftOverlayDark">#DD4A148C</color>
+    <color name="rating_gold">#ffd700</color>
 </resources>

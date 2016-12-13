@@ -1,4 +1,3 @@
-
 package com.doublesp.coherence.googleplace.gplace;
 
 import com.google.gson.annotations.Expose;
@@ -36,6 +35,9 @@ public class Result {
     @SerializedName("alt_ids")
     @Expose
     private List<AltId> altIds = new ArrayList<AltId>();
+    @SerializedName("rating")
+    @Expose
+    private String rating;
     @SerializedName("reference")
     @Expose
     private String reference;
@@ -47,216 +49,182 @@ public class Result {
     private String vicinity;
 
     /**
-     * 
-     * @return
-     *     The geometry
+     * @return The geometry
      */
     public Geometry getGeometry() {
         return geometry;
     }
 
     /**
-     * 
-     * @param geometry
-     *     The geometry
+     * @param geometry The geometry
      */
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }
 
     /**
-     * 
-     * @return
-     *     The icon
+     * @return The icon
      */
     public String getIcon() {
         return icon;
     }
 
     /**
-     * 
-     * @param icon
-     *     The icon
+     * @param icon The icon
      */
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * 
-     * @return
-     *     The name
+     * @return The name
      */
     public String getName() {
         return name;
     }
 
     /**
-     * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * 
-     * @return
-     *     The openingHours
+     * @return The openingHours
      */
     public OpeningHours getOpeningHours() {
         return openingHours;
     }
 
     /**
-     * 
-     * @param openingHours
-     *     The opening_hours
+     * @param openingHours The opening_hours
      */
     public void setOpeningHours(OpeningHours openingHours) {
         this.openingHours = openingHours;
     }
 
     /**
-     * 
-     * @return
-     *     The photos
+     * @return The photos
      */
     public List<Photo> getPhotos() {
         return photos;
     }
 
     /**
-     * 
-     * @param photos
-     *     The photos
+     * @param photos The photos
      */
     public void setPhotos(List<Photo> photos) {
         this.photos = photos;
     }
 
     /**
-     * 
-     * @return
-     *     The placeId
+     * @return The placeId
      */
     public String getPlaceId() {
         return placeId;
     }
 
     /**
-     * 
-     * @param placeId
-     *     The place_id
+     * @param placeId The place_id
      */
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
     }
 
     /**
-     * 
-     * @return
-     *     The scope
+     * @return The scope
      */
     public String getScope() {
         return scope;
     }
 
     /**
-     * 
-     * @param scope
-     *     The scope
+     * @param scope The scope
      */
     public void setScope(String scope) {
         this.scope = scope;
     }
 
     /**
-     * 
-     * @return
-     *     The altIds
+     * @return The altIds
      */
     public List<AltId> getAltIds() {
         return altIds;
     }
 
     /**
-     * 
-     * @param altIds
-     *     The alt_ids
+     * @param altIds The alt_ids
      */
     public void setAltIds(List<AltId> altIds) {
         this.altIds = altIds;
     }
 
     /**
-     * 
-     * @return
-     *     The reference
+     * @return The reference
+     */
+    public String getRating() {
+        return rating;
+    }
+
+    /**
+     * @param reference The reference
+     */
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * @return The reference
      */
     public String getReference() {
         return reference;
     }
 
     /**
-     * 
-     * @param reference
-     *     The reference
+     * @param reference The reference
      */
     public void setReference(String reference) {
         this.reference = reference;
     }
 
     /**
-     * 
-     * @return
-     *     The types
+     * @return The types
      */
     public List<String> getTypes() {
         return types;
     }
 
     /**
-     * 
-     * @param types
-     *     The types
+     * @param types The types
      */
     public void setTypes(List<String> types) {
         this.types = types;
     }
 
     /**
-     * 
-     * @return
-     *     The vicinity
+     * @return The vicinity
      */
     public String getVicinity() {
         return vicinity;
     }
 
     /**
-     * 
-     * @param vicinity
-     *     The vicinity
+     * @param vicinity The vicinity
      */
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
