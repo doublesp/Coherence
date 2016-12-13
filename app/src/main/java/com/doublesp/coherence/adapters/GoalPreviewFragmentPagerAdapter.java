@@ -1,11 +1,11 @@
 package com.doublesp.coherence.adapters;
 
-import com.doublesp.coherence.fragments.GoalPreviewFragment;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.doublesp.coherence.fragments.GoalPreviewFragment;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 
 import java.util.HashMap;
 import java.util.Map;

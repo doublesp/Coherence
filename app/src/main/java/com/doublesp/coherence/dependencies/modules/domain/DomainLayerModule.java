@@ -70,7 +70,7 @@ public class DomainLayerModule {
     @Provides
     @DomainLayerScope
     public GoalInteractorInterface providesIdeaSearchInteractor(DataStoreInterface ideaDataStore,
-            RecipeV2RepositoryInterface recipeRepository) {
+                                                                RecipeV2RepositoryInterface recipeRepository) {
         return new RecipeV2Interactor(ideaDataStore, recipeRepository);
     }
 

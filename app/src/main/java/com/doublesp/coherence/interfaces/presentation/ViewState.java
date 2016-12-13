@@ -9,6 +9,7 @@ public class ViewState {
     OPERATION operation;
     int start;
     int count;
+
     public ViewState() {
     }
 

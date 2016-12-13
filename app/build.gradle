@@ -39,7 +39,7 @@ android {
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven {url 'http://dl.bintray.com/amulyakhare/maven'}
+    maven { url 'http://dl.bintray.com/amulyakhare/maven' }
 }
 
 apply plugin: 'com.neenbedankt.android-apt'

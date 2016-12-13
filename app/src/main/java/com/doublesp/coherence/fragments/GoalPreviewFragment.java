@@ -1,19 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.adapters.IdeasArrayAdapter;
-import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
-import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ViewState;
-import com.doublesp.coherence.viewmodels.Goal;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
@@ -27,6 +13,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.adapters.IdeasArrayAdapter;
+import com.doublesp.coherence.databinding.FragmentGoalPreviewBinding;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalDetailActionHandlerInterface;
+import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ViewState;
+import com.doublesp.coherence.viewmodels.Goal;
 
 import javax.inject.Inject;
 
@@ -99,7 +99,7 @@ public class GoalPreviewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal_preview, container,
                 false);

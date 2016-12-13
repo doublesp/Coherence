@@ -1,7 +1,10 @@
 package com.doublesp.coherence.adapters;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
@@ -13,12 +16,8 @@ import com.doublesp.coherence.utils.ConstantsAndUtils;
 import com.doublesp.coherence.viewholders.IdeaViewHolder;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class ListCompositionArrayAdapter extends RecyclerView.Adapter {
     private DatabaseReference mShoppingListDatabaseReference;
 
     public ListCompositionArrayAdapter(IdeaInteractorInterface ideaInteractor,
-            ListFragmentActionHandlerInterface ideaActionHandler) {
+                                       ListFragmentActionHandlerInterface ideaActionHandler) {
         mIdeaInteractor = ideaInteractor;
         mIdeaActionHandler = ideaActionHandler;
         mFirebaseDatabase = FirebaseDatabase.getInstance();

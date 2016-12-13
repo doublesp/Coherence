@@ -1,11 +1,11 @@
 package com.doublesp.coherence.utils;
 
 
-import com.doublesp.coherence.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.doublesp.coherence.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

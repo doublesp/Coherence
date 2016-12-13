@@ -1,5 +1,7 @@
 package com.doublesp.coherence.datastore;
 
+import android.content.Context;
+
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.ViewState;
@@ -9,8 +11,6 @@ import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaReducer;
 import com.doublesp.coherence.viewmodels.Plan;
-
-import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;

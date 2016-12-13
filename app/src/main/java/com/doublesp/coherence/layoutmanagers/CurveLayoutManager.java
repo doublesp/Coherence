@@ -25,7 +25,7 @@ public class CurveLayoutManager extends LinearLayoutManager {
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler,
-            RecyclerView.State state) {
+                                  RecyclerView.State state) {
         if (getOrientation() == HORIZONTAL) {
             return 0;
         }
@@ -37,7 +37,7 @@ public class CurveLayoutManager extends LinearLayoutManager {
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler,
-            RecyclerView.State state) {
+                                    RecyclerView.State state) {
         if (getOrientation() == VERTICAL) {
             return 0;
         }

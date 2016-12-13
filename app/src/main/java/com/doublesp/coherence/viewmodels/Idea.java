@@ -22,7 +22,7 @@ public class Idea {
     }
 
     public Idea(String id, int category, String content, boolean crossedOut, int type,
-            IdeaMeta meta) {
+                IdeaMeta meta) {
         this.id = id;
         this.category = category;
         this.content = content;

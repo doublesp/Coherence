@@ -23,8 +23,8 @@ public class GooglePlaceClient {
     private RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
     private static GooglePlaceClient googlePlaceClient;
 
-    public synchronized static GooglePlaceClient newInstance(){
-        if (googlePlaceClient == null){
+    public synchronized static GooglePlaceClient newInstance() {
+        if (googlePlaceClient == null) {
             googlePlaceClient = new GooglePlaceClient();
         }
         return googlePlaceClient;

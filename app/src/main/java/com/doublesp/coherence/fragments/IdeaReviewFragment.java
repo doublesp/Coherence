@@ -1,8 +1,5 @@
 package com.doublesp.coherence.fragments;
 
-import static com.doublesp.coherence.fragments.ListCompositionFragment
-        .LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
-
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -28,6 +25,8 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.doublesp.coherence.fragments.ListCompositionFragment.LIST_COMPOSITION_BACKGROUND_IMAGE_ROTATION_INTERVAL;
 
 public class IdeaReviewFragment extends DialogFragment {
 
@@ -72,7 +71,7 @@ public class IdeaReviewFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_idea_review,
                 container, false);
         binding.rvIdeaSelector.setLayoutManager(new LinearLayoutManager(getContext()));

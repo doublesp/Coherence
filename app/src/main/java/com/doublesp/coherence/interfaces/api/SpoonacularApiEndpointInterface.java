@@ -22,8 +22,8 @@ public interface SpoonacularApiEndpointInterface {
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("recipes/search")
     Observable<RecipeResponseV2> searchRecipe(@Query("query") String keyword,
-            @Query("number") int number,
-            @Query("offset") int offset);
+                                              @Query("number") int number,
+                                              @Query("offset") int offset);
 
     @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
     @GET("recipes/{id}/information")
