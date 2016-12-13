@@ -35,13 +35,12 @@
 
                 <android.support.percent.PercentFrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/big_top_image_height">
 
                     <ImageView
                         android:id="@+id/ivIdeaBackgroundImage"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/big_top_image_height"
-                        android:layout_gravity="top"
+                        android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:transitionName="@string/transition_goal_image"
                         tools:src="@drawable/background_0"/>
@@ -53,7 +52,7 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/rectangular_triangle"
                         android:tint="@color/colorBackground"
-                        app:layout_heightPercent="@fraction/detail_top_image_cut_ratio"/>
+                        app:layout_heightPercent="@fraction/top_image_cut_ratio"/>
 
                     <TextView
                         android:id="@+id/tvGoalIndex"
