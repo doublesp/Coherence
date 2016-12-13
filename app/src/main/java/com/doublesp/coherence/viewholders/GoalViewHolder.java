@@ -1,18 +1,19 @@
 package com.doublesp.coherence.viewholders;
 
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.doublesp.coherence.databinding.ItemGoalBinding;
 import com.doublesp.coherence.interfaces.presentation.GoalActionHandlerInterface;
+import com.doublesp.coherence.utils.ImageUtils;
 import com.doublesp.coherence.viewmodels.Goal;
+
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 public class GoalViewHolder extends RecyclerView.ViewHolder {
 
@@ -50,6 +51,7 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
                         if (vibrant != null) {
                             int colorFrom = binding.tvGoalIndex.getTextColors().getDefaultColor();
                             int colorTo = vibrant.getRgb();
+                            int colorWithAlpha = ImageUtils.getTransparentColor(colorTo);
                             if (colorFrom == colorTo) {
                                 return;
                             }
@@ -57,11 +59,14 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
                             // Update the title TextView with the proper text color
                             binding.tvGoalTitle.setTextColor(colorTo);
                             binding.tvGoalIndex.setTextColor(colorTo);
+                            binding.btnGoalSubTitle.setTextColor(colorWithAlpha);
 
                             // Set the background color of a layout based on the vibrant color
                             binding.tvGoalTitle.setBackgroundTintList(
                                     ColorStateList.valueOf(colorTo));
                             binding.tvGoalIndex.setBackgroundTintList(
+                                    ColorStateList.valueOf(colorTo));
+                            binding.ivGoalSubTitle.setImageTintList(
                                     ColorStateList.valueOf(colorTo));
                         }
                     }

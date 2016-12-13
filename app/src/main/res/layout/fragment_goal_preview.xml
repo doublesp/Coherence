@@ -77,13 +77,54 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/goal_preview_title_margin"
                     android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/goal_preview_line_margin"
+                    android:layout_marginLeft="@dimen/goal_preview_title_margin"
+                    android:layout_marginStart="@dimen/goal_preview_title_margin"
+                    android:layout_marginRight="@dimen/goal_preview_title_margin"
+                    android:layout_marginEnd="@dimen/goal_preview_title_margin"
                     android:text='@{viewModel.title}'
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/colorUp"
                     android:transitionName="@string/transition_goal_title"
                     tools:text="Grilled Deviled Chickens"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/goal_preview_line_margin"
+                        android:layout_marginLeft="@dimen/goal_preview_title_margin"
+                        android:layout_marginStart="@dimen/goal_preview_title_margin"
+                        android:layout_marginRight="@dimen/goal_preview_title_margin"
+                        android:layout_marginEnd="@dimen/goal_preview_title_margin"
+                        android:layout_marginBottom="@dimen/goal_preview_line_margin"
+                        >
+
+                    <ImageView
+                            android:id="@+id/ivGoalPreviewSubTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/goal_preview_subtitle_icon_height"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:paddingRight="@dimen/goal_preview_icon_padding"
+                            android:paddingEnd="@dimen/goal_preview_icon_padding"
+                            android:alpha="0.5"
+                            android:tint="@color/colorUp"
+                            android:src="@drawable/ic_schedule"/>
+
+                    <TextView
+                            android:id="@+id/tvGoalPreviewSubTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text='@{viewModel.subTitle}'
+                            android:textColor="@color/colorUpOverlay"
+                            tools:text="ready in 16 minutes"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvOverview"

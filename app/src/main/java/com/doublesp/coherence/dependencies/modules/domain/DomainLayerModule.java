@@ -1,7 +1,5 @@
 package com.doublesp.coherence.dependencies.modules.domain;
 
-import android.content.Context;
-
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.datastore.DataStore;
 import com.doublesp.coherence.interactors.IngredientInteractor;
@@ -13,6 +11,8 @@ import com.doublesp.coherence.interfaces.data.RecipeV2RepositoryInterface;
 import com.doublesp.coherence.interfaces.domain.DataStoreInterface;
 import com.doublesp.coherence.interfaces.presentation.GoalInteractorInterface;
 import com.doublesp.coherence.interfaces.scopes.DomainLayerScope;
+
+import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
@@ -71,7 +71,7 @@ public class DomainLayerModule {
     @DomainLayerScope
     public GoalInteractorInterface providesIdeaSearchInteractor(DataStoreInterface ideaDataStore,
                                                                 RecipeV2RepositoryInterface recipeRepository) {
-        return new RecipeV2Interactor(ideaDataStore, recipeRepository);
+        return new RecipeV2Interactor(mContext, ideaDataStore, recipeRepository);
     }
 
 }

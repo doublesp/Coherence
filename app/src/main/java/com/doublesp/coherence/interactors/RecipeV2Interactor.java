@@ -13,6 +13,8 @@ import com.doublesp.coherence.viewmodels.GoalReducer;
 import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.IdeaMeta;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,13 +37,15 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
     static final int count = 10;
     static final int offset = 0;
 
+    Context mContext;
     DataStoreInterface mDataStore;
     RecipeV2RepositoryInterface mRecipeRepository;
     PublishSubject<String> mSearchDebouncer;
     PublishSubject<Integer> mBookmarkDebouncer;
 
-    public RecipeV2Interactor(DataStoreInterface dataStore,
+    public RecipeV2Interactor(Context context, DataStoreInterface dataStore,
                               RecipeV2RepositoryInterface recipeRepository) {
+        mContext = context;
         mDataStore = dataStore;
         mRecipeRepository = recipeRepository;
         mRecipeRepository.subscribe(new Observer<List<RecipeV2>>() {
@@ -55,6 +59,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                     goals.add(new Goal(
                             recipe.getId(),
                             recipe.getTitle(),
+                            String.format(mContext.getString(R.string.subtitle_text),
+                                    recipe.getReadyInMinutes()),
                             recipe.getInstructions(),
                             recipe.getImage(),
                             isBookmarked
@@ -267,6 +273,8 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
             bookmarkedGoals.add(new Goal(
                     recipe.getId(),
                     recipe.getTitle(),
+                    String.format(mContext.getString(R.string.subtitle_text),
+                            recipe.getReadyInMinutes()),
                     recipe.getInstructions(),
                     recipe.getImage(),
                     true));

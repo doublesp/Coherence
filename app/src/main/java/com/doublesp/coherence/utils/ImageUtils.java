@@ -1,5 +1,11 @@
 package com.doublesp.coherence.utils;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.doublesp.coherence.R;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -15,12 +21,6 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.doublesp.coherence.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +161,10 @@ public class ImageUtils {
 
     public static int getIlluminatedColor(int color) {
         return (color & 0x00FFFFFF) | 0xB3000000;
+    }
+
+    public static int getTransparentColor(int color) {
+        return (color & 0x00FFFFFF) | 0x80000000;
     }
 
     public static int getColorForPosition(int position) {

@@ -31,14 +31,14 @@
             android:id="@+id/tvGoalIndex"
             android:layout_width="@dimen/activity_list_composition_idea_icon_width"
             android:layout_height="@dimen/activity_list_composition_idea_icon_height"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/goal_preview_icon_padding"
             android:background="@drawable/ic_panorama_fish_eye"
-            android:backgroundTint="@color/colorText"
+            android:backgroundTint="@color/colorUp"
             android:gravity="center"
             android:maxLines="1"
             android:text='@{Integer.toString(pos+1)}'
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorUp"
             android:transitionName="@string/transition_goal_index"
             tools:text="1"/>
 
@@ -61,12 +61,54 @@
             android:gravity="left"
             android:maxLines="2"
             android:onClick="@{() -> handler.onPreviewButtonClick(viewHolder, pos)}"
-            android:padding="20dp"
+            android:paddingTop="@dimen/goal_preview_text_padding"
+            android:paddingLeft="@dimen/goal_preview_text_padding"
+            android:paddingStart="@dimen/goal_preview_text_padding"
+            android:paddingRight="@dimen/goal_preview_text_padding"
+            android:paddingEnd="@dimen/goal_preview_text_padding"
             android:text='@{viewModel.title}'
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorText"
+            android:textColor="@color/colorUp"
             android:transitionName="@string/transition_goal_title"
             tools:text="Perperoni Pizza"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/goal_preview_line_padding"
+                android:paddingLeft="@dimen/goal_preview_text_padding"
+                android:paddingStart="@dimen/goal_preview_text_padding"
+                android:paddingRight="@dimen/goal_preview_text_padding"
+                android:paddingEnd="@dimen/goal_preview_text_padding"
+                android:paddingBottom="@dimen/goal_preview_text_padding"
+                >
+
+            <ImageView
+                    android:id="@+id/ivGoalSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/goal_preview_subtitle_icon_height"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:paddingRight="@dimen/goal_preview_icon_padding"
+                    android:paddingEnd="@dimen/goal_preview_icon_padding"
+                    android:tint="@color/colorUp"
+                    android:alpha="0.5"
+                    android:src="@drawable/ic_schedule"/>
+
+            <Button
+                    android:id="@+id/btnGoalSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:onClick="@{() -> handler.onPreviewButtonClick(viewHolder, pos)}"
+                    android:text='@{viewModel.subTitle}'
+                    android:textColor="@color/colorUpOverlay"
+                    tools:text="ready in 16 minutes"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
