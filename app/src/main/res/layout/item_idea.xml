@@ -5,60 +5,43 @@
     <data>
 
         <variable
-            name="pos"
-            type="int"/>
+                name="pos"
+                type="int"/>
 
         <variable
-            name="handler"
-            type="com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface"/>
+                name="viewModel"
+                type="com.doublesp.coherence.viewmodels.Idea"/>
 
-        <variable
-            name="viewModel"
-            type="com.doublesp.coherence.viewmodels.Idea"/>
     </data>
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:orientation="horizontal"
+                  android:id="@+id/flSimpleItemIdea"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:background="@color/colorWhiteOverlayLight"
-                  android:orientation="horizontal"
-                  android:weightSum="5">
+                  android:background="@color/colorUpOverlay">
+
+        <ImageView
+                android:id="@+id/ivIdea"
+                android:layout_width="@dimen/simple_item_idea_image_width"
+                android:layout_height="@dimen/simple_item_idea_image_height"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/background_3"/>
 
         <TextView
-            android:id="@+id/tvIdea"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/activity_list_composition_idea_height"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_weight="3"
-            android:gravity="center_vertical|left|start"
-            android:maxLines="1"
-            android:text='@{viewModel.content}'
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@color/colorButton"
-            app:crossout='@{viewModel.crossedOut}'
-            tools:text="egg"/>
+                android:id="@+id/tvIdea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical|left|start"
+                android:text='@{viewModel.content}'
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorBackground"
+                app:crossout='@{viewModel.crossedOut}'
+                tools:text="egg"/>
 
-        <ImageButton
-            android:id="@+id/btnCrossoutIdea"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/activity_list_composition_idea_height"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> handler.onCrossoutButtonClick(pos)}"
-            android:src="@drawable/ic_format_strikethrough"
-            android:tint="@color/colorButton"/>
-
-        <ImageButton
-            android:id="@+id/btnDeleteIdea"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/activity_list_composition_idea_height"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:onClick="@{() -> handler.onRemoveButtonClick(pos)}"
-            android:src="@drawable/ic_delete"
-            android:tint="@color/colorButton"/>
     </LinearLayout>
 </layout>

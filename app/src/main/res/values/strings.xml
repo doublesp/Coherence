@@ -48,6 +48,7 @@
     <string name="no">No</string>
     <string name="navigate">Navigate</string>
     <string name="dismiss">dismiss</string>
+    <string name="subtitle_text">ready in %d minutes</string>
 
     <string name="transition_goal_image" translatable="false">goalImage</string>
     <string name="transition_goal_title" translatable="false">goalTitle</string>

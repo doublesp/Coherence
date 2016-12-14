@@ -7,6 +7,7 @@ public class Goal {
 
     String id;
     String title;
+    String subTitle;
     String description;
     String imageUrl;
     boolean bookmarked;
@@ -14,9 +15,10 @@ public class Goal {
     public Goal() {
     }
 
-    public Goal(String id, String title, String description, String imageUrl, boolean bookmarked) {
+    public Goal(String id, String title, String subTitle, String description, String imageUrl, boolean bookmarked) {
         this.id = id;
         this.title = title;
+        this.subTitle = subTitle;
         this.description = description;
         this.imageUrl = imageUrl;
         this.bookmarked = bookmarked;
@@ -28,6 +30,10 @@ public class Goal {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getSubTitle() {
+        return subTitle;
     }
 
     public String getDescription() {

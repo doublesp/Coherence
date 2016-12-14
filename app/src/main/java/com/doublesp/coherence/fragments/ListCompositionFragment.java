@@ -1,5 +1,14 @@
 package com.doublesp.coherence.fragments;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
+import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
+import com.doublesp.coherence.utils.ConstantsAndUtils;
+import com.doublesp.coherence.utils.ItemClickSupport;
+import com.doublesp.coherence.viewmodels.Idea;
+
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -12,13 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.databinding.FragmentListCompositionBinding;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.interfaces.presentation.InjectorInterface;
-import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
-import com.doublesp.coherence.utils.ConstantsAndUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -69,6 +71,42 @@ public class ListCompositionFragment extends Fragment {
                 ContextCompat.getDrawable(getContext(), R.drawable.line_divider_edge_to_edge));
         binding.rvIdeas.addItemDecoration(dividerItemDecoration);
         binding.setHandler(mActionHandler);
+        ItemClickSupport.addTo(binding.rvIdeas).setOnItemLongClickListener(
+                new ItemClickSupport.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
+                mInteractor.removeIdea(position);
+                return false;
+            }
+        }).setOnItemSwipeTouchListener(new ItemClickSupport.OnItemSwipeTouchListener() {
+            @Override
+            public void onSwipeRight(RecyclerView recyclerView, int position, View v) {
+                Idea idea = mInteractor.getIdeaAtPos(position);
+                if (idea.isCrossedOut()) {
+                    return;
+                }
+                mInteractor.crossoutIdea(position);
+            }
+
+            @Override
+            public void onSwipeLeft(RecyclerView recyclerView, int position, View v) {
+                Idea idea = mInteractor.getIdeaAtPos(position);
+                if (!idea.isCrossedOut()) {
+                    return;
+                }
+                mInteractor.uncrossoutIdea(position);
+            }
+
+            @Override
+            public void onSwipeUp(RecyclerView recyclerView, int position, View v) {
+
+            }
+
+            @Override
+            public void onSwipeDown(RecyclerView recyclerView, int position, View v) {
+
+            }
+        });
         return binding.getRoot();
     }
 
@@ -91,6 +129,14 @@ public class ListCompositionFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        ItemClickSupport.removeFrom(binding.rvIdeas);
+        mInteractor.discardPlanIfEmpty();
+        mInteractor.clearPlan();
+        super.onDestroyView();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof InjectorInterface) {
@@ -107,8 +153,5 @@ public class ListCompositionFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mInteractor.discardPlanIfEmpty();
-        mInteractor.clearPlan();
     }
-
 }

@@ -1,14 +1,14 @@
 package com.doublesp.coherence.adapters;
 
+import com.doublesp.coherence.R;
+import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
+import com.doublesp.coherence.viewholders.IdeaViewHolder;
+import com.doublesp.coherence.viewmodels.Idea;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.doublesp.coherence.R;
-import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
-import com.doublesp.coherence.viewholders.SimpleIdeaViewHolder;
-import com.doublesp.coherence.viewmodels.Idea;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
@@ -33,15 +33,15 @@ public class IdeasArrayAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.simple_item_idea, parent, false);
-        return new SimpleIdeaViewHolder(view);
+        View view = inflater.inflate(R.layout.item_idea, parent, false);
+        return new IdeaViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Idea viewModel = mIdeaInteractor.getPendingIdea(mGoalId, position);
-        if (holder instanceof SimpleIdeaViewHolder) {
-            SimpleIdeaViewHolder viewHolder = (SimpleIdeaViewHolder) holder;
+        if (holder instanceof IdeaViewHolder) {
+            IdeaViewHolder viewHolder = (IdeaViewHolder) holder;
             viewHolder.setPosition(position);
             viewHolder.setViewModel(viewModel);
             viewHolder.executePendingBindings();

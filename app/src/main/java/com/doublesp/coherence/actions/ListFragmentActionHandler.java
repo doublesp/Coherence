@@ -10,7 +10,6 @@ import com.doublesp.coherence.fragments.MapFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
 import com.doublesp.coherence.interfaces.presentation.ListFragmentActionHandlerInterface;
 import com.doublesp.coherence.utils.ConstantsAndUtils;
-import com.doublesp.coherence.viewmodels.Idea;
 import com.doublesp.coherence.viewmodels.Plan;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -83,21 +82,6 @@ public class ListFragmentActionHandler implements ListFragmentActionHandlerInter
                 .replace(R.id.activity_home, MapFragment.newInstance(), "MapFragment")
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onCrossoutButtonClick(int pos) {
-        Idea idea = mIdeaInteractor.getIdeaAtPos(pos);
-        if (idea.isCrossedOut()) {
-            mIdeaInteractor.uncrossoutIdea(pos);
-        } else {
-            mIdeaInteractor.crossoutIdea(pos);
-        }
-    }
-
-    @Override
-    public void onRemoveButtonClick(int pos) {
-        mIdeaInteractor.removeIdea(pos);
     }
 
     public interface IdeaShareHandlerInterface {

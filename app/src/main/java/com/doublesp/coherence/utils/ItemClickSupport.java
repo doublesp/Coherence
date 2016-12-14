@@ -9,35 +9,71 @@ public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (mOnItemClickListener != null) {
-                RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
-                mOnItemClickListener.onItemClicked(mRecyclerView, holder.getAdapterPosition(), v);
-            }
-        }
-    };
-    private View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            if (mOnItemLongClickListener != null) {
-                RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
-                return mOnItemLongClickListener.onItemLongClicked(mRecyclerView, holder.getAdapterPosition(), v);
-            }
-            return false;
-        }
-    };
+    private OnItemSwipeTouchListener mOnItemSwipeTouchListener;
+
     private RecyclerView.OnChildAttachStateChangeListener mAttachListener
             = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
-        public void onChildViewAttachedToWindow(View view) {
-            if (mOnItemClickListener != null) {
-                view.setOnClickListener(mOnClickListener);
-            }
-            if (mOnItemLongClickListener != null) {
-                view.setOnLongClickListener(mOnLongClickListener);
-            }
+        public void onChildViewAttachedToWindow(final View view) {
+            view.setOnTouchListener(new OnSwipeAndTouchListener(view.getContext()) {
+                @Override
+                public boolean onSingleTap() {
+                    if (mOnItemClickListener != null) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(view);
+                        mOnItemClickListener.onItemClicked(
+                                mRecyclerView, holder.getAdapterPosition(), view);
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public boolean onLongTap() {
+                    if (mOnItemLongClickListener != null) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(view);
+                        return mOnItemLongClickListener.onItemLongClicked(
+                                mRecyclerView, holder.getAdapterPosition(), view);
+
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (mOnItemSwipeTouchListener != null) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(view);
+                        mOnItemSwipeTouchListener.onSwipeRight(
+                                mRecyclerView, holder.getAdapterPosition(), view);
+                    }
+                }
+
+                @Override
+                public void onSwipeLeft() {
+                    if (mOnItemSwipeTouchListener != null) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(view);
+                        mOnItemSwipeTouchListener.onSwipeLeft(
+                                mRecyclerView, holder.getAdapterPosition(), view);
+                    }
+                }
+
+                @Override
+                public void onSwipeUp() {
+                    if (mOnItemSwipeTouchListener != null) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(view);
+                        mOnItemSwipeTouchListener.onSwipeUp(
+                                mRecyclerView, holder.getAdapterPosition(), view);
+                    }
+                }
+
+                @Override
+                public void onSwipeDown() {
+                    if (mOnItemSwipeTouchListener != null) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(view);
+                        mOnItemSwipeTouchListener.onSwipeRight(
+                                mRecyclerView, holder.getAdapterPosition(), view);
+                    }
+                }
+            });
         }
 
         @Override
@@ -78,6 +114,11 @@ public class ItemClickSupport {
         return this;
     }
 
+    public ItemClickSupport setOnItemSwipeTouchListener(OnItemSwipeTouchListener listener) {
+        mOnItemSwipeTouchListener = listener;
+        return this;
+    }
+
     private void detach(RecyclerView view) {
         view.removeOnChildAttachStateChangeListener(mAttachListener);
         view.setTag(R.id.item_click_support, null);
@@ -91,5 +132,16 @@ public class ItemClickSupport {
     public interface OnItemLongClickListener {
 
         boolean onItemLongClicked(RecyclerView recyclerView, int position, View v);
+    }
+
+    public interface OnItemSwipeTouchListener {
+
+        void onSwipeRight(RecyclerView recyclerView, int position, View v);
+
+        void onSwipeLeft(RecyclerView recyclerView, int position, View v);
+
+        void onSwipeUp(RecyclerView recyclerView, int position, View v);
+
+        void onSwipeDown(RecyclerView recyclerView, int position, View v);
     }
 }

@@ -33,7 +33,6 @@ import com.doublesp.coherence.dependencies.modules.presentation.MainActivityModu
 import com.doublesp.coherence.fragments.GoalDetailViewPagerFragment;
 import com.doublesp.coherence.fragments.GoalPreviewFragment;
 import com.doublesp.coherence.fragments.GoalSearchFragment;
-import com.doublesp.coherence.fragments.IdeaReviewFragment;
 import com.doublesp.coherence.fragments.ListCompositionFragment;
 import com.doublesp.coherence.fragments.SavedIdeasFragment;
 import com.doublesp.coherence.interfaces.domain.IdeaInteractorInterface;
@@ -361,11 +360,6 @@ public class MainActivity extends AppCompatActivity implements InjectorInterface
 
     @Override
     public void inject(ListCompositionFragment fragment) {
-        getActivityComponent().inject(fragment);
-    }
-
-    @Override
-    public void inject(IdeaReviewFragment fragment) {
         getActivityComponent().inject(fragment);
     }
 
