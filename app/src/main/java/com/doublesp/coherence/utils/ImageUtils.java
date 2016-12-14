@@ -30,6 +30,10 @@ public class ImageUtils {
     public static long FADEIN_DURATION = 250L;
     public static long FADEOUT_DURATION = 250L;
     public static long PAUSE_DURATION = 3000L;
+    public static long ENTIRE_DURATION = FADEIN_DURATION + FADEOUT_DURATION + PAUSE_DURATION;
+    public static float FINAL_SCALE = 1.2f;
+    public static int FINAL_XOFFSET = -100;
+    public static int FINAL_YOFFSET = -50;
     private static List<Integer> mBackgroundImageId;
 
     public static void loadImageWithProminentColor(
@@ -106,6 +110,17 @@ public class ImageUtils {
         imageView.setImageResource(
                 getBackgroundImageId().get(index));
 
+        ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(imageView, "scaleX", FINAL_SCALE);
+        ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(imageView, "scaleY", FINAL_SCALE);
+        ObjectAnimator translateX = ObjectAnimator.ofFloat(
+                imageView, "translationX", FINAL_XOFFSET);
+        ObjectAnimator translateY = ObjectAnimator.ofFloat(
+                imageView, "translationY", FINAL_YOFFSET);
+        scaleUpX.setDuration(ENTIRE_DURATION);
+        scaleUpY.setDuration(ENTIRE_DURATION);
+        translateX.setDuration(ENTIRE_DURATION);
+        translateY.setDuration(ENTIRE_DURATION);
+
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(
                 imageView, "alpha", 0f, 1f);
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
@@ -113,10 +128,12 @@ public class ImageUtils {
         fadeIn.setDuration(FADEIN_DURATION);
         fadeOut.setDuration(FADEOUT_DURATION);
 
-        final AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(fadeOut).after(PAUSE_DURATION).after(fadeIn);
+        final AnimatorSet fadeSet = new AnimatorSet();
+        fadeSet.play(fadeOut).after(PAUSE_DURATION).after(fadeIn);
+        final AnimatorSet scaleSet = new AnimatorSet();
+        scaleSet.play(scaleUpX).with(scaleUpY).with(translateX).with(translateY);
 
-        animatorSet.addListener(new AnimatorListenerAdapter() {
+        fadeSet.addListener(new AnimatorListenerAdapter() {
             int mIndex = index;
 
             @Override
@@ -125,10 +142,12 @@ public class ImageUtils {
                 imageView.setImageResource(
                         getBackgroundImageId().get(mIndex));
                 super.onAnimationEnd(animation);
-                animatorSet.start();
+                fadeSet.start();
+                scaleSet.start();
             }
         });
-        animatorSet.start();
+        fadeSet.start();
+        scaleSet.start();
     }
 
     public static int topImagePadding(WindowManager wm, Resources r) {
