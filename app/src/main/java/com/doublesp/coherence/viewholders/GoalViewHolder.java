@@ -32,6 +32,14 @@ public class GoalViewHolder extends RecyclerView.ViewHolder {
     public void setViewModel(Goal viewModel) {
         binding.setViewModel(viewModel);
 
+        if (viewModel.getSubTitle() == null) {
+            binding.ivGoalSubTitle.setAlpha(0.0f);
+            binding.btnGoalSubTitle.setAlpha(0.0f);
+        } else {
+            binding.ivGoalSubTitle.setAlpha(0.5f);
+            binding.btnGoalSubTitle.setAlpha(1.0f);
+        }
+
         // TODO: do palette with data bind
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
