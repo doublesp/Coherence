@@ -119,9 +119,18 @@ public class GoalPreviewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Goal goal = mGoalInteractor.getGoalAtPos(mPos);
+        Goal viewModel = mGoalInteractor.getGoalAtPos(mPos);
         binding.setPos(mPos);
-        binding.setViewModel(goal);
+        binding.setViewModel(viewModel);
+
+        if (viewModel.getSubTitle() == null) {
+            binding.ivGoalPreviewSubTitle.setAlpha(0.0f);
+            binding.tvGoalPreviewSubTitle.setAlpha(0.0f);
+        } else {
+            binding.ivGoalPreviewSubTitle.setAlpha(0.5f);
+            binding.tvGoalPreviewSubTitle.setAlpha(1.0f);
+        }
+
         SimpleTarget target = new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap bitmap,
@@ -151,9 +160,9 @@ public class GoalPreviewFragment extends Fragment {
             }
         };
 
-        if (goal.getImageUrl() != null) {
+        if (viewModel.getImageUrl() != null) {
             Glide.with(binding.ivIdeaBackgroundImage.getContext())
-                    .load(goal.getImageUrl())
+                    .load(viewModel.getImageUrl())
                     .asBitmap()
                     .fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

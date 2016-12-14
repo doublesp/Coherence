@@ -56,11 +56,15 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
                 List<Goal> goals = new ArrayList<>();
                 for (RecipeV2 recipe : mRecipes) {
                     boolean isBookmarked = (SavedRecipe.byId(recipe.getId()) != null);
+                    String subTitle = null;
+                    if (recipe.getReadyInMinutes() != null) {
+                        subTitle = String.format(mContext.getString(R.string.subtitle_text),
+                                recipe.getReadyInMinutes());
+                    }
                     goals.add(new Goal(
                             recipe.getId(),
                             recipe.getTitle(),
-                            String.format(mContext.getString(R.string.subtitle_text),
-                                    recipe.getReadyInMinutes()),
+                            subTitle,
                             recipe.getInstructions(),
                             recipe.getImage(),
                             isBookmarked
@@ -270,11 +274,15 @@ public class RecipeV2Interactor implements GoalInteractorInterface {
         List<Goal> bookmarkedGoals = new ArrayList<>();
         List<RecipeV2> bookmarkedRecipes = SavedRecipe.savedRecipes();
         for (RecipeV2 recipe : bookmarkedRecipes) {
+            String subTitle = null;
+            if (recipe.getReadyInMinutes() != null) {
+                subTitle = String.format(mContext.getString(R.string.subtitle_text),
+                        recipe.getReadyInMinutes());
+            }
             bookmarkedGoals.add(new Goal(
                     recipe.getId(),
                     recipe.getTitle(),
-                    String.format(mContext.getString(R.string.subtitle_text),
-                            recipe.getReadyInMinutes()),
+                    subTitle,
                     recipe.getInstructions(),
                     recipe.getImage(),
                     true));
