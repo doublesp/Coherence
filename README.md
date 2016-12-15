@@ -44,8 +44,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 - [GSON](https://github.com/google/gson) - A Java serialization/deserialization library that can convert Java Objects into JSON and back.
 - [Stetho](http://facebook.github.io/stetho/) - A debug bridge for Android applications.
 - [RetroLambda](https://github.com/evant/gradle-retrolambda) - A gradle plugin for getting java lambda support in java 6, 7 and android.
-- [DBFlow](https://github.com/Raizlabs/DBFlow) - Simple ORM for persisting a local SQLite database on the Android device
-- [Blurry](https://github.com/wasabeef/Blurry) - An easy blur library for Android/
+- [DBFlow](https://github.com/Raizlabs/DBFlow) - Simple ORM for persisting a local SQLite database on the Android device.
+- [Blurry](https://github.com/wasabeef/Blurry) - An easy blur library for Android.
 - [Material Designed Floating Action Button](https://github.com/futuresimple/android-floating-action-button) - Floating Action Button for Android based on Material Design specification.
 - [Text Drawable](https://github.com/amulyakhare/TextDrawable) - This light-weight library provides images with letter/text like the Gmail app.
 
