@@ -7,19 +7,25 @@ An app for dinner makers to search for recipe, create a shopping list, and send 
 ### Cooking simplified for home cooks
 With Garcon, you can take your recipes and grocery list anywhere, make grocery lists and easily share them with your friends, family or even your future self when you need them. Dicover, Share and Shop for items all in one place.
 
-### Looking for inspiration - There are 1000s of recipie's to search from, as you open the app there are suggestions for you to try out, want to search something specific, you can always do that as well.
+### Looking for inspiration
+There are 1000s of recipie's to search from, as you open the app there are suggestions for you to try out, want to search something specific, you can always do that as well.
 
-### Save money by using leftovers in the fridge -> Enter left over ingredients and we will tell you what to make.
-Save your favorite recipes and get to them whenever needed.
+### Save money by using leftovers in the fridge
+Enter left over ingredients and we will tell you what to make. Save your favorite recipes and get to them whenever needed.
 
-### Stay involed during journey to shopping - share grocery list with your significant others, get real time update, and sneak in last-minute item.
+### Stay involed during journey to shopping
+share grocery list with your significant others, get real time update, and sneak in last-minute item.
 
 ## Roadmap
 
-* Advanced Gesture Support
-* Auto Complete for recipe search
-* Data Mining - Provide accurate grocery suggestion
-* Monetization - Integration with Native Ads
+### Meal Planner
+Create meal plan for weeks or months and be informed about incoming shopping trips to keep the fridge full.
+
+### Bill Splitting
+Money share among roommates for grocery easy to manage as we can track who got what item and the money can be easily split among them.
+
+### Grab and Go
+All participant can get real time update when you grab something from the shelf. No time for shopping? We'll provide curbside pickup as well as home delivery, all on the click on a button.
  
 ## Video Walkthrough
 
