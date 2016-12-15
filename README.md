@@ -35,18 +35,19 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Open-source libraries used
 
+- [Spoonacular](https://market.mashape.com/spoonacular/recipe-food-nutrition) - The spoonacular Nutrition, Recipe, and Food API allows you to access over 365,000 recipes and 86,000 food products.
+- [Dagger 2](http://google.github.io/dagger/) - A fully static, compile-time dependency injection framework for both Java and Android.
 - [Retrofit](https://github.com/square/retrofit) - Type-safe HTTP client for Android and Java by Square, Inc.
 - [RxJava](https://github.com/ReactiveX/RxJava) - Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM.
-- [Stetho](http://facebook.github.io/stetho/) - A debug bridge for Android applications.
-- [Signpost](https://github.com/pakerfeldt/okhttp-signpost) - A Signpost extension for signing OkHttp requests.
-- [GSON](https://github.com/google/gson) - A Java serialization/deserialization library that can convert Java Objects into JSON and back.
 - [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling.
-- [RetroLambda](https://github.com/evant/gradle-retrolambda) - A gradle plugin for getting java lambda support in java 6, 7 and android.
 - [Parceler](http://parceler.org/) - Android Parcelable code generator for Google Android.
-- [scribe-java](https://github.com/fernandezpablo85/scribe-java) - Simple OAuth library for handling the authentication flow.
-- [codepath-oauth](https://github.com/thecodepath/android-oauth-handler) - Custom-built library for managing OAuth authentication and signing of requests
+- [GSON](https://github.com/google/gson) - A Java serialization/deserialization library that can convert Java Objects into JSON and back.
+- [Stetho](http://facebook.github.io/stetho/) - A debug bridge for Android applications.
+- [RetroLambda](https://github.com/evant/gradle-retrolambda) - A gradle plugin for getting java lambda support in java 6, 7 and android.
 - [DBFlow](https://github.com/Raizlabs/DBFlow) - Simple ORM for persisting a local SQLite database on the Android device
-- [Dagger](http://google.github.io/dagger/) - A fully static, compile-time dependency injection framework for both Java and Android.
+- [Blurry](https://github.com/wasabeef/Blurry) - An easy blur library for Android/
+- [Material Designed Floating Action Button](https://github.com/futuresimple/android-floating-action-button) - Floating Action Button for Android based on Material Design specification.
+- [Text Drawable](https://github.com/amulyakhare/TextDrawable) - This light-weight library provides images with letter/text like the Gmail app.
 
 ## License
 
