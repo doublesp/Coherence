@@ -27,6 +27,16 @@ Money share among roommates for grocery easy to manage as we can track who got w
 ### Grab and Go
 All participant can get real time update when you grab something from the shelf. No time for shopping? We'll provide curbside pickup as well as home delivery, all on the click on a button.
  
+## Development
+
+To start development, you need to accquire api keys from [Spoonacular](https://market.mashape.com/spoonacular/recipe-food-nutrition), [Firebase](https://firebase.google.com/) and [Batch](https://batch.com/)
+```
+SPOONACULAR_APIKEY="<YOUR_SPOONACULAR_APIKEY>"
+GOOGLE_SERVICE_API_KEY="<YOUR_GOOGLE_APIKEY>"
+GCM_SENDER_ID="<YOUR_GSM_SENDER_ID>"
+BATCH_APIKEY="<YOUR_BATCH_APIKEY>"
+```
+
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
