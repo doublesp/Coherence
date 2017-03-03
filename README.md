@@ -29,7 +29,7 @@ All participant can get real time update when you grab something from the shelf.
  
 ## Development
 
-To start development, you need to accquire api keys from [Spoonacular](https://market.mashape.com/spoonacular/recipe-food-nutrition), [Firebase](https://firebase.google.com/) and [Batch](https://batch.com/)
+To start development, you need to accquire api keys from [Spoonacular](https://market.mashape.com/spoonacular/recipe-food-nutrition), [Firebase](https://firebase.google.com/) and [Batch](https://batch.com/), and add foloowing lines to gradle.properties
 ```
 SPOONACULAR_APIKEY="<YOUR_SPOONACULAR_APIKEY>"
 GOOGLE_SERVICE_API_KEY="<YOUR_GOOGLE_APIKEY>"
