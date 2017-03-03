@@ -16,37 +16,35 @@ import rx.Observable;
 public interface SpoonacularApiEndpointInterface {
 
     String REQUEST_HEADER_WITH_CACHE = "Cache-Control: max-age=640000";
-    String REQUEST_HEADER_API_KEY =
-            "X-Mashape-Key: C63FSizlZ6mshv49TJt4OapjoeqOp1nSif7jsnz0CoPVIinGat";
 
-    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("recipes/search")
     Observable<RecipeResponseV2> searchRecipe(@Query("query") String keyword,
                                               @Query("number") int number,
                                               @Query("offset") int offset);
 
-    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("recipes/{id}/information")
     Observable<RecipeV2> searchRecipeDetail(@Path("id") String id);
 
-    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("recipes/random")
     Observable<RandomRecipeResponseV2> randomRecipe(@Query("number") int number);
 
-    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("food/ingredients/autocomplete")
     Observable<List<IngredientV2>> autocompleteIngredient(
             @Query("query") String keyword,
             @Query("number") int number,
             @Query("metaInformation") boolean metaInformation);
 
-    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("recipes/autocomplete")
     Observable<List<RecipeV2>> autocompleteRecipe(
             @Query("query") String keyword,
             @Query("number") int number);
 
-    @Headers({REQUEST_HEADER_WITH_CACHE, REQUEST_HEADER_API_KEY})
+    @Headers({REQUEST_HEADER_WITH_CACHE})
     @GET("recipes/findByIngredients")
     Observable<List<RecipeV2>> searchRecipeByIngredients(
             @Query("ingredients") String ingredients,

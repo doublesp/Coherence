@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.batch.android.Batch;
 import com.batch.android.Config;
+import com.doublesp.coherence.BuildConfig;
 import com.doublesp.coherence.R;
 import com.doublesp.coherence.dependencies.components.application.ApplicationComponent;
 import com.doublesp.coherence.dependencies.components.application.DaggerApplicationComponent;
@@ -20,9 +21,6 @@ import com.doublesp.coherence.dependencies.modules.data.DataLayerModule;
 import com.doublesp.coherence.dependencies.modules.domain.DomainLayerModule;
 import com.facebook.stetho.Stetho;
 import com.google.firebase.database.FirebaseDatabase;
-import com.parse.Parse;
-import com.parse.interceptors.ParseLogInterceptor;
-import com.parse.interceptors.ParseStethoInterceptor;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowLog;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -63,23 +61,14 @@ public class CoherenceApplication extends MultiDexApplication {
                         .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                         .build());
 
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("myAppId")
-                .clientKey(null)
-                .addNetworkInterceptor(new ParseLogInterceptor())
-                .addNetworkInterceptor(new ParseStethoInterceptor())
-                .server("https://doublesp.herokuapp.com/parse/").build());
-
         FlowManager.init(new FlowConfig.Builder(this).build());
         FlowLog.setMinimumLoggingLevel(FlowLog.Level.V);
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        Batch.Push.setGCMSenderId("763265727503");
+        Batch.Push.setGCMSenderId(BuildConfig.GCM_SENDER_ID);
 
-        // TODO : switch to live Batch Api Key before shipping
-        Batch.setConfig(new Config("DEV583F06A4741A0A64636FC04CE70")); // devloppement
-        // Batch.setConfig(new Config("583F06A473F272E3A4CA29DDE170D5")); // live
+        Batch.setConfig(new Config(BuildConfig.BATCH_APIKEY)); // live
         Batch.Push.setNotificationsColor(ContextCompat.getColor(this, R.color.colorPrimary));
         //Batch.Push.setSmallIconResourceId(R.drawable.ic_notification);
     }

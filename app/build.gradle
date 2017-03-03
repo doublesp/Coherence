@@ -27,11 +27,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        resValue "string", "GOOGLE_SERVICE_API_KEY", GOOGLE_SERVICE_API_KEY
+        buildConfigField("String", "GCM_SENDER_ID", GCM_SENDER_ID)
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "SPOONACULAR_APIKEY", SPOONACULAR_APIKEY)
+            buildConfigField("String", "BATCH_APIKEY", BATCH_APIKEY)
+            debuggable true
         }
     }
 }

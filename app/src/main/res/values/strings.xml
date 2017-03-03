@@ -8,9 +8,6 @@
     </string>
     <string name="saved_grocery_hint">Saved Grocery List</string>
 
-    <string name="google_maps_api_key">AIzaSyCBjupD4UBQ4puue5J2uqjKpjpvpTJeB50</string>
-    <string name="fabric_api_key">58083912c035206135aea30a9df62233cd1f2cf5</string>
-
     <string name="api_endpoint_recipe" translatable="false">https://api.edamam.com/</string>
     <string name="api_endpoint_recipe_v2" translatable="false">
         https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/
